@@ -2,7 +2,7 @@
 //  TwilioVerify.h
 //  TwilioVerify
 //
-//  Created by Santiago  Avila on 5/15/20.
+//  Created by Santiago Avila on 5/15/20.
 //  Copyright © 2020 Twilio. All rights reserved.
 //
 
