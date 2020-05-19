@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ECP256 {
+struct ECP256SignerTemplate {
   var alias: String
   var shouldExist: Bool
   var parameters: [String: Any]
@@ -16,7 +16,7 @@ struct ECP256 {
   var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
 }
 
-extension ECP256: SignerTemplate {
+extension ECP256SignerTemplate: SignerTemplate {
   init(withAlias alias: String, shouldExist: Bool) throws {
     self.alias = alias
     self.shouldExist = shouldExist
@@ -46,7 +46,6 @@ extension ECP256: SignerTemplate {
     }
   }
   
-  //TODO: Move to KeyManager once implemented
   func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags = []) throws -> SecAccessControl {
     var cfError: Unmanaged<CFError>?
     let result = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protcetion, flags, &cfError)
@@ -61,7 +60,7 @@ extension ECP256: SignerTemplate {
   }
 }
 
-private extension ECP256 {
+private extension ECP256SignerTemplate {
   struct Constants {
     static let keySize = 256
     static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly

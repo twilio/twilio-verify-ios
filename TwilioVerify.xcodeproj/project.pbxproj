@@ -11,12 +11,12 @@
 		F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2AA37A0246F313500B9388F /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; };
-		F2AA37A5246F313500B9388F /* SecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37A4246F313500B9388F /* SecurityTests.swift */; };
+		F2AA37A5246F313500B9388F /* TwilioSecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37A4246F313500B9388F /* TwilioSecurityTests.swift */; };
 		F2AA37A7246F313500B9388F /* TwilioSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA3799246F313500B9388F /* TwilioSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2AA37AF246F314000B9388F /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; };
 		F2AA37B0246F314000B9388F /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2DF31722473013A00CF4DC3 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31712473013A00CF4DC3 /* Template.swift */; };
-		F2DF31742473024300CF4DC3 /* ECP256.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31732473024300CF4DC3 /* ECP256.swift */; };
+		F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */; };
 		F2DF31772473450A00CF4DC3 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31762473450A00CF4DC3 /* KeyError.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,11 +68,11 @@
 		F2AA3797246F313500B9388F /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA3799246F313500B9388F /* TwilioSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioSecurity.h; sourceTree = "<group>"; };
 		F2AA379A246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2AA379F246F313500B9388F /* SecurityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecurityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2AA37A4246F313500B9388F /* SecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityTests.swift; sourceTree = "<group>"; };
+		F2AA379F246F313500B9388F /* TwilioSecurityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwilioSecurityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2AA37A4246F313500B9388F /* TwilioSecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSecurityTests.swift; sourceTree = "<group>"; };
 		F2AA37A6246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2DF31712473013A00CF4DC3 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
-		F2DF31732473024300CF4DC3 /* ECP256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256.swift; sourceTree = "<group>"; };
+		F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
 		F2DF31762473450A00CF4DC3 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +126,7 @@
 				F2AA377A246F30BE00B9388F /* TwilioVerify */,
 				F2AA3785246F30BF00B9388F /* TwilioVerifyTests */,
 				F2AA3798246F313500B9388F /* TwilioSecurity */,
-				F2AA37A3246F313500B9388F /* SecurityTests */,
+				F2AA37A3246F313500B9388F /* TwilioSecurityTests */,
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
 			);
@@ -138,7 +138,7 @@
 				F2AA3778246F30BE00B9388F /* TwilioVerify.framework */,
 				F2AA3781246F30BF00B9388F /* TwilioVerifyTests.xctest */,
 				F2AA3797246F313500B9388F /* TwilioSecurity.framework */,
-				F2AA379F246F313500B9388F /* SecurityTests.xctest */,
+				F2AA379F246F313500B9388F /* TwilioSecurityTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,13 +172,13 @@
 			path = TwilioSecurity;
 			sourceTree = "<group>";
 		};
-		F2AA37A3246F313500B9388F /* SecurityTests */ = {
+		F2AA37A3246F313500B9388F /* TwilioSecurityTests */ = {
 			isa = PBXGroup;
 			children = (
-				F2AA37A4246F313500B9388F /* SecurityTests.swift */,
+				F2AA37A4246F313500B9388F /* TwilioSecurityTests.swift */,
 				F2AA37A6246F313500B9388F /* Info.plist */,
 			);
-			path = SecurityTests;
+			path = TwilioSecurityTests;
 			sourceTree = "<group>";
 		};
 		F2AA37AE246F314000B9388F /* Frameworks */ = {
@@ -207,7 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				F2DF31712473013A00CF4DC3 /* Template.swift */,
-				F2DF31732473024300CF4DC3 /* ECP256.swift */,
+				F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */,
 			);
 			path = Template;
 			sourceTree = "<group>";
@@ -298,9 +298,9 @@
 			productReference = F2AA3797246F313500B9388F /* TwilioSecurity.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F2AA379E246F313500B9388F /* SecurityTests */ = {
+		F2AA379E246F313500B9388F /* TwilioSecurityTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F2AA37AD246F313500B9388F /* Build configuration list for PBXNativeTarget "SecurityTests" */;
+			buildConfigurationList = F2AA37AD246F313500B9388F /* Build configuration list for PBXNativeTarget "TwilioSecurityTests" */;
 			buildPhases = (
 				F2AA379B246F313500B9388F /* Sources */,
 				F2AA379C246F313500B9388F /* Frameworks */,
@@ -311,9 +311,9 @@
 			dependencies = (
 				F2AA37A2246F313500B9388F /* PBXTargetDependency */,
 			);
-			name = SecurityTests;
+			name = TwilioSecurityTests;
 			productName = SecurityTests;
-			productReference = F2AA379F246F313500B9388F /* SecurityTests.xctest */;
+			productReference = F2AA379F246F313500B9388F /* TwilioSecurityTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -358,7 +358,7 @@
 				F2AA3777246F30BE00B9388F /* TwilioVerify */,
 				F2AA3780246F30BF00B9388F /* TwilioVerifyTests */,
 				F2AA3796246F313500B9388F /* TwilioSecurity */,
-				F2AA379E246F313500B9388F /* SecurityTests */,
+				F2AA379E246F313500B9388F /* TwilioSecurityTests */,
 			);
 		};
 /* End PBXProject section */
@@ -414,7 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2DF31742473024300CF4DC3 /* ECP256.swift in Sources */,
+				F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */,
 				F2DF31772473450A00CF4DC3 /* KeyError.swift in Sources */,
 				F2DF31722473013A00CF4DC3 /* Template.swift in Sources */,
 			);
@@ -424,7 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2AA37A5246F313500B9388F /* SecurityTests.swift in Sources */,
+				F2AA37A5246F313500B9388F /* TwilioSecurityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -727,7 +727,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				INFOPLIST_FILE = SecurityTests/Info.plist;
+				INFOPLIST_FILE = TwilioSecurityTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -746,7 +746,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				INFOPLIST_FILE = SecurityTests/Info.plist;
+				INFOPLIST_FILE = TwilioSecurityTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -798,7 +798,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F2AA37AD246F313500B9388F /* Build configuration list for PBXNativeTarget "SecurityTests" */ = {
+		F2AA37AD246F313500B9388F /* Build configuration list for PBXNativeTarget "TwilioSecurityTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F2AA37AA246F313500B9388F /* Debug */,
