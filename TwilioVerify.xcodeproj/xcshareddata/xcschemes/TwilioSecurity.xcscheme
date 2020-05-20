@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2AA379E246F313500B9388F"
-               BuildableName = "SecurityTests.xctest"
-               BlueprintName = "SecurityTests"
+               BuildableName = "TwilioSecurityTests.xctest"
+               BlueprintName = "TwilioSecurityTests"
                ReferencedContainer = "container:TwilioVerify.xcodeproj">
             </BuildableReference>
          </TestableReference>
