@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-               BuildableName = "TwilioVerify.framework"
-               BlueprintName = "TwilioVerify"
-               ReferencedContainer = "container:TwilioVerify.xcodeproj">
+               BlueprintIdentifier = "F2AA37BE246F323C00B9388F"
+               BuildableName = "TwilioVerifyDemo.app"
+               BlueprintName = "TwilioVerifyDemo"
+               ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-            BuildableName = "TwilioVerify.framework"
-            BlueprintName = "TwilioVerify"
-            ReferencedContainer = "container:TwilioVerify.xcodeproj">
+            BlueprintIdentifier = "F2AA37BE246F323C00B9388F"
+            BuildableName = "TwilioVerifyDemo.app"
+            BlueprintName = "TwilioVerifyDemo"
+            ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
@@ -43,10 +43,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F2AA3780246F30BF00B9388F"
-               BuildableName = "TwilioVerifyTests.xctest"
-               BlueprintName = "TwilioVerifyTests"
-               ReferencedContainer = "container:TwilioVerify.xcodeproj">
+               BlueprintIdentifier = "F2AA37D4246F323F00B9388F"
+               BuildableName = "TwilioVerifyDemoTests.xctest"
+               BlueprintName = "TwilioVerifyDemoTests"
+               ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -61,6 +61,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F2AA37BE246F323C00B9388F"
+            BuildableName = "TwilioVerifyDemo.app"
+            BlueprintName = "TwilioVerifyDemo"
+            ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -68,15 +78,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-            BuildableName = "TwilioVerify.framework"
-            BlueprintName = "TwilioVerify"
-            ReferencedContainer = "container:TwilioVerify.xcodeproj">
+            BlueprintIdentifier = "F2AA37BE246F323C00B9388F"
+            BuildableName = "TwilioVerifyDemo.app"
+            BlueprintName = "TwilioVerifyDemo"
+            ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
