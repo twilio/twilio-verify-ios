@@ -68,6 +68,6 @@ workflows:
   build_and_test:
     jobs:
       - TwilioSecurity Unit Tests
-      - TwilioVerify Unit Tests
-      - TwilioVerifyDemo Unit Tests
+      #- TwilioVerify Unit Tests
+      #- TwilioVerifyDemo Unit Tests
       
