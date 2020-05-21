@@ -4,7 +4,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 if [[ "$PWD" = */Scripts* ]]; then
-	echo -e "${RED}${BOLD}❌ERROR${NC}${RED}: Please run this script on the root directory.${NC}"
+	echo -e "${RED}${BOLD}❌ERROR ❌${NC}${RED}: Please run this script on the root directory.${NC}"
 	exit 0
 fi
 
