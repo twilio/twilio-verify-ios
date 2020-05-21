@@ -14,13 +14,15 @@ struct ECP256SignerTemplate {
   var parameters: [String: Any]
   var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
+  private let keychainManager: KeychainManagerProtocol
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
-  init(withAlias alias: String, shouldExist: Bool) throws {
+  init(withAlias alias: String, shouldExist: Bool, keychainManager: KeychainManagerProtocol = KeychainManager()) throws {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
+    self.keychainManager = keychainManager
     do {
       self.parameters = try createSignerParameters()
     } catch let error {
@@ -34,7 +36,7 @@ extension ECP256SignerTemplate: SignerTemplate {
                                kSecAttrIsPermanent: true,
                                kSecAttrAccessible: Constants.accessControlProtection] as [String: Any]
       let publicParameters = [kSecAttrLabel: alias,
-                              kSecAttrAccessControl: try accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
+                              kSecAttrAccessControl: try keychainManager.accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
       let parameters = [kSecAttrKeyType: algorithm,
                         kSecPrivateKeyAttrs: privateParameters,
                         kSecPublicKeyAttrs: publicParameters,
@@ -44,19 +46,6 @@ extension ECP256SignerTemplate: SignerTemplate {
     } catch let error {
       throw error
     }
-  }
-  
-  func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags = []) throws -> SecAccessControl {
-    var cfError: Unmanaged<CFError>?
-    let result = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protcetion, flags, &cfError)
-    if let error = cfError as? Error {
-      throw(error)
-    }
-    
-    guard let accessControl = result else {
-      throw(KeyError.accessControlCreation)
-    }
-    return accessControl
   }
 }
 
