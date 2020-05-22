@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2062D471247898D7004ECD10 /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2062D470247898D7004ECD10 /* TwilioVerifyError.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2062D470247898D7004ECD10 /* TwilioVerifyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				F2AA37EA246F3CD500B9388F /* Sources */,
 				F2AA377B246F30BE00B9388F /* TwilioVerify.h */,
 				F2AA377C246F30BE00B9388F /* Info.plist */,
+				2062D470247898D7004ECD10 /* TwilioVerifyError.swift */,
 			);
 			path = TwilioVerify;
 			sourceTree = "<group>";
@@ -328,7 +331,6 @@
 				TargetAttributes = {
 					F2AA3777246F30BE00B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
-						LastSwiftMigration = 1140;
 					};
 					F2AA3780246F30BF00B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
@@ -399,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2062D471247898D7004ECD10 /* TwilioVerifyError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,6 +632,7 @@
 		F2AA3790246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = TwilioVerifyTests/Info.plist;
@@ -647,6 +651,7 @@
 		F2AA3791246F30BF00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = TwilioVerifyTests/Info.plist;
