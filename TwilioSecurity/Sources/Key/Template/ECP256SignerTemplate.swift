@@ -14,15 +14,15 @@ struct ECP256SignerTemplate {
   var parameters: [String: Any]
   var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
-  private let keychainManager: KeychainManagerProtocol
+  private let keychain: KeychainProtocol
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
-  init(withAlias alias: String, shouldExist: Bool, keychainManager: KeychainManagerProtocol = KeychainManager()) throws {
+  init(withAlias alias: String, shouldExist: Bool, keychain: KeychainProtocol = Keychain()) throws {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
-    self.keychainManager = keychainManager
+    self.keychain = keychain
     do {
       self.parameters = try createSignerParameters()
     } catch let error {
@@ -36,7 +36,7 @@ extension ECP256SignerTemplate: SignerTemplate {
                                kSecAttrIsPermanent: true,
                                kSecAttrAccessible: Constants.accessControlProtection] as [String: Any]
       let publicParameters = [kSecAttrLabel: alias,
-                              kSecAttrAccessControl: try keychainManager.accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
+                              kSecAttrAccessControl: try keychain.accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
       let parameters = [kSecAttrKeyType: algorithm,
                         kSecPrivateKeyAttrs: privateParameters,
                         kSecPublicKeyAttrs: publicParameters,

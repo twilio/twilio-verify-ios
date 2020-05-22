@@ -10,15 +10,35 @@ import Foundation
 @testable import TwilioSecurity
 
 class KeychainMock {
-  var accessControlError: Error?
+  var error: Error?
+  var verifyShouldSucceed = false
+  var operationResult: Data?
 }
 
 extension KeychainMock: KeychainProtocol {
   func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
-    if let error = accessControlError {
+    if let error = error {
       throw error
     }
     //TODO: @sfierro will work on this, (returning this will crash the tests)
     return SecAccessControl.self as! SecAccessControl
+  }
+  
+  func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data {
+    if let error = error {
+      throw error
+    }
+    return operationResult!
+  }
+  
+  func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool {
+    return verifyShouldSucceed
+  }
+  
+  func representation(forKey key: SecKey) throws -> Data {
+    if let error = error {
+      throw error
+    }
+    return operationResult!
   }
 }
