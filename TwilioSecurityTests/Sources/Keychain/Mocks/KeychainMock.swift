@@ -14,11 +14,10 @@ class KeychainMock {
 }
 
 extension KeychainMock: KeychainProtocol {
-  func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
+  func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     if let error = accessControlError {
       throw error
     }
-    //TODO: @sfierro will work on this, (returning this will crash the tests)
-    return SecAccessControl.self as! SecAccessControl
+    return SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, nil)!
   }
 }
