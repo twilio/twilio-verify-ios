@@ -43,3 +43,7 @@ Pods/
 
 #Firebase
 GoogleService-Info.plist
+
+#Fastlane
+fastlane/Test Output
+fastlane/report.xml
