@@ -18,6 +18,10 @@ extension KeychainMock: KeychainProtocol {
     if let error = accessControlError {
       throw error
     }
-    return SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, nil)!
+    var error: Unmanaged<CFError>?
+    guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &error) else {
+      throw error!.takeRetainedValue() as Error
+    }
+    return accessControl
   }
 }
