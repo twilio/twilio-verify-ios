@@ -11,22 +11,21 @@ import XCTest
 
 class ECP256SignerTemplateTests: XCTestCase {
 
-  private var keyChain: KeychainMock!
+  private var keychain: KeychainMock!
   private var signer: ECP256SignerTemplate!
-  
-  
   private let shouldExist = false
   
   override func setUpWithError() throws {
-    keyChain = KeychainMock()
+    keychain = KeychainMock()
   }
   
   func testCreateSigner_shouldMatchExpectedParameters() {
       XCTAssertNoThrow(signer = try ECP256SignerTemplate(withAlias: Constants.alias,
                                                          shouldExist: shouldExist,
-                                                         keychain: keyChain))
+                                                         keychain: keychain))
       let privateKeyAttrs = signer.parameters[kSecPrivateKeyAttrs as String] as! [String: Any]
       let publicKeyAttrs = signer.parameters[kSecPublicKeyAttrs as String] as! [String: Any]
+      var expectedAccessControl: SecAccessControl!
     
       XCTAssertEqual(Constants.alias,
                      signer.alias,
@@ -46,7 +45,6 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(kSecAttrTokenIDSecureEnclave as String,
                      signer.parameters[kSecAttrTokenID as String] as! String,
                      "Token id should be \(kSecAttrTokenIDSecureEnclave as String) but was \(signer.parameters[kSecAttrTokenID as String] as! String)")
-      
       XCTAssertEqual(Constants.alias,
                      privateKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(privateKeyAttrs[kSecAttrLabel as String] as! String)")
@@ -55,12 +53,10 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
                      privateKeyAttrs[kSecAttrAccessible as String] as! CFString,
                      "Attribute is accessible after first unlock should be \(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly) but was \(privateKeyAttrs[kSecAttrAccessible as String] as! CFString)")
-      
       XCTAssertEqual(Constants.alias,
                      publicKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(publicKeyAttrs[kSecAttrLabel as String] as! String)")
-      var expectedAccessControl: SecAccessControl!
-      XCTAssertNoThrow(expectedAccessControl = try keyChain.accessControl(withProtection: ECP256SignerTemplate.Constants.accessControlProtection,
+      XCTAssertNoThrow(expectedAccessControl = try keychain.accessControl(withProtection: ECP256SignerTemplate.Constants.accessControlProtection,
                                                                           flags: []))
       XCTAssertEqual(expectedAccessControl,
                      (publicKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl),
@@ -68,12 +64,12 @@ class ECP256SignerTemplateTests: XCTestCase {
   }
   
   func testCreateSigner_shouldThrowError() {
-    keyChain.accessControlError = NSError(domain: "Error generating secure access control",
+    keychain.accessControlError = NSError(domain: "Error generating secure access control",
                                           code: -1,
                                           userInfo: nil)
     XCTAssertThrowsError(try ECP256SignerTemplate(withAlias: Constants.alias,
                                                   shouldExist: shouldExist,
-                                                  keychain: keyChain))
+                                                  keychain: keychain))
   }
 }
 
