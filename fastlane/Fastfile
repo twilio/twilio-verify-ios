@@ -1,0 +1,44 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+output_directory = './fastlane/Test Output/'
+coverage_directory = '/coverage'
+
+default_platform(:ios)
+
+platform :ios do
+  desc "TwilioSecurity unit tests"
+  lane :test do |options|
+    scan(
+      scheme: options[:scheme],
+      workspace: "TwilioVerify.xcworkspace",
+      device: "iPhone 11",
+      reset_simulator: true,
+      code_coverage: true,
+      suppress_xcode_output: true,
+      output_types: 'junit,html',
+      output_files: 'junit.xml, report.html',
+      output_directory: output_directory + options[:scheme]
+    )
+    slather(
+      output_directory: output_directory + options[:scheme] + coverage_directory,
+      scheme: options[:scheme],
+      workspace: "TwilioVerify.xcworkspace",
+      proj: "TwilioVerify.xcodeproj",
+      html: true,
+      verbose: false
+    )
+  end
+end
