@@ -1,5 +1,5 @@
 //
-//  KeychainManagerMock.swift
+//  KeyManagerMock.swift
 //  TwilioSecurityTests
 //
 //  Created by Santiago Avila on 5/21/20.
@@ -20,12 +20,5 @@ class KeyManagerMock {
 }
 
 extension KeyManagerMock: KeyManagerProtocol {
- 
-  func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
-    if let error = accessControlError {
-      throw error
-    }
-    
-    return try! keychain.accessControl(withProtection: protection, flags: flags)
-  }
+
 }

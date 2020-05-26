@@ -14,7 +14,6 @@ struct ECP256SignerTemplate {
   var parameters: [String: Any]
   var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
-  private let keychain: KeychainProtocol
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
@@ -22,15 +21,14 @@ extension ECP256SignerTemplate: SignerTemplate {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
-    self.keychain = keychain
     do {
-      self.parameters = try createSignerParameters()
+      self.parameters = try createSignerParameters(keychain)
     } catch let error {
       throw(error)
     }
   }
   
-  func createSignerParameters() throws -> [String: Any] {
+  func createSignerParameters(_ keychain: KeychainProtocol) throws -> [String: Any] {
     do {
       let privateParameters = [kSecAttrLabel: alias,
                                kSecAttrIsPermanent: true,

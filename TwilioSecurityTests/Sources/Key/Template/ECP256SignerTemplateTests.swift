@@ -11,10 +11,10 @@ import XCTest
 
 class ECP256SignerTemplateTests: XCTestCase {
 
-  var keychainManager: KeyManagerMock!
+  var keyManager: KeyManagerMock!
   
   override func setUpWithError() throws {
-    keychainManager = KeyManagerMock()
+    keyManager = KeyManagerMock()
   }
   
   //TODO: @sfierro will work on this

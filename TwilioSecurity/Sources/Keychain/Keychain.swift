@@ -31,7 +31,6 @@ class Keychain: KeychainProtocol {
     guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &error) else {
       throw error!.takeRetainedValue() as Error
     }
-    
     return accessControl
   }
   
