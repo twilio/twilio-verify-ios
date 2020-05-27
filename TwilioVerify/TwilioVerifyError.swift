@@ -17,6 +17,18 @@ enum TwilioVerifyError: LocalizedError {
   case keyStorageError(error: NSError)
   case initializationError(error: NSError)
   
+  var originalError: NSError {
+    switch self {
+    case .networkError(let error),
+         .mapperError(let error),
+         .storageError(let error),
+         .inputError(let error),
+         .keyStorageError(let error),
+         .initializationError(let error):
+      return error
+    }
+  }
+  
   var errorDescription: String {
     switch self {
     case .networkError:

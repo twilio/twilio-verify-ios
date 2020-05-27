@@ -17,24 +17,24 @@ struct ECP256SignerTemplate {
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
-  init(withAlias alias: String, shouldExist: Bool) throws {
+  init(withAlias alias: String, shouldExist: Bool, keychain: KeychainProtocol = Keychain()) throws {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
     do {
-      self.parameters = try createSignerParameters()
+      self.parameters = try createSignerParameters(keychain)
     } catch let error {
       throw(error)
     }
   }
   
-  func createSignerParameters() throws -> [String: Any] {
+  func createSignerParameters(_ keychain: KeychainProtocol) throws -> [String: Any] {
     do {
       let privateParameters = [kSecAttrLabel: alias,
                                kSecAttrIsPermanent: true,
                                kSecAttrAccessible: Constants.accessControlProtection] as [String: Any]
       let publicParameters = [kSecAttrLabel: alias,
-                              kSecAttrAccessControl: try accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
+                              kSecAttrAccessControl: try keychain.accessControl(withProtection: Constants.accessControlProtection)] as [String: Any]
       let parameters = [kSecAttrKeyType: algorithm,
                         kSecPrivateKeyAttrs: privateParameters,
                         kSecPublicKeyAttrs: publicParameters,
@@ -44,19 +44,6 @@ extension ECP256SignerTemplate: SignerTemplate {
     } catch let error {
       throw error
     }
-  }
-  
-  func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags = []) throws -> SecAccessControl {
-    var cfError: Unmanaged<CFError>?
-    let result = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protcetion, flags, &cfError)
-    if let error = cfError as? Error {
-      throw(error)
-    }
-    
-    guard let accessControl = result else {
-      throw(KeyError.accessControlCreation)
-    }
-    return accessControl
   }
 }
 

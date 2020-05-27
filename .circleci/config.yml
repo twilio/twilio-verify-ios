@@ -1,0 +1,74 @@
+version: 2.1
+
+executors:
+  macos_executor:
+    macos:
+      xcode: "11.4.1"
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install Gems
+          command: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+  store_scan_artifacts:
+    steps:
+      - store_artifacts:
+          path: ~/Library/Logs/scan
+          destination: scan-logs
+  
+  store_test_output:
+    steps:
+      - store_artifacts:
+            path: "./fastlane/Test Output"
+            destination: scan-test-output    
+  
+  store_scan_results:
+    steps:
+      - store_test_results:
+            path: "./fastlane/Test Output"
+  test:
+    parameters:
+      scheme:
+        type: string
+    steps:
+      - setup
+      - run:
+          name: Test
+          command: bundle exec fastlane test scheme:<< parameters.scheme >>
+      - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
+
+jobs:
+  TwilioSecurity Unit Tests:
+    executor: macos_executor
+    steps:
+      - test:
+          scheme: TwilioSecurity
+  TwilioVerify Unit Tests:
+    executor: macos_executor
+    steps:
+      - test:
+          scheme: TwilioVerify
+  TwilioVerifyDemo Unit Tests:
+    executor: macos_executor
+    steps:
+      - test:
+          scheme: TwilioVerifyDemo
+
+workflows:
+  build_and_test:
+    jobs:
+      - TwilioSecurity Unit Tests
+      # TODO: Enable this jobs when these targets have tests otherwise jobs will fail
+      #- TwilioVerify Unit Tests
+      #- TwilioVerifyDemo Unit Tests
+      
