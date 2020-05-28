@@ -56,7 +56,7 @@ class KeychainTests: XCTestCase {
     )
   }
   
-  func testSign_withInvalidAlgorithm_shouldReturnSignature() {
+  func testSign_withInvalidAlgorithm_shouldThrow() {
     let expectedErrorCode = -50
     let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - bad digest size for signing with algorithm algid:sign:ECDSA:digest-X962:SHA256)"
@@ -86,7 +86,7 @@ class KeychainTests: XCTestCase {
     }
   }
   
-  func testSign_withValidAlgorithm_shouldThrow() {
+  func testSign_withValidAlgorithm_shouldReturnSignature() {
     let dataToSign = "data".data(using: .utf8)!
     var publicKey: SecKey?
     var privateKey: SecKey?
@@ -106,7 +106,7 @@ class KeychainTests: XCTestCase {
     XCTAssertTrue(isSignatureValid, "Signature should be valid")
   }
   
-  func testVerify_withInvalidKey_sshouldBeInvalid() {
+  func testVerify_withInvalidKey_shouldBeInvalid() {
     let dataToSign = "data".data(using: .utf8)!
     var firstPublicKey: SecKey?
     var firstPrivateKey: SecKey?
