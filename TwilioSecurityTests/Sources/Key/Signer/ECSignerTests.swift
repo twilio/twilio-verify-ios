@@ -57,4 +57,11 @@ class ECSignerTests: XCTestCase {
     let isValid = signer.verify(data, withSignature: signature)
     XCTAssertTrue(isValid, "Verify should return true")
   }
+  
+  func testGetPublic_withError_shouldThrow() {
+    keychain.error = TestError.operationFailed
+    XCTAssertThrowsError(try signer.getPublic(), "Get Public should throw") { error in
+      XCTAssertEqual(error as! TestError, TestError.operationFailed)
+    }
+  }
 }

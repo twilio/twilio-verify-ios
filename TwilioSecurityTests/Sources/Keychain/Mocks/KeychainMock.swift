@@ -16,12 +16,15 @@ class KeychainMock {
 }
 
 extension KeychainMock: KeychainProtocol {
-  func accessControl(withProtection protcetion: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
+  func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     if let error = error {
       throw error
     }
-    //TODO: @sfierro will work on this, (returning this will crash the tests)
-    return SecAccessControl.self as! SecAccessControl
+    var error: Unmanaged<CFError>?
+    guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &error) else {
+      throw error!.takeRetainedValue() as Error
+    }
+    return accessControl
   }
   
   func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data {

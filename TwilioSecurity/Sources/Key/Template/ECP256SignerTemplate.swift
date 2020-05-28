@@ -47,7 +47,7 @@ extension ECP256SignerTemplate: SignerTemplate {
   }
 }
 
-private extension ECP256SignerTemplate {
+extension ECP256SignerTemplate {
   struct Constants {
     static let keySize = 256
     static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
