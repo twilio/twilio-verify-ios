@@ -15,7 +15,7 @@ class ECSignerTests: XCTestCase {
   var keychain: KeychainMock!
   var signer: Signer!
   
-  override func setUp() {
+  override func setUpWithError() throws {
     keyPair = KeyPairFactory.createKeyPair()
     keychain = KeychainMock()
     signer = ECSigner(
@@ -63,5 +63,13 @@ class ECSignerTests: XCTestCase {
     XCTAssertThrowsError(try signer.getPublic(), "Get Public should throw") { error in
       XCTAssertEqual(error as! TestError, TestError.operationFailed)
     }
+  }
+  
+  func testGetPublic_withoutError_shouldReturnData() {
+    let expectedData = "data".data(using: .utf8)!
+    var publicKey = Data()
+    keychain.operationResult = expectedData
+    XCTAssertNoThrow(publicKey = try signer.getPublic(), "Get public should not throw")
+    XCTAssertEqual(publicKey, expectedData, "PublicKey should be \(expectedData) but was \(publicKey)")
   }
 }

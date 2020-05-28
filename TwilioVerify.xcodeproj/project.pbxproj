@@ -16,6 +16,7 @@
 		F20CB44C24773C180061A2D8 /* ECSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44B24773C180061A2D8 /* ECSignerTests.swift */; };
 		F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F20CB452247749A70061A2D8 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB451247749A60061A2D8 /* TestError.swift */; };
+		F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2358B3D2480285200C2D1AB /* KeychainTests.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -75,6 +76,7 @@
 		F20CB44B24773C180061A2D8 /* ECSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSignerTests.swift; sourceTree = "<group>"; };
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
 		F20CB451247749A60061A2D8 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
+		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				F20CB42E2476E54C0061A2D8 /* Mocks */,
+				F2358B3D2480285200C2D1AB /* KeychainTests.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				F20CB4302476E5580061A2D8 /* KeychainMock.swift in Sources */,
 				F20CB4322476E6380061A2D8 /* KeyManagerMock.swift in Sources */,
 				F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */,
+				F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */,
 				F20CB452247749A70061A2D8 /* TestError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
