@@ -66,10 +66,27 @@ class ECSignerTests: XCTestCase {
   }
   
   func testGetPublic_withoutError_shouldReturnData() {
-    let expectedData = "data".data(using: .utf8)!
+    let data = "data".data(using: .utf8)!
+    let expectedPublicKey = representation(for: data)
     var publicKey = Data()
-    keychain.operationResult = expectedData
+    keychain.operationResult = data
     XCTAssertNoThrow(publicKey = try signer.getPublic(), "Get public should not throw")
-    XCTAssertEqual(publicKey, expectedData, "PublicKey should be \(expectedData) but was \(publicKey)")
+    XCTAssertEqual(publicKey, expectedPublicKey, "PublicKey should be \(expectedPublicKey) but was \(publicKey)")
+  }
+}
+
+private extension ECSignerTests {
+  func representation(for data: Data) -> Data {
+    let x9_62HeaderECHeader = [UInt8]([
+    /* sequence          */ 0x30, 0x59,
+    /* |-> sequence      */ 0x30, 0x13,
+    /* |---> ecPublicKey */ 0x06, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01, // http://oid-info.com/get/1.2.840.10045.2.1 (ANSI X9.62 public key type)
+    /* |---> prime256v1  */ 0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, // http://oid-info.com/get/1.2.840.10045.3.1.7 (ANSI X9.62 named elliptic curve)
+    /* |-> bit headers   */ 0x07, 0x03, 0x42, 0x00])
+
+    var result = Data()
+    result.append(Data(x9_62HeaderECHeader))
+    result.append(data)
+    return result
   }
 }

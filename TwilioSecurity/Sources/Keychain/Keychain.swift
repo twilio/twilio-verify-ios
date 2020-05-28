@@ -53,17 +53,6 @@ class Keychain: KeychainProtocol {
     guard let representation = SecKeyCopyExternalRepresentation(key, &error) else {
       throw error!.takeRetainedValue() as Error
     }
-    
-    let x9_62HeaderECHeader = [UInt8]([
-    /* sequence          */ 0x30, 0x59,
-    /* |-> sequence      */ 0x30, 0x13,
-    /* |---> ecPublicKey */ 0x06, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01, // http://oid-info.com/get/1.2.840.10045.2.1 (ANSI X9.62 public key type)
-    /* |---> prime256v1  */ 0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, // http://oid-info.com/get/1.2.840.10045.3.1.7 (ANSI X9.62 named elliptic curve)
-    /* |-> bit headers   */ 0x07, 0x03, 0x42, 0x00])
-    
-    var result = Data()
-    result.append(Data(x9_62HeaderECHeader))
-    result.append(representation as Data)
-    return result
+    return representation as Data
   }
 }
