@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
 		20A92FC8248197CB00A9E8E7 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC7248197CB00A9E8E7 /* Request.swift */; };
-		20A92FCA248197F600A9E8E7 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HttpMethod.swift */; };
+		20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */; };
 		20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */; };
 		20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCD24819E2600A9E8E7 /* MediaType.swift */; };
 		20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */; };
+		20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FD12481BEF400A9E8E7 /* NetworkError.swift */; };
+		20A92FD42481C9E000A9E8E7 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FD32481C9E000A9E8E7 /* HTTPHeaders.swift */; };
+		20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FD52481CF6200A9E8E7 /* Parameters.swift */; };
 		F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4202476DE7A0061A2D8 /* KeyManager.swift */; };
 		F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4252476DF570061A2D8 /* Keychain.swift */; };
 		F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */; };
@@ -75,10 +78,13 @@
 /* Begin PBXFileReference section */
 		2003C43F2480232900279BBD /* TwilioVerifyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
 		20A92FC7248197CB00A9E8E7 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		20A92FC9248197F600A9E8E7 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
 		20A92FCD24819E2600A9E8E7 /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorization.swift; sourceTree = "<group>"; };
+		20A92FD12481BEF400A9E8E7 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		20A92FD32481C9E000A9E8E7 /* HTTPHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaders.swift; sourceTree = "<group>"; };
+		20A92FD52481CF6200A9E8E7 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
@@ -143,10 +149,13 @@
 			isa = PBXGroup;
 			children = (
 				20A92FC7248197CB00A9E8E7 /* Request.swift */,
-				20A92FC9248197F600A9E8E7 /* HttpMethod.swift */,
+				20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */,
 				20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */,
 				20A92FCD24819E2600A9E8E7 /* MediaType.swift */,
 				20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */,
+				20A92FD12481BEF400A9E8E7 /* NetworkError.swift */,
+				20A92FD32481C9E000A9E8E7 /* HTTPHeaders.swift */,
+				20A92FD52481CF6200A9E8E7 /* Parameters.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -523,11 +532,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */,
+				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
-				20A92FCA248197F600A9E8E7 /* HttpMethod.swift in Sources */,
+				20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */,
+				20A92FD42481C9E000A9E8E7 /* HTTPHeaders.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* Request.swift in Sources */,
 				20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
+				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

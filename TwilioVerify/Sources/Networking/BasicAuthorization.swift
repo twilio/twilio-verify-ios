@@ -18,7 +18,7 @@ public class BasicAuthorization {
     self.password = password
   }
   
-  public func header() -> HttpHeader {
-    return HttpHeader.authorization(username: username, password: password)
+  public func header() -> HTTPHeader {
+    return HTTPHeader.authorization(username: username, password: password)
   }
 }

@@ -12,7 +12,9 @@ enum MediaType{
   
   case urlEncoded
   case json
-  
+}
+
+extension MediaType {
   var value: String {
     switch self{
       case .urlEncoded:

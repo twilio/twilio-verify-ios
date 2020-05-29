@@ -1,5 +1,5 @@
 //
-//  HttpMethod.swift
+//  HTTPMethod.swift
 //  TwilioVerify
 //
 //  Created by Sergio Fierro on 5/29/20.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-public enum HttpMethod: Int {
+public enum HTTPMethod: Int {
   case get
   case post
   case put
   case delete
 }
 
-extension HttpMethod {
+extension HTTPMethod {
   var value: String {
     switch self {
       case .get:
