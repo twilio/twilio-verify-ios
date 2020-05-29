@@ -64,9 +64,7 @@ class ECP256SignerTemplateTests: XCTestCase {
   }
   
   func testCreateSigner_shouldThrowError() {
-    keychain.accessControlError = NSError(domain: "Error generating secure access control",
-                                          code: -1,
-                                          userInfo: nil)
+    keychain.error = TestError.operationFailed
     XCTAssertThrowsError(try ECP256SignerTemplate(withAlias: Constants.alias,
                                                   shouldExist: shouldExist,
                                                   keychain: keychain))
