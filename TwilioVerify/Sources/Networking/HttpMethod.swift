@@ -8,23 +8,24 @@
 
 import Foundation
 
-struct HttpMethod: RawRepresentable, Equatable, Hashable {
-  
-  static let get = HttpMethod(rawValue: "GET")
-  static let post = HttpMethod(rawValue: "POST")
-  static let delete = HttpMethod(rawValue: "DELETE")
-  static let put = HttpMethod(rawValue: "PUT")
-  
-  public let rawValue: String
-  
-  init(rawValue: String) {
-    self.rawValue = rawValue
+public enum HttpMethod: Int {
+  case get
+  case post
+  case put
+  case delete
+}
+
+extension HttpMethod {
+  var value: String {
+    switch self {
+      case .get:
+        return "GET"
+      case .post:
+        return "POST"
+      case .put:
+        return "PUT"
+      case .delete:
+        return "DELETE"
+    }
   }
 }
-//enum HttpMethod {
-//
-//  case get("GET")
-//  case post("POST")
-//  case delete("DELETE")
-//  case put("PUT")
-//}

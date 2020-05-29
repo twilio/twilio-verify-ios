@@ -13,8 +13,8 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let asd = RequestHelper.init()
-    asd.userAgentHeader()
+    let asd = RequestHelper.init(authorization: BasicAuthorization.init(username: "sergio", password: "12345"))
+    asd.commonHeaders(httpMethod: .get)
   }
 
 

@@ -12,6 +12,7 @@
 		20A92FCA248197F600A9E8E7 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HttpMethod.swift */; };
 		20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */; };
 		20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCD24819E2600A9E8E7 /* MediaType.swift */; };
+		20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */; };
 		F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4202476DE7A0061A2D8 /* KeyManager.swift */; };
 		F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4252476DF570061A2D8 /* Keychain.swift */; };
 		F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */; };
@@ -77,6 +78,7 @@
 		20A92FC9248197F600A9E8E7 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
 		20A92FCD24819E2600A9E8E7 /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
+		20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorization.swift; sourceTree = "<group>"; };
 		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				20A92FC9248197F600A9E8E7 /* HttpMethod.swift */,
 				20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */,
 				20A92FCD24819E2600A9E8E7 /* MediaType.swift */,
+				20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20A92FCA248197F600A9E8E7 /* HttpMethod.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* Request.swift in Sources */,
+				20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

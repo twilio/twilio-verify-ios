@@ -11,22 +11,21 @@ import UIKit
 
 public class RequestHelper {
   
-  private let appDict: [String: Any]?
+  private let appInfo: [String: Any]?
   private let frameworkDict: [String: Any]?
+  private let authorization: BasicAuthorization
   
-  public required init(appBundle: Bundle = Bundle.main) {
-    self.appDict = appBundle.infoDictionary
+  public required init(authorization: BasicAuthorization, appInfo: [String: Any]? = Bundle.main.infoDictionary) {
+    self.authorization = authorization
+    self.appInfo = appInfo
     self.frameworkDict = Bundle(for: type(of: self)).infoDictionary
   }
-  func asd() {
-    
-  }
   
-  public func userAgentHeader() -> HttpHeader {
+  private func userAgentHeader() -> HttpHeader {
     let separator = "; "
-    let appName = appDict?["CFBundleName"] as? String ?? "unknown"
-    let appVersionName = appDict?["CFBundleShortVersionString"] as? String ?? "unknown"
-    let appBuildCode = appDict?["CFBundleVersion"] as? String ?? "unknown"
+    let appName = appInfo?["CFBundleName"] as? String ?? "unknown"
+    let appVersionName = appInfo?["CFBundleShortVersionString"] as? String ?? "unknown"
+    let appBuildCode = appInfo?["CFBundleVersion"] as? String ?? "unknown"
     let osVersion = "\(Constants.platform) \(UIDevice.current.systemVersion)"
     let device = UIDevice.current.model
     let sdkName = frameworkDict?["CFBundleName"] as? String ?? "unknown"
@@ -35,34 +34,28 @@ public class RequestHelper {
     let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: separator)
     return HttpHeader.userAgent(userAgent)
   }
+  
+  public func commonHeaders(httpMethod: HttpMethod) -> [HttpHeader] {
+    var commonHeaders = [userAgentHeader(), authorization.header()]
+    switch httpMethod {
+      case .post,
+           .put,
+           .delete:
+        commonHeaders.append(HttpHeader.accept(MediaType.json.value))
+        commonHeaders.append(HttpHeader.contentType(MediaType.urlEncoded.value))
+      case .get:
+        commonHeaders.append(HttpHeader.accept(MediaType.urlEncoded.value))
+        commonHeaders.append(HttpHeader.contentType(MediaType.urlEncoded.value))
+    }
+    return commonHeaders
+  }
 }
 
-
-//struct HttpHeaders {
-//
-//  private var headers: [HttpHeader] = []
-//
-//  public init() {}
-//
-//  public init(_ headers: [HttpHeader]) {
-//    self.init()
-//
-//    headers.forEach { update($0) }
-//  }
-//
-////  public mutating func update(name: String, value: String) {
-////    update(HttpHeader(name: name, value: value))
-////  }
-//
-//  public mutating func update(_ header: HttpHeader) {
-//    guard let index = headers.firstIndex(of: header) else {
-//      headers.append(header)
-//      return
-//    }
-//
-//    headers.replaceSubrange(index...index, with: [header])
-//  }
-//}
+extension RequestHelper {
+  struct Constants {
+    static let platform = "iOS"
+  }
+}
 
 public struct HttpHeader: Hashable {
   
@@ -107,13 +100,5 @@ extension HttpHeader {
 
   public static func authorization(_ value: String) -> HttpHeader {
     HttpHeader(name: "Authorization", value: value)
-  }
-}
-
-
-extension RequestHelper {
-  struct Constants {
-    static let platform = "iOS"
-    static let sdkName = "VerifySDK"
   }
 }
