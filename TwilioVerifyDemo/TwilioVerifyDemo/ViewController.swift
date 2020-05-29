@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import TwilioVerify
 
 class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
+    let asd = RequestHelper.init()
+    asd.userAgentHeader()
   }
 
 
