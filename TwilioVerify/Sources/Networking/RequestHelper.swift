@@ -9,33 +9,34 @@
 import Foundation
 import UIKit
 
-public class RequestHelper {
+class RequestHelper {
   
   private let appInfo: [String: Any]?
-  private let frameworkDict: [String: Any]?
+  private let frameworkInfo: [String: Any]?
   private let authorization: BasicAuthorization
   
-  public required init(authorization: BasicAuthorization, appInfo: [String: Any]? = Bundle.main.infoDictionary) {
+  required init(authorization: BasicAuthorization) {
     self.authorization = authorization
-    self.appInfo = appInfo
-    self.frameworkDict = Bundle(for: type(of: self)).infoDictionary
+    self.appInfo = Bundle.main.infoDictionary
+    self.frameworkInfo = Bundle(for: type(of: self)).infoDictionary
   }
   
   private func userAgentHeader() -> HTTPHeader {
     let separator = "; "
-    let appName = appInfo?["CFBundleName"] as? String ?? "unknown"
-    let appVersionName = appInfo?["CFBundleShortVersionString"] as? String ?? "unknown"
-    let appBuildCode = appInfo?["CFBundleVersion"] as? String ?? "unknown"
+    let appName = appInfo?[Constants.bundleName] as? String ?? Constants.unknown
+    let appVersionName = appInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
+    let appBuildCode = appInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
     let osVersion = "\(Constants.platform) \(UIDevice.current.systemVersion)"
     let device = UIDevice.current.model
-    let sdkName = frameworkDict?["CFBundleName"] as? String ?? "unknown"
-    let sdkVersionName = frameworkDict?["CFBundleShortVersionString"] as? String ?? "unknown"
-    let sdkBuildCode = frameworkDict?["CFBundleVersion"] as? String ?? "unknown"
+    let sdkName = frameworkInfo?[Constants.bundleName] as? String ?? Constants.unknown
+    let sdkVersionName = frameworkInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
+    let sdkBuildCode = frameworkInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
+    
     let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: separator)
     return HTTPHeader.userAgent(userAgent)
   }
   
-  public func commonHeaders(httpMethod: HTTPMethod) -> [HTTPHeader] {
+  func commonHeaders(httpMethod: HTTPMethod) -> [HTTPHeader] {
     var commonHeaders = [userAgentHeader(), authorization.header()]
     switch httpMethod {
       case .post,
@@ -53,6 +54,10 @@ public class RequestHelper {
 
 extension RequestHelper {
   struct Constants {
+    static let bundleName = "CFBundleName"
+    static let bundleShortVersionString = "CFBundleShortVersionString"
+    static let bundleVersion = "CFBundleVersion"
+    static let unknown = "unknown"
     static let platform = "iOS"
   }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct HTTPHeaders {
+struct HTTPHeaders {
   private var headers: [HTTPHeader] = []
   
   public mutating func addAll(_ headers: [HTTPHeader]) {
@@ -30,13 +30,14 @@ public struct HTTPHeaders {
     headers.replaceSubrange(index...index, with: [header])
   }
   
-  public var dictionary: [String: String] {
+  public var dictionary: [String: String]? {
     let namesAndValues = headers.map { ($0.name, $0.value) }
     
     return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
   }
 }
-public struct HTTPHeader: Hashable {
+
+struct HTTPHeader: Hashable {
   
   public let name: String
   public let value: String

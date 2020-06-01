@@ -9,7 +9,6 @@
 import Foundation
 
 enum MediaType{
-  
   case urlEncoded
   case json
 }

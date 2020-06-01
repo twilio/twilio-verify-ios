@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class BasicAuthorization {
+class BasicAuthorization {
   
   private let username: String
   private let password: String
   
-  public required init(username: String, password: String) {
+  required init(username: String, password: String) {
     self.username = username
     self.password = password
   }

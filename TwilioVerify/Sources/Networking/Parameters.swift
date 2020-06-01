@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct Parameters {
+struct Parameters {
   private var parameters: [Parameter] = []
   
-  public mutating func addAll(_ parameters: [Parameter]) {
+  mutating func addAll(_ parameters: [Parameter]) {
     parameters.forEach{
       add($0)
     }
@@ -23,14 +23,20 @@ public struct Parameters {
   
   private mutating func update(_ parameter: Parameter) {
     guard let index = parameters.firstIndex(of: parameter) else {
-      parameters.append(contentsOf: parameters)
+      parameters.append(parameter)
       return
     }
     
     parameters.replaceSubrange(index...index, with: [parameter])
   }
   
-  func asString() throws -> String {
+  private var dictionary: [String: Any] {
+    let namesAndValues = parameters.map { ($0.name, $0.value) }
+    
+    return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
+  }
+  
+  func asString() -> String? {
     var data = [String]()
     parameters.forEach { parameter in
       if let values = parameter.value as? [Any] {
@@ -50,7 +56,7 @@ public struct Parameters {
   }
   
   func asData() throws -> Data {
-    guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+    guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: []) else {
       throw(NetworkError.invalidBody)
     }
     
@@ -58,18 +64,17 @@ public struct Parameters {
   }
 }
 
-public struct Parameter: Equatable {
-  
-  public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
-    return lhs.name == rhs.name
-  }
-  
+struct Parameter: Equatable {
   
   public let name: String
   public let value: Any
   
-  init(name: String, value: String) {
+  init(name: String, value: Any) {
     self.name = name
     self.value = value
+  }
+  
+  public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
+    return lhs.name == rhs.name
   }
 }
