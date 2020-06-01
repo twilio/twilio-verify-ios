@@ -11,21 +11,19 @@ import Foundation
 
 class KeyManagerMock {
   
-  var accessControlError: Error?
+//  var accessControlError: Error?
+  var signerKeyPair: KeyPair!
   private let keychain: KeychainProtocol
   
-  required init(withKeychain keychain: KeychainProtocol = KeychainMock()) {
+  required init(withKeychain keychain: KeychainProtocol = KeychainMock(),
+                keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
     self.keychain = keychain
   }
 }
 
 extension KeyManagerMock: KeyManagerProtocol {
- 
-  func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
-    if let error = accessControlError {
-      throw error
-    }
-    
-    return try! keychain.accessControl(withProtection: protection, flags: flags)
+  
+  func signer(withTemplate template: SignerTemplate) throws -> Signer {
+    return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm)
   }
 }

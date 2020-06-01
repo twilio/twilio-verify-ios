@@ -71,7 +71,7 @@ class ECP256SignerTemplateTests: XCTestCase {
   }
 }
 
-private extension ECP256SignerTemplateTests{
+private extension ECP256SignerTemplateTests {
   struct Constants {
     static let alias = "signerAlias"
   }

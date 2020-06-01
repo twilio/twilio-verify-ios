@@ -12,10 +12,14 @@ import Foundation
 class KeychainMock {
   var error: Error?
   var verifyShouldSucceed = false
-  var operationResult: Data?
+  var operationResult: Data!
+  var osStatusResult: OSStatus!
+  var keyPair: KeyPair!
+  var key: SecKey!
 }
 
 extension KeychainMock: KeychainProtocol {
+  
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     if let error = error {
       throw error
@@ -31,7 +35,7 @@ extension KeychainMock: KeychainProtocol {
     if let error = error {
       throw error
     }
-    return operationResult!
+    return operationResult
   }
   
   func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool {
@@ -42,6 +46,29 @@ extension KeychainMock: KeychainProtocol {
     if let error = error {
       throw error
     }
-    return operationResult!
+    return operationResult
+  }
+  
+  func generateKeyPair(withParameters parameters: [String : Any]) throws -> KeyPair {
+    if let error = error {
+      throw error
+    }
+    
+    return keyPair
+  }
+  
+  func copyItemMatching(query: Query) throws -> SecKey {
+    if let error = error {
+      throw error
+    }
+    return key
+  }
+  
+  func addItem(withQuery query: Query) -> OSStatus {
+    return osStatusResult
+  }
+  
+  func deleteItem(withQuery query: Query) -> OSStatus {
+    return osStatusResult
   }
 }

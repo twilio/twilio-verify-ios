@@ -16,7 +16,7 @@ class ECSignerTests: XCTestCase {
   var signer: Signer!
   
   override func setUpWithError() throws {
-    keyPair = KeyPairFactory.createKeyPair()
+    keyPair = try KeyPairFactory.createKeyPair()
     keychain = KeychainMock()
     signer = ECSigner(
       withKeyPair: keyPair,

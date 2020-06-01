@@ -18,6 +18,10 @@
 		F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F20CB452247749A70061A2D8 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB451247749A60061A2D8 /* TestError.swift */; };
 		F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2358B3D2480285200C2D1AB /* KeychainTests.swift */; };
+		F27F7A3824858DCB001F2869 /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3724858DCB001F2869 /* KeychainQuery.swift */; };
+		F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
+		F27F7A3E2485973E001F2869 /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
+		F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3F2485AF96001F2869 /* KeyPair.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,6 +83,10 @@
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
 		F20CB451247749A60061A2D8 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
+		F27F7A3724858DCB001F2869 /* KeychainQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
+		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
+		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
+		F27F7A3F2485AF96001F2869 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -134,6 +142,7 @@
 			children = (
 				F20CB4202476DE7A0061A2D8 /* KeyManager.swift */,
 				F20CB4252476DF570061A2D8 /* Keychain.swift */,
+				F27F7A3724858DCB001F2869 /* KeychainQuery.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -152,6 +161,8 @@
 			children = (
 				F20CB42E2476E54C0061A2D8 /* Mocks */,
 				F2358B3D2480285200C2D1AB /* KeychainTests.swift */,
+				F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */,
+				F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -219,6 +230,7 @@
 			children = (
 				F20CB4452477296B0061A2D8 /* Signer */,
 				F2DF31702473012900CF4DC3 /* Template */,
+				F27F7A3F2485AF96001F2869 /* KeyPair.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -515,7 +527,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27F7A3824858DCB001F2869 /* KeychainQuery.swift in Sources */,
 				F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */,
+				F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */,
 				F2DF31722473013A00CF4DC3 /* Template.swift in Sources */,
 				F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */,
 				F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */,
@@ -529,11 +543,13 @@
 			files = (
 				F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */,
 				F20CB44C24773C180061A2D8 /* ECSignerTests.swift in Sources */,
+				F27F7A3E2485973E001F2869 /* KeychainQueryTests.swift in Sources */,
 				F20CB4302476E5580061A2D8 /* KeychainMock.swift in Sources */,
 				F20CB4322476E6380061A2D8 /* KeyManagerMock.swift in Sources */,
 				F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */,
 				F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */,
 				F20CB452247749A70061A2D8 /* TestError.swift in Sources */,
+				F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

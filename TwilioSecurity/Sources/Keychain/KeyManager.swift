@@ -9,50 +9,85 @@
 import Foundation
 
 protocol KeyManagerProtocol {
-  init(withKeychain keychain: KeychainProtocol)
-  func signer(withTemplate: SignerTemplate) throws -> Signer
+  init(withKeychain keychain: KeychainProtocol, keychainQuery: KeychainQueryProtocol)
+  func signer(withTemplate template: SignerTemplate) throws -> Signer
 }
 
 class KeyManager {
   
-  typealias Query = [String: Any]
   private let keychain: KeychainProtocol
+  private let keychainQuery: KeychainQueryProtocol
   
-  required init(withKeychain keychain: KeychainProtocol = Keychain()) {
+  required init(withKeychain keychain: KeychainProtocol = Keychain(),
+                keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
     self.keychain = keychain
+    self.keychainQuery = keychainQuery
   }
   
-  func getKeyPair(forTemplate template: SignerTemplate) throws -> KeyPair {
+  func keyPair(forTemplate template: SignerTemplate) throws -> KeyPair {
     do {
-      let publicKey = try key(withQuery: keyQuery(withTemplate: template, class: kSecAttrKeyClassPublic))
-      let privateKey = try key(withQuery: keyQuery(withTemplate: template, class: kSecAttrKeyClassPrivate))
-      return (publicKey: publicKey, privateKey: privateKey)
-    } catch let error {
+      let publicKey = try key(withQuery: keychainQuery.key(withTemplate: template, class: .public))
+      let privateKey = try key(withQuery: keychainQuery.key(withTemplate: template, class: .private))
+      return KeyPair(publicKey: publicKey, privateKey: privateKey)
+    } catch {
+      throw error
+    }
+  }
+  
+  func generateKeyPair(withTemplate template: SignerTemplate) throws -> KeyPair {
+    do {
+      let keyPair = try keychain.generateKeyPair(withParameters: template.parameters)
+      return keyPair
+    } catch {
       throw error
     }
   }
 
   func key(withQuery query: Query) throws -> SecKey {
-    var result: AnyObject?
-    let status = SecItemCopyMatching(query as CFDictionary, &result)
-    guard status == errSecSuccess, let key = result else {
+    do {
+      return try keychain.copyItemMatching(query: query)
+    } catch {
+      throw error
+    }
+  }
+  
+  func forceSavePublicKey(_ key: SecKey, withAlias alias: String) throws {
+    let query = keychainQuery.saveKey(key, withAlias: alias)
+    var status = keychain.addItem(withQuery: query)
+    if status == errSecDuplicateItem {
+      status = keychain.deleteItem(withQuery: query)
+      status = keychain.addItem(withQuery: query)
+    }
+    
+    guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
       throw error
     }
-    return key as! SecKey
-  }
-  
-  func keyQuery(withTemplate template: SignerTemplate, class keyClass: CFString) -> Query {
-    return [kSecClass: kSecClassKey,
-            kSecAttrKeyClass: keyClass,
-            kSecAttrLabel: template.alias,
-            kSecReturnRef: true,
-            kSecAttrKeyType: template.algorithm] as Query
   }
 }
 
 extension KeyManager: KeyManagerProtocol {
-  func signer(withTemplate: SignerTemplate) throws -> Signer {
+  func signer(withTemplate template: SignerTemplate) throws -> Signer {
+    var keyPair: KeyPair!
+    do {
+      keyPair = try self.keyPair(forTemplate: template)
+    } catch let error {
+      if template.shouldExist {
+        throw error
+      }
+      do {
+        keyPair = try generateKeyPair(withTemplate: template)
+      } catch {
+        throw error
+      }
+    }
     
+    do {
+      try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias)
+    } catch {
+      throw error
+    }
+    
+    return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
   }
 }
