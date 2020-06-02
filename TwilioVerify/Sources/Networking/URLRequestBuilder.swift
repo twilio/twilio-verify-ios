@@ -25,7 +25,7 @@ class URLRequestBuilder {
   }
   
   func setHTTPMethod(_ method: HTTPMethod) -> URLRequestBuilder {
-    self.httpMethod = method
+    httpMethod = method
     return self
   }
   

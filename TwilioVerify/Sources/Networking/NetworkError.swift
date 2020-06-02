@@ -11,15 +11,21 @@ import Foundation
 enum NetworkError: LocalizedError {
   case invalidURL
   case invalidBody
+  case invalidResponse
+  case invalidData
 }
 
 extension NetworkError {
   var errorDescription: String {
-    switch self{
+    switch self {
       case .invalidURL:
         return "Invalid URL"
       case .invalidBody:
         return "Invalid Body"
+      case .invalidResponse:
+        return "Invalid Response"
+      case .invalidData:
+        return "Invalid Data"
     }
   }
 }

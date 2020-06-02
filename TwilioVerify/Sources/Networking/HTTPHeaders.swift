@@ -11,7 +11,7 @@ import Foundation
 struct HTTPHeaders {
   private var headers: [HTTPHeader] = []
   
-  public mutating func addAll(_ headers: [HTTPHeader]) {
+  mutating func addAll(_ headers: [HTTPHeader]) {
     headers.forEach{ add($0) }
   }
   
@@ -28,7 +28,7 @@ struct HTTPHeaders {
     headers.replaceSubrange(index...index, with: [header])
   }
   
-  public var dictionary: [String: String]? {
+  var dictionary: [String: String]? {
     let namesAndValues = headers.map { ($0.key, $0.value) }
     
     return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
