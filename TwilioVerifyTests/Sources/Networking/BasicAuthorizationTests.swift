@@ -14,7 +14,7 @@ class BasicAuthorizationTests: XCTestCase {
   func testAuthorization_withBasicAuthorization_shouldReturnExpectedHeader() {
     let expectedBasicAuthorization = "\(HTTPHeader.Constant.basic) dXNlcm5hbWU6cGFzc3dvcmQ="
     let authorization = BasicAuthorization(username: "username", password: "password")
-    XCTAssertEqual(expectedBasicAuthorization, authorization.header().value,
+    XCTAssertEqual(authorization.header().value, expectedBasicAuthorization,
                    "Basic authorization should be \(expectedBasicAuthorization) but was \(authorization.header().value)")
   }
 }

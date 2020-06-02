@@ -16,11 +16,11 @@ class HTTPHeadersTests: XCTestCase {
     var httpHeaders = HTTPHeaders()
     httpHeaders.addAll(expectedHeaders)
     let headersDict = httpHeaders.dictionary
-    XCTAssertEqual(expectedHeaders.count, headersDict?.count,
+    XCTAssertEqual(headersDict?.count, expectedHeaders.count,
                    "Headers size should be \(expectedHeaders.count) but were \(String(describing: headersDict?.count))")
-    XCTAssertEqual(expectedHeaders.first { $0.name == HTTPHeader.Constant.acceptType }?.value, headersDict?[HTTPHeader.Constant.acceptType],
-                   "Header should be \(String(describing: expectedHeaders.first { $0.name == HTTPHeader.Constant.acceptType }?.value)) but was \(String(describing: headersDict?[HTTPHeader.Constant.acceptType]))")
-    XCTAssertEqual(expectedHeaders.first { $0.name == HTTPHeader.Constant.contentType }?.value, headersDict?[HTTPHeader.Constant.contentType],
-                   "Header should be \(String(describing: expectedHeaders.first { $0.name == HTTPHeader.Constant.contentType }?.value)) but was \(String(describing: headersDict?[HTTPHeader.Constant.contentType]))")
+    XCTAssertEqual(headersDict?[HTTPHeader.Constant.acceptType], expectedHeaders.first { $0.key == HTTPHeader.Constant.acceptType }?.value,
+                   "Header should be \(String(describing: expectedHeaders.first { $0.key == HTTPHeader.Constant.acceptType }?.value)) but was \(String(describing: headersDict?[HTTPHeader.Constant.acceptType]))")
+    XCTAssertEqual(headersDict?[HTTPHeader.Constant.contentType], expectedHeaders.first { $0.key == HTTPHeader.Constant.contentType }?.value,
+                   "Header should be \(String(describing: expectedHeaders.first { $0.key == HTTPHeader.Constant.contentType }?.value)) but was \(String(describing: headersDict?[HTTPHeader.Constant.contentType]))")
   }
 }

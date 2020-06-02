@@ -12,9 +12,9 @@ import XCTest
 class ParametersTests: XCTestCase {
 
   func testParameters_asString_shouldReturnExpectedEncodedParameters() {
-    let key1 = "key1"
-    let value1 = "^&value1"
-    let key2 = "key2"
+    let key1 = Contants.key1
+    let value1 = "^&\(Contants.value1)"
+    let key2 = Contants.key2
     let value2 = 12345
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
     let expectedStringParameters = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
@@ -23,15 +23,15 @@ class ParametersTests: XCTestCase {
     parameters.addAll(expectedParameters)
     
     let stringParameters = parameters.asString()
-    XCTAssertEqual(expectedStringParameters, stringParameters,
+    XCTAssertEqual(stringParameters, expectedStringParameters,
                    "String parameters should be \(expectedStringParameters) but were \(String(describing: stringParameters))")
   }
   
   func testParameters_asData_shouldReturnExpectedParameters() {
-    let key1 = "key1"
-    let value1 = "value1"
-    let key2 = "key2"
-    let value2 = 12345
+    let key1 = Contants.key1
+    let value1 = Contants.value1
+    let key2 = Contants.key2
+    let value2 = Contants.value2
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
     
     var parameters = Parameters()
@@ -41,17 +41,17 @@ class ParametersTests: XCTestCase {
     XCTAssertNoThrow(data = try parameters.asData(), "Parameters as data should not throw")
     var body: [String: Any]!
     XCTAssertNoThrow(body = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])
-    XCTAssertEqual(value1, body[key1] as! String,
+    XCTAssertEqual(body[key1] as! String, value1,
                    "Value should be \(value1) at \(key1) but was \(String(describing: body[key1]))")
-    XCTAssertEqual(value2, body[key2] as! Int,
+    XCTAssertEqual(body[key2] as! Int, value2,
                    "Value should be \(value2) at \(key2) but was \(String(describing: body[key2]))")
   }
   
   func testUpdateParameters_shouldUpdateValueForSpecificKey() {
-    let key1 = "key1"
-    let value1 = "value1"
-    let key2 = "key2"
-    var value2 = 12345
+    let key1 = Contants.key1
+    let value1 = Contants.value1
+    let key2 = Contants.key2
+    var value2 = Contants.value2
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
     
     var parameters = Parameters()
@@ -61,9 +61,9 @@ class ParametersTests: XCTestCase {
     XCTAssertNoThrow(data = try parameters.asData(), "Parameters as data should not throw")
     var body: [String: Any]!
     XCTAssertNoThrow(body = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])
-    XCTAssertEqual(value1, body[key1] as! String,
+    XCTAssertEqual(body[key1] as! String, value1,
                    "Value should be \(value1) at \(key1) but was \(String(describing: body[key1]))")
-    XCTAssertEqual(value2, body[key2] as! Int,
+    XCTAssertEqual(body[key2] as! Int, value2,
                    "Value should be \(value2) at \(key2) but was \(String(describing: body[key2]))")
     
     value2 = 54321
@@ -72,16 +72,16 @@ class ParametersTests: XCTestCase {
     
     XCTAssertNoThrow(data = try parameters.asData(), "Parameters as data should not throw")
     XCTAssertNoThrow(body = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])
-    XCTAssertEqual(value2, body[key1] as! Int,
+    XCTAssertEqual(body[key1] as! Int, value2,
                    "Value should be \(value2) at \(key1) but was \(String(describing: body[key1]))")
-    XCTAssertEqual(value2, body[key1] as! Int,
+    XCTAssertEqual(body[key1] as! Int, value2,
                    "Value should be \(value2) at \(key1) but was \(String(describing: body[key1]))")
   }
   
   func testParameters_withListValue_shouldReturnExpectedStringParams() {
-    let key1 = "key1"
-    let value1 = "value1"
-    let key2 = "key2"
+    let key1 = Contants.key1
+    let value1 = Contants.value1
+    let key2 = Contants.key2
     let value2 = ["123", "321", "456"]
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
     
@@ -93,7 +93,16 @@ class ParametersTests: XCTestCase {
     parameters.addAll(expectedParameters)
     
     let stringParameters = parameters.asString()
-    XCTAssertEqual(expectedStringParameters, stringParameters,
+    XCTAssertEqual(stringParameters, expectedStringParameters,
                    "String parameters should be \(expectedStringParameters) but were \(String(describing: stringParameters))")
+  }
+}
+
+extension ParametersTests {
+  struct Contants {
+    static let key1 = "key1"
+    static let key2 = "key2"
+    static let value1 = "value1"
+    static let value2 = 12345
   }
 }

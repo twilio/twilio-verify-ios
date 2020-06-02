@@ -1,5 +1,5 @@
 //
-//  HTTPHeader.swift
+//  HTTPHeaders.swift
 //  TwilioVerify
 //
 //  Created by Sergio Fierro on 5/29/20.
@@ -12,9 +12,7 @@ struct HTTPHeaders {
   private var headers: [HTTPHeader] = []
   
   public mutating func addAll(_ headers: [HTTPHeader]) {
-    headers.forEach{
-      add($0)
-    }
+    headers.forEach{ add($0) }
   }
   
   private mutating func add(_ header: HTTPHeader) {
@@ -31,7 +29,7 @@ struct HTTPHeaders {
   }
   
   public var dictionary: [String: String]? {
-    let namesAndValues = headers.map { ($0.name, $0.value) }
+    let namesAndValues = headers.map { ($0.key, $0.value) }
     
     return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
   }
@@ -39,41 +37,41 @@ struct HTTPHeaders {
 
 struct HTTPHeader: Hashable {
   
-  public let name: String
+  public let key: String
   public let value: String
   
-  init(name: String, value: String) {
-    self.name = name
+  init(key: String, value: String) {
+    self.key = key
     self.value = value
   }
 }
 
 extension HTTPHeader {
   
-  public static func accept(_ value: String) -> HTTPHeader {
-    HTTPHeader(name: Constant.acceptType, value: value)
+  static func accept(_ value: String) -> HTTPHeader {
+    HTTPHeader(key: Constant.acceptType, value: value)
   }
   
-  public static func contentType(_ value: String) -> HTTPHeader {
-    HTTPHeader(name: Constant.contentType, value: value)
+  static func contentType(_ value: String) -> HTTPHeader {
+    HTTPHeader(key: Constant.contentType, value: value)
   }
   
-  public static func userAgent(_ value: String) -> HTTPHeader {
-    HTTPHeader(name: Constant.userAgent, value: value)
+  static func userAgent(_ value: String) -> HTTPHeader {
+    HTTPHeader(key: Constant.userAgent, value: value)
   }
   
-  public static func authorization(username: String, password: String) -> HTTPHeader {
+  static func authorization(username: String, password: String) -> HTTPHeader {
     let credential = Data("\(username):\(password)".utf8).base64EncodedString()
     
     return authorization("\(Constant.basic) \(credential)")
   }
   
-  public static func authorization(bearerToken: String) -> HTTPHeader {
+  static func authorization(bearerToken: String) -> HTTPHeader {
     authorization("\(Constant.basic) \(bearerToken)")
   }
   
-  public static func authorization(_ value: String) -> HTTPHeader {
-    HTTPHeader(name: Constant.authorization, value: value)
+  static func authorization(_ value: String) -> HTTPHeader {
+    HTTPHeader(key: Constant.authorization, value: value)
   }
 }
 

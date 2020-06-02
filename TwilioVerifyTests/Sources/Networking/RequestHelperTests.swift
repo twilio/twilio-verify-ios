@@ -13,8 +13,7 @@ class RequestHelperTests: XCTestCase {
   
   private var appInfo: [String: Any]!
   private var frameworkInfo: [String: Any]!
-  private let authorization: BasicAuthorization = BasicAuthorization(username: "username",
-                                                                     password: "password")
+  private let authorization = BasicAuthorization(username: "username", password: "password")
   private var requestHelper: RequestHelper!
   private let paramsCount = 4
   
@@ -27,17 +26,17 @@ class RequestHelperTests: XCTestCase {
   func testCommonHeaders_withPostHTTPMethod_shouldContainExpectedParams() {
     let commonHeaders = requestHelper.commonHeaders(httpMethod: .post)
 
-    let userAgent = commonHeaders.first { $0.name == HTTPHeader.Constant.userAgent }
-    let authorization = commonHeaders.first { $0.name == HTTPHeader.Constant.authorization }
-    let acceptType = commonHeaders.first { $0.name == HTTPHeader.Constant.acceptType }
-    let contentType = commonHeaders.first { $0.name == HTTPHeader.Constant.contentType }
-    XCTAssertEqual(paramsCount, commonHeaders.count,
+    let userAgent = commonHeaders.first { $0.key == HTTPHeader.Constant.userAgent }
+    let authorization = commonHeaders.first { $0.key == HTTPHeader.Constant.authorization }
+    let acceptType = commonHeaders.first { $0.key == HTTPHeader.Constant.acceptType }
+    let contentType = commonHeaders.first { $0.key == HTTPHeader.Constant.contentType }
+    XCTAssertEqual(commonHeaders.count, paramsCount,
                    "Headers size should be \(paramsCount) but were \(commonHeaders.count)")
-    XCTAssertEqual(MediaType.json.value, acceptType?.value,
+    XCTAssertEqual(acceptType?.value, MediaType.json.value,
                    "Accept header should be \(MediaType.json.value) but was \(acceptType!.value)")
-    XCTAssertEqual(MediaType.urlEncoded.value, contentType?.value,
+    XCTAssertEqual(contentType?.value, MediaType.urlEncoded.value,
                    "Content-type header should be \(MediaType.urlEncoded.value) but was \(contentType!.value)")
-    XCTAssertEqual(self.authorization.header().value, authorization?.value,
+    XCTAssertEqual(authorization?.value, self.authorization.header().value,
                    "Authorization header should be \(self.authorization.header().value) but was \(String(describing: authorization?.value))")
     XCTAssertNotNil(userAgent, "User-agent header should not be nil")
   }
@@ -45,17 +44,17 @@ class RequestHelperTests: XCTestCase {
   func testCommonHeaders_withGetHTTPMethod_shouldContainExpectedParams() {
     let commonHeaders = requestHelper.commonHeaders(httpMethod: .get)
     
-    let userAgent = commonHeaders.first { $0.name == HTTPHeader.Constant.userAgent }
-    let authorization = commonHeaders.first { $0.name == HTTPHeader.Constant.authorization }
-    let acceptType = commonHeaders.first { $0.name == HTTPHeader.Constant.acceptType }
-    let contentType = commonHeaders.first { $0.name == HTTPHeader.Constant.contentType }
-    XCTAssertEqual(paramsCount, commonHeaders.count,
+    let userAgent = commonHeaders.first { $0.key == HTTPHeader.Constant.userAgent }
+    let authorization = commonHeaders.first { $0.key == HTTPHeader.Constant.authorization }
+    let acceptType = commonHeaders.first { $0.key == HTTPHeader.Constant.acceptType }
+    let contentType = commonHeaders.first { $0.key == HTTPHeader.Constant.contentType }
+    XCTAssertEqual(commonHeaders.count, paramsCount,
                    "Headers size should be \(paramsCount) but were \(commonHeaders.count)")
-    XCTAssertEqual(MediaType.urlEncoded.value, acceptType?.value,
+    XCTAssertEqual(acceptType?.value, MediaType.urlEncoded.value,
                    "Accept header should be \(MediaType.json.value) but was \(acceptType!.value)")
-    XCTAssertEqual(MediaType.urlEncoded.value, contentType?.value,
+    XCTAssertEqual(contentType?.value, MediaType.urlEncoded.value,
                    "Content-type header should be \(MediaType.urlEncoded.value) but was \(contentType!.value)")
-    XCTAssertEqual(self.authorization.header().value, authorization?.value,
+    XCTAssertEqual(authorization?.value, self.authorization.header().value,
                    "Authorization header should be \(self.authorization.header().value) but was \(String(describing: authorization?.value))")
     XCTAssertNotNil(userAgent, "User-agent header should not be nil")
   }
@@ -63,17 +62,17 @@ class RequestHelperTests: XCTestCase {
   func testCommonHeaders_withDeleteHTTPMethod_shouldContainExpectedParams() {
     let commonHeaders = requestHelper.commonHeaders(httpMethod: .delete)
     
-    let userAgent = commonHeaders.first { $0.name == HTTPHeader.Constant.userAgent }
-    let authorization = commonHeaders.first { $0.name == HTTPHeader.Constant.authorization }
-    let acceptType = commonHeaders.first { $0.name == HTTPHeader.Constant.acceptType }
-    let contentType = commonHeaders.first { $0.name == HTTPHeader.Constant.contentType }
-    XCTAssertEqual(paramsCount, commonHeaders.count,
+    let userAgent = commonHeaders.first { $0.key == HTTPHeader.Constant.userAgent }
+    let authorization = commonHeaders.first { $0.key == HTTPHeader.Constant.authorization }
+    let acceptType = commonHeaders.first { $0.key == HTTPHeader.Constant.acceptType }
+    let contentType = commonHeaders.first { $0.key == HTTPHeader.Constant.contentType }
+    XCTAssertEqual(commonHeaders.count, paramsCount,
                    "Headers size should be \(paramsCount) but were \(commonHeaders.count)")
-    XCTAssertEqual(MediaType.json.value, acceptType?.value,
+    XCTAssertEqual(acceptType?.value, MediaType.json.value,
                    "Accept header should be \(MediaType.json.value) but was \(acceptType!.value)")
-    XCTAssertEqual(MediaType.urlEncoded.value, contentType?.value,
+    XCTAssertEqual(contentType?.value, MediaType.urlEncoded.value,
                    "Content-type header should be \(MediaType.urlEncoded.value) but was \(contentType!.value)")
-    XCTAssertEqual(self.authorization.header().value, authorization?.value,
+    XCTAssertEqual(authorization?.value, self.authorization.header().value,
                    "Authorization header should be \(self.authorization.header().value) but was \(String(describing: authorization?.value))")
     XCTAssertNotNil(userAgent, "User-agent header should not be nil")
   }
@@ -81,17 +80,17 @@ class RequestHelperTests: XCTestCase {
   func testCommonHeaders_withPutHTTPMethod_shouldContainExpectedParams() {
     let commonHeaders = requestHelper.commonHeaders(httpMethod: .put)
     
-    let userAgent = commonHeaders.first { $0.name == HTTPHeader.Constant.userAgent }
-    let authorization = commonHeaders.first { $0.name == HTTPHeader.Constant.authorization }
-    let acceptType = commonHeaders.first { $0.name == HTTPHeader.Constant.acceptType }
-    let contentType = commonHeaders.first { $0.name == HTTPHeader.Constant.contentType }
-    XCTAssertEqual(paramsCount, commonHeaders.count,
+    let userAgent = commonHeaders.first { $0.key == HTTPHeader.Constant.userAgent }
+    let authorization = commonHeaders.first { $0.key == HTTPHeader.Constant.authorization }
+    let acceptType = commonHeaders.first { $0.key == HTTPHeader.Constant.acceptType }
+    let contentType = commonHeaders.first { $0.key == HTTPHeader.Constant.contentType }
+    XCTAssertEqual(commonHeaders.count, paramsCount,
                    "Headers size should be \(paramsCount) but were \(commonHeaders.count)")
-    XCTAssertEqual(MediaType.json.value, acceptType?.value,
+    XCTAssertEqual(acceptType?.value, MediaType.json.value,
                    "Accept header should be \(MediaType.json.value) but was \(acceptType!.value)")
-    XCTAssertEqual(MediaType.urlEncoded.value, contentType?.value,
+    XCTAssertEqual(contentType?.value, MediaType.urlEncoded.value,
                    "Content-type header should be \(MediaType.urlEncoded.value) but was \(contentType!.value)")
-    XCTAssertEqual(self.authorization.header().value, authorization?.value,
+    XCTAssertEqual(authorization?.value, self.authorization.header().value,
                    "Authorization header should be \(self.authorization.header().value) but was \(String(describing: authorization?.value))")
     XCTAssertNotNil(userAgent, "User-agent header should not be nil")
   }

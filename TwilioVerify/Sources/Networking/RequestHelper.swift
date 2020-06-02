@@ -22,7 +22,6 @@ class RequestHelper {
   }
   
   private func userAgentHeader() -> HTTPHeader {
-    let separator = "; "
     let appName = appInfo?[Constants.bundleName] as? String ?? Constants.unknown
     let appVersionName = appInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
     let appBuildCode = appInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
@@ -32,7 +31,7 @@ class RequestHelper {
     let sdkVersionName = frameworkInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
     let sdkBuildCode = frameworkInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
     
-    let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: separator)
+    let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: Constants.separator)
     return HTTPHeader.userAgent(userAgent)
   }
   
@@ -54,6 +53,7 @@ class RequestHelper {
 
 extension RequestHelper {
   struct Constants {
+    static let separator = "; "
     static let bundleName = "CFBundleName"
     static let bundleShortVersionString = "CFBundleShortVersionString"
     static let bundleVersion = "CFBundleVersion"

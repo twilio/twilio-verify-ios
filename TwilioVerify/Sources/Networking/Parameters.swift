@@ -12,9 +12,7 @@ struct Parameters {
   private var parameters: [Parameter] = []
   
   mutating func addAll(_ parameters: [Parameter]) {
-    parameters.forEach{
-      add($0)
-    }
+    parameters.forEach{ add($0)}
   }
   
   private mutating func add(_ parameter: Parameter) {
@@ -36,7 +34,7 @@ struct Parameters {
     return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
   }
   
-  func asString() -> String? {
+  func asString() -> String {
     var data = [String]()
     parameters.forEach { parameter in
       if let values = parameter.value as? [Any] {
