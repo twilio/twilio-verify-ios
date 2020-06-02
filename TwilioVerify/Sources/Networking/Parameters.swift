@@ -64,15 +64,15 @@ struct Parameters {
 
 struct Parameter: Equatable {
   
-  public let name: String
-  public let value: Any
+  let name: String
+  let value: Any
   
   init(name: String, value: Any) {
     self.name = name
     self.value = value
   }
   
-  public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
+  static func == (lhs: Parameter, rhs: Parameter) -> Bool {
     return lhs.name == rhs.name
   }
 }
