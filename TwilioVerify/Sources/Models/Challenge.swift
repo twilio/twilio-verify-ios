@@ -1,0 +1,64 @@
+//
+//  Challenge.swift
+//  TwilioVerify
+//
+//  Created by Sergio Fierro on 6/2/20.
+//  Copyright © 2020 Twilio. All rights reserved.
+//
+
+import Foundation
+
+public protocol Challenge {
+  var sid: String { get }
+  var challengeDetails: ChallengeDetails { get }
+  var hiddenDetails: String { get }
+  var factorSid: String { get }
+  var status: ChallengeStatus { get }
+  var createAt: Date { get }
+  var updatedAt: Date { get }
+  var expirationDate: Date { get }
+}
+
+public enum ChallengeStatus {
+  case pending
+  case approved
+  case denied
+  case expired
+}
+
+extension ChallengeStatus {
+  var value: String {
+    switch self {
+      case .pending:
+        return "pending"
+      case .approved:
+        return "approved"
+      case .denied:
+        return "denied"
+      case .expired:
+        return "expired"
+    }
+  }
+}
+
+public struct ChallengeDetails {
+  let message: String
+  let fields: [Detail]
+  let date: Date?
+  
+  init(message: String, fields: [Detail], date: Date?) {
+    self.message = message
+    self.fields = fields
+    self.date = date
+  }
+}
+
+struct Detail {
+  let label: String
+  let value: String
+  
+  init(label: String, value: String) {
+    self.label = label
+    self.value = value
+  }
+}
