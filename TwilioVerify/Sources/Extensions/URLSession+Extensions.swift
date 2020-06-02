@@ -9,7 +9,7 @@
 import Foundation
 
 extension URLSession {
-  func dataTask(with request: URLRequest, result: @escaping (Result<(HTTPURLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
+  func dataTask(with request: URLRequest, result: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask {
     return dataTask(with: request) { (data, response, error) in
       if let error = error {
         result(.failure(error))
@@ -20,10 +20,10 @@ extension URLSession {
         return
       }
       guard let response = response as? HTTPURLResponse, response.statusCode < 300 else {
-        result(.failure(NetworkError.invalidResponse))
+        result(.failure(NetworkError.invalidResponse(errorResponse: data)))
         return
       }
-      result(.success((response, data)))
+      result(.success(Response(withData: data, headers: response.allHeaderFields)))
     }
   }
 }

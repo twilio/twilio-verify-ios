@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+enum NetworkError: LocalizedError, Equatable {
   case invalidURL
   case invalidBody
-  case invalidResponse
+  case invalidResponse(errorResponse: Data)
   case invalidData
 }
 
@@ -26,6 +26,15 @@ extension NetworkError {
         return "Invalid Response"
       case .invalidData:
         return "Invalid Data"
+    }
+  }
+  
+  var errorResponse: Data? {
+    switch self {
+      case .invalidResponse(let errorResponse):
+        return errorResponse
+      default:
+        return nil
     }
   }
 }

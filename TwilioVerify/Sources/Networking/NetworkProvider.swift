@@ -11,16 +11,6 @@ import Foundation
 typealias SuccessBlock = (Response) -> ()
 typealias FailureBlock = (Error) -> ()
 
-class Response {
-  let data: Data
-  let headers: [AnyHashable: Any]
-  
-  init(withData data: Data, headers: [AnyHashable: Any]) {
-    self.data = data
-    self.headers = headers
-  }
-}
-
 protocol NetworkProvider {
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
 }

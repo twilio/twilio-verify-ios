@@ -19,8 +19,7 @@ class NetworkAdapter: NetworkProvider {
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     session.dataTask(with: urlRequest) { result in
       switch result {
-        case .success((let httpURLResponse, let data)):
-          let response = Response(withData: data, headers: httpURLResponse.allHeaderFields)
+        case .success(let response):
           success(response)
         case .failure(let error):
           failure(error)
