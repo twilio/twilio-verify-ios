@@ -37,8 +37,8 @@ struct HTTPHeaders {
 
 struct HTTPHeader: Hashable {
   
-  public let key: String
-  public let value: String
+  let key: String
+  let value: String
   
   init(key: String, value: String) {
     self.key = key
