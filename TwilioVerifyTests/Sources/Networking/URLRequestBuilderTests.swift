@@ -22,7 +22,7 @@ class URLRequestBuilderTests: XCTestCase {
   func testInitializingRequest_withInvalidURL_shouldThrow() {
     XCTAssertThrowsError(try URLRequestBuilder(withURL: "", requestHelper: requestHelper).build(),
                          "Initializing URLRequestBuilder should throw") { error in
-      XCTAssertEqual(NetworkError.invalidURL, error as! NetworkError)
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
     }
   }
 

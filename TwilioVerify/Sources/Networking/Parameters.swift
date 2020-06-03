@@ -55,7 +55,7 @@ struct Parameters {
   
   func asData() throws -> Data {
     guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: []) else {
-      throw(NetworkError.invalidBody)
+      throw NetworkError.invalidBody
     }
     
     return data
