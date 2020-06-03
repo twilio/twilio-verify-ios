@@ -12,3 +12,9 @@ public protocol UpdateChallengeInput {
   var factorSid: String { get }
   var challengeSid: String { get }
 }
+
+struct UpdatePushChallengeInput: UpdateChallengeInput {
+  let factorSid: String
+  let challengeSid: String
+  let status: ChallengeStatus
+}

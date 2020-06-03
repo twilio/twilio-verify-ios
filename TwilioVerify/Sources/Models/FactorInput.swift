@@ -14,3 +14,12 @@ public protocol FactorInput {
   var identity: String { get }
   var factorType: FactorType { get }
 }
+
+struct PushFactorInput: FactorInput {
+  let friendlyName: String
+  let serviceSid: String
+  let identity: String
+  let factorType: FactorType = .push
+  let pushToken: String
+  let jwt: String
+}

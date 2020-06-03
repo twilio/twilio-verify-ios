@@ -11,3 +11,8 @@ import Foundation
 public protocol UpdateFactorInput {
   var sid: String { get }
 }
+
+struct UpdatePushFactorInput: UpdateFactorInput {
+  let sid: String
+  let pushToken: String
+}

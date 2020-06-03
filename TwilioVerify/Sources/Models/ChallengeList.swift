@@ -12,3 +12,8 @@ public protocol ChallengeList {
   var challenges: [Challenge] { get }
   var metadata: Metadata { get }
 }
+
+struct FactorChallengeList: ChallengeList {
+  let challenges: [Challenge]
+  let metadata: Metadata
+}

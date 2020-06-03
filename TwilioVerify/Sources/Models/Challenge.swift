@@ -14,7 +14,7 @@ public protocol Challenge {
   var hiddenDetails: String { get }
   var factorSid: String { get }
   var status: ChallengeStatus { get }
-  var createAt: Date { get }
+  var createdAt: Date { get }
   var updatedAt: Date { get }
   var expirationDate: Date { get }
 }

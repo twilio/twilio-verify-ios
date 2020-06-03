@@ -14,13 +14,11 @@ struct FactorChallenge: Challenge {
   let hiddenDetails: String
   let factorSid: String
   let status: ChallengeStatus
-  let createAt: Date
+  let createdAt: Date
   let updatedAt: Date
   let expirationDate: Date
-  // Original values to generate signature
-  let details: String
-  let createdDate: String
-  let updatedDate: String
-  let entitySid: String
   var factor: Factor? = nil
+  // Original values to generate signature
+  let signatureFields: [String]? = nil
+  let response: [String: Any]? = nil
 }

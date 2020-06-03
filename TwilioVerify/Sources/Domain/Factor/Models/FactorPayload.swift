@@ -15,3 +15,22 @@ protocol FactorPayload {
   var entity: String { get }
   var config: [String: String] { get }
 }
+
+struct CreateFactorPayload: FactorPayload {
+  let friendlyName: String
+  let type: FactorType
+  let serviceSid: String
+  let entity: String
+  let config: [String: String]
+  let binding: [String: String]
+  let jwt: String
+}
+
+struct UpdateFactorPayload: FactorPayload {
+  let friendlyName: String
+  let type: FactorType
+  let serviceSid: String
+  let entity: String
+  let config: [String: String]
+  let factorSid: String
+}

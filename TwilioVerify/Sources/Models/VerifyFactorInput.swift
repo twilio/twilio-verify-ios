@@ -11,3 +11,7 @@ import Foundation
 public protocol VerifyFactorInput {
   var sid: String { get }
 }
+
+struct VerifyPushFactorInput: VerifyFactorInput {
+  let sid: String
+}

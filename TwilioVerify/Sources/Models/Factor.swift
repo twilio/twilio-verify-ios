@@ -23,3 +23,7 @@ public enum FactorStatus: String {
   case verified
   case unverified
 }
+
+public enum FactorType: String {
+  case push
+}
