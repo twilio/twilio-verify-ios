@@ -27,8 +27,8 @@ class URLSessionDataTaskMock: URLSessionDataTask {
   private let data: Data?
   private let httpURLResponse: HTTPURLResponse?
   private let requestError: Error?
-  
   var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
+  
   init(data: Data?, httpURLResponse: HTTPURLResponse?, requestError: Error?) {
     self.data = data
     self.httpURLResponse = httpURLResponse
