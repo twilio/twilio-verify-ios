@@ -11,55 +11,44 @@ import XCTest
 
 class NetworkAdapterTests: XCTestCase {
   
-  private var networkProvider: NetworkAdapter!
-  private var session: URLSessionMock!
-  
-  override func setUpWithError() throws {
-    session = URLSessionMock()
-    networkProvider = NetworkAdapter(withSession: session)
-  }
-  
   func testRequest_withSuccessResponseCode_shouldReturnExpectedResponse() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedHeaders = ["key1": "value1", "key2": "value2"]
-    guard let expectedDataResponse = "response".data(using: .utf8) else {
-      XCTFail("Data is nil")
-      return
-    }
+    let expectedDataResponse = "response".data(using: .utf8)!
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: expectedHeaders)
-    session.sessionConfiguration = URLSessionMockConfiguration(expectation: successExpectation,
-                                                               data: expectedDataResponse,
-                                                               httpURLResponse: urlResponse)
-    
+    let session = URLSessionMock(data: expectedDataResponse, httpURLResponse: urlResponse, error: nil)
+    let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
+    
     networkProvider.execute(urlRequest, success: { response in
       XCTAssertEqual(response.data, expectedDataResponse, "Response data should be \(expectedDataResponse) but was \(response.data)")
       expectedHeaders.forEach {
         XCTAssertEqual($0.value, response.headers[$0.key] as! String,
                        "Header should be \($0.value) but was \(response.headers[$0.key] as! String)")
       }
+      successExpectation.fulfill()
     }) { error in
-      XCTFail("Should not be called")
+      XCTFail()
+      successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
   }
   
   func testRequest_withFailureResponseCode_shouldReturnInvalidResponseError() {
     let failureExpectation = expectation(description: "Wait for failure response")
-    guard let expectedDataResponse = "response".data(using: .utf8) else {
-      XCTFail("Data is nil")
-      return
-    }
+    let expectedDataResponse = "response".data(using: .utf8)!
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
-    session.sessionConfiguration = URLSessionMockConfiguration(expectation: failureExpectation,
-                                                               data: expectedDataResponse,
-                                                               httpURLResponse: urlResponse)
-    
+    let session = URLSessionMock(data: expectedDataResponse, httpURLResponse: urlResponse, error: nil)
+    let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
+    
     networkProvider.execute(urlRequest, success: { response in
-      XCTFail("Should not be called")
+      XCTFail()
+      failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual(error as! NetworkError, NetworkError.invalidResponse(errorResponse: expectedDataResponse))
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidResponse(errorResponse: expectedDataResponse).errorDescription)
+      XCTAssertEqual((error as! NetworkError).errorResponse,  expectedDataResponse)
+      failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
   }
@@ -67,14 +56,16 @@ class NetworkAdapterTests: XCTestCase {
   func testRequest_withNoDate_shouldReturnInvalidDataError() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
-    session.sessionConfiguration = URLSessionMockConfiguration(expectation: failureExpectation,
-                                                               httpURLResponse: urlResponse)
-    
+    let session = URLSessionMock(data: nil, httpURLResponse: urlResponse, error: nil)
+    let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
+    
     networkProvider.execute(urlRequest, success: { response in
-      XCTFail("Should not be called")
+      XCTFail()
+      failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual(error as! NetworkError, NetworkError.invalidData)
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidData.errorDescription)
+      failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
   }
@@ -82,21 +73,20 @@ class NetworkAdapterTests: XCTestCase {
   
   func testRequest_withErrorResponse_shouldReturnError() {
     let failureExpectation = expectation(description: "Wait for failure response")
-    guard let expectedDataResponse = "failure".data(using: .utf8) else {
-      XCTFail("Data is nil")
-      return
-    }
+    let expectedDataResponse = "failure".data(using: .utf8)!
     let expectedError = NetworkError.invalidResponse(errorResponse: expectedDataResponse)
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
-    session.sessionConfiguration = URLSessionMockConfiguration(expectation: failureExpectation,
-                                                               error: expectedError,
-                                                               httpURLResponse: urlResponse)
-    
+    let session = URLSessionMock(data: nil, httpURLResponse: urlResponse, error: expectedError)
+    let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
+    
     networkProvider.execute(urlRequest, success: { response in
-      XCTFail("Should not be called")
+      XCTFail()
+      failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual(error as! NetworkError, expectedError)
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidResponse(errorResponse: expectedDataResponse).errorDescription)
+      XCTAssertEqual((error as! NetworkError).errorResponse,  expectedDataResponse)
+      failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
   }

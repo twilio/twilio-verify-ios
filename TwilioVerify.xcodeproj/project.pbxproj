@@ -13,7 +13,6 @@
 		2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */; };
 		2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */; };
 		2060D00024857976001DD494 /* ParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFF24857976001DD494 /* ParametersTests.swift */; };
-		2093571A2486FC56008FDBCC /* URLSessionMockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209357192486FC56008FDBCC /* URLSessionMockConfiguration.swift */; };
 		20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */; };
 		20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */; };
 		20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */; };
@@ -94,7 +93,6 @@
 		2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorizationTests.swift; sourceTree = "<group>"; };
 		2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeadersTests.swift; sourceTree = "<group>"; };
 		2060CFFF24857976001DD494 /* ParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTests.swift; sourceTree = "<group>"; };
-		209357192486FC56008FDBCC /* URLSessionMockConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMockConfiguration.swift; sourceTree = "<group>"; };
 		20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
 		20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
-				209357192486FC56008FDBCC /* URLSessionMockConfiguration.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -637,7 +634,6 @@
 			files = (
 				2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */,
 				F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */,
-				2093571A2486FC56008FDBCC /* URLSessionMockConfiguration.swift in Sources */,
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,

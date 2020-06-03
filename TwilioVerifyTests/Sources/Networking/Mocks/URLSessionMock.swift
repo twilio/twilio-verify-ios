@@ -10,27 +10,32 @@ import XCTest
 
 class URLSessionMock: URLSession {
   
-  var sessionConfiguration: URLSessionMockConfiguration?
+  private let urlSessionDataTask: URLSessionDataTaskMock
   
-  override func dataTask(with request: URLRequest) -> URLSessionDataTask {
-    return URLSessionDataTaskMock(expectation: sessionConfiguration!.expectation!)
+  init(data: Data?, httpURLResponse: HTTPURLResponse?, error: Error?) {
+    urlSessionDataTask = URLSessionDataTaskMock(data: data, httpURLResponse: httpURLResponse, requestError: error)
   }
   
   override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-    completionHandler(sessionConfiguration?.data, sessionConfiguration?.httpURLResponse, sessionConfiguration?.error)
-    return URLSessionDataTaskMock(expectation: sessionConfiguration!.expectation!)
+    urlSessionDataTask.completionHandler = completionHandler
+    return urlSessionDataTask
   }
 }
 
 class URLSessionDataTaskMock: URLSessionDataTask {
+
+  private let data: Data?
+  private let httpURLResponse: HTTPURLResponse?
+  private let requestError: Error?
   
-  let expectation: XCTestExpectation
-  
-  init(expectation: XCTestExpectation) {
-    self.expectation = expectation
+  var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
+  init(data: Data?, httpURLResponse: HTTPURLResponse?, requestError: Error?) {
+    self.data = data
+    self.httpURLResponse = httpURLResponse
+    self.requestError = requestError
   }
-  
+
   override func resume() {
-    expectation.fulfill()
+    completionHandler?(data, httpURLResponse, requestError)
   }
 }
