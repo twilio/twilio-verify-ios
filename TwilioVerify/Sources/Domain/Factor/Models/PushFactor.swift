@@ -16,26 +16,11 @@ struct PushFactor: Factor {
   let serviceSid: String
   let entityIdentity: String
   let type: FactorType = .push
-  let createAt: Date
+  let createdAt: Date
   let config: Config
   var keyPairAlias: String? = nil
-  
-  init(sid: String, friendlyName: String, accountSid: String, serviceSid: String, entityIdentity: String,
-       createAt: Date, config: Config) {
-    self.sid = sid
-    self.friendlyName = friendlyName
-    self.accountSid = accountSid
-    self.serviceSid = serviceSid
-    self.entityIdentity = entityIdentity
-    self.createAt = createAt
-    self.config = config
-  }
 }
 
 struct Config {
   let credentialSid: String
-  
-  init(credentialSid: String) {
-    self.credentialSid = credentialSid
-  }
 }

@@ -13,14 +13,5 @@ struct CreateFactorPayload: FactorPayload {
   let type: FactorType
   let serviceSid: String
   let entity: String
-  let config: [String : String]
-  
-  init(friendlyName: String, type: FactorType, serviceSid: String, entity: String,
-       config: [String: String], binding: [String: String], jwt: String) {
-    self.friendlyName = friendlyName
-    self.type = type
-    self.serviceSid = serviceSid
-    self.entity = entity
-    self.config = config
-  }
+  let config: [String: String]
 }

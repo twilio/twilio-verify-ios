@@ -12,10 +12,4 @@ struct UpdatePushChallengeInput: UpdateChallengeInput {
   let factorSid: String
   let challengeSid: String
   let status: ChallengeStatus
-  
-  init(factorSid: String, challengeSid: String, status: ChallengeStatus) {
-    self.factorSid = factorSid
-    self.challengeSid = challengeSid
-    self.status = status
-  }
 }

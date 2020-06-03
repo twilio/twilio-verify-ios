@@ -16,21 +16,10 @@ public protocol Factor {
   var serviceSid: String { get }
   var entityIdentity: String { get }
   var type: FactorType { get }
-  var createAt: Date { get }
+  var createdAt: Date { get }
 }
 
-public enum FactorStatus {
+public enum FactorStatus: String {
   case verified
   case unverified
-}
-
-extension FactorStatus {
-  var value: String {
-    switch self {
-      case .verified:
-        return "verified"
-      case .unverified:
-        return "unverified"
-    }
-  }
 }

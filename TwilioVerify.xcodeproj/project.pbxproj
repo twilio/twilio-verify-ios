@@ -26,7 +26,6 @@
 		2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573B248717EF008FDBCC /* ChallengeList.swift */; };
 		2093573E24871827008FDBCC /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573D24871827008FDBCC /* Metadata.swift */; };
 		209357402487185A008FDBCC /* ChallengeListInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573F2487185A008FDBCC /* ChallengeListInput.swift */; };
-		20935742248718D1008FDBCC /* ChallengeListMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935741248718D1008FDBCC /* ChallengeListMetadata.swift */; };
 		209357442487192B008FDBCC /* FactorChallengeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209357432487192B008FDBCC /* FactorChallengeList.swift */; };
 		20935746248719A9008FDBCC /* UpdateChallengeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935745248719A9008FDBCC /* UpdateChallengeInput.swift */; };
 		20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935747248719D5008FDBCC /* UpdateFactorInput.swift */; };
@@ -121,7 +120,6 @@
 		2093573B248717EF008FDBCC /* ChallengeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeList.swift; sourceTree = "<group>"; };
 		2093573D24871827008FDBCC /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		2093573F2487185A008FDBCC /* ChallengeListInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListInput.swift; sourceTree = "<group>"; };
-		20935741248718D1008FDBCC /* ChallengeListMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListMetadata.swift; sourceTree = "<group>"; };
 		209357432487192B008FDBCC /* FactorChallengeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorChallengeList.swift; sourceTree = "<group>"; };
 		20935745248719A9008FDBCC /* UpdateChallengeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChallengeInput.swift; sourceTree = "<group>"; };
 		20935747248719D5008FDBCC /* UpdateFactorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorInput.swift; sourceTree = "<group>"; };
@@ -223,7 +221,6 @@
 				2093573B248717EF008FDBCC /* ChallengeList.swift */,
 				2093573D24871827008FDBCC /* Metadata.swift */,
 				2093573F2487185A008FDBCC /* ChallengeListInput.swift */,
-				20935741248718D1008FDBCC /* ChallengeListMetadata.swift */,
 				20935745248719A9008FDBCC /* UpdateChallengeInput.swift */,
 				20935747248719D5008FDBCC /* UpdateFactorInput.swift */,
 				20935749248719F7008FDBCC /* UpdatePushChallengeInput.swift */,
@@ -701,7 +698,6 @@
 				2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */,
 				2093574C24871A4B008FDBCC /* UpdatePushFactorInput.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
-				20935742248718D1008FDBCC /* ChallengeListMetadata.swift in Sources */,
 				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,16 +12,7 @@ struct PushFactorInput: FactorInput {
   let friendlyName: String
   let serviceSid: String
   let identity: String
-  let factorType: FactorType
+  let factorType: FactorType = .push
   let pushToken: String
   let jwt: String
-
-  init(withFriendlyName friendlyName: String, serviceSid: String, identity: String, pushToken: String, jwt: String) {
-    self.friendlyName = friendlyName
-    self.serviceSid = serviceSid
-    self.identity = identity
-    self.pushToken = pushToken
-    self.jwt = jwt
-    factorType = .push
-  }
 }

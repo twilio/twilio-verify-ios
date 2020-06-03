@@ -15,14 +15,4 @@ struct UpdateFactorPayload: FactorPayload {
   let entity: String
   let config: [String: String]
   let factorSid: String
-  
-  init(friendlyName: String, type: FactorType, serviceSid: String, entity: String,
-       config: [String: String], factorSid: String) {
-    self.friendlyName = friendlyName
-    self.type = type
-    self.serviceSid = serviceSid
-    self.entity = entity
-    self.config = config
-    self.factorSid = factorSid
-  }
 }

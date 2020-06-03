@@ -8,15 +8,6 @@
 
 import Foundation
 
-public enum FactorType {
+public enum FactorType: String {
   case push
-}
-
-extension FactorType {
-  var value: String {
-    switch self {
-      case .push:
-        return "push"
-    }
-  }
 }

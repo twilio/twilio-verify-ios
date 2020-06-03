@@ -19,46 +19,20 @@ public protocol Challenge {
   var expirationDate: Date { get }
 }
 
-public enum ChallengeStatus {
+public enum ChallengeStatus: String {
   case pending
   case approved
   case denied
   case expired
 }
 
-extension ChallengeStatus {
-  var value: String {
-    switch self {
-      case .pending:
-        return "pending"
-      case .approved:
-        return "approved"
-      case .denied:
-        return "denied"
-      case .expired:
-        return "expired"
-    }
-  }
-}
-
 public struct ChallengeDetails {
   let message: String
   let fields: [Detail]
   let date: Date?
-  
-  init(message: String, fields: [Detail], date: Date?) {
-    self.message = message
-    self.fields = fields
-    self.date = date
-  }
 }
 
 struct Detail {
   let label: String
   let value: String
-  
-  init(label: String, value: String) {
-    self.label = label
-    self.value = value
-  }
 }

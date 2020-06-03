@@ -22,23 +22,5 @@ struct FactorChallenge: Challenge {
   let createdDate: String
   let updatedDate: String
   let entitySid: String
-  var factor: Factor?
-  
-  init(sid: String, challengeDetails: ChallengeDetails, hiddenDetails: String, factorSid: String, status: ChallengeStatus,
-       createAt: Date, updatedAt: Date, expirationDate: Date, details: String, createdDate: String, updatedDate: String,
-       entitySid: String, factor: Factor? = nil) {
-    self.sid = sid
-    self.challengeDetails = challengeDetails
-    self.hiddenDetails = hiddenDetails
-    self.factorSid = factorSid
-    self.status = status
-    self.createAt = createAt
-    self.updatedAt = updatedAt
-    self.expirationDate = expirationDate
-    self.details = details
-    self.createdDate = createdDate
-    self.updatedDate = updatedDate
-    self.entitySid = entitySid
-    self.factor = factor
-  }
+  var factor: Factor? = nil
 }

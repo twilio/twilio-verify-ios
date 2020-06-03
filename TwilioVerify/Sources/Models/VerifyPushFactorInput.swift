@@ -10,8 +10,4 @@ import Foundation
 
 struct VerifyPushFactorInput: VerifyFactorInput {
   let sid: String
-  
-  init(withSid sid: String) {
-    self.sid = sid
-  }
 }

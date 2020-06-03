@@ -14,3 +14,10 @@ public protocol Metadata {
   var nextPageURL: String? { get }
   var key: String { get }
 }
+
+struct ChallengeListMetadata: Metadata {
+  let page: Int
+  let pageSize: Int
+  let nextPageURL: String?
+  let key: String
+}

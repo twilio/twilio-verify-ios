@@ -11,9 +11,4 @@ import Foundation
 struct UpdatePushFactorInput: UpdateFactorInput {
   let sid: String
   let pushToken: String
-  
-  init(sid: String, pushToken: String) {
-    self.sid = sid
-    self.pushToken = pushToken
-  }
 }
