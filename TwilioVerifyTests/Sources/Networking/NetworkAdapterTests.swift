@@ -53,7 +53,7 @@ class NetworkAdapterTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testRequest_withNoDate_shouldReturnInvalidDataError() {
+  func testRequest_withNoData_shouldReturnInvalidDataError() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
     let session = URLSessionMock(data: nil, httpURLResponse: urlResponse, error: nil)

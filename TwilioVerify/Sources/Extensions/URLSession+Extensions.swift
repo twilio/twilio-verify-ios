@@ -23,7 +23,7 @@ extension URLSession {
         result(.failure(NetworkError.invalidResponse(errorResponse: data)))
         return
       }
-      result(.success(Response(withData: data, headers: response.allHeaderFields)))
+      result(.success(Response(data: data, headers: response.allHeaderFields)))
     }
   }
 }

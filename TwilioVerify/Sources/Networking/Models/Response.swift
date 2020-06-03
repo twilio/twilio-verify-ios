@@ -8,12 +8,7 @@
 
 import Foundation
 
-class Response {
+struct Response {
   let data: Data
   let headers: [AnyHashable: Any]
-  
-  init(withData data: Data, headers: [AnyHashable: Any]) {
-    self.data = data
-    self.headers = headers
-  }
 }
