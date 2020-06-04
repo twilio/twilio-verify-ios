@@ -19,6 +19,10 @@ struct KeyPairFactory {
     }
     return KeyPair(publicKey: publicKeySec, privateKey: privateKeySec)
   }
+  
+  static func keyPairParameters() -> [String: Any] {
+    return Constants.pairAttributes as! [String: Any]
+  }
 }
 
 private extension KeyPairFactory {

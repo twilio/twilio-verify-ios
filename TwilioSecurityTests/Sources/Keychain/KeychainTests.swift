@@ -14,7 +14,13 @@ class KeychainTests: XCTestCase {
   var keychain: KeychainProtocol!
   
   override func setUpWithError() throws {
+    try super.setUpWithError()
     keychain = Keychain()
+  }
+  
+  override func tearDown() {
+    clearKeychain()
+    super.tearDown()
   }
   
   func testAccessControl_withInvalidProtection_shouldThrow() {
@@ -176,21 +182,127 @@ class KeychainTests: XCTestCase {
       "Key representation should be \(expectedKeyRepresentation) but was \(keyRepresentation!)"
     )
   }
+  
+  func testGenerateKeyPair_withInvalidParameters_shouldThrow() {
+    let expectedErrorCode = -4
+    let expectedErrorDomain = "NSOSStatusErrorDomain"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -4.)"
+    XCTAssertThrowsError(try keychain.generateKeyPair(withParameters: [:]), "Generate KeyPair Should throw") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        expectedErrorCode,
+        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        expectedErrorDomain,
+        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
+  
+  func testGenerateKeyPair_withValidParameters_shouldReturnKeyPair() {
+    var pair: KeyPair!
+    XCTAssertNoThrow(
+      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters()),
+      "Generate KeyPair should return a KeyPair"
+    )
+    XCTAssertNotNil(pair, "Pair should not be nil")
+  }
+  
+  func testCopyItemMatching_withoutMatches_shouldThrow() {
+    let expectedErrorCode = -25300
+    let expectedErrorDomain = "NSOSStatusErrorDomain"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        expectedErrorCode,
+        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        expectedErrorDomain,
+        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
+  
+  func testCopyItemMatching_witMatches_shouldReturnKey() {
+    var pair: KeyPair!
+    var key: SecKey!
+    var query = Constants.saveKeyQuery
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    query[kSecValueRef as String] = pair.publicKey
+    var status = SecItemAdd(query as CFDictionary, nil)
+    XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
+    XCTAssertNoThrow(key = try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should return a key")
+    XCTAssertEqual(key, pair.publicKey, "Key should be \(pair.publicKey) but was \(key!)")
+    status = SecItemDelete(Constants.keyQuery as CFDictionary)
+    XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
+  }
+  
+  func testAddItem_withInvalidArguments_shouldFail() {
+    let status = keychain.addItem(withQuery: [:])
+    XCTAssertEqual(status, -50)
+  }
+  
+  func testAddItem_withValidArguments_shouldSucceed() {
+    let status = keychain.addItem(withQuery: Constants.saveKeyQuery)
+    XCTAssertEqual(status, errSecSuccess)
+  }
+  
+  func testDeleteItem_withInvalidArguments_shouldFail() {
+    let status = keychain.deleteItem(withQuery: [:])
+    XCTAssertEqual(status, -50)
+  }
+  
+  func testDeleteItem_withValidArguments_shouldSucceed() {
+    var pair: KeyPair!
+    var query = Constants.saveKeyQuery
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    query[kSecValueRef as String] = pair.publicKey
+    SecItemAdd(query as CFDictionary, nil)
+    let status = keychain.deleteItem(withQuery: Constants.keyQuery)
+    XCTAssertEqual(status, errSecSuccess)
+  }
 }
 
 private extension KeychainTests {
   struct Constants {
+    static let alias = "alias"
     static let algorithm: SecKeyAlgorithm = .ecdsaSignatureMessageX962SHA256
-//    static let applicationTag = "com.security.tests"
-//    static let publicTag = "public"
-//    static let privateTag = "private"
-//    static let privateAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.privateTag] as [String: Any]
-//    static let publicAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.publicTag] as [String : Any]
-//    static let pairAttributes = [kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
-//                                 kSecAttrKeySizeInBits: 256,
-//                                 kSecPublicKeyAttrs: publicAttributes,
-//                                 kSecPrivateKeyAttrs: privateAttributes] as [String : Any]
+    static let keyQuery = [kSecClass: kSecClassKey,
+                           kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                           kSecAttrLabel: Constants.alias,
+                           kSecReturnRef: true,
+                           kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
+                           kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    static let saveKeyQuery = [kSecClass: kSecClassKey,
+                               kSecAttrLabel: Constants.alias,
+                               kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-
+  func clearKeychain() {
+    let secItemClasses = [kSecClassGenericPassword,
+                          kSecClassInternetPassword,
+                          kSecClassCertificate,
+                          kSecClassKey,
+                          kSecClassIdentity]
+    secItemClasses.forEach {
+      SecItemDelete([kSecClass: $0] as CFDictionary)
+    }
+  }
 }
