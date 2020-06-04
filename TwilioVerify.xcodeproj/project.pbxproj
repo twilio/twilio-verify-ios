@@ -55,6 +55,8 @@
 		F2F62FA7248846D800E330E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA5248846D800E330E4 /* Main.storyboard */; };
 		F2F62FA9248846DC00E330E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA8248846DC00E330E4 /* Assets.xcassets */; };
 		F2F62FAC248846DC00E330E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FAA248846DC00E330E4 /* LaunchScreen.storyboard */; };
+		F2FB79B124897354004B22E6 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B024897354004B22E6 /* Storage.swift */; };
+		F2FB79B424897A06004B22E6 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B324897A06004B22E6 /* StorageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,8 @@
 		F2F62FA8248846DC00E330E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2F62FAB248846DC00E330E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2F62FAD248846DC00E330E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2FB79B024897354004B22E6 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		F2FB79B324897A06004B22E6 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +289,7 @@
 		F20CB4272476E3900061A2D8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2FB79B2248979F4004B22E6 /* Storage */,
 				F20CB4292476E3D20061A2D8 /* Key */,
 				F20CB4282476E39C0061A2D8 /* Keychain */,
 			);
@@ -456,6 +461,7 @@
 		F2AA37ED246F3CF000B9388F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2FB79AF24897347004B22E6 /* Storage */,
 				F20CB41F2476DE200061A2D8 /* Keychain */,
 				F25CF4582473008000BE4DB1 /* Key */,
 			);
@@ -483,6 +489,22 @@
 				F2F62FAD248846DC00E330E4 /* Info.plist */,
 			);
 			path = HostApp;
+			sourceTree = "<group>";
+		};
+		F2FB79AF24897347004B22E6 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F2FB79B024897354004B22E6 /* Storage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		F2FB79B2248979F4004B22E6 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F2FB79B324897A06004B22E6 /* StorageTests.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -737,6 +759,7 @@
 				F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */,
 				F2DF31722473013A00CF4DC3 /* Template.swift in Sources */,
 				F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */,
+				F2FB79B124897354004B22E6 /* Storage.swift in Sources */,
 				F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */,
 				F20CB4472477299E0061A2D8 /* ECSigner.swift in Sources */,
 			);
@@ -755,6 +778,7 @@
 				F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */,
 				F20CB452247749A70061A2D8 /* TestError.swift in Sources */,
 				F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */,
+				F2FB79B424897A06004B22E6 /* StorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

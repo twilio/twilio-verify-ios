@@ -27,10 +27,11 @@ enum KeyClass {
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
+  func save(data: Data, withKey key: String) -> Query
+  func getData(withKey key: String) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
-  
   func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query {
     return [kSecClass: kSecClassKey,
             kSecAttrKeyClass: keyClass.value,
@@ -44,6 +45,20 @@ struct KeychainQuery: KeychainQueryProtocol {
     return [kSecClass: kSecClassKey,
             kSecAttrLabel: alias,
             kSecValueRef: key,
+            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func save(data: Data, withKey key: String) -> Query {
+    return [kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecValueData: data,
+            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func getData(withKey key: String) -> Query {
+    return [kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecReturnData: true,
             kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
 }

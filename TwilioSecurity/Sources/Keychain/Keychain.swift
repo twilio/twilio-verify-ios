@@ -14,7 +14,7 @@ protocol KeychainProtocol {
   func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool
   func representation(forKey key: SecKey) throws -> Data
   func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair
-  func copyItemMatching(query: Query) throws -> SecKey
+  func copyItemMatching(query: Query) throws -> AnyObject
   func addItem(withQuery query: Query) -> OSStatus
   func deleteItem(withQuery query: Query) -> OSStatus
 }
@@ -71,14 +71,14 @@ class Keychain: KeychainProtocol {
     return KeyPair(publicKey: publicKey!, privateKey: privateKey!)
   }
   
-  func copyItemMatching(query: Query) throws -> SecKey {
-    var result: AnyObject?
+  func copyItemMatching(query: Query) throws -> AnyObject {
+    var result: AnyObject!
     let status = SecItemCopyMatching(query as CFDictionary, &result)
-    guard status == errSecSuccess, let key = result else {
+    guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
       throw error
     }
-    return key as! SecKey
+    return result
   }
   
   func addItem(withQuery query: Query) -> OSStatus {

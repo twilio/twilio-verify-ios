@@ -45,7 +45,8 @@ class KeyManager {
 
   func key(withQuery query: Query) throws -> SecKey {
     do {
-      return try keychain.copyItemMatching(query: query)
+      let key = try keychain.copyItemMatching(query: query)
+      return key as! SecKey
     } catch {
       throw error
     }

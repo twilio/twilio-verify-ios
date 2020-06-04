@@ -242,14 +242,15 @@ class KeychainTests: XCTestCase {
   
   func testCopyItemMatching_witMatches_shouldReturnKey() {
     var pair: KeyPair!
-    var key: SecKey!
+    var keyObject: AnyObject!
     var query = Constants.saveKeyQuery
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     query[kSecValueRef as String] = pair.publicKey
     var status = SecItemAdd(query as CFDictionary, nil)
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
-    XCTAssertNoThrow(key = try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should return a key")
-    XCTAssertEqual(key, pair.publicKey, "Key should be \(pair.publicKey) but was \(key!)")
+    XCTAssertNoThrow(keyObject = try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should return a key")
+    let key = keyObject as! SecKey
+    XCTAssertEqual(key, pair.publicKey, "Key should be \(pair.publicKey) but was \(key)")
     status = SecItemDelete(Constants.keyQuery as CFDictionary)
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
   }
