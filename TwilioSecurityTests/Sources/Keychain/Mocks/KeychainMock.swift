@@ -9,14 +9,30 @@
 import Foundation
 @testable import TwilioSecurity
 
+enum KeychainMethods {
+  case accessControl
+  case sign
+  case verify
+  case representation
+  case generateKeyPair
+  case copyItemMatching
+  case addItem
+  case deleteItem
+}
+
 class KeychainMock {
   var error: Error?
+  var generateKeyPairError: Error?
   var verifyShouldSucceed = false
   var operationResult: Data!
-  var osStatusResult: OSStatus!
+  var addItemStatus: [OSStatus]!
+  var deleteItemStatus: OSStatus!
   var keyPair: KeyPair!
   var keys: [SecKey]!
+  private(set) var callsToAddItem = 0
+  private(set) var callOrder = [KeychainMethods]()
   private var callsToCopyItemMatching = -1
+  
 }
 
 extension KeychainMock: KeychainProtocol {
@@ -51,7 +67,7 @@ extension KeychainMock: KeychainProtocol {
   }
   
   func generateKeyPair(withParameters parameters: [String : Any]) throws -> KeyPair {
-    if let error = error {
+    if let error = generateKeyPairError {
       throw error
     }
     
@@ -67,10 +83,13 @@ extension KeychainMock: KeychainProtocol {
   }
   
   func addItem(withQuery query: Query) -> OSStatus {
-    return osStatusResult
+    callsToAddItem += 1
+    callOrder.append(.addItem)
+    return addItemStatus[callsToAddItem - 1]
   }
   
   func deleteItem(withQuery query: Query) -> OSStatus {
-    return osStatusResult
+    callOrder.append(.deleteItem)
+    return deleteItemStatus
   }
 }
