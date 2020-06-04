@@ -38,6 +38,10 @@
 		20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkProvider.swift */; };
 		20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */; };
 		20DCEA902486F1EA0017947B /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DCEA8F2486F1EA0017947B /* Response.swift */; };
+		20E3BB1C24896BD800BC90DE /* FactorAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */; };
+		20E3BB1E24896C3000BC90DE /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB1D24896C3000BC90DE /* Authentication.swift */; };
+		20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */; };
+		20E3BB242489902A00BC90DE /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB232489902A00BC90DE /* TestError.swift */; };
 		F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4202476DE7A0061A2D8 /* KeyManager.swift */; };
 		F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4252476DF570061A2D8 /* Keychain.swift */; };
 		F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */; };
@@ -129,6 +133,10 @@
 		20C0B19A2486DB640041E67F /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
 		20DCEA8F2486F1EA0017947B /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClient.swift; sourceTree = "<group>"; };
+		20E3BB1D24896C3000BC90DE /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClientTests.swift; sourceTree = "<group>"; };
+		20E3BB232489902A00BC90DE /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
@@ -282,6 +290,7 @@
 				20A92FD32481C9E000A9E8E7 /* HTTPHeaders.swift */,
 				20A92FD52481CF6200A9E8E7 /* Parameters.swift */,
 				20C0B19A2486DB640041E67F /* NetworkProvider.swift */,
+				20E3BB1D24896C3000BC90DE /* Authentication.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -289,6 +298,7 @@
 		20B8A3EB2485581D003F69EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				20E3BB1F248984B300BC90DE /* API */,
 				2060CFFC248574B4001DD494 /* Networking */,
 			);
 			path = Sources;
@@ -314,6 +324,30 @@
 			isa = PBXGroup;
 			children = (
 				20A92FD12481BEF400A9E8E7 /* NetworkError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		20E3BB1A24896BCA00BC90DE /* API */ = {
+			isa = PBXGroup;
+			children = (
+				20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		20E3BB1F248984B300BC90DE /* API */ = {
+			isa = PBXGroup;
+			children = (
+				20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		20E3BB222489901D00BC90DE /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				20E3BB232489902A00BC90DE /* TestError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -448,6 +482,7 @@
 		F2AA3785246F30BF00B9388F /* TwilioVerifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				20E3BB222489901D00BC90DE /* Error */,
 				20B8A3EB2485581D003F69EB /* Sources */,
 				F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */,
 				F2AA3788246F30BF00B9388F /* Info.plist */,
@@ -486,6 +521,7 @@
 		F2AA37EA246F3CD500B9388F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				20E3BB1A24896BCA00BC90DE /* API */,
 				20C0B1A02486E7900041E67F /* Extensions */,
 				2093572A24870D48008FDBCC /* Domain */,
 				2093571B24870A73008FDBCC /* Models */,
@@ -697,6 +733,7 @@
 				2093573824871378008FDBCC /* FactorChallenge.swift in Sources */,
 				20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */,
 				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
+				20E3BB1C24896BD800BC90DE /* FactorAPIClient.swift in Sources */,
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */,
 				20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */,
@@ -709,6 +746,7 @@
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */,
+				20E3BB1E24896C3000BC90DE /* Authentication.swift in Sources */,
 				2093573224871168008FDBCC /* PushFactor.swift in Sources */,
 				20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */,
 				2093573E24871827008FDBCC /* Metadata.swift in Sources */,
@@ -729,6 +767,8 @@
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,
+				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
+				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
 				20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */,
 				2060D00024857976001DD494 /* ParametersTests.swift in Sources */,
