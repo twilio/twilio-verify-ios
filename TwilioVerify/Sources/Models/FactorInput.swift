@@ -21,5 +21,5 @@ struct PushFactorInput: FactorInput {
   let identity: String
   let factorType: FactorType = .push
   let pushToken: String
-  let jwt: String
+  let enrollmentJwe: String
 }

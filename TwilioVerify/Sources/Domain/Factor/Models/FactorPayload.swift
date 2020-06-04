@@ -23,7 +23,7 @@ struct CreateFactorPayload: FactorPayload {
   let entity: String
   let config: [String: String]
   let binding: [String: String]
-  let jwt: String
+  let jwe: String
 }
 
 struct UpdateFactorPayload: FactorPayload {
