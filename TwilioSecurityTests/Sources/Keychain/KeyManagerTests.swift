@@ -15,6 +15,7 @@ class KeyManagerTests: XCTestCase {
   var keyManager: KeyManager!
   
   override func setUpWithError() throws {
+    try super.setUpWithError()
     keychain = KeychainMock()
     keyManager = KeyManager(withKeychain: keychain)
   }
@@ -284,10 +285,11 @@ class KeyManagerTests: XCTestCase {
     let expectedErrorCode: OSStatus = -50
 
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    keychain.keys = [pair.publicKey, pair.privateKey]
+    keychain.error = TestError.operationFailed
+    keychain.keyPair = pair
     keychain.addItemStatus = [-50]
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false),
       "Template should be created correclty"
     )
     XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in

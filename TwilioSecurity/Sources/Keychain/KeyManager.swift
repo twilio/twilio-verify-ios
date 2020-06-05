@@ -77,17 +77,11 @@ extension KeyManager: KeyManagerProtocol {
       }
       do {
         keyPair = try generateKeyPair(withTemplate: template)
+        try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias)
       } catch {
         throw error
       }
     }
-    
-    do {
-      try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias)
-    } catch {
-      throw error
-    }
-    
     return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
   }
 }

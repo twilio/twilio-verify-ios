@@ -11,7 +11,6 @@ import Foundation
 
 class KeyManagerMock {
   
-//  var accessControlError: Error?
   var signerKeyPair: KeyPair!
   private let keychain: KeychainProtocol
   
