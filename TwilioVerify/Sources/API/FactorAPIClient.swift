@@ -14,7 +14,7 @@ class FactorAPIClient {
   private let authentication: Authentication
   private let baseURL: String
   
-  init (networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String) {
+  init(networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String) {
     self.networkProvider = networkProvider
     self.authentication = authentication
     self.baseURL = baseURL
@@ -36,14 +36,17 @@ class FactorAPIClient {
       failure(error)
     }
   }
+}
+
+private extension FactorAPIClient {
   
-  private func createURL(createFactorPayload: CreateFactorPayload) -> String {
+  func createURL(createFactorPayload: CreateFactorPayload) -> String {
     "\(baseURL)\(Constants.createFactorURL)"
       .replacingOccurrences(of: Constants.serviceSidPath, with: createFactorPayload.serviceSid)
       .replacingOccurrences(of: Constants.entityPath, with: createFactorPayload.entity)
   }
   
-  private func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
+  func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
     guard let bindingData = try? JSONEncoder().encode(createFactorPayload.binding),
       let bindingString = String(data: bindingData, encoding: .utf8)  else {
         throw NetworkError.invalidData
