@@ -11,6 +11,7 @@ import Foundation
 enum MapperError: LocalizedError {
   case invalidDate
   case invalidArgument
+  case illegalArgument
 }
 
 extension MapperError {
@@ -19,7 +20,9 @@ extension MapperError {
       case .invalidDate:
         return "Invalid date format"
       case .invalidArgument:
-        return "ServiceSid or EntityIdentity is empty"
+        return "ServiceSid or EntityIdentity is null or empty"
+      case .illegalArgument:
+        return "Invalid factor type from data"
     }
   }
 }

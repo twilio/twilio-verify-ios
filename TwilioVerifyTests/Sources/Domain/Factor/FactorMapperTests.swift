@@ -11,8 +11,11 @@ import XCTest
 
 class FactorMapperTests: XCTestCase {
   
+  private var mapper: FactorMapper!
+  
   override func setUpWithError() throws {
     try super.setUpWithError()
+    mapper = FactorMapper()
   }
   
   func testMap_withValidResponseFromAPI_shouldReturnFactor() {
@@ -27,7 +30,6 @@ class FactorMapperTests: XCTestCase {
       Constants.dateCreatedKey: Constants.expectedDate
     ]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let mapper = FactorMapper()
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
                                             entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
     var factor: Factor!
@@ -53,7 +55,6 @@ class FactorMapperTests: XCTestCase {
       Constants.accountSidKey: Constants.expectedAccountSid
     ]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let mapper = FactorMapper()
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
                                             entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
@@ -67,7 +68,6 @@ class FactorMapperTests: XCTestCase {
       Constants.accountSidKey: Constants.expectedAccountSid
     ]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let mapper = FactorMapper()
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: "",
                                             entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
@@ -81,7 +81,6 @@ class FactorMapperTests: XCTestCase {
       Constants.accountSidKey: Constants.expectedAccountSid
     ]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let mapper = FactorMapper()
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
                                             entity: "", config: [:], binding: [:], jwe: Constants.jweValue)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
@@ -101,12 +100,71 @@ class FactorMapperTests: XCTestCase {
       Constants.dateCreatedKey: "2020/06/01"
     ]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let mapper = FactorMapper()
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
                                             entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidDate)
     }
+  }
+  
+  func testMap_withValidFactorFromStorage_shouldReturnFactor() {
+    let expectedFactor = PushFactor(status: .verified, sid: Constants.expectedSidValue, friendlyName: Constants.expectedFriendlyName,
+                                    accountSid: Constants.expectedAccountSid, serviceSid: Constants.serviceSidValue, entityIdentity: Constants.entityIdentityValue,
+                                    createdAt: Date(), config: Config(credentialSid: Constants.expectedCredentialSid), keyPairAlias: Constants.expectedKeyPairAlias)
+    let factor = try! mapper.fromStorage(withData: JSONEncoder().encode(expectedFactor))
+    XCTAssertTrue(factor is PushFactor, "Factor should be \(PushFactor.self)")
+    XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor sid should be \(expectedFactor.sid) but was \(factor.sid)")
+    XCTAssertEqual(factor.serviceSid, expectedFactor.serviceSid, "Factor serviceSid should be \(expectedFactor.serviceSid) but was \(factor.serviceSid)")
+    XCTAssertEqual(factor.friendlyName, expectedFactor.friendlyName, "Factor friendlyName should be \(expectedFactor.friendlyName) but was \(factor.friendlyName)")
+    XCTAssertEqual(factor.accountSid, expectedFactor.accountSid, "Factor accountSid should be \(expectedFactor.accountSid) but was \(factor.accountSid)")
+    XCTAssertEqual(factor.status, expectedFactor.status, "Factor status should be \(expectedFactor.status) but was \(factor.status)")
+    XCTAssertEqual(factor.createdAt, expectedFactor.createdAt, "Factor createdAt should be \(expectedFactor.createdAt) but was \(factor.createdAt)")
+    XCTAssertEqual((factor as! PushFactor).keyPairAlias, expectedFactor.keyPairAlias,
+                   "Factor keyPairAlias should be \(String(describing: expectedFactor.keyPairAlias)) but was \(String(describing: (factor as! PushFactor).keyPairAlias))")
+  }
+  
+  func testMap_withInvalidFactorFromStorage_shouldThrow() {
+    let expectedFactorResponse: [String: Any] = [
+      Constants.sidKey: Constants.expectedSidValue,
+      Constants.friendlyNameKey: Constants.expectedFriendlyName,
+      Constants.accountSidKey: Constants.expectedAccountSid,
+      Constants.statusKey: FactorStatus.unverified.rawValue,
+      Constants.typeKey: Constants.pushType.rawValue
+      
+    ]
+    let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
+    XCTAssertThrowsError(try mapper.fromStorage(withData: data)) { error in
+      XCTAssertTrue(error is DecodingError)
+    }
+  }
+  
+  func testMap_withInvalidFactorTypeFromStorage_shouldThrow() {
+    let factor: [String: Any] = [
+      Constants.sidKey: Constants.expectedSidValue,
+      Constants.friendlyNameKey: Constants.expectedFriendlyName,
+      Constants.accountSidKey: Constants.expectedAccountSid,
+      Constants.statusKey: FactorStatus.unverified.rawValue,
+      Constants.typeKey: "weird"
+      
+    ]
+    let data = try! JSONSerialization.data(withJSONObject: factor, options: .prettyPrinted)
+    XCTAssertThrowsError(try mapper.fromStorage(withData: data)) { error in
+      XCTAssertTrue(error as! MapperError == MapperError.invalidArgument)
+    }
+  }
+  
+  func testMapToData_shouldReturnFactorAsData() {
+    let expectedFactor = PushFactor(status: .unverified, sid: Constants.expectedSidValue, friendlyName: Constants.expectedFriendlyName, accountSid: Constants.expectedAccountSid, serviceSid: Constants.serviceSidValue, entityIdentity: Constants.entityIdentityValue, createdAt: Date(), config: Config(credentialSid: Constants.expectedCredentialSid), keyPairAlias: Constants.expectedKeyPairAlias)
+    let factorData = try! mapper.toData(forFactor: expectedFactor)
+    let factor = try! JSONDecoder().decode(PushFactor.self, from: factorData)
+    XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor sid should be \(expectedFactor.sid) but was \(factor.sid)")
+    XCTAssertEqual(factor.serviceSid, expectedFactor.serviceSid, "Factor serviceSid should be \(expectedFactor.serviceSid) but was \(factor.serviceSid)")
+    XCTAssertEqual(factor.friendlyName, expectedFactor.friendlyName, "Factor friendlyName should be \(expectedFactor.friendlyName) but was \(factor.friendlyName)")
+    XCTAssertEqual(factor.accountSid, expectedFactor.accountSid, "Factor accountSid should be \(expectedFactor.accountSid) but was \(factor.accountSid)")
+    XCTAssertEqual(factor.status, expectedFactor.status, "Factor status should be \(expectedFactor.status) but was \(factor.status)")
+    XCTAssertEqual(factor.createdAt, expectedFactor.createdAt, "Factor createdAt should be \(expectedFactor.createdAt) but was \(factor.createdAt)")
+    XCTAssertEqual(factor.keyPairAlias, expectedFactor.keyPairAlias,
+                   "Factor keyPairAlias should be \(String(describing: expectedFactor.keyPairAlias)) but was \(String(describing: factor.keyPairAlias))")
   }
 }
 
@@ -119,6 +177,7 @@ private extension FactorMapperTests {
     static let dateCreatedKey = "date_created"
     static let configKey = "config"
     static let credentialSidKey = "credential_sid"
+    static let typeKey = "type"
     static let pushType = FactorType.push
     static let friendlyNameValue = "factor name"
     static let serviceSidValue = "serviceSid123"
@@ -128,6 +187,7 @@ private extension FactorMapperTests {
     static let expectedFriendlyName = "push_factor"
     static let expectedAccountSid = "accountSid123"
     static let expectedCredentialSid = "credentialSid123"
+    static let expectedKeyPairAlias = "alias"
     static let expectedDate = "2020-06-05T15:57:47Z"
   }
 }

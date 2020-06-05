@@ -24,6 +24,24 @@ class FactorMapper {
     }
     return factor
   }
+  
+  func fromStorage(withData data: Data) throws -> Factor {
+    let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+    guard let type = dict?[PushFactor.CodingKeys.type.rawValue as String] as? String, let factorType = FactorType(rawValue: type) else {
+      throw MapperError.invalidArgument
+    }
+    switch factorType {
+      case .push:
+        return try JSONDecoder().decode(PushFactor.self, from: data)
+    }
+  }
+  
+  func toData(forFactor factor: Factor) throws -> Data {
+    switch factor.type {
+      case .push:
+        return try JSONEncoder().encode(factor as! PushFactor)
+    }
+  }
 }
 
 private extension FactorMapper {

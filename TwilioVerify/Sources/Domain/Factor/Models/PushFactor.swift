@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PushFactor: Factor {
+struct PushFactor: Factor, Codable {
   let status: FactorStatus
   let sid: String
   let friendlyName: String
@@ -21,7 +21,22 @@ struct PushFactor: Factor {
   var keyPairAlias: String? = nil
 }
 
-struct Config {
+extension PushFactor {
+  enum CodingKeys: String, CodingKey {
+    case status
+    case sid
+    case friendlyName
+    case accountSid
+    case serviceSid
+    case entityIdentity
+    case type
+    case createdAt
+    case config
+    case keyPairAlias
+  }
+}
+
+struct Config: Codable {
   let credentialSid: String
 }
 
