@@ -33,32 +33,32 @@ protocol KeychainQueryProtocol {
 
 struct KeychainQuery: KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query {
-    return [kSecClass: kSecClassKey,
-            kSecAttrKeyClass: keyClass.value,
-            kSecAttrLabel: template.alias,
-            kSecReturnRef: true,
-            kSecAttrKeyType: template.algorithm,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassKey,
+     kSecAttrKeyClass: keyClass.value,
+     kSecAttrLabel: template.alias,
+     kSecReturnRef: true,
+     kSecAttrKeyType: template.algorithm,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
-    return [kSecClass: kSecClassKey,
-            kSecAttrLabel: alias,
-            kSecValueRef: key,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassKey,
+     kSecAttrLabel: alias,
+     kSecValueRef: key,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
   func save(data: Data, withKey key: String) -> Query {
-    return [kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: key,
-            kSecValueData: data,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecValueData: data,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
   func getData(withKey key: String) -> Query {
-    return [kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: key,
-            kSecReturnData: true,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecReturnData: true,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
 }
