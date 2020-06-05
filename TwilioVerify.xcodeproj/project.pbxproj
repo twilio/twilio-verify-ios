@@ -53,6 +53,10 @@
 		F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F20CB452247749A70061A2D8 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB451247749A60061A2D8 /* TestError.swift */; };
 		F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2358B3D2480285200C2D1AB /* KeychainTests.swift */; };
+		F27F7A3824858DCB001F2869 /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3724858DCB001F2869 /* KeychainQuery.swift */; };
+		F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
+		F27F7A3E2485973E001F2869 /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
+		F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3F2485AF96001F2869 /* KeyPair.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA3786246F30BF00B9388F /* TwilioVerifyTests.swift */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -62,6 +66,12 @@
 		F2AA37B0246F314000B9388F /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2DF31722473013A00CF4DC3 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31712473013A00CF4DC3 /* Template.swift */; };
 		F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */; };
+		F2F62FA0248846D800E330E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62F9F248846D800E330E4 /* AppDelegate.swift */; };
+		F2F62FA2248846D800E330E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62FA1248846D800E330E4 /* SceneDelegate.swift */; };
+		F2F62FA4248846D800E330E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62FA3248846D800E330E4 /* ViewController.swift */; };
+		F2F62FA7248846D800E330E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA5248846D800E330E4 /* Main.storyboard */; };
+		F2F62FA9248846DC00E330E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA8248846DC00E330E4 /* Assets.xcassets */; };
+		F2F62FAC248846DC00E330E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FAA248846DC00E330E4 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +95,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F2AA3796246F313500B9388F;
 			remoteInfo = Security;
+		};
+		F2F62FB124884BFE00E330E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2F62F9C248846D800E330E4;
+			remoteInfo = HostApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -149,6 +166,10 @@
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
 		F20CB451247749A60061A2D8 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
+		F27F7A3724858DCB001F2869 /* KeychainQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
+		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
+		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
+		F27F7A3F2485AF96001F2869 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -162,6 +183,14 @@
 		F2AA37A6246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2DF31712473013A00CF4DC3 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
+		F2F62F9D248846D800E330E4 /* HostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2F62F9F248846D800E330E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F2F62FA1248846D800E330E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F2F62FA3248846D800E330E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F2F62FA6248846D800E330E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F2F62FA8248846DC00E330E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F2F62FAB248846DC00E330E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F2F62FAD248846DC00E330E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +222,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2AA37A0246F313500B9388F /* TwilioSecurity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2F62F9A248846D800E330E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +405,7 @@
 			children = (
 				F20CB4202476DE7A0061A2D8 /* KeyManager.swift */,
 				F20CB4252476DF570061A2D8 /* Keychain.swift */,
+				F27F7A3724858DCB001F2869 /* KeychainQuery.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -387,6 +424,8 @@
 			children = (
 				F20CB42E2476E54C0061A2D8 /* Mocks */,
 				F2358B3D2480285200C2D1AB /* KeychainTests.swift */,
+				F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */,
+				F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -454,6 +493,7 @@
 			children = (
 				F20CB4452477296B0061A2D8 /* Signer */,
 				F2DF31702473012900CF4DC3 /* Template */,
+				F27F7A3F2485AF96001F2869 /* KeyPair.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -465,6 +505,7 @@
 				F2AA3785246F30BF00B9388F /* TwilioVerifyTests */,
 				F2AA3798246F313500B9388F /* TwilioSecurity */,
 				F2AA37A3246F313500B9388F /* TwilioSecurityTests */,
+				F2F62F9E248846D800E330E4 /* HostApp */,
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
 			);
@@ -477,6 +518,7 @@
 				F2AA3781246F30BF00B9388F /* TwilioVerifyTests.xctest */,
 				F2AA3797246F313500B9388F /* TwilioSecurity.framework */,
 				F2AA379F246F313500B9388F /* TwilioSecurityTests.xctest */,
+				F2F62F9D248846D800E330E4 /* HostApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -558,6 +600,20 @@
 				F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */,
 			);
 			path = Template;
+			sourceTree = "<group>";
+		};
+		F2F62F9E248846D800E330E4 /* HostApp */ = {
+			isa = PBXGroup;
+			children = (
+				F2F62F9F248846D800E330E4 /* AppDelegate.swift */,
+				F2F62FA1248846D800E330E4 /* SceneDelegate.swift */,
+				F2F62FA3248846D800E330E4 /* ViewController.swift */,
+				F2F62FA5248846D800E330E4 /* Main.storyboard */,
+				F2F62FA8248846DC00E330E4 /* Assets.xcassets */,
+				F2F62FAA248846DC00E330E4 /* LaunchScreen.storyboard */,
+				F2F62FAD248846DC00E330E4 /* Info.plist */,
+			);
+			path = HostApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -650,11 +706,29 @@
 			);
 			dependencies = (
 				F2AA37A2246F313500B9388F /* PBXTargetDependency */,
+				F2F62FB224884BFE00E330E4 /* PBXTargetDependency */,
 			);
 			name = TwilioSecurityTests;
 			productName = SecurityTests;
 			productReference = F2AA379F246F313500B9388F /* TwilioSecurityTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F2F62F9C248846D800E330E4 /* HostApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2F62FAE248846DC00E330E4 /* Build configuration list for PBXNativeTarget "HostApp" */;
+			buildPhases = (
+				F2F62F99248846D800E330E4 /* Sources */,
+				F2F62F9A248846D800E330E4 /* Frameworks */,
+				F2F62F9B248846D800E330E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HostApp;
+			productName = HostApp;
+			productReference = F2F62F9D248846D800E330E4 /* HostApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -662,7 +736,7 @@
 		F2AA376F246F30BE00B9388F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = Twilio;
 				TargetAttributes = {
@@ -680,6 +754,10 @@
 					F2AA379E246F313500B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
 						LastSwiftMigration = 1140;
+						TestTargetID = F2F62F9C248846D800E330E4;
+					};
+					F2F62F9C248846D800E330E4 = {
+						CreatedOnToolsVersion = 11.5;
 					};
 				};
 			};
@@ -700,6 +778,7 @@
 				F2AA3780246F30BF00B9388F /* TwilioVerifyTests */,
 				F2AA3796246F313500B9388F /* TwilioSecurity */,
 				F2AA379E246F313500B9388F /* TwilioSecurityTests */,
+				F2F62F9C248846D800E330E4 /* HostApp */,
 			);
 		};
 /* End PBXProject section */
@@ -730,6 +809,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2F62F9B248846D800E330E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2F62FAC248846DC00E330E4 /* LaunchScreen.storyboard in Resources */,
+				F2F62FA9248846DC00E330E4 /* Assets.xcassets in Resources */,
+				F2F62FA7248846D800E330E4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,7 +880,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27F7A3824858DCB001F2869 /* KeychainQuery.swift in Sources */,
 				F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */,
+				F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */,
 				F2DF31722473013A00CF4DC3 /* Template.swift in Sources */,
 				F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */,
 				F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */,
@@ -805,11 +896,23 @@
 			files = (
 				F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */,
 				F20CB44C24773C180061A2D8 /* ECSignerTests.swift in Sources */,
+				F27F7A3E2485973E001F2869 /* KeychainQueryTests.swift in Sources */,
 				F20CB4302476E5580061A2D8 /* KeychainMock.swift in Sources */,
 				F20CB4322476E6380061A2D8 /* KeyManagerMock.swift in Sources */,
 				F20CB44F2477413E0061A2D8 /* KeyPairFactory.swift in Sources */,
 				F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */,
 				F20CB452247749A70061A2D8 /* TestError.swift in Sources */,
+				F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2F62F99248846D800E330E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2F62FA4248846D800E330E4 /* ViewController.swift in Sources */,
+				F2F62FA0248846D800E330E4 /* AppDelegate.swift in Sources */,
+				F2F62FA2248846D800E330E4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,7 +934,31 @@
 			target = F2AA3796246F313500B9388F /* TwilioSecurity */;
 			targetProxy = F2AA37B1246F314000B9388F /* PBXContainerItemProxy */;
 		};
+		F2F62FB224884BFE00E330E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2F62F9C248846D800E330E4 /* HostApp */;
+			targetProxy = F2F62FB124884BFE00E330E4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F2F62FA5248846D800E330E4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2F62FA6248846D800E330E4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F2F62FAA248846DC00E330E4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2F62FAB248846DC00E330E4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F2AA378A246F30BF00B9388F /* Debug */ = {
@@ -1126,6 +1253,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/HostApp";
 			};
 			name = Debug;
 		};
@@ -1143,6 +1271,45 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.SecurityTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/HostApp";
+			};
+			name = Release;
+		};
+		F2F62FAF248846DC00E330E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				INFOPLIST_FILE = HostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.HostApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F2F62FB0248846DC00E330E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				INFOPLIST_FILE = HostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1193,6 +1360,15 @@
 			buildConfigurations = (
 				F2AA37AA246F313500B9388F /* Debug */,
 				F2AA37AB246F313500B9388F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2F62FAE248846DC00E330E4 /* Build configuration list for PBXNativeTarget "HostApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2F62FAF248846DC00E330E4 /* Debug */,
+				F2F62FB0248846DC00E330E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

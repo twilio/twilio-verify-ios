@@ -23,8 +23,8 @@ extension ECP256SignerTemplate: SignerTemplate {
     self.parameters = [:]
     do {
       self.parameters = try createSignerParameters(keychain)
-    } catch let error {
-      throw(error)
+    } catch {
+      throw error
     }
   }
   
@@ -41,7 +41,7 @@ extension ECP256SignerTemplate: SignerTemplate {
                         kSecAttrKeySizeInBits: Constants.keySize,
                         kSecAttrTokenID: kSecAttrTokenIDSecureEnclave] as [String: Any]
       return parameters
-    } catch let error {
+    } catch {
       throw error
     }
   }

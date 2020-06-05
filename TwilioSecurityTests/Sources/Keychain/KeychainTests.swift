@@ -14,7 +14,13 @@ class KeychainTests: XCTestCase {
   var keychain: KeychainProtocol!
   
   override func setUpWithError() throws {
+    try super.setUpWithError()
     keychain = Keychain()
+  }
+  
+  override func tearDown() {
+    clearKeychain()
+    super.tearDown()
   }
   
   func testAccessControl_withInvalidProtection_shouldThrow() {
@@ -61,12 +67,10 @@ class KeychainTests: XCTestCase {
     let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - bad digest size for signing with algorithm algid:sign:ECDSA:digest-X962:SHA256)"
     let dataToSign = "data".data(using: .utf8)!
-    var publicKey: SecKey?
-    var privateKey: SecKey?
-    let status = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &publicKey, &privateKey)
+    var pair: KeyPair!
     
-    XCTAssertEqual(status, errSecSuccess, "Pair generation should succeed")
-    XCTAssertThrowsError(try keychain.sign(withPrivateKey: privateKey!, algorithm: .ecdsaSignatureDigestX962SHA256, dataToSign: dataToSign), "") { error in
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    XCTAssertThrowsError(try keychain.sign(withPrivateKey: pair.privateKey, algorithm: .ecdsaSignatureDigestX962SHA256, dataToSign: dataToSign), "") { error in
       let thrownError = error as NSError
       XCTAssertEqual(
         thrownError.code,
@@ -88,16 +92,14 @@ class KeychainTests: XCTestCase {
   
   func testSign_withValidAlgorithm_shouldReturnSignature() {
     let dataToSign = "data".data(using: .utf8)!
-    var publicKey: SecKey?
-    var privateKey: SecKey?
+    var pair: KeyPair!
     var signature: Data!
     
-    let status = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &publicKey, &privateKey)
-    XCTAssertEqual(status, errSecSuccess, "Pair generation should succeed")
-    XCTAssertNoThrow(signature = try keychain.sign(withPrivateKey: privateKey!, algorithm: Constants.algorithm, dataToSign: dataToSign), "Sign should not throw")
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    XCTAssertNoThrow(signature = try keychain.sign(withPrivateKey: pair.privateKey, algorithm: Constants.algorithm, dataToSign: dataToSign), "Sign should not throw")
     
     let isSignatureValid = SecKeyVerifySignature(
-      publicKey!,
+      pair.publicKey,
       .ecdsaSignatureMessageX962SHA256,
       dataToSign as CFData,
       signature as CFData,
@@ -108,79 +110,69 @@ class KeychainTests: XCTestCase {
   
   func testVerify_withInvalidKey_shouldBeInvalid() {
     let dataToSign = "data".data(using: .utf8)!
-    var firstPublicKey: SecKey?
-    var firstPrivateKey: SecKey?
-    var secondPublicKey: SecKey?
-    var secondPrivateKey: SecKey?
+    var firstPair: KeyPair!
+    var secondPair: KeyPair!
     var signature: Data!
     
-    let firstPairStatus = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &firstPublicKey, &firstPrivateKey)
-    let secondPairStatus = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &secondPublicKey, &secondPrivateKey)
-    XCTAssertEqual(firstPairStatus, errSecSuccess, "Pair generation should succeed")
-    XCTAssertEqual(secondPairStatus, errSecSuccess, "Pair generation should succeed")
+    XCTAssertNoThrow(firstPair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    XCTAssertNoThrow(secondPair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     
-    guard let cfSignature = SecKeyCreateSignature(firstPrivateKey!, Constants.algorithm, dataToSign as CFData, nil) else {
+    guard let cfSignature = SecKeyCreateSignature(firstPair.privateKey, Constants.algorithm, dataToSign as CFData, nil) else {
       XCTFail()
       return
     }
     signature = cfSignature as Data
     
-    let isSignatureValid = keychain.verify(withPublicKey: secondPublicKey!, algorithm: Constants.algorithm, signedData: dataToSign, signature: signature)
+    let isSignatureValid = keychain.verify(withPublicKey: secondPair.publicKey, algorithm: Constants.algorithm, signedData: dataToSign, signature: signature)
     XCTAssertFalse(isSignatureValid, "Signature should be invalid")
   }
   
   func testVerify_withInvalidAlgorithm_shouldBeInvalid() {
     let dataToSign = "data".data(using: .utf8)!
-    var publicKey: SecKey?
-    var privateKey: SecKey?
+    var pair: KeyPair!
     var signature: Data!
     
-    let status = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &publicKey, &privateKey)
-    XCTAssertEqual(status, errSecSuccess, "Pair generation should succeed")
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     
-    guard let cfSignature = SecKeyCreateSignature(privateKey!, Constants.algorithm, dataToSign as CFData, nil) else {
+    guard let cfSignature = SecKeyCreateSignature(pair.privateKey, Constants.algorithm, dataToSign as CFData, nil) else {
       XCTFail()
       return
     }
     signature = cfSignature as Data
     
-    let isSignatureValid = keychain.verify(withPublicKey: publicKey!, algorithm: .ecdsaSignatureMessageX962SHA1, signedData: dataToSign, signature: signature)
+    let isSignatureValid = keychain.verify(withPublicKey: pair.publicKey, algorithm: .ecdsaSignatureMessageX962SHA1, signedData: dataToSign, signature: signature)
     XCTAssertFalse(isSignatureValid, "Signature should be invalid")
   }
   
   func testVerify_withValidParameters_shouldBeValid() {
     let dataToSign = "data".data(using: .utf8)!
-    var publicKey: SecKey?
-    var privateKey: SecKey?
+    var pair: KeyPair!
     var signature: Data!
     
-    let status = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &publicKey, &privateKey)
-    XCTAssertEqual(status, errSecSuccess, "Pair generation should succeed")
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     
-    guard let cfSignature = SecKeyCreateSignature(privateKey!, Constants.algorithm, dataToSign as CFData, nil) else {
+    guard let cfSignature = SecKeyCreateSignature(pair.privateKey, Constants.algorithm, dataToSign as CFData, nil) else {
       XCTFail()
       return
     }
     signature = cfSignature as Data
     
-    let isSignatureValid = keychain.verify(withPublicKey: publicKey!, algorithm: Constants.algorithm, signedData: dataToSign, signature: signature)
+    let isSignatureValid = keychain.verify(withPublicKey: pair.publicKey, algorithm: Constants.algorithm, signedData: dataToSign, signature: signature)
     XCTAssertTrue(isSignatureValid, "Signature should be valid")
   }
   
   func testRepresentation_withValidKey_shouldReturnRepresentation() throws {
-    var publicKey: SecKey?
-    var privateKey: SecKey?
+    var pair: KeyPair!
     var keyRepresentation: Data!
     var cfExpectedKeyRepresentation: CFData!
     
-    let status = SecKeyGeneratePair(Constants.pairAttributes as CFDictionary, &publicKey, &privateKey)
-    XCTAssertEqual(status, errSecSuccess, "Pair generation should succeed")
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     XCTAssertNoThrow(
-      cfExpectedKeyRepresentation = SecKeyCopyExternalRepresentation(publicKey!, nil),
+      cfExpectedKeyRepresentation = SecKeyCopyExternalRepresentation(pair.publicKey, nil),
       "Expected representation should not throw"
     )
     XCTAssertNoThrow(
-      keyRepresentation = try keychain.representation(forKey: publicKey!),
+      keyRepresentation = try keychain.representation(forKey: pair.publicKey),
       "Keychain representation should not throw"
     )
     let expectedKeyRepresentation = cfExpectedKeyRepresentation as Data
@@ -190,21 +182,127 @@ class KeychainTests: XCTestCase {
       "Key representation should be \(expectedKeyRepresentation) but was \(keyRepresentation!)"
     )
   }
+  
+  func testGenerateKeyPair_withInvalidParameters_shouldThrow() {
+    let expectedErrorCode = -4
+    let expectedErrorDomain = "NSOSStatusErrorDomain"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -4.)"
+    XCTAssertThrowsError(try keychain.generateKeyPair(withParameters: [:]), "Generate KeyPair Should throw") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        expectedErrorCode,
+        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        expectedErrorDomain,
+        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
+  
+  func testGenerateKeyPair_withValidParameters_shouldReturnKeyPair() {
+    var pair: KeyPair!
+    XCTAssertNoThrow(
+      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters()),
+      "Generate KeyPair should return a KeyPair"
+    )
+    XCTAssertNotNil(pair, "Pair should not be nil")
+  }
+  
+  func testCopyItemMatching_withoutMatches_shouldThrow() {
+    let expectedErrorCode = -25300
+    let expectedErrorDomain = "NSOSStatusErrorDomain"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        expectedErrorCode,
+        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        expectedErrorDomain,
+        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
+  
+  func testCopyItemMatching_witMatches_shouldReturnKey() {
+    var pair: KeyPair!
+    var key: SecKey!
+    var query = Constants.saveKeyQuery
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    query[kSecValueRef as String] = pair.publicKey
+    var status = SecItemAdd(query as CFDictionary, nil)
+    XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
+    XCTAssertNoThrow(key = try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should return a key")
+    XCTAssertEqual(key, pair.publicKey, "Key should be \(pair.publicKey) but was \(key!)")
+    status = SecItemDelete(Constants.keyQuery as CFDictionary)
+    XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
+  }
+  
+  func testAddItem_withInvalidArguments_shouldFail() {
+    let status = keychain.addItem(withQuery: [:])
+    XCTAssertEqual(status, -50)
+  }
+  
+  func testAddItem_withValidArguments_shouldSucceed() {
+    let status = keychain.addItem(withQuery: Constants.saveKeyQuery)
+    XCTAssertEqual(status, errSecSuccess)
+  }
+  
+  func testDeleteItem_withInvalidArguments_shouldFail() {
+    let status = keychain.deleteItem(withQuery: [:])
+    XCTAssertEqual(status, -50)
+  }
+  
+  func testDeleteItem_withValidArguments_shouldSucceed() {
+    var pair: KeyPair!
+    var query = Constants.saveKeyQuery
+    XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+    query[kSecValueRef as String] = pair.publicKey
+    SecItemAdd(query as CFDictionary, nil)
+    let status = keychain.deleteItem(withQuery: Constants.keyQuery)
+    XCTAssertEqual(status, errSecSuccess)
+  }
 }
 
 private extension KeychainTests {
   struct Constants {
+    static let alias = "alias"
     static let algorithm: SecKeyAlgorithm = .ecdsaSignatureMessageX962SHA256
-    static let applicationTag = "com.security.tests"
-    static let publicTag = "public"
-    static let privateTag = "private"
-    static let privateAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.privateTag] as [String: Any]
-    static let publicAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.publicTag] as [String : Any]
-    static let pairAttributes = [kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
-                                 kSecAttrKeySizeInBits: 256,
-                                 kSecPublicKeyAttrs: publicAttributes,
-                                 kSecPrivateKeyAttrs: privateAttributes] as [String : Any]
+    static let keyQuery = [kSecClass: kSecClassKey,
+                           kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                           kSecAttrLabel: Constants.alias,
+                           kSecReturnRef: true,
+                           kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
+                           kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    static let saveKeyQuery = [kSecClass: kSecClassKey,
+                               kSecAttrLabel: Constants.alias,
+                               kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-
+  func clearKeychain() {
+    let secItemClasses = [kSecClassGenericPassword,
+                          kSecClassInternetPassword,
+                          kSecClassCertificate,
+                          kSecClassKey,
+                          kSecClassIdentity]
+    secItemClasses.forEach {
+      SecItemDelete([kSecClass: $0] as CFDictionary)
+    }
+  }
 }

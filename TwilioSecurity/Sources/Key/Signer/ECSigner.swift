@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias KeyPair = (publicKey: SecKey, privateKey: SecKey)
-
 protocol Signer {
   func sign(_ data: Data) throws -> Data
   func verify(_ data: Data, withSignature signature: Data) -> Bool
@@ -35,7 +33,7 @@ extension ECSigner: Signer {
   func sign(_ data: Data) throws -> Data {
     do {
       return try keychain.sign(withPrivateKey: keyPair.privateKey, algorithm: signatureAlgorithm, dataToSign: data)
-    } catch let error {
+    } catch {
       throw error
     }
   }
@@ -61,7 +59,7 @@ extension ECSigner: Signer {
       result.append(Data(x9_62HeaderECHeader))
       result.append(representation)
       return result
-    } catch let error {
+    } catch {
       throw error
     }
   }
