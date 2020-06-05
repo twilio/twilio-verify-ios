@@ -9,11 +9,11 @@
 import Foundation
 
 protocol Authentication {
-  func generateJWT(factor: Factor) -> String
+  func generateJWT(forFactor factor: Factor) -> String
 }
 
-struct AuthenticationProvider: Authentication {
-  func generateJWT(factor: Factor) -> String {
+class AuthenticationProvider: Authentication {
+  func generateJWT(forFactor factor: Factor) -> String {
    //TODO: Authentication
     return "jwt"
   }

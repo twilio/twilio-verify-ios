@@ -20,9 +20,7 @@ class FactorAPIClient {
     self.baseURL = baseURL
   }
   
-  func create(createFactorPayload: CreateFactorPayload,
-              onSuccess: @escaping (Data) -> (),
-              onError: @escaping (Error) -> ()) {
+  func create(createFactorPayload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: createFactorPayload.jwe))
       let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: createFactorPayload), requestHelper: requestHelper)
@@ -30,12 +28,12 @@ class FactorAPIClient {
         .setParameters(createFactorBody(createFactorPayload: createFactorPayload))
         .build()
       networkProvider.execute(request, success: { response in
-        onSuccess(response.data)
+        success(response)
       }) { error in
-        onError(error)
+        failure(error)
       }
     } catch  {
-      onError(error)
+      failure(error)
     }
   }
   
@@ -46,12 +44,14 @@ class FactorAPIClient {
   }
   
   private func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
-    guard let bindingData = try? JSONEncoder().encode(createFactorPayload.binding), let bindingString = String(data: bindingData, encoding: .utf8)  else {
-      throw NetworkError.invalidData
+    guard let bindingData = try? JSONEncoder().encode(createFactorPayload.binding),
+      let bindingString = String(data: bindingData, encoding: .utf8)  else {
+        throw NetworkError.invalidData
     }
     
-    guard let configData = try? JSONEncoder().encode(createFactorPayload.config), let configString = String(data: configData, encoding: .utf8) else {
-      throw NetworkError.invalidData
+    guard let configData = try? JSONEncoder().encode(createFactorPayload.config),
+      let configString = String(data: configData, encoding: .utf8) else {
+        throw NetworkError.invalidData
     }
     
     return [Parameter(name: Constants.friendlyNameKey, value: createFactorPayload.friendlyName),

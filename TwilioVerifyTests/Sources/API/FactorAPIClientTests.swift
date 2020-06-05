@@ -16,6 +16,7 @@ class FactorAPIClientTests: XCTestCase {
   private var authentication: AuthenticationMock!
   
   override func setUpWithError() throws {
+    try super.setUpWithError()
     networkProvider = NetworkProviderMock()
     authentication = AuthenticationMock()
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL)
@@ -28,8 +29,8 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, onSuccess: { data in
-      XCTAssertEqual(data, expectedResponse, "Response should be \(expectedResponse) but was \(data)")
+    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
+      XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
     }) { error in
       XCTFail()
@@ -45,7 +46,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, onSuccess: { data in
+    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -61,7 +62,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, onSuccess: { data in
+    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -90,7 +91,7 @@ class FactorAPIClientTests: XCTestCase {
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: config, binding: binding, jwe: Constants.jwe)
     
-    factorAPIClient.create(createFactorPayload: createFactorPayload, onSuccess: {_ in }, onError: {_ in })
+    factorAPIClient.create(createFactorPayload: createFactorPayload, success: {_ in }, failure: {_ in })
     
     XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
                    "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
@@ -117,27 +118,5 @@ extension FactorAPIClientTests {
     static let factorType = FactorType.push
     static let jwe = "jwe"
     static let baseURL = "https://twilio.com/"
-  }
-}
-
-class NetworkProviderMock: NetworkProvider {
-  var response: Response?
-  var error: Error?
-  var urlRequest: URLRequest?
-  
-  func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
-    self.urlRequest = urlRequest
-    if let response = response {
-      success(response)
-    }
-    if let error = error {
-      failure(error)
-    }
-  }
-}
-
-class AuthenticationMock: Authentication {
-  func generateJWT(factor: Factor) -> String {
-    ""
   }
 }

@@ -37,6 +37,8 @@
 		20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */; };
 		20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkProvider.swift */; };
 		20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */; };
+		20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */; };
+		20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */; };
 		20DCEA902486F1EA0017947B /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DCEA8F2486F1EA0017947B /* Response.swift */; };
 		20E3BB1C24896BD800BC90DE /* FactorAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */; };
 		20E3BB1E24896C3000BC90DE /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB1D24896C3000BC90DE /* Authentication.swift */; };
@@ -132,6 +134,8 @@
 		20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelperTests.swift; sourceTree = "<group>"; };
 		20C0B19A2486DB640041E67F /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProviderMock.swift; sourceTree = "<group>"; };
+		20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMock.swift; sourceTree = "<group>"; };
 		20DCEA8F2486F1EA0017947B /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClient.swift; sourceTree = "<group>"; };
 		20E3BB1D24896C3000BC90DE /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
@@ -320,6 +324,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		20C710C2248A9BF000B0F448 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */,
+				20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		20DCEA912486F3DA0017947B /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +352,7 @@
 		20E3BB1F248984B300BC90DE /* API */ = {
 			isa = PBXGroup;
 			children = (
+				20C710C2248A9BF000B0F448 /* Mocks */,
 				20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */,
 			);
 			path = API;
@@ -767,9 +781,11 @@
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,
+				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
+				20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */,
 				20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */,
 				2060D00024857976001DD494 /* ParametersTests.swift in Sources */,
 			);
