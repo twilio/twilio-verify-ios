@@ -16,6 +16,7 @@ class KeychainQueryTests: XCTestCase {
   var keychainQuery: KeychainQueryProtocol!
   
   override func setUpWithError() throws {
+    try super.setUpWithError()
     keychain = KeychainMock()
     XCTAssertNoThrow(signer = try ECP256SignerTemplate(withAlias: Constants.alias,
                                                        shouldExist: false,
