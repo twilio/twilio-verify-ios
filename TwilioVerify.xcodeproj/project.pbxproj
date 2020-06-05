@@ -10,6 +10,9 @@
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
 		2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFC2486F712009728E4 /* URLSessionMock.swift */; };
 		2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */; };
+		2051B01B248AE48000033B41 /* DateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01A248AE48000033B41 /* DateParser.swift */; };
+		2051B01D248AF1E400033B41 /* MapperError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01C248AF1E400033B41 /* MapperError.swift */; };
+		2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01F248AF4F000033B41 /* PushFactorDTO.swift */; };
 		2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */; };
 		2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */; };
 		2060D00024857976001DD494 /* ParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFF24857976001DD494 /* ParametersTests.swift */; };
@@ -37,6 +40,8 @@
 		20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */; };
 		20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkProvider.swift */; };
 		20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */; };
+		20C710C8248AA23600B0F448 /* FactorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C7248AA23600B0F448 /* FactorMapper.swift */; };
+		20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710CB248AAB1700B0F448 /* FactorMapperTests.swift */; };
 		20DCEA902486F1EA0017947B /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DCEA8F2486F1EA0017947B /* Response.swift */; };
 		F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4202476DE7A0061A2D8 /* KeyManager.swift */; };
 		F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4252476DF570061A2D8 /* Keychain.swift */; };
@@ -101,6 +106,9 @@
 		2003C43F2480232900279BBD /* TwilioVerifyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
 		2019ABFC2486F712009728E4 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapterTests.swift; sourceTree = "<group>"; };
+		2051B01A248AE48000033B41 /* DateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateParser.swift; sourceTree = "<group>"; };
+		2051B01C248AF1E400033B41 /* MapperError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperError.swift; sourceTree = "<group>"; };
+		2051B01F248AF4F000033B41 /* PushFactorDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactorDTO.swift; sourceTree = "<group>"; };
 		2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorizationTests.swift; sourceTree = "<group>"; };
 		2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeadersTests.swift; sourceTree = "<group>"; };
 		2060CFFF24857976001DD494 /* ParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTests.swift; sourceTree = "<group>"; };
@@ -128,6 +136,8 @@
 		20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelperTests.swift; sourceTree = "<group>"; };
 		20C0B19A2486DB640041E67F /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		20C710C7248AA23600B0F448 /* FactorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMapper.swift; sourceTree = "<group>"; };
+		20C710CB248AAB1700B0F448 /* FactorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMapperTests.swift; sourceTree = "<group>"; };
 		20DCEA8F2486F1EA0017947B /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
@@ -197,6 +207,22 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		2051B019248AE47200033B41 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				2051B01A248AE48000033B41 /* DateParser.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		2051B01E248AF4E300033B41 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				2051B01F248AF4F000033B41 /* PushFactorDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
 		2060CFFC248574B4001DD494 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				2093572C24870D5E008FDBCC /* Models */,
+				20C710C7248AA23600B0F448 /* FactorMapper.swift */,
+				2051B01C248AF1E400033B41 /* MapperError.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -247,6 +275,7 @@
 		2093572C24870D5E008FDBCC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2051B01E248AF4E300033B41 /* DTOs */,
 				2093572F24870DA7008FDBCC /* FactorPayload.swift */,
 				2093573124871168008FDBCC /* PushFactor.swift */,
 			);
@@ -289,6 +318,7 @@
 		20B8A3EB2485581D003F69EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				20C710C9248AAB0100B0F448 /* Domain */,
 				2060CFFC248574B4001DD494 /* Networking */,
 			);
 			path = Sources;
@@ -308,6 +338,22 @@
 				20DCEA8F2486F1EA0017947B /* Response.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		20C710C9248AAB0100B0F448 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				20C710CA248AAB0700B0F448 /* Factor */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		20C710CA248AAB0700B0F448 /* Factor */ = {
+			isa = PBXGroup;
+			children = (
+				20C710CB248AAB1700B0F448 /* FactorMapperTests.swift */,
+			);
+			path = Factor;
 			sourceTree = "<group>";
 		};
 		20DCEA912486F3DA0017947B /* Error */ = {
@@ -486,6 +532,7 @@
 		F2AA37EA246F3CD500B9388F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2051B019248AE47200033B41 /* Data */,
 				20C0B1A02486E7900041E67F /* Extensions */,
 				2093572A24870D48008FDBCC /* Domain */,
 				2093571B24870A73008FDBCC /* Models */,
@@ -709,11 +756,15 @@
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */,
+				2051B01D248AF1E400033B41 /* MapperError.swift in Sources */,
 				2093573224871168008FDBCC /* PushFactor.swift in Sources */,
 				20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */,
 				2093573E24871827008FDBCC /* Metadata.swift in Sources */,
+				20C710C8248AA23600B0F448 /* FactorMapper.swift in Sources */,
+				2051B01B248AE48000033B41 /* DateParser.swift in Sources */,
 				2093573024870DA7008FDBCC /* FactorPayload.swift in Sources */,
 				2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */,
+				2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
 				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
 				20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */,
@@ -724,6 +775,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */,
 				F2AA3787246F30BF00B9388F /* TwilioVerifyTests.swift in Sources */,
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,

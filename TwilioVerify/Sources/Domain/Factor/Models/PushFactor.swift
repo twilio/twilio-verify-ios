@@ -9,14 +9,14 @@
 import Foundation
 
 struct PushFactor: Factor {
-  var status: FactorStatus = .unverified
+  let status: FactorStatus
   let sid: String
   let friendlyName: String
   let accountSid: String
-  let serviceSid: String
-  let entityIdentity: String
+  var serviceSid: String
+  var entityIdentity: String
   let type: FactorType = .push
-  let createdAt: Date
+  var createdAt: Date
   let config: Config
   var keyPairAlias: String? = nil
 }
@@ -24,3 +24,4 @@ struct PushFactor: Factor {
 struct Config {
   let credentialSid: String
 }
+
