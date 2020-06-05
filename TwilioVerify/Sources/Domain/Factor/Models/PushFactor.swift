@@ -9,14 +9,14 @@
 import Foundation
 
 struct PushFactor: Factor, Codable {
-  let status: FactorStatus
+  var status: FactorStatus = .unverified
   let sid: String
   let friendlyName: String
   let accountSid: String
-  var serviceSid: String
-  var entityIdentity: String
+  let serviceSid: String
+  let entityIdentity: String
   let type: FactorType = .push
-  var createdAt: Date
+  let createdAt: Date
   let config: Config
   var keyPairAlias: String? = nil
 }
