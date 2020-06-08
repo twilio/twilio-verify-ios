@@ -19,11 +19,20 @@ public protocol Factor {
   var createdAt: Date { get }
 }
 
-public enum FactorStatus: String {
+public enum FactorStatus: String, Codable {
   case verified
   case unverified
 }
 
-public enum FactorType: String {
+public enum FactorType: String, Codable {
   case push
+}
+
+extension KeyPath where Root == Factor {
+  var toString: String {
+    switch self {
+      case \Factor.type: return "type"
+      default: fatalError("Unexpected key path")
+    }
+  }
 }
