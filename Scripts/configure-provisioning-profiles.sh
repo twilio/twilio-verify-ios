@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source `dirname $0`/../../env.sh
+source `dirname $0`/env.sh
 pushd ${BASE_DIR}
 
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles || true
