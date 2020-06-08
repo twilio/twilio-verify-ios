@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 source `dirname $0`/env.sh
 pushd ${BASE_DIR}
