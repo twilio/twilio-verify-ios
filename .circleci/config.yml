@@ -20,6 +20,15 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+  
+  use-system-ruby:
+    description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
+    steps:
+      - run:
+          name: Reset to system ruby
+          command: |
+            echo "system" > .ruby-version
+            chruby system
             
   store_scan_artifacts:
     steps:
@@ -91,6 +100,7 @@ jobs:
   Size report:
     executor: macos_executor
     steps:
+      - use-system-ruby
       - build_app_sizer
      
 workflows:
