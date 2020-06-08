@@ -2,18 +2,14 @@
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
 require 'plist'
-require 'filesize'
 require 'fileutils'
+require 'filesize'
 
 # Locations
 BASE_DIR = File.dirname(__dir__)
 TEMP_DIR = "#{BASE_DIR}/temp"
 IPA_DIR = "#{TEMP_DIR}/IPAs"
 SIZE_REPORT_DIR = "#{TEMP_DIR}/SizeReport"
-puts BASE_DIR
-puts TEMP_DIR
-puts IPA_DIR
-puts SIZE_REPORT_DIR
 
 TWILIO_VERIFY_NAME = "TwilioVerify"
 TWILIO_SECURITY_NAME = "TwilioSecurity"
