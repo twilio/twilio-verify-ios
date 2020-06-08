@@ -77,6 +77,7 @@ commands:
   build_app_sizer:
     steps:
       - setup
+      - use-system-ruby
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
@@ -100,7 +101,6 @@ jobs:
   Size report:
     executor: macos_executor
     steps:
-      - use-system-ruby
       - build_app_sizer
      
 workflows:
