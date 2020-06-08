@@ -12,7 +12,7 @@ import XCTest
 class NetworkProviderMock: NetworkProvider {
   var response: Response?
   var error: Error?
-  var urlRequest: URLRequest?
+  private(set) var urlRequest: URLRequest?
   
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     self.urlRequest = urlRequest
