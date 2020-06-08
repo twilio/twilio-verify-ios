@@ -43,21 +43,4 @@ xcodebuild \
 
 # Cat the output for visibility
 cat "${SIZE_REPORT_DIR}/SizeImpact.md"
-
-# If we are running in a CI environment, upload the size report to AWS
-if [ "${TWILIO_CI}" = "true" ]; then
-
-  mkdir -p "${ZIP_DIR}"
-
-  pushd ${SIZE_REPORT_DIR}
-    zip --quiet -r "${ZIP_DIR}/${CONFIGURATION}-SizeReport.zip" *
-  popd
-
-  aws s3 cp --quiet ${ZIP_DIR}/${CONFIGURATION}-SizeReport.zip $AWS_BUILD_URL/${CONFIGURATION}/
-
-  # Put things back the way they were
-  cp ${BACKUP_DIR}/project.pbxproj ${PROJECT_FILE}
-  cp ${BACKUP_DIR}/${APP_SCHEME}.xcscheme ${SCHEME_FILE}
-fi
-
 popd
