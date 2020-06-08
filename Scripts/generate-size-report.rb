@@ -16,8 +16,6 @@ puts SIZE_REPORT_DIR
 
 TWILIO_VERIFY_NAME = "TwilioVerify"
 TWILIO_SECURITY_NAME = "TwilioSecurity"
-FRAMEWORK_NAMES = [TWILIO_VERIFY_NAME, TWILIO_SECURITY_NAME]
-FRAMEWORK_PACKAGES = ["#{TWILIO_VERIFY_NAME}.framework", "#{TWILIO_SECURITY_NAME}.framework"]
 
 def format_bytes(bytes)
   return Kernel::sprintf("%0.1f MB", Filesize.from(bytes.to_s).to('MB'))
