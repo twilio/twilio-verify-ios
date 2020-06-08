@@ -41,7 +41,7 @@ class FactorMapperTests: XCTestCase {
                    "Factor accountSid should be \(expectedFactorResponse[Constants.accountSidKey] as! String) but was \(factor.accountSid)")
     XCTAssertEqual(factor.status.rawValue, expectedFactorResponse[Constants.statusKey] as! String,
                    "Factor status should be \(expectedFactorResponse[Constants.statusKey] as! String) but was \(factor.status)")
-    XCTAssertEqual(factor.createdAt, DateParser.parse(RFC3339String: expectedFactorResponse[Constants.dateCreatedKey] as! String),
+    XCTAssertEqual(factor.createdAt, DateFormatter().RFC3339(expectedFactorResponse[Constants.dateCreatedKey] as! String),
                    "Factor createdAt should be \(expectedFactorResponse[Constants.dateCreatedKey] as! String) but was \(factor.createdAt)")
   }
   

@@ -9,10 +9,11 @@
 import Foundation
 
 extension DateFormatter {
-  func RFC3339() {
-    self.calendar = Calendar(identifier: .iso8601)
-    self.locale = Locale(identifier: "en_US_POSIX")
-    self.timeZone = TimeZone(secondsFromGMT: 0)
-    self.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+  func RFC3339(_ date: String) -> Date? {
+    calendar = Calendar(identifier: .iso8601)
+    locale = Locale(identifier: "en_US_POSIX")
+    timeZone = TimeZone(secondsFromGMT: 0)
+    dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+    return self.date(from: date)
   }
 }

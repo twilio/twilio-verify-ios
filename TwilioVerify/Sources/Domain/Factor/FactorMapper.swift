@@ -49,7 +49,7 @@ private extension FactorMapper {
   func toPushFactor(serviceSid: String, entityIdentity: String, data: Data) throws -> PushFactor {
     do {
       let pushFactorDTO = try JSONDecoder().decode(PushFactorDTO.self, from: data)
-      guard let date = DateParser.parse(RFC3339String: pushFactorDTO.createdAt) else {
+      guard let date = DateFormatter().RFC3339(pushFactorDTO.createdAt) else {
         throw MapperError.invalidDate
       }
       
