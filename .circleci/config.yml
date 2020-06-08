@@ -21,7 +21,7 @@ commands:
           paths:
             - vendor/bundle
   
-  use-system-ruby:
+  use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
     steps:
       - run:
@@ -77,7 +77,7 @@ commands:
   build_app_sizer:
     steps:
       - setup
-      - use-system-ruby
+      - use_system_ruby
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
