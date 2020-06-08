@@ -22,7 +22,7 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL)
   }
   
-  func testCreateFactor_withASuccessResponse_shouldCallOnSuccess() {
+  func testCreateFactor_withASuccessResponse_shouldCallSuccess() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = Response(data: expectedResponse, headers: [:])
@@ -39,7 +39,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [successExpectation], timeout: 5)
   }
   
-  func testCreateFactor_withAnError_shouldCallOnError() {
+  func testCreateFactor_withAnError_shouldCallFailure() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
@@ -56,7 +56,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testCreateFactor_withInvalidData_shouldThrowAndCallOnError() {
+  func testCreateFactor_withInvalidURL_shouldThrowAndCallFailure() {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
     let failureExpectation = expectation(description: "Wait for failure response")
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
