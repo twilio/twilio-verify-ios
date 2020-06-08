@@ -21,21 +21,6 @@ struct PushFactor: Factor, Codable {
   var keyPairAlias: String? = nil
 }
 
-extension PushFactor {
-  enum CodingKeys: String, CodingKey {
-    case status
-    case sid
-    case friendlyName
-    case accountSid
-    case serviceSid
-    case entityIdentity
-    case type
-    case createdAt
-    case config
-    case keyPairAlias
-  }
-}
-
 struct Config: Codable {
   let credentialSid: String
 }

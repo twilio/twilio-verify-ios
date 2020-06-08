@@ -27,7 +27,7 @@ class FactorMapper {
   
   func fromStorage(withData data: Data) throws -> Factor {
     let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-    guard let type = dict?[PushFactor.CodingKeys.type.rawValue as String] as? String, let factorType = FactorType(rawValue: type) else {
+    guard let type = dict?[(\Factor.type).toString as String] as? String, let factorType = FactorType(rawValue: type) else {
       throw MapperError.invalidArgument
     }
     switch factorType {
