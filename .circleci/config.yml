@@ -67,6 +67,7 @@ commands:
 
   build_app_sizer:
     steps:
+      - setup
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
