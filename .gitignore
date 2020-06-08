@@ -47,3 +47,6 @@ GoogleService-Info.plist
 #Fastlane
 fastlane/Test Output
 fastlane/report.xml
+
+#Sizer
+temp/

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-               BuildableName = "TwilioVerify.framework"
-               BlueprintName = "TwilioVerify"
+               BlueprintIdentifier = "F2FB79BF2489A36D004B22E6"
+               BuildableName = "Universal Builder"
+               BlueprintName = "Universal Builder"
                ReferencedContainer = "container:TwilioVerify.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,34 +26,12 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-            BuildableName = "TwilioVerify.framework"
-            BlueprintName = "TwilioVerify"
-            ReferencedContainer = "container:TwilioVerify.xcodeproj">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F2AA3780246F30BF00B9388F"
-               BuildableName = "TwilioVerifyTests.xctest"
-               BlueprintName = "TwilioVerifyTests"
-               ReferencedContainer = "container:TwilioVerify.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -72,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F2AA3777246F30BE00B9388F"
-            BuildableName = "TwilioVerify.framework"
-            BlueprintName = "TwilioVerify"
+            BlueprintIdentifier = "F2FB79BF2489A36D004B22E6"
+            BuildableName = "Universal Builder"
+            BlueprintName = "Universal Builder"
             ReferencedContainer = "container:TwilioVerify.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -5,6 +5,9 @@
       location = "group:TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AppSizer/AppSizer.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:TwilioVerify.xcodeproj">
    </FileRef>
 </Workspace>

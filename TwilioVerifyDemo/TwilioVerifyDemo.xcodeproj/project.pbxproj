@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37C2246F323C00B9388F /* AppDelegate.swift */; };
-		F2AA37C5246F323C00B9388F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37C4246F323C00B9388F /* SceneDelegate.swift */; };
 		F2AA37C7246F323C00B9388F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37C6246F323C00B9388F /* ViewController.swift */; };
 		F2AA37CA246F323C00B9388F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2AA37C8246F323C00B9388F /* Main.storyboard */; };
 		F2AA37CC246F323E00B9388F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2AA37CB246F323E00B9388F /* Assets.xcassets */; };
@@ -45,7 +44,6 @@
 /* Begin PBXFileReference section */
 		F2AA37BF246F323C00B9388F /* TwilioVerifyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwilioVerifyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA37C2246F323C00B9388F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F2AA37C4246F323C00B9388F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F2AA37C6246F323C00B9388F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F2AA37C9246F323C00B9388F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F2AA37CB246F323E00B9388F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				F2AA37C2246F323C00B9388F /* AppDelegate.swift */,
-				F2AA37C4246F323C00B9388F /* SceneDelegate.swift */,
 				F2AA37C6246F323C00B9388F /* ViewController.swift */,
 				F2AA37C8246F323C00B9388F /* Main.storyboard */,
 				F2AA37CB246F323E00B9388F /* Assets.xcassets */,
@@ -230,7 +227,6 @@
 			files = (
 				F2AA37C7246F323C00B9388F /* ViewController.swift in Sources */,
 				F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */,
-				F2AA37C5246F323C00B9388F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +394,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = TwilioVerifyDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -418,6 +415,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = TwilioVerifyDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
