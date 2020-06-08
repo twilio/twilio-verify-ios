@@ -38,7 +38,7 @@ xcodebuild \
   -exportPath "${IPA_DIR}" \
   -exportOptionsPlist ${EXPORT_OPTIONS_PLIST}
 
-Generate the sizing report
+# Generate the sizing report
 ./Scripts/env.rb ./Scripts/generate-size-report.rb
 
 # Cat the output for visibility
