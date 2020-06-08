@@ -19,15 +19,6 @@ public protocol Factor {
   var createdAt: Date { get }
 }
 
-extension KeyPath where Root == Factor {
-  var toString: String {
-    switch self {
-      case \Factor.type: return "type"
-      default: fatalError("Unexpected key path")
-    }
-  }
-}
-
 public enum FactorStatus: String, Codable {
   case verified
   case unverified
@@ -35,4 +26,13 @@ public enum FactorStatus: String, Codable {
 
 public enum FactorType: String, Codable {
   case push
+}
+
+extension KeyPath where Root == Factor {
+  var toString: String {
+    switch self {
+      case \Factor.type: return "type"
+      default: fatalError("Unexpected key path")
+    }
+  }
 }
