@@ -15,9 +15,7 @@ struct PushFactorDTO: Codable {
   let accountSid: String
   var createdAt: String
   let config: ConfigDTO
-}
-
-extension PushFactorDTO {
+  
   enum CodingKeys: String, CodingKey {
     case status
     case sid
@@ -30,9 +28,6 @@ extension PushFactorDTO {
 
 struct ConfigDTO: Codable {
   let credentialSid: String
-}
-
-extension ConfigDTO {
   enum CodingKeys: String, CodingKey {
     case credentialSid = "credential_sid"
   }
