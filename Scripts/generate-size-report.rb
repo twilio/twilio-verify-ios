@@ -3,7 +3,6 @@ $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
 require 'plist'
 require 'fileutils'
-require 'filesize'
 
 # Locations
 BASE_DIR = File.dirname(__dir__)
