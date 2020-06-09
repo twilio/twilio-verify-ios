@@ -37,11 +37,11 @@ class FactorAPIClient {
     }
   }
   
-  func verify(factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
       let authToken = authentication.generateJWT(forFactor: factor)
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: verifyURL(factor: factor), requestHelper: requestHelper)
+      let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
         .setHTTPMethod(.post)
         .setParameters(verifyFactorBody(authPayload: authPayload))
         .build()
@@ -81,7 +81,7 @@ private extension FactorAPIClient {
             Parameter(name: Constants.configKey, value: configString)]
   }
   
-  func verifyURL(factor: Factor) -> String {
+  func verifyURL(for factor: Factor) -> String {
     "\(baseURL)\(Constants.verifyFactorURL)"
       .replacingOccurrences(of: Constants.serviceSidPath, with: factor.serviceSid)
       .replacingOccurrences(of: Constants.entityPath, with: factor.entityIdentity)

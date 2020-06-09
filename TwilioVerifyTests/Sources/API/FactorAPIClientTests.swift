@@ -22,7 +22,7 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL)
   }
   
-  func testCreateFactor_withASuccessResponse_shouldCallSuccess() {
+  func testCreateFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = Response(data: expectedResponse, headers: [:])
@@ -39,7 +39,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [successExpectation], timeout: 5)
   }
   
-  func testCreateFactor_withAnError_shouldCallFailure() {
+  func testCreateFactor_withError_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
@@ -56,7 +56,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testCreateFactor_withInvalidURL_shouldThrowAndCallFailure() {
+  func testCreateFactor_withInvalidURL_shouldFail() {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
     let failureExpectation = expectation(description: "Wait for failure response")
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
@@ -66,13 +66,13 @@ class FactorAPIClientTests: XCTestCase {
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertTrue(error is NetworkError)
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testCreateFactor_shouldMatchExpectedParams() {
+  func testCreateFactor_withValidData_shouldMatchExpectedParams() {
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.createFactorURL)"
       .replacingOccurrences(of: FactorAPIClient.Constants.serviceSidPath, with: Constants.serviceSid)
       .replacingOccurrences(of: FactorAPIClient.Constants.entityPath, with: Constants.entity)
@@ -109,7 +109,7 @@ class FactorAPIClientTests: XCTestCase {
                    "Body should be \(params.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
   }
   
-  func testVerifyFactor_withASuccessResponse_shouldCallSuccess() {
+  func testVerifyFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = Response(data: expectedResponse, headers: [:])
@@ -122,7 +122,7 @@ class FactorAPIClientTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
     
-    factorAPIClient.verify(factor: factor, authPayload: Constants.authPayload, success: { response in
+    factorAPIClient.verify(factor, authPayload: Constants.authPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
     }) { error in
@@ -132,7 +132,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [successExpectation], timeout: 5)
   }
   
-  func testVerifyFactor_withAnError_shouldCallFailure() {
+  func testVerifyFactor_withError_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
@@ -145,7 +145,7 @@ class FactorAPIClientTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
     
-    factorAPIClient.verify(factor: factor, authPayload: Constants.authPayload, success: { response in
+    factorAPIClient.verify(factor, authPayload: Constants.authPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -155,7 +155,7 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testVerifyFactor_withInvalidURL_shouldThrowAndCallFailure() {
+  func testVerifyFactor_withInvalidURL_shouldFail() {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
     let failureExpectation = expectation(description: "Wait for failure response")
     let factor = PushFactor(
@@ -166,17 +166,17 @@ class FactorAPIClientTests: XCTestCase {
       entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
-    factorAPIClient.verify(factor: factor, authPayload: Constants.authPayload, success: { response in
+    factorAPIClient.verify(factor, authPayload: Constants.authPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertTrue(error is NetworkError)
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testVerifyFactor_shouldMatchExpectedParams() {
+  func testVerifyFactor_withValidData_shouldMatchExpectedParams() {
     var expectedParams = Parameters()
     expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.authPayloadKey, value: Constants.authPayload)])
     let factor = PushFactor(
@@ -193,7 +193,7 @@ class FactorAPIClientTests: XCTestCase {
       .replacingOccurrences(of: FactorAPIClient.Constants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: FactorAPIClient.Constants.factorSidPath, with: factor.sid)
     
-    factorAPIClient.verify(factor: factor, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
+    factorAPIClient.verify(factor, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
     
     XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
                    "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
