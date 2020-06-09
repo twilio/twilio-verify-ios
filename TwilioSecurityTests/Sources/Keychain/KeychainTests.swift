@@ -220,7 +220,35 @@ class KeychainTests: XCTestCase {
     let expectedErrorCode = -25300
     let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
-    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "") { error in
+    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        expectedErrorCode,
+        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        expectedErrorDomain,
+        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
+  
+  func testCopyItemMatching_withWrongQueryButItemExists_shouldThrow() {
+    let expectedErrorCode = -25300
+    let expectedErrorDomain = "NSOSStatusErrorDomain"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    let data = "data".data(using: .utf8)!
+    let query = KeychainQuery().save(data: data, withKey: Constants.alias)
+    let status = keychain.addItem(withQuery: query)
+    XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
+    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in
       let thrownError = error as NSError
       XCTAssertEqual(
         thrownError.code,
