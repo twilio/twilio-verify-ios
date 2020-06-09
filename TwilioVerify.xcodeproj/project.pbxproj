@@ -50,6 +50,7 @@
 		20E3BB242489902A00BC90DE /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB232489902A00BC90DE /* TestError.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
 		F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBAF249000CF00688E5C /* KeyStorage.swift */; };
+		F207BBB224901A6900688E5C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB124901A6900688E5C /* Storage.swift */; };
 		F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4202476DE7A0061A2D8 /* KeyManager.swift */; };
 		F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4252476DF570061A2D8 /* Keychain.swift */; };
 		F20CB42C2476E4400061A2D8 /* ECP256SignerTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */; };
@@ -79,8 +80,8 @@
 		F2F62FA7248846D800E330E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA5248846D800E330E4 /* Main.storyboard */; };
 		F2F62FA9248846DC00E330E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FA8248846DC00E330E4 /* Assets.xcassets */; };
 		F2F62FAC248846DC00E330E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2F62FAA248846DC00E330E4 /* LaunchScreen.storyboard */; };
-		F2FB79B124897354004B22E6 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B024897354004B22E6 /* Storage.swift */; };
-		F2FB79B424897A06004B22E6 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B324897A06004B22E6 /* StorageTests.swift */; };
+		F2FB79B124897354004B22E6 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B024897354004B22E6 /* SecureStorage.swift */; };
+		F2FB79B424897A06004B22E6 /* SecureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +180,7 @@
 		20E3BB232489902A00BC90DE /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		F207BBAF249000CF00688E5C /* KeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorage.swift; sourceTree = "<group>"; };
+		F207BBB124901A6900688E5C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
@@ -214,8 +216,8 @@
 		F2F62FA8248846DC00E330E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2F62FAB248846DC00E330E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2F62FAD248846DC00E330E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2FB79B024897354004B22E6 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		F2FB79B324897A06004B22E6 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
+		F2FB79B024897354004B22E6 /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
+		F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -458,6 +460,7 @@
 			isa = PBXGroup;
 			children = (
 				F207BBAF249000CF00688E5C /* KeyStorage.swift */,
+				F207BBB124901A6900688E5C /* Storage.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -685,7 +688,7 @@
 		F2FB79AF24897347004B22E6 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				F2FB79B024897354004B22E6 /* Storage.swift */,
+				F2FB79B024897354004B22E6 /* SecureStorage.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -693,7 +696,7 @@
 		F2FB79B2248979F4004B22E6 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				F2FB79B324897A06004B22E6 /* StorageTests.swift */,
+				F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -942,6 +945,7 @@
 				F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */,
 				2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
+				F207BBB224901A6900688E5C /* Storage.swift in Sources */,
 				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
 				20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */,
 			);
@@ -976,7 +980,7 @@
 				F27F7A402485AF96001F2869 /* KeyPair.swift in Sources */,
 				F2DF31722473013A00CF4DC3 /* Template.swift in Sources */,
 				F20CB4212476DE7A0061A2D8 /* KeyManager.swift in Sources */,
-				F2FB79B124897354004B22E6 /* Storage.swift in Sources */,
+				F2FB79B124897354004B22E6 /* SecureStorage.swift in Sources */,
 				F20CB4262476DF570061A2D8 /* Keychain.swift in Sources */,
 				F20CB4472477299E0061A2D8 /* ECSigner.swift in Sources */,
 			);
@@ -995,7 +999,7 @@
 				F2358B3E2480285200C2D1AB /* KeychainTests.swift in Sources */,
 				F20CB452247749A70061A2D8 /* TestError.swift in Sources */,
 				F27F7A3C2485972E001F2869 /* KeyManagerTests.swift in Sources */,
-				F2FB79B424897A06004B22E6 /* StorageTests.swift in Sources */,
+				F2FB79B424897A06004B22E6 /* SecureStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

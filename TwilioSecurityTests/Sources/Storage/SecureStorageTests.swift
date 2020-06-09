@@ -1,5 +1,5 @@
 //
-//  StorageTests.swift
+//  SecureStorageTests.swift
 //  TwilioSecurityTests
 //
 //  Created by Santiago Avila on 6/4/20.
@@ -12,12 +12,12 @@ import XCTest
 class StorageTests: XCTestCase {
 
   var keychain: KeychainMock!
-  var storage: StorageProvider!
+  var storage: SecureStorageProvider!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    storage = Storage(keychain: keychain)
+    storage = SecureStorage(keychain: keychain)
   }
   
   override func tearDownWithError() throws {

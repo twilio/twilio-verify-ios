@@ -8,25 +8,22 @@
 
 import Foundation
 
-public class KeyManagerBuilder {
-  
-  public init() {}
-  public func build() -> KeyManagerProtocol {
-    return KeyManager()
-  }
-}
-
 public protocol KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate) throws -> Signer
 }
 
-class KeyManager {
+public class KeyManager {
   
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
+  public init() {
+    self.keychain = Keychain()
+    self.keychainQuery = KeychainQuery()
+  }
+  
   init(withKeychain keychain: KeychainProtocol = Keychain(),
-                keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
@@ -75,7 +72,7 @@ class KeyManager {
 }
 
 extension KeyManager: KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate) throws -> Signer {
+  public func signer(withTemplate template: SignerTemplate) throws -> Signer {
     var keyPair: KeyPair!
     do {
       keyPair = try self.keyPair(forTemplate: template)

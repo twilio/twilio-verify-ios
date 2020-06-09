@@ -1,5 +1,5 @@
 //
-//  Storage.swift
+//  SecureStorage.swift
 //  TwilioSecurity
 //
 //  Created by Santiago Avila on 6/2/20.
@@ -8,16 +8,21 @@
 
 import Foundation
 
-protocol StorageProvider {
+public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
 }
 
-class Storage {
+public class SecureStorage {
   
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
+  
+  public init() {
+    self.keychain = Keychain()
+    self.keychainQuery = KeychainQuery()
+  }
   
   init(keychain: KeychainProtocol = Keychain(),
        keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
@@ -26,8 +31,8 @@ class Storage {
   }
 }
 
-extension Storage: StorageProvider {
-  func save(_ data: Data, withKey key: String) throws {
+extension SecureStorage: SecureStorageProvider {
+  public func save(_ data: Data, withKey key: String) throws {
     let query = keychainQuery.save(data: data, withKey: key)
     let status = keychain.addItem(withQuery: query)
     guard status == errSecSuccess else {
@@ -36,7 +41,7 @@ extension Storage: StorageProvider {
     }
   }
   
-  func get(_ key: String) throws -> Data {
+  public func get(_ key: String) throws -> Data {
     let query = keychainQuery.getData(withKey: key)
     do {
       let result = try keychain.copyItemMatching(query: query)
@@ -46,7 +51,7 @@ extension Storage: StorageProvider {
     }
   }
   
-  func removeValue(for key: String) throws {
+  public func removeValue(for key: String) throws {
     let query = keychainQuery.delete(withKey: key)
     let status = keychain.deleteItem(withQuery: query)
     guard status == errSecSuccess else {
