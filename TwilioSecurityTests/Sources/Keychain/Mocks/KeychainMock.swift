@@ -28,7 +28,7 @@ class KeychainMock {
   var addItemStatus: [OSStatus]!
   var deleteItemStatus: OSStatus!
   var keyPair: KeyPair!
-  var keys: [SecKey]!
+  var keys: [AnyObject]!
   private(set) var callsToAddItem = 0
   private(set) var callOrder = [KeychainMethods]()
   private var callsToCopyItemMatching = -1
@@ -74,7 +74,7 @@ extension KeychainMock: KeychainProtocol {
     return keyPair
   }
   
-  func copyItemMatching(query: Query) throws -> SecKey {
+  func copyItemMatching(query: Query) throws -> AnyObject {
     callsToCopyItemMatching += 1
     if let error = error {
       throw error
