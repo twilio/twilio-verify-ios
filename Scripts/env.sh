@@ -24,6 +24,9 @@ export PUBLIC_ARTIFACT_FORMAT="zip"
 export PUBLIC_STATIC_ARTIFACT_ID="lib${FRAMEWORK_NAME}"
 export PUBLIC_STATIC_ARTIFACT_FORMAT="zip"
 
+# Build configuration
+export CONFIGURATION=${CONFIGURATION:-"Release"}
+
 # Output locations
 export TEMP_DIR="${BASE_DIR}/temp"
 export SECRETS_DIR="${TEMP_DIR}/secrets"
@@ -36,8 +39,7 @@ export IPA_DIR="${TEMP_DIR}/IPAs"
 export SIZE_REPORT_DIR="${TEMP_DIR}/SizeReport"
 export PACKAGE_ROOT_DIR="${TEMP_DIR}/Package"
 
-# Build configuration
-export CONFIGURATION=${CONFIGURATION:-"Release"}
+
 
 if [ "${CONFIGURATION}" = "Debug" ]; then
   export USE_DEBUG_LIBS=1
