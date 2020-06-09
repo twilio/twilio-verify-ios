@@ -27,6 +27,8 @@
 		209357402487185A008FDBCC /* ChallengeListInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573F2487185A008FDBCC /* ChallengeListInput.swift */; };
 		20935746248719A9008FDBCC /* UpdateChallengeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935745248719A9008FDBCC /* UpdateChallengeInput.swift */; };
 		20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935747248719D5008FDBCC /* UpdateFactorInput.swift */; };
+		20A08846249019BC00701CCC /* FactorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A08845249019BC00701CCC /* FactorRepository.swift */; };
+		20A0884824902FAF00701CCC /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0884724902FAF00701CCC /* StorageError.swift */; };
 		20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */; };
 		20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */; };
 		20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */; };
@@ -157,6 +159,8 @@
 		2093573F2487185A008FDBCC /* ChallengeListInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListInput.swift; sourceTree = "<group>"; };
 		20935745248719A9008FDBCC /* UpdateChallengeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChallengeInput.swift; sourceTree = "<group>"; };
 		20935747248719D5008FDBCC /* UpdateFactorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorInput.swift; sourceTree = "<group>"; };
+		20A08845249019BC00701CCC /* FactorRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepository.swift; sourceTree = "<group>"; };
+		20A0884724902FAF00701CCC /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
 		20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 				2093572C24870D5E008FDBCC /* Models */,
 				20C710C7248AA23600B0F448 /* FactorMapper.swift */,
 				2051B01C248AF1E400033B41 /* MapperError.swift */,
+				20A08845249019BC00701CCC /* FactorRepository.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 			children = (
 				F207BBAF249000CF00688E5C /* KeyStorage.swift */,
 				F207BBB124901A6900688E5C /* Storage.swift */,
+				20A0884724902FAF00701CCC /* StorageError.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 				20A92FD42481C9E000A9E8E7 /* HTTPHeaders.swift in Sources */,
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */,
+				20A08846249019BC00701CCC /* FactorRepository.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */,
 				2051B01D248AF1E400033B41 /* MapperError.swift in Sources */,
@@ -951,6 +958,7 @@
 				2093573024870DA7008FDBCC /* FactorPayload.swift in Sources */,
 				2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */,
 				F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */,
+				20A0884824902FAF00701CCC /* StorageError.swift in Sources */,
 				2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
 				F207BBB224901A6900688E5C /* Storage.swift in Sources */,
