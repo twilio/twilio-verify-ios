@@ -11,7 +11,7 @@ import TwilioSecurity
 
 protocol StorageProvider {
   func save(_ data: Data, withKey key: String) throws
-  func get(_ key: String) throws -> Data?
+  func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
 }
 
@@ -29,7 +29,7 @@ extension Storage: StorageProvider {
     try secureStorage.save(data, withKey: key)
   }
   
-  func get(_ key: String) throws -> Data? {
+  func get(_ key: String) throws -> Data {
     do {
       return try secureStorage.get(key)
     } catch {
