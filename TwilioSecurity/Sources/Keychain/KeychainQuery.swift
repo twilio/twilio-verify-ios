@@ -29,6 +29,7 @@ protocol KeychainQueryProtocol {
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
   func save(data: Data, withKey key: String) -> Query
   func getData(withKey key: String) -> Query
+  func delete(withKey key: String) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
@@ -60,5 +61,11 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccount: key,
      kSecReturnData: true,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func delete(withKey key: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+    kSecAttrAccount: key,
+    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
 }

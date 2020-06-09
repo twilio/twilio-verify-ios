@@ -60,7 +60,42 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertEqual(secClass, expectedClass)
     XCTAssertEqual(label, Constants.alias)
     XCTAssertEqual(key, pair.privateKey)
+  }
+  
+  func testSaveData_withKey_shouldReturnValidQuery() {
+    let expectedData = "data".data(using: .utf8)!
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias)
+    let keyClass = query[kSecClass as String] as! CFString
+    let label = query[kSecAttrAccount as String] as! String
+    let access = query[kSecAttrAccessible as String] as! CFString
+    let data = query[kSecValueData as String] as! Data
     
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+    XCTAssertEqual(data, expectedData)
+  }
+  
+  func testGetData_withKey_shouldReturnValidQuery() {
+    let query = keychainQuery.getData(withKey: Constants.alias)
+    let keyClass = query[kSecClass as String] as! CFString
+    let label = query[kSecAttrAccount as String] as! String
+    let access = query[kSecAttrAccessible as String] as! CFString
+    
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+  }
+  
+  func testDelete_withKey_shouldReturnValidQuery() {
+    let query = keychainQuery.delete(withKey: Constants.alias)
+    let keyClass = query[kSecClass as String] as! CFString
+    let label = query[kSecAttrAccount as String] as! String
+    let access = query[kSecAttrAccessible as String] as! CFString
+    
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
 }
 

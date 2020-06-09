@@ -77,6 +77,39 @@ class StorageTests: XCTestCase {
       )
     }
   }
+  
+  func testRemoveValue_valueExistsForKey_shouldReturnValue() {
+    let expectedData = "data".data(using: .utf8)!
+    let key = "key"
+    var data: Data!
+    keychain.keys = [expectedData as AnyObject]
+    XCTAssertNoThrow(data = try storage.get(key), "Get should not throw")
+    XCTAssertEqual(data, expectedData, "Data should be \(expectedData) but was \(data!)")
+  }
+  
+  func testRemoveValue_valueDoesNotExist_shouldThrowError() {
+    let key = "key"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    keychain.deleteItemStatus = errSecItemNotFound
+    XCTAssertThrowsError(try storage.removeValue(for: key), "Remove value should throw") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        Int(errSecItemNotFound),
+        "Error code should be \(errSecItemNotFound), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
 }
 
 private extension StorageTests {

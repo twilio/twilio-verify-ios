@@ -11,6 +11,7 @@ import Foundation
 protocol StorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
+  func removeValue(for key: String) throws
 }
 
 class Storage {
@@ -41,6 +42,15 @@ extension Storage: StorageProvider {
       let result = try keychain.copyItemMatching(query: query)
       return result as! Data
     } catch {
+      throw error
+    }
+  }
+  
+  func removeValue(for key: String) throws {
+    let query = keychainQuery.delete(withKey: key)
+    let status = keychain.deleteItem(withQuery: query)
+    guard status == errSecSuccess else {
+      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
       throw error
     }
   }
