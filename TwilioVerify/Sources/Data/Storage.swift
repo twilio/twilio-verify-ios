@@ -17,9 +17,9 @@ protocol StorageProvider {
 
 class Storage {
   
-  private let secureStorage: SecurityStorageProvider
+  private let secureStorage: SecureStorageProvider
   
-  init(secureStorage: SecurityStorageProvider = SecurityStorage()) {
+  init(secureStorage: SecureStorageProvider = SecureStorage()) {
     self.secureStorage = secureStorage
   }
 }

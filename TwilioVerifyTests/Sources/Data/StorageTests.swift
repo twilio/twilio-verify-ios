@@ -1,15 +1,14 @@
 //
-//  TwilioVerifyTests.swift
+//  StorageTests.swift
 //  TwilioVerifyTests
 //
-//  Created by Santiago  Avila on 5/15/20.
+//  Created by Santiago  Avila on 6/9/20.
 //  Copyright © 2020 Twilio. All rights reserved.
 //
 
 import XCTest
-@testable import TwilioVerify
 
-class TwilioVerifyTests: XCTestCase {
+class StorageTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
