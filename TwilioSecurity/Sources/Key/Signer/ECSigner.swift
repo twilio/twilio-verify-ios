@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Signer {
+public protocol Signer {
   func sign(_ data: Data) throws -> Data
   func verify(_ data: Data, withSignature signature: Data) -> Bool
   func getPublic() throws -> Data
