@@ -47,9 +47,7 @@ class FactorRepository: FactorProvider {
   }
   
   func get(sid: String) throws -> Factor {
-    guard let factorData = try storage.get(sid) else {
-      throw TwilioVerifyError.storageError(error: StorageError.factorNotFound as NSError)
-    }
+    let factorData = try storage.get(sid)
     return try factorMapper.fromStorage(withData: factorData)
   }
 }
