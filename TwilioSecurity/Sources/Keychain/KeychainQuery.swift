@@ -27,23 +27,45 @@ enum KeyClass {
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
+  func save(data: Data, withKey key: String) -> Query
+  func getData(withKey key: String) -> Query
+  func delete(withKey key: String) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
-  
   func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query {
-    return [kSecClass: kSecClassKey,
-            kSecAttrKeyClass: keyClass.value,
-            kSecAttrLabel: template.alias,
-            kSecReturnRef: true,
-            kSecAttrKeyType: template.algorithm,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassKey,
+     kSecAttrKeyClass: keyClass.value,
+     kSecAttrLabel: template.alias,
+     kSecReturnRef: true,
+     kSecAttrKeyType: template.algorithm,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
-    return [kSecClass: kSecClassKey,
-            kSecAttrLabel: alias,
-            kSecValueRef: key,
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    [kSecClass: kSecClassKey,
+     kSecAttrLabel: alias,
+     kSecValueRef: key,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func save(data: Data, withKey key: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecValueData: data,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func getData(withKey key: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecReturnData: true,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func delete(withKey key: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+    kSecAttrAccount: key,
+    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
 }
