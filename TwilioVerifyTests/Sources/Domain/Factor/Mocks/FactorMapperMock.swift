@@ -9,13 +9,15 @@
 import Foundation
 @testable import TwilioVerify
 
-class FactorMapperMock: FactorMapper {
+class FactorMapperMock {
   var expectedFactor: Factor?
   var expectedData: Data?
   var expectedFactorPayload: FactorPayload?
   var error: Error?
-  
-  override func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor {
+}
+
+extension FactorMapperMock: FactorMapperProtocol {
+  func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor {
     if let error = error {
       throw error
     }
@@ -23,26 +25,26 @@ class FactorMapperMock: FactorMapper {
     {
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }
-    fatalError()
+    fatalError("Expected params not set")
   }
   
-  override func toData(forFactor factor: Factor) throws -> Data {
+  func toData(forFactor factor: Factor) throws -> Data {
     if let error = error {
       throw error
     }
     if let expectedFactor = expectedFactor, expectedFactor.sid == factor.sid {
       return try JSONEncoder().encode(factor as? PushFactor)
     }
-    fatalError()
+    fatalError("Expected params not set")
   }
   
-  override func fromStorage(withData data: Data) throws -> Factor {
+  func fromStorage(withData data: Data) throws -> Factor {
     if let error = error {
       throw error
     }
     if let expectedData = expectedData, expectedData == data {
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }
-    fatalError()
+    fatalError("Expected params not set")
   }
 }

@@ -9,16 +9,17 @@
 import Foundation
 @testable import TwilioVerify
 
-class FactorAPIClientMock: FactorAPIClient {
-  var factor: Data?
+class FactorAPIClientMock {
+  var factor: Data!
   var error: Error?
-  
-  override func create(createFactorPayload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
-    if let factor = factor {
-      success(Response(data: factor, headers: [:]))
-    }
+}
+
+extension FactorAPIClientMock: FactorAPIClientProtocol {
+  func create(createFactorPayload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
+      return
     }
+    success(Response(data: factor, headers: [:]))
   }
 }

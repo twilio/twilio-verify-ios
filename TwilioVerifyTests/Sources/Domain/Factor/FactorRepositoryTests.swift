@@ -18,7 +18,7 @@ class FactorRepositoryTests: XCTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    factorAPIClient = FactorAPIClientMock(authentication: AuthenticationMock(), baseURL: Constants.baseURL)
+    factorAPIClient = FactorAPIClientMock()
     storage = StorageProviderMock()
     factorMapper = FactorMapperMock()
     factorRepository = FactorRepository(apiClient: factorAPIClient, storage: storage, factorMapper: factorMapper)
@@ -48,22 +48,24 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedFactorPayload = factorPayload
     storage.expectedSid = expectedFactor.sid
     storage.factorData = factorData
-    factorRepository.create(createFactorPayload: factorPayload, success: { factor in
-      XCTAssertTrue(factor is PushFactor, "Factor should be \(PushFactor.self)")
-      XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor sid should be \(expectedFactor.sid) but was \(factor.sid)")
-      XCTAssertEqual(factor.accountSid, expectedFactor.accountSid, "Factor accountSid should be \(expectedFactor.accountSid) but was \(factor.accountSid)")
-      XCTAssertEqual(factor.createdAt, expectedFactor.createdAt, "Factor createdAt should be \(expectedFactor.createdAt) but was \(factor.createdAt)")
-      XCTAssertEqual(factor.entityIdentity, expectedFactor.entityIdentity, "Factor entityIdentity should be \(expectedFactor.entityIdentity) but was \(factor.entityIdentity)")
-      XCTAssertEqual(factor.friendlyName, expectedFactor.friendlyName, "Factor friendlyName should be \(expectedFactor.friendlyName) but was \(factor.friendlyName)")
-      XCTAssertEqual(factor.serviceSid, expectedFactor.serviceSid, "Factor serviceSid should be \(expectedFactor.serviceSid) but was \(factor.serviceSid)")
-      XCTAssertEqual(factor.status, expectedFactor.status, "Factor status should be \(expectedFactor.status) but was \(factor.status)")
-      XCTAssertEqual((factor as! PushFactor).config.credentialSid, expectedFactor.config.credentialSid, "Factor credentialSid should be \(expectedFactor.config.credentialSid) but was \((factor as! PushFactor).config.credentialSid)")
+    var factorResponse: Factor?
+    factorRepository.create(withPayload: factorPayload, success: { factor in
+      factorResponse = factor as? PushFactor
       successExpectation.fulfill()
     }) { error in
       XCTFail()
       successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
+    XCTAssertTrue(factorResponse is PushFactor, "Factor should be \(PushFactor.self)")
+    XCTAssertEqual(factorResponse?.sid, expectedFactor.sid, "Factor sid should be \(expectedFactor.sid) but was \(factorResponse!.sid)")
+    XCTAssertEqual(factorResponse?.accountSid, expectedFactor.accountSid, "Factor accountSid should be \(expectedFactor.accountSid) but was \(factorResponse!.accountSid)")
+    XCTAssertEqual(factorResponse?.createdAt, expectedFactor.createdAt, "Factor createdAt should be \(expectedFactor.createdAt) but was \(factorResponse!.createdAt)")
+    XCTAssertEqual(factorResponse?.entityIdentity, expectedFactor.entityIdentity, "Factor entityIdentity should be \(expectedFactor.entityIdentity) but was \(factorResponse!.entityIdentity)")
+    XCTAssertEqual(factorResponse?.friendlyName, expectedFactor.friendlyName, "Factor friendlyName should be \(expectedFactor.friendlyName) but was \(factorResponse!.friendlyName)")
+    XCTAssertEqual(factorResponse?.serviceSid, expectedFactor.serviceSid, "Factor serviceSid should be \(expectedFactor.serviceSid) but was \(factorResponse!.serviceSid)")
+    XCTAssertEqual(factorResponse?.status, expectedFactor.status, "Factor status should be \(expectedFactor.status) but was \(factorResponse!.status)")
+    XCTAssertEqual((factorResponse as! PushFactor).config.credentialSid, expectedFactor.config.credentialSid, "Factor credentialSid should be \(expectedFactor.config.credentialSid) but was \((factorResponse as! PushFactor).config.credentialSid)")
   }
   
   func testCreateFactor_withInvalidResponse_shouldFail() {
@@ -77,7 +79,7 @@ class FactorRepositoryTests: XCTestCase {
       jwe: Constants.jweValue)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
-    factorRepository.create(createFactorPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -108,7 +110,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.factor = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.error = expectedError
-    factorRepository.create(createFactorPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -143,7 +145,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorGetting = expectedError
     storage.expectedSid = expectedFactor.sid
-    factorRepository.create(createFactorPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -178,7 +180,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorSaving = expectedError
     storage.expectedSid = expectedFactor.sid
-    factorRepository.create(createFactorPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -202,7 +204,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
-    XCTAssertNoThrow(try factorRepository.save(factor: expectedFactor), "Save factor shouldn't throw")
+    XCTAssertNoThrow(try factorRepository.save(expectedFactor), "Save factor shouldn't throw")
   }
   
   func testSaveFactor_withStorageError_shouldFail() {
@@ -218,7 +220,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.expectedSid = expectedFactor.sid
     storage.errorSaving = expectedError
-    XCTAssertThrowsError(try factorRepository.save(factor: expectedFactor), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(expectedFactor), "Save factor should throw") { error in
       XCTAssertEqual((error as! TestError), expectedError)
     }
   }
@@ -236,7 +238,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedFactor = expectedFactor
     factorMapper.error = expectedError
     storage.expectedSid = expectedFactor.sid
-    XCTAssertThrowsError(try factorRepository.save(factor: expectedFactor), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(expectedFactor), "Save factor should throw") { error in
       XCTAssertEqual((error as! MapperError), expectedError)
     }
   }
@@ -254,7 +256,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.expectedSid = expectedFactor.sid
     storage.factorData = factorData
     factorMapper.expectedData = factorData
-    XCTAssertNoThrow(try factorRepository.get(sid: expectedFactor.sid), "Get factor shouldn't throw")
+    XCTAssertNoThrow(try factorRepository.get(withSid: expectedFactor.sid), "Get factor shouldn't throw")
   }
   
   func testGetFactor_withStorageError_shouldFail() {
@@ -269,7 +271,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.expectedSid = expectedFactor.sid
     storage.errorGetting = expectedError
-    XCTAssertThrowsError(try factorRepository.get(sid: expectedFactor.sid), "Get factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.get(withSid: expectedFactor.sid), "Get factor should throw") { error in
       XCTAssertEqual((error as! TestError), expectedError)
     }
   }
@@ -288,7 +290,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.expectedSid = expectedFactor.sid
     storage.factorData = factorData
     factorMapper.error = expectedError
-    XCTAssertThrowsError(try factorRepository.get(sid: expectedFactor.sid), "Get factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.get(withSid: expectedFactor.sid), "Get factor should throw") { error in
       XCTAssertEqual((error as! MapperError), expectedError)
     }
   }

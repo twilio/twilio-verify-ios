@@ -9,18 +9,20 @@
 import Foundation
 @testable import TwilioVerify
 
-class StorageProviderMock: StorageProvider {
+class StorageProviderMock {
   var factorData: Data?
   var expectedSid: String?
   var errorSaving: Error?
   var errorGetting: Error?
-  
+}
+
+extension StorageProviderMock: StorageProvider {
   func save(_ data: Data, withKey key: String) throws {
     if let error = errorSaving, key == expectedSid {
       throw error
     }
     if key != expectedSid {
-      fatalError()
+      fatalError("Key should be \(expectedSid!)")
     }
   }
   
@@ -28,10 +30,10 @@ class StorageProviderMock: StorageProvider {
     if let error = errorGetting, expectedSid == key {
       throw error
     }
-    if let factorData = factorData , expectedSid == key {
+    if let factorData = factorData, expectedSid == key {
       return factorData
     }
-    fatalError()
+    fatalError("Expected params not set")
   }
   
   func removeValue(for key: String) throws {

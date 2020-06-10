@@ -9,30 +9,31 @@
 import Foundation
 
 protocol FactorProvider {
-  func create(createFactorPayload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping (Error) -> ())
-  
-  func get(sid: String) throws -> Factor
-  
-  func save(factor: Factor) throws -> Factor
+  func create(withPayload payload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock)
+  func get(withSid sid: String) throws -> Factor
+  func save(_ factor: Factor) throws -> Factor
 }
 
-class FactorRepository: FactorProvider {
+class FactorRepository {
   
-  private let apiClient: FactorAPIClient
+  private let apiClient: FactorAPIClientProtocol
   private let storage: StorageProvider
-  private let factorMapper: FactorMapper
+  private let factorMapper: FactorMapperProtocol
   
-  init(apiClient: FactorAPIClient, storage: StorageProvider, factorMapper: FactorMapper = FactorMapper()){
+  init(apiClient: FactorAPIClientProtocol, storage: StorageProvider = Storage(), factorMapper: FactorMapperProtocol = FactorMapper()){
     self.apiClient = apiClient
     self.storage = storage
     self.factorMapper = factorMapper
   }
+}
 
-  func create(createFactorPayload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping (Error) -> ()) {
-    apiClient.create(createFactorPayload: createFactorPayload, success: { response in
+extension FactorRepository: FactorProvider {
+  func create(withPayload createFactorPayload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+    apiClient.create(createFactorPayload: createFactorPayload, success: { [weak self] response in
+      guard let strongSelf = self else { return }
       do {
-        let factor = try self.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
-        success(try self.save(factor: factor))
+        let factor = try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
+        success(try strongSelf.save(factor))
       } catch {
         failure(error)
       }
@@ -41,12 +42,12 @@ class FactorRepository: FactorProvider {
     }
   }
   
-  func save(factor: Factor) throws -> Factor {
+  func save(_ factor: Factor) throws -> Factor {
     try storage.save(factorMapper.toData(forFactor: factor), withKey: factor.sid)
-    return try get(sid: factor.sid)
+    return try get(withSid: factor.sid)
   }
   
-  func get(sid: String) throws -> Factor {
+  func get(withSid sid: String) throws -> Factor {
     let factorData = try storage.get(sid)
     return try factorMapper.fromStorage(withData: factorData)
   }
