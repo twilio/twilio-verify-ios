@@ -33,29 +33,6 @@ class AuthenticationProvider: Authentication {
       throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
     }
   }
-  
-  private func generateJWT(_ factor: PushFactor) throws -> String {
-    let header = generateHeader(factor)
-    let payload = generatePayload(factor)
-    guard let alias = factor.keyPairAlias else {
-      throw AuthenticationError.invalidKeyPair
-    }
-    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
-    return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate)
-  }
-  
-  private func generateHeader(_ factor: PushFactor) -> [String: String] {
-    return [Constants.ctyKey: Constants.contentType,
-            Constants.kidKey: factor.config.credentialSid]
-  }
-  
-  private func generatePayload(_ factor: PushFactor) -> [String: Any] {
-    let currentDate = Date()
-    return [Constants.subKey: factor.accountSid,
-            Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970,
-            Constants.iatKey: currentDate.timeIntervalSince1970
-    ]
-  }
 }
 
 extension AuthenticationProvider {
@@ -67,6 +44,31 @@ extension AuthenticationProvider {
     static let expKey = "exp"
     static let jwtValidFor: Double = 10
     static let iatKey = "nbf"
+  }
+}
+
+private extension AuthenticationProvider {
+  func generateJWT(_ factor: PushFactor) throws -> String {
+    let header = generateHeader(factor)
+    let payload = generatePayload(factor)
+    guard let alias = factor.keyPairAlias else {
+      throw AuthenticationError.invalidKeyPair
+    }
+    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
+    return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate)
+  }
+  
+  func generateHeader(_ factor: PushFactor) -> [String: String] {
+    return [Constants.ctyKey: Constants.contentType,
+            Constants.kidKey: factor.config.credentialSid]
+  }
+  
+  func generatePayload(_ factor: PushFactor) -> [String: Any] {
+    let currentDate = Date()
+    return [Constants.subKey: factor.accountSid,
+            Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970,
+            Constants.iatKey: currentDate.timeIntervalSince1970
+    ]
   }
 }
 
