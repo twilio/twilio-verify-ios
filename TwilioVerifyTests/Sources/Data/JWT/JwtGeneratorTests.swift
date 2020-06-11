@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import TwilioVerify
-import TwilioSecurity
+@testable import TwilioSecurity
 
 class JwtGeneratorTests: XCTestCase {
   
@@ -50,10 +50,11 @@ private extension JwtGeneratorTests {
   }
   
   func base64UrlSafeToBase64(base64url: String) -> String {
-      var base64 = base64url.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
-      if base64.count % 4 != 0 {
-          base64.append(String(repeating: "=", count: 4 - base64.count % 4))
-      }
-      return base64
+    var base64 = base64url.replacingOccurrences(of: "-", with: "+")
+      .replacingOccurrences(of: "_", with: "/")
+    if base64.count % 4 != 0 {
+      base64.append(String(repeating: "=", count: 4 - base64.count % 4))
+    }
+    return base64
   }
 }

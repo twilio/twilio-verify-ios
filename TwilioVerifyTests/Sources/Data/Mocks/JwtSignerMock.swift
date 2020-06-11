@@ -8,7 +8,7 @@
 
 import Foundation
 @testable import TwilioVerify
-import TwilioSecurity
+@testable import TwilioSecurity
 
 class JwtSignerMock {
   var operationresult: Data!

@@ -13,16 +13,19 @@ protocol JwtGeneratorProtocol {
   func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String
 }
 
-class JwtGenerator: JwtGeneratorProtocol {
+class JwtGenerator {
   
   private let jwtSigner: JwtSignerProtocol
   
   init(withJwtSigner jwtSigner: JwtSignerProtocol) {
     self.jwtSigner = jwtSigner
   }
+}
+
+extension JwtGenerator: JwtGeneratorProtocol {
   
   func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
-    var jwtHeader: [String: String] = header
+    var jwtHeader = header
     jwtHeader[Constants.typeKey] = Constants.jwtType
     if signerTemplate is ECP256SignerTemplate {
       jwtHeader[Constants.algorithmKey] = Constants.defaultAlg
@@ -46,6 +49,10 @@ extension JwtGenerator {
 
 private extension JwtGenerator {
   func base64EncodedUrlSafeString(withData data: Data) -> String {
-    return data.base64EncodedString().replacingOccurrences(of: "%", with: "_").replacingOccurrences(of: "=", with: "").replacingOccurrences(of: "+", with: "-").replacingOccurrences(of: "/", with: "_")
+    return data.base64EncodedString()
+      .replacingOccurrences(of: "%", with: "_")
+      .replacingOccurrences(of: "=", with: "")
+      .replacingOccurrences(of: "+", with: "-")
+      .replacingOccurrences(of: "/", with: "_")
   }
 }

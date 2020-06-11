@@ -8,14 +8,14 @@
 
 import XCTest
 @testable import TwilioVerify
-@testable import TwilioSecurity
+import TwilioSecurity
 
 class JwtGeneratorMock: JwtGeneratorProtocol {
-  var jwt: String?
-  var header: [String : String]?
-  var payload: [String : Any]?
+  var jwt: String!
+  private(set) var header: [String: String]!
+  private(set) var payload: [String: Any]!
   
-  func generateJWT(forHeader header: [String : String], forPayload payload: [String : Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
+  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
     self.header = header
     self.payload = payload
     return jwt!

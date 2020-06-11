@@ -24,7 +24,16 @@ class AuthenticationProviderTests: XCTestCase {
     var jwt: String!
     let expectedJWT = "expectedJWT"
     jwtGenerator.jwt = expectedJWT
-    let factor = PushFactor(status: .verified, sid: "sid", friendlyName: "friendlyName", accountSid: "accountSid", serviceSid: "serviceSid", entityIdentity: "entityIdentity", createdAt: Date(), config: Config(credentialSid: "credentialSid"), keyPairAlias: "keyPairAlias")
+    let factor = PushFactor(
+      status: .verified,
+      sid: "sid",
+      friendlyName: "friendlyName",
+      accountSid: "accountSid",
+      serviceSid: "serviceSid",
+      entityIdentity: "entityIdentity",
+      createdAt: Date(),
+      config: Config(credentialSid: "credentialSid"),
+      keyPairAlias: "keyPairAlias")
     XCTAssertNoThrow(jwt = try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should not throw")
     XCTAssertEqual(expectedJWT, jwt, "JWT should be \(expectedJWT) but was \(String(describing: jwt))")
     XCTAssertEqual(factor.config.credentialSid, jwtGenerator.header![AuthenticationProvider.Constants.kidKey],
@@ -38,7 +47,16 @@ class AuthenticationProviderTests: XCTestCase {
   }
   
   func testGenerateJWT_withFactorAndNoKeyPair_shouldThrow() {
-    let factor = PushFactor(status: .verified, sid: "sid", friendlyName: "friendlyName", accountSid: "accountSid", serviceSid: "serviceSid", entityIdentity: "entityIdentity", createdAt: Date(), config: Config(credentialSid: "credentialSid"), keyPairAlias: nil)
+    let factor = PushFactor(
+      status: .verified,
+      sid: "sid",
+      friendlyName: "friendlyName",
+      accountSid: "accountSid",
+      serviceSid: "serviceSid",
+      entityIdentity: "entityIdentity",
+      createdAt: Date(),
+      config: Config(credentialSid: "credentialSid"),
+      keyPairAlias: nil)
     XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError, AuthenticationError.invalidKeyPair as NSError)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidKeyPair.errorDescription)
@@ -46,21 +64,18 @@ class AuthenticationProviderTests: XCTestCase {
   }
   
   func testGenerateJWT_withNoSupportedFactor_shouldThrow() {
-    let factor = FactorMock(status: .unverified, sid: "sid", friendlyName: "friendlyName", accountSid: "accountSid", serviceSid: "serviceSid", entityIdentity: "entityIdentity", type: .push, createdAt: Date())
+    let factor = FactorMock(
+      status: .unverified,
+      sid: "sid",
+      friendlyName: "friendlyName",
+      accountSid: "accountSid",
+      serviceSid: "serviceSid",
+      entityIdentity: "entityIdentity",
+      type: .push,
+      createdAt: Date())
     XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError, AuthenticationError.invalidFactor as NSError)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidFactor.errorDescription)
     }
   }
-}
-
-private struct FactorMock: Factor {
-  let status: FactorStatus
-  let sid: String
-  let friendlyName: String
-  let accountSid: String
-  let serviceSid: String
-  let entityIdentity: String
-  let type: FactorType
-  let createdAt: Date
 }

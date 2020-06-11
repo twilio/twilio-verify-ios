@@ -55,6 +55,7 @@
 		F05543DA249130610007014B /* JwtGeneratorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05543D9249130610007014B /* JwtGeneratorMock.swift */; };
 		F05543DC2491306B0007014B /* AuthenticationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05543DB2491306B0007014B /* AuthenticationProviderTests.swift */; };
 		F05543DE249137660007014B /* JwtSignerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05543DD249137660007014B /* JwtSignerMock.swift */; };
+		F07B6F4D2492A07B00948FB1 /* FactorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F4C2492A07B00948FB1 /* FactorMock.swift */; };
 		F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBAF249000CF00688E5C /* KeyStorage.swift */; };
 		F207BBB224901A6900688E5C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB124901A6900688E5C /* Storage.swift */; };
 		F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB424901E8D00688E5C /* StorageTests.swift */; };
@@ -180,6 +181,7 @@
 		F05543D9249130610007014B /* JwtGeneratorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtGeneratorMock.swift; sourceTree = "<group>"; };
 		F05543DB2491306B0007014B /* AuthenticationProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationProviderTests.swift; sourceTree = "<group>"; };
 		F05543DD249137660007014B /* JwtSignerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtSignerMock.swift; sourceTree = "<group>"; };
+		F07B6F4C2492A07B00948FB1 /* FactorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMock.swift; sourceTree = "<group>"; };
 		F207BBAF249000CF00688E5C /* KeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorage.swift; sourceTree = "<group>"; };
 		F207BBB124901A6900688E5C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		F207BBB424901E8D00688E5C /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			children = (
 				F05543D9249130610007014B /* JwtGeneratorMock.swift */,
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
+				F07B6F4C2492A07B00948FB1 /* FactorMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1003,6 +1006,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F07B6F4D2492A07B00948FB1 /* FactorMock.swift in Sources */,
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
 				F05543DC2491306B0007014B /* AuthenticationProviderTests.swift in Sources */,

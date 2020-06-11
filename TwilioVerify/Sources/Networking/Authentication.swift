@@ -13,21 +13,38 @@ protocol Authentication {
   func generateJWT(forFactor factor: Factor) throws -> String
 }
 
-class AuthenticationProvider: Authentication {
+enum AuthenticationError: LocalizedError {
+  case invalidFactor
+  case invalidKeyPair
+  
+  var errorDescription: String {
+    switch self {
+      case .invalidFactor:
+        return "Not supported factor for JWT generation"
+      case .invalidKeyPair:
+        return "Key pair not set"
+    }
+  }
+}
+
+class AuthenticationProvider {
   
   private let jwtGenerator: JwtGeneratorProtocol
   
   init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol) {
     self.jwtGenerator = jwtGenerator
   }
+}
+
+extension AuthenticationProvider: Authentication {
   
   func generateJWT(forFactor factor: Factor) throws -> String {
     do {
       switch factor {
-      case is PushFactor:
-        return try generateJWT(factor as! PushFactor)
-      default:
-        throw AuthenticationError.invalidFactor
+        case is PushFactor:
+          return try generateJWT(factor as! PushFactor)
+        default:
+          throw AuthenticationError.invalidFactor
       }
     } catch let error {
       throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
@@ -59,8 +76,8 @@ private extension AuthenticationProvider {
   }
   
   func generateHeader(_ factor: PushFactor) -> [String: String] {
-    return [Constants.ctyKey: Constants.contentType,
-            Constants.kidKey: factor.config.credentialSid]
+    [Constants.ctyKey: Constants.contentType,
+     Constants.kidKey: factor.config.credentialSid]
   }
   
   func generatePayload(_ factor: PushFactor) -> [String: Any] {
@@ -69,21 +86,5 @@ private extension AuthenticationProvider {
             Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970,
             Constants.iatKey: currentDate.timeIntervalSince1970
     ]
-  }
-}
-
-enum AuthenticationError: LocalizedError {
-    case invalidFactor
-    case invalidKeyPair
-}
-
-extension AuthenticationError {
-  var errorDescription: String {
-    switch self {
-      case .invalidFactor:
-        return "Not supported factor for JWT generation"
-      case .invalidKeyPair:
-        return "Key pair not set"
-    }
   }
 }
