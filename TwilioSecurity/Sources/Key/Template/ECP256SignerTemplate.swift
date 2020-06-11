@@ -8,12 +8,16 @@
 
 import Foundation
 
-struct ECP256SignerTemplate {
-  var alias: String
-  var shouldExist: Bool
-  var parameters: [String: Any]
-  var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
-  var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
+public struct ECP256SignerTemplate {
+  public var alias: String
+  public var shouldExist: Bool
+  public var parameters: [String: Any]
+  public var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
+  public var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256
+  
+  public init(withAlias alias: String, shouldExist: Bool) throws {
+    try self.init(withAlias: alias, shouldExist: shouldExist, keychain: Keychain())
+  }
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
@@ -27,7 +31,9 @@ extension ECP256SignerTemplate: SignerTemplate {
       throw error
     }
   }
-  
+}
+
+extension ECP256SignerTemplate {
   func createSignerParameters(_ keychain: KeychainProtocol) throws -> [String: Any] {
     do {
       let privateParameters = [kSecAttrLabel: alias,
@@ -45,9 +51,7 @@ extension ECP256SignerTemplate: SignerTemplate {
       throw error
     }
   }
-}
-
-extension ECP256SignerTemplate {
+  
   struct Constants {
     static let keySize = 256
     static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
