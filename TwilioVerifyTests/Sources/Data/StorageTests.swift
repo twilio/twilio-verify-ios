@@ -59,7 +59,7 @@ class StorageTests: XCTestCase {
   
   func testRemoveValue_unsuccessfully_shouldThrow() {
     secureStorage.error = TestError.operationFailed
-    XCTAssertThrowsError(try storage.removeValue(for: Constants.key), "Get should throw") { error in
+    XCTAssertThrowsError(try storage.removeValue(for: Constants.key), "Remove value should throw") { error in
       XCTAssertEqual((error as! TestError), TestError.operationFailed)
     }
   }

@@ -1,5 +1,5 @@
 //
-//  KeyStorageTests.swift
+//  KeyStorageAdapterTests.swift
 //  TwilioVerifyTests
 //
 //  Created by Santiago  Avila on 6/9/20.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
-class KeyStorageTests: XCTestCase {
+class KeyStorageAdapterTests: XCTestCase {
 
   var signer: SignerMock!
   var keyManager: KeyManagerMock!
@@ -99,9 +99,19 @@ class KeyStorageTests: XCTestCase {
     XCTAssertEqual(signature, expectedSignature, "Key should be \(expectedSignature) but was \(signature!)")
   }
   
+  func testDelete_successfully_shouldNotThrow() {
+    XCTAssertNoThrow(try keyStorage.deleteKey(withAlias: Constants.alias), "Delete key should not throw")
+  }
+  
+  func testRemoveValue_unsuccessfully_shouldThrow() {
+    keyManager.error = TestError.operationFailed
+    XCTAssertThrowsError(try keyStorage.deleteKey(withAlias: Constants.alias), "Delete key should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
 }
 
-private extension KeyStorageTests {
+private extension KeyStorageAdapterTests {
   struct Constants {
     static let alias = "alias"
     static let message = "message"

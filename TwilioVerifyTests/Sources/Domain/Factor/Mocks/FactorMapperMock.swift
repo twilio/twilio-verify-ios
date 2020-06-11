@@ -28,7 +28,7 @@ extension FactorMapperMock: FactorMapperProtocol {
     fatalError("Expected params not set")
   }
   
-  func toData(forFactor factor: Factor) throws -> Data {
+  func toData(_ factor: Factor) throws -> Data {
     if let error = error {
       throw error
     }

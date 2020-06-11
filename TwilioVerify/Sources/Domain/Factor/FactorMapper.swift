@@ -11,7 +11,7 @@ import Foundation
 protocol FactorMapperProtocol {
   func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor
   func fromStorage(withData data: Data) throws -> Factor
-  func toData(forFactor factor: Factor) throws -> Data
+  func toData(_ factor: Factor) throws -> Data
 }
 
 class FactorMapper: FactorMapperProtocol {
@@ -43,7 +43,7 @@ class FactorMapper: FactorMapperProtocol {
     }
   }
   
-  func toData(forFactor factor: Factor) throws -> Data {
+  func toData(_ factor: Factor) throws -> Data {
     switch factor.type {
       case .push:
         return try JSONEncoder().encode(factor as? PushFactor)

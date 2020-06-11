@@ -10,6 +10,7 @@ import Foundation
 
 public protocol KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate) throws -> Signer
+  func deleteKey(withAlias alias: String) throws
 }
 
 public class KeyManager {
@@ -17,9 +18,8 @@ public class KeyManager {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  public init() {
-    self.keychain = Keychain()
-    self.keychainQuery = KeychainQuery()
+  public convenience init() {
+    self.init(withKeychain: Keychain(), keychainQuery: KeychainQuery())
   }
   
   init(withKeychain keychain: KeychainProtocol = Keychain(),
@@ -88,5 +88,13 @@ extension KeyManager: KeyManagerProtocol {
       }
     }
     return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
+  }
+  
+  public func deleteKey(withAlias alias: String) throws {    
+    let status = keychain.deleteItem(withQuery: keychainQuery.delete(withKey: alias, class: .key))
+    guard status == errSecSuccess else {
+      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      throw error
+    }
   }
 }

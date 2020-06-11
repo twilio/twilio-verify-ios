@@ -29,7 +29,7 @@ class FactorRepository {
 
 extension FactorRepository: FactorProvider {
   func create(withPayload createFactorPayload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
-    apiClient.create(createFactorPayload: createFactorPayload, success: { [weak self] response in
+    apiClient.create(withPayload: createFactorPayload, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {
         let factor = try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
@@ -43,7 +43,7 @@ extension FactorRepository: FactorProvider {
   }
   
   func save(_ factor: Factor) throws -> Factor {
-    try storage.save(factorMapper.toData(forFactor: factor), withKey: factor.sid)
+    try storage.save(factorMapper.toData(factor), withKey: factor.sid)
     return try get(withSid: factor.sid)
   }
   

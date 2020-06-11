@@ -153,7 +153,7 @@ class FactorMapperTests: XCTestCase {
       config: Config(credentialSid: Constants.expectedCredentialSid),
       keyPairAlias: Constants.expectedKeyPairAlias)
     var factorData: Data!
-    XCTAssertNoThrow(factorData = try! mapper.toData(forFactor: expectedFactor), "Factor mapper should succeed")
+    XCTAssertNoThrow(factorData = try! mapper.toData(expectedFactor), "Factor mapper should succeed")
     let factor = try! JSONDecoder().decode(PushFactor.self, from: factorData)
     XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor sid should be \(expectedFactor.sid) but was \(factor.sid)")
     XCTAssertEqual(factor.serviceSid, expectedFactor.serviceSid, "Factor serviceSid should be \(expectedFactor.serviceSid) but was \(factor.serviceSid)")
