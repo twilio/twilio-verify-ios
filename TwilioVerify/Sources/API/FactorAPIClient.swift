@@ -32,7 +32,25 @@ class FactorAPIClient {
       }) { error in
         failure(error)
       }
-    } catch  {
+    } catch {
+      failure(error)
+    }
+  }
+  
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+    do {
+      let authToken = authentication.generateJWT(forFactor: factor)
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: authToken))
+      let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
+        .setHTTPMethod(.post)
+        .setParameters(verifyFactorBody(authPayload: authPayload))
+        .build()
+      networkProvider.execute(request, success: { response in
+        success(response)
+      }) { error in
+        failure(error)
+      }
+    } catch {
       failure(error)
     }
   }
@@ -62,6 +80,17 @@ private extension FactorAPIClient {
             Parameter(name: Constants.bindingKey, value: bindingString),
             Parameter(name: Constants.configKey, value: configString)]
   }
+  
+  func verifyURL(for factor: Factor) -> String {
+    "\(baseURL)\(Constants.verifyFactorURL)"
+      .replacingOccurrences(of: Constants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: Constants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: Constants.factorSidPath, with: factor.sid)
+  }
+  
+  func verifyFactorBody(authPayload: String) -> [Parameter] {
+    [Parameter(name: Constants.authPayloadKey, value: authPayload)]
+  }
 }
 
 extension FactorAPIClient {
@@ -69,10 +98,13 @@ extension FactorAPIClient {
     static let jwtAuthenticationUser = "token"
     static let serviceSidPath = "{ServiceSid}"
     static let entityPath = "{EntityIdentity}"
+    static let factorSidPath = "{FactorSid}"
     static let friendlyNameKey = "FriendlyName"
     static let factorTypeKey = "FactorType"
     static let bindingKey = "Binding"
     static let configKey = "Config"
+    static let authPayloadKey = "AuthPayload"
     static let createFactorURL = "Services/\(serviceSidPath)/Entities/\(entityPath)/Factors"
+    static let verifyFactorURL = "Services/\(serviceSidPath)/Entities/\(entityPath)/Factors/\(factorSidPath)"
   }
 }
