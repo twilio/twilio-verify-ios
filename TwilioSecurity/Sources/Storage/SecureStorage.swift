@@ -19,9 +19,8 @@ public class SecureStorage {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  public init() {
-    self.keychain = Keychain()
-    self.keychainQuery = KeychainQuery()
+  public convenience init() {
+    self.init(keychain: Keychain(), keychainQuery: KeychainQuery())
   }
   
   init(keychain: KeychainProtocol = Keychain(),
@@ -52,7 +51,7 @@ extension SecureStorage: SecureStorageProvider {
   }
   
   public func removeValue(for key: String) throws {
-    let query = keychainQuery.delete(withKey: key)
+    let query = keychainQuery.delete(withKey: key, class: .genericPassword)
     let status = keychain.deleteItem(withQuery: query)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)

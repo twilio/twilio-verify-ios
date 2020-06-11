@@ -13,6 +13,7 @@ protocol KeyStorage {
   func createKey(withAlias alias: String) throws -> String
   func sign(withAlias alias: String, message: String) throws -> Data
   func signAndEncode(withAlias alias: String, message: String) throws -> String
+  func deleteKey(withAlias alias: String) throws
 }
 
 class KeyStorageAdapter {
@@ -54,6 +55,10 @@ extension KeyStorageAdapter: KeyStorage {
     } catch {
       throw error
     }
+  }
+  
+  func deleteKey(withAlias alias: String) throws {
+    try keyManager.deleteKey(withAlias: alias)
   }
 }
 
