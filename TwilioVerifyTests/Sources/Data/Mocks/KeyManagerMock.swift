@@ -21,4 +21,10 @@ extension KeyManagerMock: KeyManagerProtocol {
     }
     return signer
   }
+  
+  func deleteKey(withAlias alias: String) throws {
+    if let error = error {
+      throw error
+    }
+  }
 }

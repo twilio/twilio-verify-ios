@@ -79,12 +79,9 @@ class StorageTests: XCTestCase {
   }
   
   func testRemoveValue_valueExistsForKey_shouldReturnValue() {
-    let expectedData = "data".data(using: .utf8)!
     let key = "key"
-    var data: Data!
-    keychain.keys = [expectedData as AnyObject]
-    XCTAssertNoThrow(data = try storage.get(key), "Get should not throw")
-    XCTAssertEqual(data, expectedData, "Data should be \(expectedData) but was \(data!)")
+    keychain.deleteItemStatus = errSecSuccess
+    XCTAssertNoThrow(try storage.removeValue(for: key), "Remove value should not throw")
   }
   
   func testRemoveValue_valueDoesNotExist_shouldThrowError() {

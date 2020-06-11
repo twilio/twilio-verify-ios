@@ -10,7 +10,7 @@ import Foundation
 
 typealias Query = [String: Any]
 
-enum KeyClass {
+enum KeyAttrClass {
   case `public`
   case `private`
   
@@ -24,16 +24,30 @@ enum KeyClass {
   }
 }
 
+enum KeyClass {
+  case genericPassword
+  case key
+  
+  var value: CFString {
+    switch self {
+      case .genericPassword:
+        return kSecClassGenericPassword
+      case .key:
+        return kSecClassKey
+    }
+  }
+}
+
 protocol KeychainQueryProtocol {
-  func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query
+  func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
   func save(data: Data, withKey key: String) -> Query
   func getData(withKey key: String) -> Query
-  func delete(withKey key: String) -> Query
+  func delete(withKey key: String, class: KeyClass) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
-  func key(withTemplate template: SignerTemplate, class keyClass: KeyClass) -> Query {
+  func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query {
     [kSecClass: kSecClassKey,
      kSecAttrKeyClass: keyClass.value,
      kSecAttrLabel: template.alias,
@@ -63,8 +77,8 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-  func delete(withKey key: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
+  func delete(withKey key: String, class keyClass: KeyClass) -> Query {
+    [kSecClass: keyClass.value,
     kSecAttrAccount: key,
     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
