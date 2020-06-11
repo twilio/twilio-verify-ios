@@ -47,4 +47,14 @@ extension FactorMapperMock: FactorMapperProtocol {
     }
     fatalError("Expected params not set")
   }
+  
+  func status(fromData data: Data) throws -> FactorStatus {
+    if let error = error {
+      throw error
+    }
+    if let expectedData = expectedData, expectedData == data {
+      return try JSONDecoder().decode(FactorStatus.self, from: data)
+    }
+    fatalError("Expected params not set")
+  }
 }

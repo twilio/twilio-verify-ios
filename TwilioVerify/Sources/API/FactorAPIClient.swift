@@ -10,6 +10,7 @@ import Foundation
 
 protocol FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
 }
 
 class FactorAPIClient {

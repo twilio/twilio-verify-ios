@@ -10,7 +10,7 @@ import Foundation
 @testable import TwilioVerify
 
 class FactorAPIClientMock {
-  var factor: Data!
+  var factorData: Data!
   var error: Error?
 }
 
@@ -20,6 +20,14 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       failure(error)
       return
     }
-    success(Response(data: factor, headers: [:]))
+    success(Response(data: factorData, headers: [:]))
+  }
+  
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success(Response(data: factorData, headers: [:]))
   }
 }

@@ -42,7 +42,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
@@ -107,7 +107,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.error = expectedError
     factorRepository.create(withPayload: factorPayload, success: { factor in
@@ -138,7 +138,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
@@ -173,7 +173,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
