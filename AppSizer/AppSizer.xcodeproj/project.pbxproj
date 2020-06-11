@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F22EA92E24916DC5008712CF /* dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = F22EA92D24916DC5008712CF /* dev.plist */; };
+		F22EA935249186A3008712CF /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93124918634008712CF /* TwilioSecurity.framework */; };
+		F22EA936249186A3008712CF /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93124918634008712CF /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; };
+		F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F27AF9F7248EA61D009A62F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */; };
 		F27AF9FB248EA61D009A62F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9FA248EA61D009A62F9 /* ViewController.swift */; };
 		F27AF9FE248EA61D009A62F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F27AF9FC248EA61D009A62F9 /* Main.storyboard */; };
@@ -14,7 +19,25 @@
 		F27AFA03248EA61E009A62F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F27AFA01248EA61E009A62F9 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F22EA937249186A3008712CF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F22EA936249186A3008712CF /* TwilioSecurity.framework in Embed Frameworks */,
+				F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		F22EA92D24916DC5008712CF /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dev.plist; sourceTree = "<group>"; };
+		F22EA93024918634008712CF /* TwilioVerify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwilioVerify.framework; sourceTree = "<group>"; };
+		F22EA93124918634008712CF /* TwilioSecurity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = "<group>"; };
 		F27AF9F3248EA61D009A62F9 /* AppSizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F27AF9FA248EA61D009A62F9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,12 +52,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F22EA935249186A3008712CF /* TwilioSecurity.framework in Frameworks */,
+				F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F22EA92C24916D90008712CF /* ExportOptions */ = {
+			isa = PBXGroup;
+			children = (
+				F22EA92D24916DC5008712CF /* dev.plist */,
+			);
+			path = ExportOptions;
+			sourceTree = "<group>";
+		};
+		F22EA92F24916DCF008712CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F22EA93124918634008712CF /* TwilioSecurity.framework */,
+				F22EA93024918634008712CF /* TwilioVerify.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		F27AF9EA248EA61D009A62F9 = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +96,8 @@
 		F27AF9F5248EA61D009A62F9 /* AppSizer */ = {
 			isa = PBXGroup;
 			children = (
+				F22EA92F24916DCF008712CF /* Frameworks */,
+				F22EA92C24916D90008712CF /* ExportOptions */,
 				F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */,
 				F27AF9FA248EA61D009A62F9 /* ViewController.swift */,
 				F27AF9FC248EA61D009A62F9 /* Main.storyboard */,
@@ -74,6 +118,8 @@
 				F27AF9EF248EA61D009A62F9 /* Sources */,
 				F27AF9F0248EA61D009A62F9 /* Frameworks */,
 				F27AF9F1248EA61D009A62F9 /* Resources */,
+				F22EA937249186A3008712CF /* Embed Frameworks */,
+				F22EA93424918665008712CF /* Strip Archs */,
 			);
 			buildRules = (
 			);
@@ -124,11 +170,33 @@
 			files = (
 				F27AFA03248EA61E009A62F9 /* LaunchScreen.storyboard in Resources */,
 				F27AFA00248EA61E009A62F9 /* Assets.xcassets in Resources */,
+				F22EA92E24916DC5008712CF /* dev.plist in Resources */,
 				F27AF9FE248EA61D009A62F9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F22EA93424918665008712CF /* Strip Archs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Strip Archs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n$SRCROOT/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F27AF9EF248EA61D009A62F9 /* Sources */ = {
@@ -283,6 +351,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AppSizer/Frameworks",
+				);
 				INFOPLIST_FILE = AppSizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -304,6 +376,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AppSizer/Frameworks",
+				);
 				INFOPLIST_FILE = AppSizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

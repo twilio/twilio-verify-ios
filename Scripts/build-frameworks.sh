@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 source `dirname $0`/env.sh
 pushd ${BASE_DIR}
@@ -18,7 +18,12 @@ function make_universal_framework() {
   
   # Note: Important to use the iPhoneOS version of the framework as the basis as the Info.plist contains important values with respect to run-on-device capabililty
   cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
-
+  
+  SIMULATOR_SWIFT_MODULES_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule/."
+  if [ -d "${SIMULATOR_SWIFT_MODULES_DIR}" ]; then
+    cp -R "${SIMULATOR_SWIFT_MODULES_DIR}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule"
+  fi
+  
   lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
                "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
                "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"
@@ -40,12 +45,9 @@ function make_universal_framework() {
         cp -av "${bcsymbolmap}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
       fi
     done
-
-    cp `dirname $0`/strip-frameworks.sh "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
   fi
+  cp `dirname $0`/strip-frameworks.sh "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
 }
-
-VERSION_INFO="TS_SDK_VERSION=${SDK_RELEASE_VERSION} TS_SDK_BUILD_NUMBER=${BUILD_NUMBER}"
 
 # Output folder preparation
 rm -rf ${BUILD_DIR}/${CONFIGURATION}*
@@ -57,7 +59,6 @@ BITCODE_MODE=marker
 if [ "${CONFIGURATION}" = "Release" ]; then
   BITCODE_MODE=bitcode
 fi
-
 
 # Build the TwilioVideo target which does the framework, unit and integration tests
 for framework in TwilioSecurity TwilioVerify; do
@@ -73,7 +74,6 @@ for framework in TwilioSecurity TwilioVerify; do
       BITCODE_GENERATION_MODE=${BITCODE_MODE}
   done
 done
-
 
 # Combine Device, Simulator .framework files into one
 make_universal_framework TwilioSecurity

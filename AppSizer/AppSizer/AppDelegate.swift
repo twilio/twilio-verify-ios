@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import TwilioVerify
+import TwilioSecurity
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    print("TwilioSecurityVersion: \(TwilioSecurityVersionNumber)")
+    print("TwilioVerifyVersion: \(TwilioVerifyVersionNumber)")
     return true
   }
 }
