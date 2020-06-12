@@ -12,6 +12,7 @@ import Foundation
 class FactorMapperMock {
   var expectedFactor: Factor?
   var expectedData: Data?
+  var expectedStatusData: Data?
   var expectedFactorPayload: FactorPayload?
   var error: Error?
 }
@@ -43,6 +44,9 @@ extension FactorMapperMock: FactorMapperProtocol {
       throw error
     }
     if let expectedData = expectedData, expectedData == data {
+      return try JSONDecoder().decode(PushFactor.self, from: data)
+    }
+    if let expectedData = expectedData {
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }
     fatalError("Expected params not set")
@@ -52,8 +56,13 @@ extension FactorMapperMock: FactorMapperProtocol {
     if let error = error {
       throw error
     }
-    if let expectedData = expectedData, expectedData == data {
-      return try JSONDecoder().decode(FactorStatus.self, from: data)
+    if let expectedData = expectedStatusData, expectedData == data {
+      guard let jsonFactor = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+        let status = jsonFactor[(\Factor.status).toString] as? String,
+        let factorStatus = FactorStatus(rawValue: status) else {
+          throw MapperError.invalidArgument
+      }
+      return factorStatus
     }
     fatalError("Expected params not set")
   }

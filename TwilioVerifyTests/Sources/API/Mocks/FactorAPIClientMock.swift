@@ -11,6 +11,8 @@ import Foundation
 
 class FactorAPIClientMock {
   var factorData: Data!
+  var statusData: Data!
+  var expectedFactorSid: String!
   var error: Error?
 }
 
@@ -28,6 +30,10 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       failure(error)
       return
     }
-    success(Response(data: factorData, headers: [:]))
+    if factor.sid == expectedFactorSid {
+      success(Response(data: statusData, headers: [:]))
+      return
+    }
+    fatalError("Expected params not set")
   }
 }
