@@ -15,3 +15,7 @@ struct FakeFactorInput: FactorInput {
   var identity: String
   var factorType: FactorType
 }
+
+struct FakeVerifyPushFactorInput: VerifyFactorInput {
+  let sid: String
+}
