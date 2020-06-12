@@ -70,7 +70,7 @@ extension PushFactory: PushFactoryProtocol {
   }
 }
 
-extension PushFactory {
+private extension PushFactory {
   struct Constants {
     static let publicKey = "public_key"
     static let pushType = "apn"
