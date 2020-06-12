@@ -59,11 +59,11 @@ extension PushFactory: PushFactoryProtocol {
         guard let strongSelf = self else { return }
         do {
           try strongSelf.keyStorage.deleteKey(withAlias: alias)
+          failure(TwilioVerifyError.networkError(error: error as NSError))
         } catch {
           failure(TwilioVerifyError.keyStorageError(error: error as NSError))
         }
       }
-      
     } catch {
       failure(TwilioVerifyError.keyStorageError(error: error as NSError))
     }
@@ -73,7 +73,7 @@ extension PushFactory: PushFactoryProtocol {
 extension PushFactory {
   struct Constants {
     static let publicKey = "public_key"
-    static let pushType = "apn(?)"
+    static let pushType = "apn"
     static let sdkVersionKey = "sdk_version"
     static let appIdKey = "app_id"
     static let notificationPlatformKey = "notification_platform"
@@ -100,8 +100,8 @@ extension PushFactory {
   }
   
   func config(withToken token: String) -> [String: String] {
-    [Constants.sdkVersionKey: "",
-     Constants.appIdKey: "",
+    [Constants.sdkVersionKey: String(TwilioVerifyVersionNumber),
+     Constants.appIdKey: Bundle.main.bundleIdentifier ?? "",
      Constants.notificationPlatformKey: Constants.pushType,
      Constants.notificationTokenKey: token]
   }

@@ -83,6 +83,9 @@
 		F2DF31722473013A00CF4DC3 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31712473013A00CF4DC3 /* Template.swift */; };
 		F2DF31742473024300CF4DC3 /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */; };
 		F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F32492C76A00922FBA /* PushFactory.swift */; };
+		F2E6C9F62492DD1F00922FBA /* PushFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */; };
+		F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */; };
+		F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F92492E11300922FBA /* FactorRepositoryMock.swift */; };
 		F2F62FA0248846D800E330E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62F9F248846D800E330E4 /* AppDelegate.swift */; };
 		F2F62FA2248846D800E330E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62FA1248846D800E330E4 /* SceneDelegate.swift */; };
 		F2F62FA4248846D800E330E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F62FA3248846D800E330E4 /* ViewController.swift */; };
@@ -213,6 +216,9 @@
 		F2DF31712473013A00CF4DC3 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
 		F2E6C9F32492C76A00922FBA /* PushFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactory.swift; sourceTree = "<group>"; };
+		F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryTests.swift; sourceTree = "<group>"; };
+		F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorageMock.swift; sourceTree = "<group>"; };
+		F2E6C9F92492E11300922FBA /* FactorRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepositoryMock.swift; sourceTree = "<group>"; };
 		F2F62F9D248846D800E330E4 /* HostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F62F9F248846D800E330E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2F62FA1248846D800E330E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -410,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */,
+				F2E6C9F92492E11300922FBA /* FactorRepositoryMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -438,6 +445,7 @@
 				20C36FED24914B7200DF6C0E /* Mocks */,
 				20C710CB248AAB1700B0F448 /* FactorMapperTests.swift */,
 				20A088492490465200701CCC /* FactorRepositoryTests.swift */,
+				F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -501,6 +509,7 @@
 				F207BBBB249032CC00688E5C /* KeyManagerMock.swift */,
 				F207BBBD2490337000688E5C /* SignerMock.swift */,
 				20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */,
+				F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -997,8 +1006,10 @@
 			files = (
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
+				F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */,
 				20C36FEF24914B7C00DF6C0E /* FactorMapperMock.swift in Sources */,
 				2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */,
+				F2E6C9F62492DD1F00922FBA /* PushFactoryTests.swift in Sources */,
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,
@@ -1007,6 +1018,7 @@
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
+				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
