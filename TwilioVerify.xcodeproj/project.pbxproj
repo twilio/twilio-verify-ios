@@ -272,8 +272,6 @@
 		2019ABFB2486F6FD009728E4 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				F07B6F592492CA6700948FB1 /* FactorMock.swift */,
-				F07B6F582492CA6700948FB1 /* JwtGeneratorMock.swift */,
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
 			);
 			path = Mocks;
@@ -384,6 +382,7 @@
 		20B8A3EB2485581D003F69EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F05A319C2493E26C0098F49C /* Models */,
 				F207BBB324901E5300688E5C /* Data */,
 				20C710C9248AAB0100B0F448 /* Domain */,
 				20E3BB1F248984B300BC90DE /* API */,
@@ -467,6 +466,22 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		F05A319C2493E26C0098F49C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F05A319D2493E2730098F49C /* Mocks */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F05A319D2493E2730098F49C /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				F07B6F592492CA6700948FB1 /* FactorMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		F07B6F4E2492C9A800948FB1 /* JWT */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,6 +523,7 @@
 		F207BBB62490208900688E5C /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				F07B6F582492CA6700948FB1 /* JwtGeneratorMock.swift */,
 				F07B6F562492CA5900948FB1 /* JwtSignerMock.swift */,
 				F207BBB72490209900688E5C /* SecureStorageMock.swift */,
 				F207BBBB249032CC00688E5C /* KeyManagerMock.swift */,

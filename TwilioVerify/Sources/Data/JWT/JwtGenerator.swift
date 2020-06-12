@@ -17,7 +17,7 @@ class JwtGenerator {
   
   private let jwtSigner: JwtSignerProtocol
   
-  init(withJwtSigner jwtSigner: JwtSignerProtocol) {
+  init(withJwtSigner jwtSigner: JwtSignerProtocol = JwtSigner()) {
     self.jwtSigner = jwtSigner
   }
 }
@@ -49,10 +49,10 @@ extension JwtGenerator {
 
 private extension JwtGenerator {
   func base64EncodedUrlSafeString(withData data: Data) -> String {
-    return data.base64EncodedString()
-      .replacingOccurrences(of: "%", with: "_")
-      .replacingOccurrences(of: "=", with: "")
-      .replacingOccurrences(of: "+", with: "-")
-      .replacingOccurrences(of: "/", with: "_")
+    data.base64EncodedString()
+        .replacingOccurrences(of: "%", with: "_")
+        .replacingOccurrences(of: "=", with: "")
+        .replacingOccurrences(of: "+", with: "-")
+        .replacingOccurrences(of: "/", with: "_")
   }
 }

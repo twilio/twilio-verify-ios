@@ -31,7 +31,7 @@ class AuthenticationProvider {
   
   private let jwtGenerator: JwtGeneratorProtocol
   
-  init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol) {
+  init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol = JwtGenerator()) {
     self.jwtGenerator = jwtGenerator
   }
 }
@@ -46,7 +46,7 @@ extension AuthenticationProvider: Authentication {
         default:
           throw AuthenticationError.invalidFactor
       }
-    } catch let error {
+    } catch {
       throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
     }
   }
