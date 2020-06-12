@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FactorProvider {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock)
+  func create(withPayload payload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
 }
@@ -28,7 +28,7 @@ class FactorRepository {
 }
 
 extension FactorRepository: FactorProvider {
-  func create(withPayload createFactorPayload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+  func create(withPayload createFactorPayload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
     apiClient.create(withPayload: createFactorPayload, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {

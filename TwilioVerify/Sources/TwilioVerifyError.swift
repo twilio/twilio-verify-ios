@@ -63,3 +63,14 @@ enum TwilioVerifyError: LocalizedError {
     }
   }
 }
+
+enum InputError: LocalizedError {
+  case invalidInput
+  
+  var localizedDescription: String {
+    switch self {
+      case .invalidInput:
+        return "Invalid input"
+    }
+  }
+}
