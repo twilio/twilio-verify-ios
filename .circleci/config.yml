@@ -82,7 +82,7 @@ commands:
           name: "Build Frameworks"
           command: ./Scripts/build-frameworks.sh
       - persist_to_workspace:
-          root: /workspace
+          root: tmp/workspace
           paths:
             - temp/DerivedData/Build/Products/Release-universal
 
