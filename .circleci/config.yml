@@ -136,7 +136,7 @@ workflows:
       - TwilioVerify Unit Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      - Build Frameworks:
+      - Build Frameworks
           # requires:
           #   - TwilioSecurity Unit Tests
           #   - TwilioVerify Unit Tests
