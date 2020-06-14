@@ -4,7 +4,6 @@ executors:
   macos_executor:
     macos:
       xcode: "11.5.0"
-    working_directory: /tmp/workspace
 
 commands:
   setup:
@@ -81,25 +80,15 @@ commands:
       - run:
           name: "Build Frameworks"
           command: ./Scripts/build-frameworks.sh
-      - persist_to_workspace:
-          root: tmp/workspace
-          paths:
-            - temp/DerivedData/Build/Products/Release-universal
 
   build_app_sizer:
     steps:
       - setup
       - use_system_ruby
-      - attach_workspace:
-          at: workspace
-      - run: |
-          if [ -d "Release-universal" ] then
-            echo "Directory Release-universal exists." 
-          else
-              echo "Error: Directory Release-universal does not exists."
-          fi
-      
-        
+      - build_frameworks
+      - run:
+          name: "Copy Frameworks"
+          command: cp -R temp/DerivedData/Build/Products/Release-universal/. AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
@@ -136,13 +125,11 @@ workflows:
       - TwilioVerify Unit Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      - Build Frameworks
+      # - Build Frameworks
           # requires:
           #   - TwilioSecurity Unit Tests
           #   - TwilioVerify Unit Tests
-      - Size report:
-          requires:
-            - Build Frameworks
+      - Size report
 
       
       
