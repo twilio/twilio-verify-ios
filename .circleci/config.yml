@@ -74,10 +74,31 @@ commands:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
 
+  build_frameworks:
+    steps:
+      - setup
+      - run:
+          name: "Build Frameworks"
+          command: ./Scripts/build-frameworks.sh
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - temp/DerivedData/Build/Products/Release-universal
+
   build_app_sizer:
     steps:
       - setup
       - use_system_ruby
+      - attach_workspace:
+          at: workspace
+      - run: |
+          if [ -d "Release-universal" ] then
+            echo "Directory Release-universal exists." 
+          else
+              echo "Error: Directory Release-universal does not exists."
+          fi
+      
+        
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
@@ -98,6 +119,10 @@ jobs:
     steps:
       - test:
           scheme: TwilioVerifyDemo
+  Build Frameworks:
+    executor: macos_executor
+    steps:
+      - build_frameworks
   Size report:
     executor: macos_executor
     steps:
@@ -110,7 +135,13 @@ workflows:
       - TwilioVerify Unit Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      - Size report
+      - Build Frameworks:
+          requires:
+            - TwilioSecurity Unit Tests
+            - TwilioVerify Unit Tests
+      - Size report:
+          requires:
+            - Build Frameworks
 
       
       
