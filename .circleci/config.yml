@@ -76,7 +76,6 @@ commands:
 
   build_frameworks:
     steps:
-      - setup
       - run:
           name: "Build Frameworks"
           command: ./Scripts/build-frameworks.sh
