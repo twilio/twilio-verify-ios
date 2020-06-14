@@ -4,7 +4,7 @@ executors:
   macos_executor:
     macos:
       xcode: "11.5.0"
-    working_directory: /workspace
+    working_directory: /tmp/workspace
 
 commands:
   setup:
