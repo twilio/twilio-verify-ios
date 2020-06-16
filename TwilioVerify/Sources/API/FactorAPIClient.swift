@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol FactorAPIClientProtocol {
+  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
+}
+
 class FactorAPIClient {
   
   private let networkProvider: NetworkProvider
@@ -19,13 +23,15 @@ class FactorAPIClient {
     self.authentication = authentication
     self.baseURL = baseURL
   }
-  
-  func create(createFactorPayload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+}
+
+extension FactorAPIClient: FactorAPIClientProtocol {
+  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: createFactorPayload.jwe))
-      let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: createFactorPayload), requestHelper: requestHelper)
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: payload.jwe))
+      let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: payload), requestHelper: requestHelper)
         .setHTTPMethod(.post)
-        .setParameters(createFactorBody(createFactorPayload: createFactorPayload))
+        .setParameters(createFactorBody(createFactorPayload: payload))
         .build()
       networkProvider.execute(request, success: { response in
         success(response)
@@ -57,7 +63,6 @@ class FactorAPIClient {
 }
 
 private extension FactorAPIClient {
-  
   func createURL(createFactorPayload: CreateFactorPayload) -> String {
     "\(baseURL)\(Constants.createFactorURL)"
       .replacingOccurrences(of: Constants.serviceSidPath, with: createFactorPayload.serviceSid)

@@ -29,7 +29,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
+    factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
     }) { error in
@@ -46,7 +46,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
+    factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -62,7 +62,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: [:], binding: [:], jwe: Constants.jwe)
-    factorAPIClient.create(createFactorPayload: createFactorPayload, success: { response in
+    factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -91,7 +91,7 @@ class FactorAPIClientTests: XCTestCase {
                                                   serviceSid: Constants.serviceSid, entity: Constants.entity,
                                                   config: config, binding: binding, jwe: Constants.jwe)
     
-    factorAPIClient.create(createFactorPayload: createFactorPayload, success: {_ in }, failure: {_ in })
+    factorAPIClient.create(withPayload: createFactorPayload, success: {_ in }, failure: {_ in })
     
     XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
                    "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
