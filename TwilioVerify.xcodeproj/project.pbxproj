@@ -27,6 +27,8 @@
 		209357402487185A008FDBCC /* ChallengeListInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573F2487185A008FDBCC /* ChallengeListInput.swift */; };
 		20935746248719A9008FDBCC /* UpdateChallengeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935745248719A9008FDBCC /* UpdateChallengeInput.swift */; };
 		20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935747248719D5008FDBCC /* UpdateFactorInput.swift */; };
+		20A08846249019BC00701CCC /* FactorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A08845249019BC00701CCC /* FactorRepository.swift */; };
+		20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A088492490465200701CCC /* FactorRepositoryTests.swift */; };
 		20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */; };
 		20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */; };
 		20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */; };
@@ -39,6 +41,9 @@
 		20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */; };
 		20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkProvider.swift */; };
 		20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */; };
+		20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FE924914ABE00DF6C0E /* FactorAPIClientMock.swift */; };
+		20C36FEC24914B1800DF6C0E /* StorageProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */; };
+		20C36FEF24914B7C00DF6C0E /* FactorMapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */; };
 		20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */; };
 		20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */; };
 		20C710C8248AA23600B0F448 /* FactorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C710C7248AA23600B0F448 /* FactorMapper.swift */; };
@@ -153,6 +158,8 @@
 		2093573F2487185A008FDBCC /* ChallengeListInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListInput.swift; sourceTree = "<group>"; };
 		20935745248719A9008FDBCC /* UpdateChallengeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChallengeInput.swift; sourceTree = "<group>"; };
 		20935747248719D5008FDBCC /* UpdateFactorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorInput.swift; sourceTree = "<group>"; };
+		20A08845249019BC00701CCC /* FactorRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepository.swift; sourceTree = "<group>"; };
+		20A088492490465200701CCC /* FactorRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepositoryTests.swift; sourceTree = "<group>"; };
 		20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
 		20A92FC9248197F600A9E8E7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		20A92FCB24819B0900A9E8E7 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
@@ -165,6 +172,9 @@
 		20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelperTests.swift; sourceTree = "<group>"; };
 		20C0B19A2486DB640041E67F /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		20C0B19E2486DDED0041E67F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		20C36FE924914ABE00DF6C0E /* FactorAPIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClientMock.swift; sourceTree = "<group>"; };
+		20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProviderMock.swift; sourceTree = "<group>"; };
+		20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMapperMock.swift; sourceTree = "<group>"; };
 		20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProviderMock.swift; sourceTree = "<group>"; };
 		20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMock.swift; sourceTree = "<group>"; };
 		20C710C7248AA23600B0F448 /* FactorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMapper.swift; sourceTree = "<group>"; };
@@ -331,6 +341,7 @@
 				2093572C24870D5E008FDBCC /* Models */,
 				20C710C7248AA23600B0F448 /* FactorMapper.swift */,
 				2051B01C248AF1E400033B41 /* MapperError.swift */,
+				20A08845249019BC00701CCC /* FactorRepository.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -408,11 +419,20 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		20C36FED24914B7200DF6C0E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		20C710C2248A9BF000B0F448 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
 				20C710C3248A9C1300B0F448 /* NetworkProviderMock.swift */,
 				20C710C5248A9C3100B0F448 /* AuthenticationMock.swift */,
+				20C36FE924914ABE00DF6C0E /* FactorAPIClientMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -428,7 +448,9 @@
 		20C710CA248AAB0700B0F448 /* Factor */ = {
 			isa = PBXGroup;
 			children = (
+				20C36FED24914B7200DF6C0E /* Mocks */,
 				20C710CB248AAB1700B0F448 /* FactorMapperTests.swift */,
+				20A088492490465200701CCC /* FactorRepositoryTests.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -528,6 +550,7 @@
 				F207BBB72490209900688E5C /* SecureStorageMock.swift */,
 				F207BBBB249032CC00688E5C /* KeyManagerMock.swift */,
 				F207BBBD2490337000688E5C /* SignerMock.swift */,
+				20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -998,6 +1021,7 @@
 				20A92FD42481C9E000A9E8E7 /* HTTPHeaders.swift in Sources */,
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */,
+				20A08846249019BC00701CCC /* FactorRepository.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */,
 				2051B01D248AF1E400033B41 /* MapperError.swift in Sources */,
@@ -1024,11 +1048,13 @@
 			files = (
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
+				20C36FEF24914B7C00DF6C0E /* FactorMapperMock.swift in Sources */,
 				F07B6F5D2492CB2600948FB1 /* AuthenticationProviderTests.swift in Sources */,
 				2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */,
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,
+				20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */,
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
@@ -1037,6 +1063,8 @@
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
+				20C36FEC24914B1800DF6C0E /* StorageProviderMock.swift in Sources */,
+				20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */,
 				20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */,
 				F207BBBC249032CC00688E5C /* KeyManagerMock.swift in Sources */,
 				F07B6F552492CA5000948FB1 /* JwtGeneratorTests.swift in Sources */,
