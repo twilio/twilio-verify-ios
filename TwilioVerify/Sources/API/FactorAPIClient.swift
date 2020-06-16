@@ -45,7 +45,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
   
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
-      let authToken = authentication.generateJWT(forFactor: factor)
+      let authToken = try authentication.generateJWT(forFactor: factor)
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: authToken))
       let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
         .setHTTPMethod(.post)
