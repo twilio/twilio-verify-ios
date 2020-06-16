@@ -42,7 +42,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
@@ -107,7 +107,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.error = expectedError
     factorRepository.create(withPayload: factorPayload, success: { factor in
@@ -138,7 +138,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
@@ -173,7 +173,7 @@ class FactorRepositoryTests: XCTestCase {
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let factorData = try! JSONEncoder().encode(expectedFactor)
-    factorAPIClient.factor = factorData
+    factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = expectedFactor
     factorMapper.expectedData = factorData
     factorMapper.expectedFactorPayload = factorPayload
@@ -188,6 +188,113 @@ class FactorRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+  }
+  
+  func testVerifyFactor_withValidResponse_shouldSucceed() {
+    let successExpectation = expectation(description: "Wait for success response")
+    let payload = "authPayload"
+    let expectedFactorStatus = FactorStatus.verified
+    let response: [String: Any] = [Constants.sidKey: Constants.expectedSidValue,
+                                   Constants.friendlyNameKey: Constants.friendlyNameValue,
+                                   Constants.accountSidKey: Constants.expectedAccountSid,
+                                   Constants.serviceSidKey: Constants.serviceSidValue,
+                                   Constants.statusKey: expectedFactorStatus.rawValue]
+    
+    let storedFactor = PushFactor(
+      status: .unverified,
+      sid: Constants.expectedSidValue,
+      friendlyName: Constants.friendlyNameValue,
+      accountSid: Constants.expectedAccountSid,
+      serviceSid: Constants.serviceSidValue,
+      entityIdentity: Constants.entityIdentityValue,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.expectedCredentialSid))
+    let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+    factorAPIClient.expectedFactorSid = storedFactor.sid
+    factorAPIClient.statusData = responseData
+    storage.expectedSid = storedFactor.sid
+    storage.factorData = responseData
+    let expectedFactor = PushFactor(
+      status: expectedFactorStatus,
+      sid: Constants.expectedSidValue,
+      friendlyName: Constants.friendlyNameValue,
+      accountSid: Constants.expectedAccountSid,
+      serviceSid: Constants.serviceSidValue,
+      entityIdentity: Constants.entityIdentityValue,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.expectedCredentialSid))
+    let expectedFactorData = try! JSONEncoder().encode(expectedFactor)
+    factorMapper.expectedFactor = storedFactor
+    factorMapper.expectedData = expectedFactorData
+    factorMapper.expectedStatusData = responseData
+    
+    var factorResponse: Factor?
+    factorRepository.verify(storedFactor, payload: payload, success: { factor in
+      factorResponse = factor
+      successExpectation.fulfill()
+    }) { error in
+      XCTFail()
+      successExpectation.fulfill()
+    }
+    wait(for: [successExpectation], timeout: 5)
+    XCTAssertTrue(factorResponse is PushFactor, "Factor should be \(PushFactor.self)")
+    XCTAssertEqual(factorResponse?.status, expectedFactorStatus)
+  }
+  
+  func testVerifyFactor_withInvalidResponse_shouldFail() {
+    let failureExpectation = expectation(description: "Wait for failure response")
+    let factor = PushFactor(
+      status: .unverified,
+      sid: Constants.expectedSidValue,
+      friendlyName: Constants.friendlyNameValue,
+      accountSid: Constants.expectedAccountSid,
+      serviceSid: Constants.serviceSidValue,
+      entityIdentity: Constants.entityIdentityValue,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.expectedCredentialSid))
+    let expectedError = NetworkError.invalidData
+    factorAPIClient.error = expectedError
+    var error: Error!
+    factorRepository.verify(factor, payload: "", success: { factor in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { failureError in
+      error = failureError
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
+  }
+  
+  func testVerifyFactor_withErrorInMaper_shouldFail() {
+    let failureExpectation = expectation(description: "Wait for failure response")
+    let payload = "authPayload"
+    let response: [String: Any] = [Constants.sidKey: Constants.expectedSidValue]
+    
+    let factor = PushFactor(
+      status: .unverified,
+      sid: Constants.expectedSidValue,
+      friendlyName: Constants.friendlyNameValue,
+      accountSid: Constants.expectedAccountSid,
+      serviceSid: Constants.serviceSidValue,
+      entityIdentity: Constants.entityIdentityValue,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.expectedCredentialSid))
+    let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+    factorAPIClient.expectedFactorSid = factor.sid
+    factorAPIClient.statusData = responseData
+    factorMapper.expectedStatusData = responseData
+    var error: Error!
+    factorRepository.verify(factor, payload: payload, success: { factor in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { failureError in
+      error = failureError
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual((error as! MapperError).errorDescription, MapperError.invalidArgument.errorDescription,
+                   "Error description should be \(MapperError.invalidArgument.errorDescription) but was \((error as! MapperError).errorDescription)")
   }
   
   func testSaveFactor_withFactorSuccessfullyStored_shouldSucceed() {
@@ -298,8 +405,12 @@ class FactorRepositoryTests: XCTestCase {
 
 private extension FactorRepositoryTests {
   struct Constants {
-    static let baseURL = "https://twilio.com"
     static let pushType = FactorType.push
+    static let sidKey = "sid"
+    static let friendlyNameKey = "friendlyName"
+    static let accountSidKey = "account_sid"
+    static let statusKey = "status"
+    static let serviceSidKey = "service_sid"
     static let friendlyNameValue = "factor name"
     static let serviceSidValue = "serviceSid123"
     static let entityIdentityValue = "entityId123"

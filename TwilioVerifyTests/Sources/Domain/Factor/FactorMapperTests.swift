@@ -164,6 +164,23 @@ class FactorMapperTests: XCTestCase {
     XCTAssertEqual(factor.keyPairAlias, expectedFactor.keyPairAlias,
                    "Factor keyPairAlias should be \(String(describing: expectedFactor.keyPairAlias)) but was \(String(describing: factor.keyPairAlias))")
   }
+  
+  func testMapStatus_withValidResponse_shouldReturnFactorStatus() {
+    let expectedFactorStatus = FactorStatus.verified
+    let response = [Constants.statusKey: expectedFactorStatus.rawValue]
+    let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+    var status: FactorStatus!
+    XCTAssertNoThrow(status = try mapper.status(fromData: responseData), "Factor mapper should succeed")
+    XCTAssertEqual(status, expectedFactorStatus, "Status should be \(expectedFactorStatus) but was \(status!)")
+  }
+  
+  func testMapStatus_withInvalidResponse_shouldThrow() {
+    let response = [Constants.sidKey: Constants.expectedSidValue]
+    let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+    XCTAssertThrowsError(try mapper.status(fromData: responseData)) { error in
+      XCTAssertTrue(error as! MapperError == MapperError.invalidArgument)
+    }
+  }
 }
 
 private extension FactorMapperTests {

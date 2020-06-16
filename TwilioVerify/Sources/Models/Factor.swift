@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol Factor {
-  var status: FactorStatus { get }
+  var status: FactorStatus { get set }
   var sid: String { get }
   var friendlyName: String { get }
   var accountSid: String { get }
@@ -32,6 +32,7 @@ extension KeyPath where Root == Factor {
   var toString: String {
     switch self {
       case \Factor.type: return "type"
+      case \Factor.status: return "status"
       default: fatalError("Unexpected key path")
     }
   }

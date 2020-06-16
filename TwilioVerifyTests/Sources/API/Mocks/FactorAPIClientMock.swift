@@ -10,7 +10,9 @@ import Foundation
 @testable import TwilioVerify
 
 class FactorAPIClientMock {
-  var factor: Data!
+  var factorData: Data!
+  var statusData: Data!
+  var expectedFactorSid: String!
   var error: Error?
 }
 
@@ -20,6 +22,18 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       failure(error)
       return
     }
-    success(Response(data: factor, headers: [:]))
+    success(Response(data: factorData, headers: [:]))
+  }
+  
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    if factor.sid == expectedFactorSid {
+      success(Response(data: statusData, headers: [:]))
+      return
+    }
+    fatalError("Expected params not set")
   }
 }

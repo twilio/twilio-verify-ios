@@ -12,6 +12,7 @@ protocol FactorMapperProtocol {
   func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor
   func fromStorage(withData data: Data) throws -> Factor
   func toData(_ factor: Factor) throws -> Data
+  func status(fromData data: Data) throws -> FactorStatus
 }
 
 class FactorMapper: FactorMapperProtocol {
@@ -48,6 +49,15 @@ class FactorMapper: FactorMapperProtocol {
       case .push:
         return try JSONEncoder().encode(factor as? PushFactor)
     }
+  }
+  
+  func status(fromData data: Data) throws -> FactorStatus {
+    guard let jsonFactor = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+      let status = jsonFactor[(\Factor.status).toString] as? String,
+      let factorStatus = FactorStatus(rawValue: status) else {
+        throw MapperError.invalidArgument
+    }
+    return factorStatus
   }
 }
 

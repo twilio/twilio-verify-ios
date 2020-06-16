@@ -10,6 +10,7 @@ import Foundation
 
 protocol FactorProvider {
   func create(withPayload payload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
+  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
 }
@@ -34,6 +35,22 @@ extension FactorRepository: FactorProvider {
       do {
         let factor = try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
         success(try strongSelf.save(factor))
+      } catch {
+        failure(error)
+      }
+    }) { error in
+      failure(error)
+    }
+  }
+  
+  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+    apiClient.verify(factor, authPayload: payload, success: { [weak self] response in
+      guard let strongSelf = self else { return }
+      do {
+        let status = try strongSelf.factorMapper.status(fromData: response.data)
+        var updatedFactor = factor
+        updatedFactor.status = status
+        success(try strongSelf.save(updatedFactor))
       } catch {
         failure(error)
       }
