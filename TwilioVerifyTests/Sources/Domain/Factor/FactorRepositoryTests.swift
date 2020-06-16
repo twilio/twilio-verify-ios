@@ -254,14 +254,16 @@ class FactorRepositoryTests: XCTestCase {
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
+    var error: Error!
     factorRepository.verify(factor, payload: "", success: { factor in
       XCTFail()
       failureExpectation.fulfill()
-    }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
+    }) { failureError in
+      error = failureError
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
   }
   
   func testVerifyFactor_withErrorInMaper_shouldFail() {
@@ -403,7 +405,6 @@ class FactorRepositoryTests: XCTestCase {
 
 private extension FactorRepositoryTests {
   struct Constants {
-    static let baseURL = "https://twilio.com"
     static let pushType = FactorType.push
     static let sidKey = "sid"
     static let friendlyNameKey = "friendlyName"

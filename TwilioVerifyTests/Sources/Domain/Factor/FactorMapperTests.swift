@@ -167,7 +167,7 @@ class FactorMapperTests: XCTestCase {
   
   func testMapStatus_withValidResponse_shouldReturnFactorStatus() {
     let expectedFactorStatus = FactorStatus.verified
-    let response: [String: Any] = [Constants.statusKey: expectedFactorStatus.rawValue]
+    let response = [Constants.statusKey: expectedFactorStatus.rawValue]
     let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
     var status: FactorStatus!
     XCTAssertNoThrow(status = try mapper.status(fromData: responseData), "Factor mapper should succeed")
@@ -175,7 +175,7 @@ class FactorMapperTests: XCTestCase {
   }
   
   func testMapStatus_withInvalidResponse_shouldThrow() {
-    let response: [String: Any] = [Constants.sidKey: Constants.expectedSidValue]
+    let response = [Constants.sidKey: Constants.expectedSidValue]
     let responseData = try! JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
     XCTAssertThrowsError(try mapper.status(fromData: responseData)) { error in
       XCTAssertTrue(error as! MapperError == MapperError.invalidArgument)
