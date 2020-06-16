@@ -46,6 +46,12 @@ commands:
     steps:
       - store_test_results:
             path: "./fastlane/Test Output"
+  
+  store_frameworks:
+    steps:
+      - store_artifacts:
+            path: "./temp/DerivedData/Build/Products/Release-universal/"
+
   test:
     parameters:
       scheme:
@@ -85,6 +91,7 @@ commands:
       - setup
       - use_system_ruby
       - build_frameworks
+      - store_frameworks
       - run:
           name: "Copy Frameworks"
           command: cp -R temp/DerivedData/Build/Products/Release-universal/. AppSizer/AppSizer/Frameworks
