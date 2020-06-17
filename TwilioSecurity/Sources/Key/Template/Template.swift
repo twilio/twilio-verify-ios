@@ -17,4 +17,5 @@ public protocol Template {
 public protocol SignerTemplate: Template {
   var signatureAlgorithm: SecKeyAlgorithm {get}
   var parameters: [String: Any] {get}
+  var accessControl: SecAccessControl {get}
 }
