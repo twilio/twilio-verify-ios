@@ -10,7 +10,7 @@ import Foundation
 @testable import TwilioVerify
 
 struct FactorMock: Factor {
-  let status: FactorStatus
+  var status: FactorStatus
   let sid: String
   let friendlyName: String
   let accountSid: String
