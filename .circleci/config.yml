@@ -90,16 +90,16 @@ commands:
     steps:
       - setup
       - use_system_ruby
-      - build_frameworks
-      - run:
-          name: "Copy Frameworks"
-          command: cp -R temp/DerivedData/Build/Products/Release-universal/. AppSizer/AppSizer/Frameworks
-      - run:
-          name: "Zip Files"
-          command: |
-                  cd AppSizer/AppSizer/Frameworks
-                  zip -r TwilioVerify.zip TwilioVerify.framework TwilioSecurity.framework
-      - store_frameworks
+      # - build_frameworks
+      # - run:
+      #     name: "Copy Frameworks"
+      #     command: cp -R temp/DerivedData/Build/Products/Release-universal/. AppSizer/AppSizer/Frameworks
+      # - run:
+      #     name: "Zip Files"
+      #     command: |
+      #             cd AppSizer/AppSizer/Frameworks
+      #             zip -r TwilioVerify.zip TwilioVerify.framework TwilioSecurity.framework
+      # - store_frameworks
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
