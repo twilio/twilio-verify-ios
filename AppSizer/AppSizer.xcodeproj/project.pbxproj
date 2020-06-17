@@ -194,7 +194,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n$SRCROOT/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\n";
+			shellScript = "#$SRCROOT/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n#$SRCROOT/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
