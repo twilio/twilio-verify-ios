@@ -1,40 +1,42 @@
 //
-//  KeyStorageAdapterMock.swift
+//  KeyStorageMock.swift
 //  TwilioVerifyTests
 //
-//  Created by Yeimi Moreno on 6/12/20.
+//  Created by Santiago Avila on 6/11/20.
 //  Copyright © 2020 Twilio. All rights reserved.
 //
 
+import Foundation
 @testable import TwilioVerify
 
 class KeyStorageMock {
+  var errorCreatingKey: Error?
   var error: Error?
-  var operationresult: Data!
-  var encodedOperationresult: String!
-  var verifyShouldSucceed = false
+  var createKeyResult: String!
+  var signResult: Data!
 }
 
 extension KeyStorageMock: KeyStorage {
   func createKey(withAlias alias: String) throws -> String {
-    if let error = error {
+    if let error = errorCreatingKey {
       throw error
     }
-    return encodedOperationresult
+    return createKeyResult
   }
   
   func sign(withAlias alias: String, message: String) throws -> Data {
     if let error = error {
       throw error
     }
-    return operationresult
+    return signResult
   }
   
   func signAndEncode(withAlias alias: String, message: String) throws -> String {
-    if let error = error {
+    do {
+      return try sign(withAlias: alias, message: message).base64EncodedString()
+    } catch {
       throw error
     }
-    return encodedOperationresult
   }
   
   func deleteKey(withAlias alias: String) throws {
