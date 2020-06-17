@@ -24,6 +24,10 @@ extension FactorRepositoryMock: FactorProvider {
     success(factor)
   }
   
+  func verify(_ factor: Factor, payload: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+    
+  }
+  
   func get(withSid sid: String) throws -> Factor {
     if let error = error {
       throw error

@@ -57,7 +57,12 @@ extension PushFactory: PushFactoryProtocol {
           let pushFactor = try strongSelf.repository.save(factor)
           success(pushFactor)
         } catch {
-          failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+          do {
+            try strongSelf.keyStorage.deleteKey(withAlias: alias)
+            failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+          } catch {
+            failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+          }
         }
       }) { [weak self] error in
         guard let strongSelf = self else { return }
