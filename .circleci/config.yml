@@ -91,6 +91,11 @@ commands:
       - setup
       - use_system_ruby
       - build_frameworks
+      - run:
+          name: "Zip Files"
+          command: |
+                  cd temp/DerivedData/Build/Products/Release-universal/
+                  zip frameworks.zip TwilioVerify.framework TwilioSecurity.framework
       - store_frameworks
       - run:
           name: "Copy Frameworks"
