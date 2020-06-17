@@ -360,6 +360,7 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"$(PROJECT_DIR)/AppSizer/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.AppSizer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -385,6 +386,7 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"$(PROJECT_DIR)/AppSizer/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.AppSizer;
 				PRODUCT_NAME = "$(TARGET_NAME)";

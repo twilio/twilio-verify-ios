@@ -98,7 +98,7 @@ commands:
           name: "Zip Files"
           command: |
                   cd AppSizer/AppSizer/Frameworks
-                  zip frameworks.zip TwilioVerify.framework TwilioSecurity.framework
+                  zip -r TwilioVerify.zip TwilioVerify.framework TwilioSecurity.framework
       - store_frameworks
       - run:
           name: "Build AppSizer App"
