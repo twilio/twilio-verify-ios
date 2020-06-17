@@ -22,6 +22,30 @@ class PushFactoryTests: XCTestCase {
     factory = PushFactory(repository: repository, keyStorage: keyStorage)
   }
   
+  func testCreateFactor_factorHasWrongType_shouldFail() {
+    let expectation = self.expectation(description: "testCreateFactor_factorHasWrongType_shouldFail")
+    let expectedError = TwilioVerifyError.networkError(error: NetworkError.invalidData as NSError)
+    var error: TwilioVerifyError!
+    keyStorage.createKeyResult = Constants.data
+    repository.factor = Constants.fakeFactor
+    
+    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
+                          XCTFail()
+                          expectation.fulfill()
+                        }) { failureReason in
+                          error = failureReason as? TwilioVerifyError
+                          expectation.fulfill()
+                        }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
   func testCreateFactor_withErrorCreatingKey_shouldFail() {
     let expectation = self.expectation(description: "testCreateFactor_withErrorCreatingKey_shouldFail")
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
@@ -119,6 +143,32 @@ class PushFactoryTests: XCTestCase {
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
+  func testCreateFactor_withErrorDeletingFactorWhenSavingItFails_shouldFail() {
+    let expectation = self.expectation(description: "testCreateFactor_withErrorSavingFactor_shouldFail")
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    keyStorage.createKeyResult = Constants.data
+    keyStorage.error = TestError.operationFailed
+    repository.saveError = TestError.operationFailed
+    repository.factor = Constants.factor
+    
+    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
+                          XCTFail()
+                          expectation.fulfill()
+                        }) { failureReason in
+                          error = failureReason as? TwilioVerifyError
+                          expectation.fulfill()
+                        }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
   func testCreateFactor_withoutErrors_shouldSucceed() {
     let expectation = self.expectation(description: "testCreateFactor_withoutErrors_shouldSucceed")
     var pushFactor: PushFactor!
@@ -170,5 +220,14 @@ private extension PushFactoryTests {
       createdAt: Date(),
       config: Constants.config
     )
+    static let fakeFactor = FactorMock(
+      status: .unverified,
+      sid: "sid",
+      friendlyName: Constants.friendlyName,
+      accountSid: "accountSid",
+      serviceSid: Constants.serviceSid,
+      entityIdentity: Constants.identity,
+      type: .push,
+      createdAt: Date())
   }
 }
