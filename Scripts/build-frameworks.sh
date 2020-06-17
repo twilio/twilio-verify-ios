@@ -62,17 +62,29 @@ fi
 
 # Build the TwilioVideo target which does the framework, unit and integration tests
 for framework in TwilioSecurity TwilioVerify; do
-  for env in iphoneos iphonesimulator; do
+  # for env in iphoneos iphonesimulator; do
     xcodebuild ${VERSION_INFO} \
       -workspace TwilioVerify.xcworkspace \
       -scheme ${framework} \
       -derivedDataPath ${DERIVED_DATA_DIR} \
       -configuration ${CONFIGURATION} \
-      -sdk ${env} \
+      -sdk iphonesimulator \
+      -arch arm64
       -parallelizeTargets \
       ONLY_ACTIVE_ARCH=NO \
       BITCODE_GENERATION_MODE=${BITCODE_MODE}
-  done
+    
+    xcodebuild ${VERSION_INFO} \
+      -workspace TwilioVerify.xcworkspace \
+      -scheme ${framework} \
+      -derivedDataPath ${DERIVED_DATA_DIR} \
+      -configuration ${CONFIGURATION} \
+      -sdk iphoneos \
+      -arch x86_64
+      -parallelizeTargets \
+      ONLY_ACTIVE_ARCH=NO \
+      BITCODE_GENERATION_MODE=${BITCODE_MODE}
+  # done
 done
 
 # Combine Device, Simulator .framework files into one
