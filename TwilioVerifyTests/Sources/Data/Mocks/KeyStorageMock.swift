@@ -42,8 +42,4 @@ extension KeyStorageMock: KeyStorage {
       throw error
     }
   }
-  
-  func verify(withAlias alias: String, message: String, signature: Data) throws -> Bool {
-    true
-  }
 }
