@@ -50,7 +50,7 @@ commands:
   store_frameworks:
     steps:
       - store_artifacts:
-            path: "./AppSizer/AppSizer/Frameworks"
+            path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
 
   test:
     parameters:
