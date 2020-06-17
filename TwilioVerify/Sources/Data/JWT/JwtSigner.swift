@@ -9,7 +9,7 @@
 import Foundation
 import TwilioSecurity
 
-public protocol JwtSignerProtocol {
+protocol JwtSignerProtocol {
   func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data
 }
 
@@ -24,7 +24,7 @@ enum JwtSignerError: LocalizedError {
   }
 }
 
-public class JwtSigner {
+class JwtSigner {
   private let keyStorage: KeyStorage
   
   init(withKeyStorage keyStorage: KeyStorage = KeyStorageAdapter()) {
@@ -33,7 +33,7 @@ public class JwtSigner {
 }
 
 extension JwtSigner: JwtSignerProtocol {
-  public func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data {
+  func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data {
     let signature = try keyStorage.sign(withAlias: signerTemplate.alias, message: message)
     switch signerTemplate {
       case is ECP256SignerTemplate:
