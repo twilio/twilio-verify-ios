@@ -21,7 +21,7 @@
 	<true/>
 	<key>teamID</key>
 	<string>9EVH78F4V4</string>
-<!--	<key>thinning</key>-->
-<!--	<string>&lt;thin-for-all-variants&gt;</string>-->
+	<key>thinning</key>
+	<string>&lt;thin-for-all-variants&gt;</string>
 </dict>
 </plist>
