@@ -1,0 +1,94 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TwilioVerify
+import Foundation
+import Swift
+@_exported import TwilioVerify
+import UIKit
+public protocol VerifyFactorInput {
+  var sid: Swift.String { get }
+}
+public protocol UpdateFactorInput {
+  var sid: Swift.String { get }
+}
+public protocol FactorInput {
+  var friendlyName: Swift.String { get }
+  var serviceSid: Swift.String { get }
+  var identity: Swift.String { get }
+  var factorType: TwilioVerify.FactorType { get }
+}
+public struct ChallengeListInput {
+}
+public protocol UpdateChallengeInput {
+  var factorSid: Swift.String { get }
+  var challengeSid: Swift.String { get }
+}
+public protocol Factor {
+  var status: TwilioVerify.FactorStatus { get }
+  var sid: Swift.String { get }
+  var friendlyName: Swift.String { get }
+  var accountSid: Swift.String { get }
+  var serviceSid: Swift.String { get }
+  var entityIdentity: Swift.String { get }
+  var type: TwilioVerify.FactorType { get }
+  var createdAt: Foundation.Date { get }
+}
+public enum FactorStatus : Swift.String {
+  case verified
+  case unverified
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FactorType : Swift.String {
+  case push
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol Challenge {
+  var sid: Swift.String { get }
+  var challengeDetails: TwilioVerify.ChallengeDetails { get }
+  var hiddenDetails: Swift.String { get }
+  var factorSid: Swift.String { get }
+  var status: TwilioVerify.ChallengeStatus { get }
+  var createdAt: Foundation.Date { get }
+  var updatedAt: Foundation.Date { get }
+  var expirationDate: Foundation.Date { get }
+}
+public enum ChallengeStatus : Swift.String {
+  case pending
+  case approved
+  case denied
+  case expired
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ChallengeDetails {
+}
+public protocol Metadata {
+  var page: Swift.Int { get }
+  var pageSize: Swift.Int { get }
+  var nextPageURL: Swift.String? { get }
+  var key: Swift.String { get }
+}
+public protocol ChallengeList {
+  var challenges: [TwilioVerify.Challenge] { get }
+  var metadata: TwilioVerify.Metadata { get }
+}
+extension TwilioVerify.FactorStatus : Swift.Equatable {}
+extension TwilioVerify.FactorStatus : Swift.Hashable {}
+extension TwilioVerify.FactorStatus : Swift.RawRepresentable {}
+extension TwilioVerify.FactorType : Swift.Equatable {}
+extension TwilioVerify.FactorType : Swift.Hashable {}
+extension TwilioVerify.FactorType : Swift.RawRepresentable {}
+extension TwilioVerify.ChallengeStatus : Swift.Equatable {}
+extension TwilioVerify.ChallengeStatus : Swift.Hashable {}
+extension TwilioVerify.ChallengeStatus : Swift.RawRepresentable {}
