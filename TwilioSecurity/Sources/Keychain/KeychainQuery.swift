@@ -24,20 +24,6 @@ enum KeyAttrClass {
   }
 }
 
-enum KeyClass {
-  case genericPassword
-  case key
-  
-  var value: CFString {
-    switch self {
-      case .genericPassword:
-        return kSecClassGenericPassword
-      case .key:
-        return kSecClassKey
-    }
-  }
-}
-
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
