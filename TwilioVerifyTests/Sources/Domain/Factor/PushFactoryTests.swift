@@ -34,7 +34,7 @@ class PushFactoryTests: XCTestCase {
                           XCTFail()
                           expectation.fulfill()
                         }) { failureReason in
-                          error = failureReason as? TwilioVerifyError
+                          error = failureReason
                           expectation.fulfill()
                         }
     
@@ -157,7 +157,7 @@ class PushFactoryTests: XCTestCase {
                           XCTFail()
                           expectation.fulfill()
                         }) { failureReason in
-                          error = failureReason as? TwilioVerifyError
+                          error = failureReason
                           expectation.fulfill()
                         }
     

@@ -443,7 +443,6 @@
 				20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */,
 				F2E6C9F92492E11300922FBA /* FactorRepositoryMock.swift */,
 				F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */,
-				F2C552C22493F3D2006F6CDF /* FakeFactorInput.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -522,6 +521,7 @@
 		F05A319D2493E2730098F49C /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				F2C552C22493F3D2006F6CDF /* FakeFactorInput.swift */,
 				F07B6F592492CA6700948FB1 /* FactorMock.swift */,
 			);
 			path = Mocks;
