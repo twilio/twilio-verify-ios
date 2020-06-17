@@ -79,7 +79,27 @@ extension PushFactory: PushFactoryProtocol {
   }
   
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    //TODO: To be implemented in ACCSEC-16917
+    do {
+      let factor = try repository.get(withSid: sid)
+      guard let pushFactor = factor as? PushFactor else {
+        failure(TwilioVerifyError.networkError(error: NetworkError.invalidData as NSError))
+        return
+      }
+      guard let alias = pushFactor.keyPairAlias else {
+        failure(TwilioVerifyError.storageError(error: NetworkError.invalidData as NSError))
+        return
+      }
+      let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid)
+      repository.verify(pushFactor, payload: payload, success: success) { error in
+        failure(TwilioVerifyError.networkError(error: error as NSError))
+      }
+    } catch {
+      if let error = error as? TwilioVerifyError {
+        failure(error)
+      } else {
+        failure(TwilioVerifyError.storageError(error: error as NSError))
+      }
+    }
   }
 }
 
