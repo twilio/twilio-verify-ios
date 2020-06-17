@@ -37,7 +37,7 @@ xcodebuild \
   -exportArchive \
   -archivePath "${ARCHIVE_PATH}" \
   -exportPath "${IPA_DIR}" \
-  -exportOptionsPlist ${EXPORT_OPTIONS_PLIST}
+  # -exportOptionsPlist ${EXPORT_OPTIONS_PLIST}
 
 # Generate the sizing report
 ./Scripts/env.rb ./Scripts/generate-size-report.rb
