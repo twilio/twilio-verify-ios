@@ -71,7 +71,6 @@ for framework in TwilioSecurity TwilioVerify; do
       -sdk ${env} \
       -parallelizeTargets \
       ONLY_ACTIVE_ARCH=NO \
-      GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS '"$(printf '%q ' "${defines[@]}")" \
       BITCODE_GENERATION_MODE=${BITCODE_MODE}
   done
 done
