@@ -30,7 +30,7 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(Constants.alias,
                      signer.alias,
                      "Signer alias should be \(Constants.alias) but was \(signer.alias)")
-      XCTAssertEqual(SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256,
+      XCTAssertEqual(SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256,
                      signer.signatureAlgorithm,
                      "Signature algorithm should be \(SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256) but was \(signer.signatureAlgorithm)")
       XCTAssertEqual(kSecAttrKeyTypeECSECPrimeRandom as String,
