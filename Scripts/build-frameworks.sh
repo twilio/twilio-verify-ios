@@ -28,24 +28,24 @@ function make_universal_framework() {
                "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
                "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"
 
-  if [ "${CONFIGURATION}" = "Release" ]; then
-    echo Combine Device and Simulator .dSYM files into one
-    cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/"
+  # if [ "${CONFIGURATION}" = "Release" ]; then
+  #   echo Combine Device and Simulator .dSYM files into one
+  #   cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/"
 
-    lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
-                 "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
-                 "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}"
+  #   lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
+  #                "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
+  #                "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}"
 
-    # Collect the appropriate bcsymbolmap files
-    for bcsymbolmap in `ls ${BUILD_DIR}/${CONFIGURATION}-iphoneos/*.bcsymbolmap`; do 
-      UUID=`basename ${bcsymbolmap} .bcsymbolmap`
+  #   # Collect the appropriate bcsymbolmap files
+  #   for bcsymbolmap in `ls ${BUILD_DIR}/${CONFIGURATION}-iphoneos/*.bcsymbolmap`; do 
+  #     UUID=`basename ${bcsymbolmap} .bcsymbolmap`
 
-      if [ `echo "${UUIDS}" | grep ${UUID} | wc -l` -gt "0" ]; then
-        mkdir -p "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
-        cp -av "${bcsymbolmap}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
-      fi
-    done
-  fi
+  #     if [ `echo "${UUIDS}" | grep ${UUID} | wc -l` -gt "0" ]; then
+  #       mkdir -p "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
+  #       cp -av "${bcsymbolmap}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
+  #     fi
+  #   done
+  # fi
   cp `dirname $0`/strip-frameworks.sh "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
 }
 
@@ -63,7 +63,7 @@ fi
 # Build the TwilioVideo target which does the framework, unit and integration tests
 for framework in TwilioSecurity TwilioVerify; do
   for env in iphoneos iphonesimulator; do
-    xcodebuild ${VERSION_INFO} \
+    xcodebuild archive \
       -workspace TwilioVerify.xcworkspace \
       -scheme ${framework} \
       -derivedDataPath ${DERIVED_DATA_DIR} \
