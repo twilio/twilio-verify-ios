@@ -19,14 +19,14 @@ function make_universal_framework() {
   # Note: Important to use the iPhoneOS version of the framework as the basis as the Info.plist contains important values with respect to run-on-device capabililty
   cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
   
-  SIMULATOR_SWIFT_MODULES_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule/."
-  if [ -d "${SIMULATOR_SWIFT_MODULES_DIR}" ]; then
-    cp -R "${SIMULATOR_SWIFT_MODULES_DIR}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule"
-  fi
+  # SIMULATOR_SWIFT_MODULES_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule/."
+  # if [ -d "${SIMULATOR_SWIFT_MODULES_DIR}" ]; then
+  #   cp -R "${SIMULATOR_SWIFT_MODULES_DIR}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule"
+  # fi
   
   lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
-               "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
-               "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"
+               "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" 
+              #  "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"
 
   if [ "${CONFIGURATION}" = "Release" ]; then
   #   echo Combine Device and Simulator .dSYM files into one
