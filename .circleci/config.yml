@@ -84,7 +84,7 @@ commands:
     steps:
       - run:
           name: "Build Frameworks"
-          command: ./Scripts/build-frameworks.sh Release
+          command: ./Scripts/build-frameworks.sh
 
   build_app_sizer:
     steps:
