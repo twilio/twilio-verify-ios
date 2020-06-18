@@ -49,23 +49,34 @@ enum TwilioVerifyError: LocalizedError {
         return "Error while generating token"
     }
   }
-  //TODO: define properly error codes
+
   var code: Int {
     switch self {
       case .networkError:
-        return 32001
+        return 68001
       case .mapperError:
-        return 32002
+        return 68002
       case .storageError:
-        return 32003
+        return 68003
       case .inputError:
-        return 32004
+        return 68004
       case .keyStorageError:
-        return 32005
+        return 68005
       case .initializationError:
-        return 32006
+        return 68006
     case .authenticationTokenError:
-        return 32007
+        return 68007
+    }
+  }
+}
+
+enum InputError: LocalizedError {
+  case invalidInput
+  
+  var localizedDescription: String {
+    switch self {
+      case .invalidInput:
+        return "Invalid input"
     }
   }
 }
