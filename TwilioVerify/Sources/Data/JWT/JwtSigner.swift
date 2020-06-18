@@ -13,17 +13,6 @@ protocol JwtSignerProtocol {
   func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data
 }
 
-enum JwtSignerError: LocalizedError {
-  case invalidFormat
-  
-  var errorDescription: String {
-    switch self {
-      case .invalidFormat:
-        return "Invalid ECDSA signature format"
-    }
-  }
-}
-
 class JwtSigner {
   private let keyStorage: KeyStorage
   
