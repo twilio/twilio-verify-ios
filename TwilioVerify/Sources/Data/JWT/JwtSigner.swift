@@ -52,11 +52,11 @@ private extension JwtSigner {
   func transcodeECSignatureToConcat(_ signature: Data, withOutputLength outputLength: Int) throws -> Data {
     // Parse ASN into just r,s data as defined in:
     // https://tools.ietf.org/html/rfc7518#section-3.4
-    let (asnSig, _) = ASN1.toASN1Element(data: signature)
-    guard case let ASN1.ASN1Element.seq(elements: seq) = asnSig,
+    let (asnSig, _) = toASN1Element(data: signature)
+    guard case let ASN1Element.seq(elements: seq) = asnSig,
         seq.count >= 2,
-        case let ASN1.ASN1Element.bytes(data: rData) = seq[0],
-        case let ASN1.ASN1Element.bytes(data: sData) = seq[1]
+        case let ASN1Element.bytes(data: rData) = seq[0],
+        case let ASN1Element.bytes(data: sData) = seq[1]
     else {
       throw JwtSignerError.invalidFormat
     }
@@ -80,7 +80,7 @@ private extension JwtSigner {
   }
 }
 
-struct ASN1 {
+private extension JwtSigner {
 
   indirect enum ASN1Element {
     case seq(elements: [ASN1Element])
@@ -90,7 +90,7 @@ struct ASN1 {
     case unknown
   }
 
-  static func toASN1Element(data: Data) -> (ASN1Element, Int) {
+  func toASN1Element(data: Data) -> (ASN1Element, Int) {
     guard data.count >= 2 else {
       // format error
       return (.unknown, data.count)
@@ -138,7 +138,7 @@ struct ASN1 {
     }
   }
 
-  static private func readLength(data: Data) -> (Int, Int) {
+  private func readLength(data: Data) -> (Int, Int) {
     if data[0] & 0x80 == 0x00 { // short form
       return (Int(data[0]), 1)
     } else {
