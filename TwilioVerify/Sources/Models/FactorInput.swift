@@ -15,11 +15,11 @@ public protocol FactorInput {
   var factorType: FactorType { get }
 }
 
-struct PushFactorInput: FactorInput {
-  let friendlyName: String
-  let serviceSid: String
-  let identity: String
-  let factorType: FactorType = .push
-  let pushToken: String
-  let enrollmentJwe: String
+public struct PushFactorInput: FactorInput {
+  public let friendlyName: String
+  public let serviceSid: String
+  public let identity: String
+  public let factorType: FactorType = .push
+  public let pushToken: String
+  public let enrollmentJwe: String
 }

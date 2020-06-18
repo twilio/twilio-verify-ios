@@ -8,9 +8,13 @@
 
 import Foundation
 
+typealias FactorSuccessBlock = (Factor) -> ()
+typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
+
 protocol PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock)
+                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class PushFactory {
@@ -26,7 +30,7 @@ class PushFactory {
 
 extension PushFactory: PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
       let alias = generateKeyPairAlias()
       let publicKey = try keyStorage.createKey(withAlias: alias)
@@ -72,6 +76,10 @@ extension PushFactory: PushFactoryProtocol {
     } catch {
       failure(TwilioVerifyError.keyStorageError(error: error as NSError))
     }
+  }
+  
+  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    //TODO: To be implemented in ACCSEC-16917
   }
 }
 
