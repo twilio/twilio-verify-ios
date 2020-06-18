@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PushFactor: Factor {
+struct PushFactor: Factor, Codable {
   var status: FactorStatus = .unverified
   let sid: String
   let friendlyName: String
@@ -21,6 +21,7 @@ struct PushFactor: Factor {
   var keyPairAlias: String? = nil
 }
 
-struct Config {
+struct Config: Codable {
   let credentialSid: String
 }
+

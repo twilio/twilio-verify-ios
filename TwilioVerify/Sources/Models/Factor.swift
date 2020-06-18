@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol Factor {
-  var status: FactorStatus { get }
+  var status: FactorStatus { get set }
   var sid: String { get }
   var friendlyName: String { get }
   var accountSid: String { get }
@@ -19,11 +19,21 @@ public protocol Factor {
   var createdAt: Date { get }
 }
 
-public enum FactorStatus: String {
+public enum FactorStatus: String, Codable {
   case verified
   case unverified
 }
 
-public enum FactorType: String {
+public enum FactorType: String, Codable {
   case push
+}
+
+extension KeyPath where Root == Factor {
+  var toString: String {
+    switch self {
+      case \Factor.type: return "type"
+      case \Factor.status: return "status"
+      default: fatalError("Unexpected key path")
+    }
+  }
 }

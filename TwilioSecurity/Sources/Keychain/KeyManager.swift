@@ -8,18 +8,22 @@
 
 import Foundation
 
-protocol KeyManagerProtocol {
-  init(withKeychain keychain: KeychainProtocol, keychainQuery: KeychainQueryProtocol)
+public protocol KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate) throws -> Signer
+  func deleteKey(withAlias alias: String) throws
 }
 
-class KeyManager {
+public class KeyManager {
   
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  required init(withKeychain keychain: KeychainProtocol = Keychain(),
-                keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+  public convenience init() {
+    self.init(withKeychain: Keychain(), keychainQuery: KeychainQuery())
+  }
+  
+  init(withKeychain keychain: KeychainProtocol = Keychain(),
+       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
@@ -45,7 +49,8 @@ class KeyManager {
 
   func key(withQuery query: Query) throws -> SecKey {
     do {
-      return try keychain.copyItemMatching(query: query)
+      let key = try keychain.copyItemMatching(query: query)
+      return key as! SecKey
     } catch {
       throw error
     }
@@ -67,7 +72,7 @@ class KeyManager {
 }
 
 extension KeyManager: KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate) throws -> Signer {
+  public func signer(withTemplate template: SignerTemplate) throws -> Signer {
     var keyPair: KeyPair!
     do {
       keyPair = try self.keyPair(forTemplate: template)
@@ -83,5 +88,13 @@ extension KeyManager: KeyManagerProtocol {
       }
     }
     return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
+  }
+  
+  public func deleteKey(withAlias alias: String) throws {    
+    let status = keychain.deleteItem(withQuery: keychainQuery.delete(withKey: alias, class: .key))
+    guard status == errSecSuccess else {
+      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      throw error
+    }
   }
 }

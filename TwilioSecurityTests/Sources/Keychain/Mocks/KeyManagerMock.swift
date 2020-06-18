@@ -11,6 +11,7 @@ import Foundation
 
 class KeyManagerMock {
   
+  var error: Error?
   var signerKeyPair: KeyPair!
   private let keychain: KeychainProtocol
   
@@ -21,8 +22,13 @@ class KeyManagerMock {
 }
 
 extension KeyManagerMock: KeyManagerProtocol {
-  
   func signer(withTemplate template: SignerTemplate) throws -> Signer {
     return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm)
+  }
+  
+  func deleteKey(withAlias alias: String) throws {
+    if let error = error {
+      throw error
+    }
   }
 }

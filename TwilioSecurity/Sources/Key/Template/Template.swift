@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol Template {
+public protocol Template {
   var alias: String {get}
   var algorithm: String {get}
   var shouldExist: Bool {get}
 }
 
-protocol SignerTemplate: Template {
+public protocol SignerTemplate: Template {
   var signatureAlgorithm: SecKeyAlgorithm {get}
   var parameters: [String: Any] {get}
 }
