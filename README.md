@@ -1,4 +1,4 @@
-# Twilio Verify Android
+# Twilio Verify iOS
 
 ## Table of Contents
 
