@@ -82,11 +82,11 @@ extension PushFactory: PushFactoryProtocol {
     do {
       let factor = try repository.get(withSid: sid)
       guard let pushFactor = factor as? PushFactor else {
-        failure(TwilioVerifyError.networkError(error: NetworkError.invalidData as NSError))
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
         return
       }
       guard let alias = pushFactor.keyPairAlias else {
-        failure(TwilioVerifyError.storageError(error: NetworkError.invalidData as NSError))
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError))
         return
       }
       let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid)

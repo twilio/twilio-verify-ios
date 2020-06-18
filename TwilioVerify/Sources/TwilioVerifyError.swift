@@ -73,7 +73,7 @@ enum TwilioVerifyError: LocalizedError {
 enum InputError: LocalizedError {
   case invalidInput
   
-  var localizedDescription: String {
+  var errorDescription: String {
     switch self {
       case .invalidInput:
         return "Invalid input"
@@ -81,13 +81,13 @@ enum InputError: LocalizedError {
   }
 }
 
-enum InputError: LocalizedError {
-  case invalidInput
+enum StorageError: LocalizedError {
+  case error(String)
   
-  var localizedDescription: String {
+  var errorDescription: String {
     switch self {
-      case .invalidInput:
-        return "Invalid input"
+    case .error(let description):
+        return description
     }
   }
 }

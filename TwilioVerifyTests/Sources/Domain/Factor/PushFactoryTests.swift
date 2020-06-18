@@ -225,7 +225,7 @@ class PushFactoryTests: XCTestCase {
   
   func testVerifyFactor_factorWithWrongType_shouldFail() {
     let expectation = self.expectation(description: "testVerifyFactor_factorWithWrongType_shouldFail")
-    let expectedError = TwilioVerifyError.networkError(error: NetworkError.invalidData as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError)
     var error: TwilioVerifyError!
     repository.factor = Constants.fakeFactor
     
@@ -247,7 +247,7 @@ class PushFactoryTests: XCTestCase {
 
   func testVerifyFactor_factorIsMissingAlias_shouldFail() {
     let expectation = self.expectation(description: "testVerifyFactor_factorIsMissingAlias_shouldFail")
-    let expectedError = TwilioVerifyError.storageError(error: NetworkError.invalidData as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError)
     var error: TwilioVerifyError!
     repository.factor = Constants.factor
     
