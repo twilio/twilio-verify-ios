@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TwilioVerifyError: LocalizedError {
+public enum TwilioVerifyError: LocalizedError {
   
   case networkError(error: NSError)
   case mapperError(error: NSError)
@@ -18,7 +18,7 @@ enum TwilioVerifyError: LocalizedError {
   case initializationError(error: NSError)
   case authenticationTokenError(error: NSError)
   
-  var originalError: NSError {
+  public var originalError: NSError {
     switch self {
       case .networkError(let error),
            .mapperError(let error),
@@ -31,7 +31,7 @@ enum TwilioVerifyError: LocalizedError {
     }
   }
   
-  var errorDescription: String {
+  public var errorDescription: String {
     switch self {
       case .networkError:
         return "Error while calling API"
@@ -50,7 +50,7 @@ enum TwilioVerifyError: LocalizedError {
     }
   }
 
-  var code: Int {
+  public var code: Int {
     switch self {
       case .networkError:
         return 68001
