@@ -5,10 +5,9 @@ require 'plist'
 require 'fileutils'
 
 # Locations
-BASE_DIR = File.dirname(__dir__)
 TEMP_DIR = "#{BASE_DIR}/temp"
-IPA_DIR = "#{TEMP_DIR}/IPAs"
-SIZE_REPORT_DIR = "#{TEMP_DIR}/SizeReport"
+IPA_DIR = ENV['IPA_DIR']
+SIZE_REPORT_DIR = ENV['SIZE_REPORT_DIR']
 
 TWILIO_VERIFY_NAME = "TwilioVerify"
 TWILIO_SECURITY_NAME = "TwilioSecurity"
