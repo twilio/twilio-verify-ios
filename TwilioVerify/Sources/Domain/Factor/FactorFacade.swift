@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import TwilioSecurity
 
 protocol FactorFacadeProtocol {
   func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
@@ -45,5 +46,44 @@ extension FactorFacade: FactorFacadeProtocol {
       return
     }
     factory.verifyFactor(withSid: input.sid, success: success, failure: failure)
+  }
+}
+
+extension FactorFacade {
+  class Builder {
+    
+    private var networkProvider: NetworkProvider!
+    private var keyStorage: KeyStorage!
+    private var url: String!
+    private var authentication: Authentication!
+    
+    func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
+      self.networkProvider = networkProvider
+      return self
+    }
+    
+    func setKeyStorage(_ keyStorage: KeyStorage) -> Self {
+      self.keyStorage = keyStorage
+      return self
+    }
+    
+    func setURL(_ url: String) -> Self {
+      self.url = url
+      return self
+    }
+    
+    func setAuthentication(_ authentication: Authentication) -> Self {
+      self.authentication = authentication
+      return self
+    }
+    
+    func build() -> FactorFacadeProtocol {
+      let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
+      let secureStorage = SecureStorage()
+      let storage = Storage(secureStorage: secureStorage)
+      let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
+      let factory = PushFactory(repository: repository, keyStorage: keyStorage)
+      return FactorFacade(factory: factory, repository: repository)
+    }
   }
 }
