@@ -47,7 +47,7 @@ File.open("#{SIZE_REPORT_DIR}/#{TWILIO_VERIFY_NAME} Size Impact Report.txt", 'w'
   f.puts ""
 
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
-#  puts app_thinning_plist
+  puts app_thinning_plist
 #  for variant in app_thinning_plist['variants']
 #    variant_name = variant[0]
 #    variant_properties = variant[1]
