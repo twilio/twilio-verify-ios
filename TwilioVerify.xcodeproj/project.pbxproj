@@ -54,6 +54,9 @@
 		20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */; };
 		20E3BB242489902A00BC90DE /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E3BB232489902A00BC90DE /* TestError.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		F0261C4224A26289007881E9 /* ChallengeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */; };
+		F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4324A263F1007881E9 /* APIConstants.swift */; };
+		F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4524A267CF007881E9 /* ChallengeAPIClientTests.swift */; };
 		F07B6F522492CA4400948FB1 /* JwtSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F502492CA4300948FB1 /* JwtSigner.swift */; };
 		F07B6F532492CA4400948FB1 /* JwtGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F512492CA4300948FB1 /* JwtGenerator.swift */; };
 		F07B6F552492CA5000948FB1 /* JwtGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F542492CA5000948FB1 /* JwtGeneratorTests.swift */; };
@@ -193,6 +196,9 @@
 		20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClientTests.swift; sourceTree = "<group>"; };
 		20E3BB232489902A00BC90DE /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClient.swift; sourceTree = "<group>"; };
+		F0261C4324A263F1007881E9 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		F0261C4524A267CF007881E9 /* ChallengeAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClientTests.swift; sourceTree = "<group>"; };
 		F07B6F502492CA4300948FB1 /* JwtSigner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtSigner.swift; sourceTree = "<group>"; };
 		F07B6F512492CA4300948FB1 /* JwtGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtGenerator.swift; sourceTree = "<group>"; };
 		F07B6F542492CA5000948FB1 /* JwtGeneratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtGeneratorTests.swift; sourceTree = "<group>"; };
@@ -489,6 +495,8 @@
 			isa = PBXGroup;
 			children = (
 				20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */,
+				F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */,
+				F0261C4324A263F1007881E9 /* APIConstants.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -498,6 +506,7 @@
 			children = (
 				20C710C2248A9BF000B0F448 /* Mocks */,
 				20E3BB20248984C000BC90DE /* FactorAPIClientTests.swift */,
+				F0261C4524A267CF007881E9 /* ChallengeAPIClientTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1030,6 +1039,7 @@
 			files = (
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorInput.swift in Sources */,
+				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
 				2093573824871378008FDBCC /* FactorChallenge.swift in Sources */,
 				20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */,
 				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
@@ -1041,6 +1051,7 @@
 				F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */,
 				20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */,
 				2093572324870BBE008FDBCC /* FactorInput.swift in Sources */,
+				F0261C4224A26289007881E9 /* ChallengeAPIClient.swift in Sources */,
 				209357402487185A008FDBCC /* ChallengeListInput.swift in Sources */,
 				20935746248719A9008FDBCC /* UpdateChallengeInput.swift in Sources */,
 				2093571D24870A7F008FDBCC /* Factor.swift in Sources */,
@@ -1103,6 +1114,7 @@
 				20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */,
 				2060D00024857976001DD494 /* ParametersTests.swift in Sources */,
 				F07B6F572492CA5900948FB1 /* JwtSignerMock.swift in Sources */,
+				F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */,
 				F07B6F5A2492CA6700948FB1 /* JwtGeneratorMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
