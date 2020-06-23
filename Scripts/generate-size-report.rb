@@ -56,7 +56,7 @@ File.open("#{SIZE_REPORT_DIR}/#{TWILIO_VERIFY_NAME} Size Impact Report.txt", 'w'
     puts variant_properties
 
     compressed_app_size = `stat -f %z "#{IPA_DIR}/#{variant_name}"`.strip
-    unzip -l "#{IPA_DIR}/#{variant_name}"
+    unzip -l {IPA_DIR}/{variant_name}
     puts "Something"
     uncompressed_app_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
     uncompressed_twilio_verify_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_VERIFY_NAME}.framework" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
