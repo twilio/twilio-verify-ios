@@ -91,3 +91,14 @@ enum StorageError: LocalizedError {
     }
   }
 }
+
+enum JwtSignerError: LocalizedError {
+  case invalidFormat
+  
+  var errorDescription: String {
+    switch self {
+      case .invalidFormat:
+        return "Invalid ECDSA signature format"
+    }
+  }
+}
