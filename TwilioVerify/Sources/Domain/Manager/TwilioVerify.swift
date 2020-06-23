@@ -62,14 +62,13 @@ public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
-  private var baseURL: String
+  private var baseURL: String!
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
   
   public init() {
     keyStorage = KeyStorageAdapter()
     networkProvider = NetworkAdapter()
-    baseURL = ""
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
   }
@@ -79,7 +78,7 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  func setURL(_ url: String) -> Self {
+  public func setURL(_ url: String) -> Self {
     self.baseURL = url
     return self
   }
