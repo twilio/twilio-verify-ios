@@ -95,8 +95,6 @@ class ChallengeAPIClientTests: XCTestCase {
   }
   
   func testGetChallenge_withValidData_shouldMatchExpectedParams() {
-    var expectedParams = Parameters()
-    expectedParams.addAll([Parameter(name: APIConstants.factorSidPath, value: Constants.factorSid)])
     let sid = "sid"
     let factor = PushFactor(
       sid: Constants.factorSid,
