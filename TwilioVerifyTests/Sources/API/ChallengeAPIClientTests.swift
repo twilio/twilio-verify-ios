@@ -25,7 +25,8 @@ class ChallengeAPIClientTests: XCTestCase {
   func testGetChallenge_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    let expectedHeaders = ["header": "value"]
+    networkProvider.response = Response(data: expectedResponse, headers: expectedHeaders)
     let sid = "sid"
     let factor = PushFactor(
       sid: Constants.factorSid,
@@ -37,6 +38,8 @@ class ChallengeAPIClientTests: XCTestCase {
       config: Config(credentialSid: Constants.credentialSid))
     challengeAPIClient.get(withSid: sid, withFactor: factor, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
+      XCTAssertEqual(response.headers.count, expectedHeaders.count, "Headers count should be \(expectedHeaders.count) but was \(response.headers.count)")
+      XCTAssertEqual(response.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(response.headers["header"])")
       successExpectation.fulfill()
     }) { error in
       XCTFail()
