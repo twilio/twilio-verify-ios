@@ -200,6 +200,156 @@ class PushFactoryTests: XCTestCase {
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
                    "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
   }
+  
+  func testVerifyFactor_errorGettingFactor_shouldFail() {
+    let expectation = self.expectation(description: "testVerifyFactor_errorGettingFactor_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    repository.error = TestError.operationFailed
+    
+    factory.verifyFactor(withSid: "sid", success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testVerifyFactor_factorWithWrongType_shouldFail() {
+    let expectation = self.expectation(description: "testVerifyFactor_factorWithWrongType_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError)
+    var error: TwilioVerifyError!
+    repository.factor = Constants.fakeFactor
+    
+    factory.verifyFactor(withSid: "sid", success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+
+  func testVerifyFactor_factorIsMissingAlias_shouldFail() {
+    let expectation = self.expectation(description: "testVerifyFactor_factorIsMissingAlias_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError)
+    var error: TwilioVerifyError!
+    repository.factor = Constants.factor
+    
+    factory.verifyFactor(withSid: "sid", success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testVerifyFactor_errorCreatingSignature_shouldFail() {
+    let expectation = self.expectation(description: "testVerifyFactor_errorCreatingSignature_shouldFail")
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    var factor = Constants.factor
+    factor.keyPairAlias = "alias"
+    repository.factor = factor
+    keyStorage.error = TestError.operationFailed
+    
+    factory.verifyFactor(withSid: "sid", success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testVerifyFactor_errorVerifyingFactor_shouldFail() {
+    let expectation = self.expectation(description: "testVerifyFactor_errorVerifyingFactor_shouldFail")
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    var factor = Constants.factor
+    factor.keyPairAlias = "alias"
+    repository.factor = factor
+    repository.verifyError = TestError.operationFailed
+    keyStorage.signResult = Constants.data.data(using: .utf8)!
+    
+    factory.verifyFactor(withSid: "sid", success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testVerifyFactor_withoutErrors_shouldSucceed() {
+    let expectation = self.expectation(description: "testVerifyFactor_withoutErrors_shouldSucceed")
+    var pushFactor: PushFactor!
+    var factor = Constants.factor
+    factor.keyPairAlias = "alias"
+    repository.factor = factor
+    keyStorage.signResult = Constants.data.data(using: .utf8)!
+    
+    factory.verifyFactor(withSid: "sid", success: { factor in
+      pushFactor = (factor as! PushFactor)
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
+                   "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")
+    XCTAssertEqual(pushFactor.friendlyName, Constants.factor.friendlyName,
+                   "Friendly name should be \(Constants.factor.friendlyName) but was \(pushFactor.friendlyName)")
+    XCTAssertEqual(pushFactor.accountSid, Constants.factor.accountSid,
+                   "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
+    XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
+                   "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
+    XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
+                   "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
+    XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
+                   "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
+  }
 }
 
 private extension PushFactoryTests {
