@@ -33,7 +33,7 @@ extension JwtGenerator: JwtGeneratorProtocol {
     let encodedHeader = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: jwtHeader, options: []))
     let encodedPayload = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: payload, options: []))
     let message = "\(encodedHeader).\(encodedPayload)"
-    let signature = base64EncodedUrlSafeString(withData: jwtSigner.sign(message: message, withSignerTemplate: signerTemplate))
+    let signature = base64EncodedUrlSafeString(withData: try jwtSigner.sign(message: message, withSignerTemplate: signerTemplate))
     return "\(message).\(signature)"
   }
 }

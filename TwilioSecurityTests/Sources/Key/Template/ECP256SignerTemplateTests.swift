@@ -30,7 +30,7 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(Constants.alias,
                      signer.alias,
                      "Signer alias should be \(Constants.alias) but was \(signer.alias)")
-      XCTAssertEqual(SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256,
+      XCTAssertEqual(SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256,
                      signer.signatureAlgorithm,
                      "Signature algorithm should be \(SecKeyAlgorithm.ecdsaSignatureDigestX962SHA256) but was \(signer.signatureAlgorithm)")
       XCTAssertEqual(kSecAttrKeyTypeECSECPrimeRandom as String,
@@ -50,17 +50,14 @@ class ECP256SignerTemplateTests: XCTestCase {
                      "Signer alias should be \(Constants.alias) but was \(privateKeyAttrs[kSecAttrLabel as String] as! String)")
       XCTAssertTrue(privateKeyAttrs[kSecAttrIsPermanent as String]! as! Bool,
                     "Attribute is permanent should be true")
-      XCTAssertEqual(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
-                     privateKeyAttrs[kSecAttrAccessible as String] as! CFString,
-                     "Attribute is accessible after first unlock should be \(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly) but was \(privateKeyAttrs[kSecAttrAccessible as String] as! CFString)")
       XCTAssertEqual(Constants.alias,
                      publicKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(publicKeyAttrs[kSecAttrLabel as String] as! String)")
       XCTAssertNoThrow(expectedAccessControl = try keychain.accessControl(withProtection: ECP256SignerTemplate.Constants.accessControlProtection,
-                                                                          flags: []))
+                                                                          flags: ECP256SignerTemplate.Constants.accessControlFlags))
       XCTAssertEqual(expectedAccessControl,
-                     (publicKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl),
-                     "Secure Access control should be \(expectedAccessControl!) but was \(publicKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl)")
+                     (privateKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl),
+                     "Secure Access control should be \(expectedAccessControl!) but was \(privateKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl)")
   }
   
   func testCreateSigner_shouldThrowError() {
