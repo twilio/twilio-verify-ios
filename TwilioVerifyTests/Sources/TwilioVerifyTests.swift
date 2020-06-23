@@ -118,15 +118,3 @@ private extension TwilioVerifyTests {
       config: Config(credentialSid: "credentialSid"))
   }
 }
-
-class NetworkAdapterMock {
-  
-}
-
-extension NetworkAdapterMock: NetworkProvider {
-  func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
-
-  }
-  
-  
-}
