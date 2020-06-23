@@ -32,11 +32,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
       let request = try URLRequestBuilder(withURL: getChallengeURL(forSid: sid, forFactor: factor), requestHelper: requestHelper)
         .setHTTPMethod(.get)
         .build()
-      networkProvider.execute(request, success: { response in
-        success(response)
-      }) { error in
-        failure(error)
-      }
+      networkProvider.execute(request, success: success, failure: failure)
     } catch {
       failure(error)
     }
