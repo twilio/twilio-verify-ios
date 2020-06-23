@@ -44,7 +44,7 @@ extension KeyStorageAdapter: KeyStorage {
       let signature = try signer.sign(message.data(using: .utf8)!)
       return signature
     } catch {
-      throw error
+      throw TwilioVerifyError.keyStorageError(error: error as NSError)
     }
   }
   

@@ -12,6 +12,7 @@ import Foundation
 class FactorRepositoryMock {
   var error: Error?
   var saveError: Error?
+  var verifyError: Error?
   var factor: Factor!
 }
 
@@ -24,8 +25,13 @@ extension FactorRepositoryMock: FactorProvider {
     success(factor)
   }
   
-  func verify(_ factor: Factor, payload: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
-    
+  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+    if let error = verifyError {
+      failure(error)
+      return
+    }
+    self.factor.status = FactorStatus.verified
+    success(self.factor)
   }
   
   func get(withSid sid: String) throws -> Factor {
