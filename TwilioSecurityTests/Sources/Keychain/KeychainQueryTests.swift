@@ -88,7 +88,7 @@ class KeychainQueryTests: XCTestCase {
   }
   
   func testDelete_withKey_shouldReturnValidQuery() {
-    let query = keychainQuery.delete(withKey: Constants.alias, class: .genericPassword)
+    let query = keychainQuery.delete(withKey: Constants.alias)
     let keyClass = query[kSecClass as String] as! CFString
     let label = query[kSecAttrAccount as String] as! String
     let access = query[kSecAttrAccessible as String] as! CFString
