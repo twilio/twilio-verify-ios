@@ -36,16 +36,18 @@ class ChallengeAPIClientTests: XCTestCase {
       entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
+    var apiResponse: Response?
     challengeAPIClient.get(withSid: sid, withFactor: factor, success: { response in
-      XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
-      XCTAssertEqual(response.headers.count, expectedHeaders.count, "Headers count should be \(expectedHeaders.count) but was \(response.headers.count)")
-      XCTAssertEqual(response.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(response.headers["header"]!)")
+      apiResponse = response
       successExpectation.fulfill()
     }) { error in
       XCTFail()
       successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(apiResponse?.data, expectedResponse, "Response should be \(expectedResponse) but was \(apiResponse!.data)")
+    XCTAssertEqual(apiResponse?.headers.count, expectedHeaders.count, "Headers count should be \(expectedHeaders.count) but was \(apiResponse!.headers.count)")
+    XCTAssertEqual(apiResponse!.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(apiResponse!.headers["header"]!)")
   }
   
   func testGetChallenge_withError_shouldFail() {
@@ -61,15 +63,16 @@ class ChallengeAPIClientTests: XCTestCase {
       entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
-    
+    var apiError: TestError?
     challengeAPIClient.get(withSid: sid, withFactor: factor, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual(error as! TestError, expectedError)
+      apiError = error as? TestError
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError, expectedError)
   }
   
   func testGetChallenge_withInvalidURL_shouldFail() {
@@ -84,14 +87,16 @@ class ChallengeAPIClientTests: XCTestCase {
       entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
+    var apiError: NetworkError?
     challengeAPIClient.get(withSid: sid, withFactor: factor, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
+      apiError = error as? NetworkError
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError?.errorDescription, NetworkError.invalidURL.errorDescription)
   }
   
   func testGetChallenge_withValidData_shouldMatchExpectedParams() {
