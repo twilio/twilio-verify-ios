@@ -28,7 +28,7 @@ class KeyStorageAdapter {
 extension KeyStorageAdapter: KeyStorage {
   func createKey(withAlias alias: String) throws -> String {
     do {
-      let template = try signerTemplate(withAlias: alias)
+      let template = try signerTemplate(withAlias: alias, shouldExist: false)
       let signer = try keyManager.signer(withTemplate: template)
       let publicKey = try signer.getPublic()
       return publicKey.base64EncodedString()
@@ -44,7 +44,7 @@ extension KeyStorageAdapter: KeyStorage {
       let signature = try signer.sign(message.data(using: .utf8)!)
       return signature
     } catch {
-      throw error
+      throw TwilioVerifyError.keyStorageError(error: error as NSError)
     }
   }
   

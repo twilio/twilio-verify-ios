@@ -18,22 +18,8 @@ enum KeyAttrClass {
     switch self {
       case .public:
         return kSecAttrKeyClassPublic
-    case .private:
+      case .private:
         return kSecAttrKeyClassPrivate
-    }
-  }
-}
-
-enum KeyClass {
-  case genericPassword
-  case key
-  
-  var value: CFString {
-    switch self {
-      case .genericPassword:
-        return kSecClassGenericPassword
-      case .key:
-        return kSecClassKey
     }
   }
 }
@@ -41,9 +27,10 @@ enum KeyClass {
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
+  func deleteKey(withAlias alias: String) -> Query
   func save(data: Data, withKey key: String) -> Query
   func getData(withKey key: String) -> Query
-  func delete(withKey key: String, class: KeyClass) -> Query
+  func delete(withKey key: String) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
@@ -53,13 +40,19 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrLabel: template.alias,
      kSecReturnRef: true,
      kSecAttrKeyType: template.algorithm,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessControl: template.accessControl] as Query
   }
   
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
     [kSecClass: kSecClassKey,
      kSecAttrLabel: alias,
      kSecValueRef: key,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  }
+  
+  func deleteKey(withAlias alias: String) -> Query {
+    [kSecClass: kSecClassKey,
+     kSecAttrLabel: alias,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
@@ -77,9 +70,9 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-  func delete(withKey key: String, class keyClass: KeyClass) -> Query {
-    [kSecClass: keyClass.value,
-    kSecAttrAccount: key,
-    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  func delete(withKey key: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
 }

@@ -73,10 +73,32 @@ enum TwilioVerifyError: LocalizedError {
 enum InputError: LocalizedError {
   case invalidInput
   
-  var localizedDescription: String {
+  var errorDescription: String {
     switch self {
       case .invalidInput:
         return "Invalid input"
+    }
+  }
+}
+
+enum StorageError: LocalizedError {
+  case error(String)
+  
+  var errorDescription: String {
+    switch self {
+    case .error(let description):
+        return description
+    }
+  }
+}
+
+enum JwtSignerError: LocalizedError {
+  case invalidFormat
+  
+  var errorDescription: String {
+    switch self {
+      case .invalidFormat:
+        return "Invalid ECDSA signature format"
     }
   }
 }
