@@ -39,7 +39,7 @@ class ChallengeAPIClientTests: XCTestCase {
     challengeAPIClient.get(withSid: sid, withFactor: factor, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       XCTAssertEqual(response.headers.count, expectedHeaders.count, "Headers count should be \(expectedHeaders.count) but was \(response.headers.count)")
-      XCTAssertEqual(response.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(response.headers["header"])")
+      XCTAssertEqual(response.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(response.headers["header"]!)")
       successExpectation.fulfill()
     }) { error in
       XCTFail()
@@ -121,7 +121,7 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType], MediaType.urlEncoded.value,
                    "Content type should be \(MediaType.urlEncoded.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType]!)")
     XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType], MediaType.urlEncoded.value,
-                   "Accept type should be \(MediaType.json.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType]!)")
+                   "Accept type should be \(MediaType.urlEncoded.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType]!)")
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.authorization],
                     "Authorization header should not be nil")
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
