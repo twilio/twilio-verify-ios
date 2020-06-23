@@ -5,7 +5,6 @@ require 'plist'
 require 'fileutils'
 
 # Locations
-TEMP_DIR = "#{BASE_DIR}/temp"
 IPA_DIR = ENV['IPA_DIR']
 SIZE_REPORT_DIR = ENV['SIZE_REPORT_DIR']
 
@@ -44,7 +43,7 @@ FileUtils.mkdir_p(SIZE_REPORT_DIR)
 
 info = {}
 File.open("#{SIZE_REPORT_DIR}/#{TWILIO_VERIFY_NAME} Size Impact Report.txt", 'w') do |f|
-  f.puts "Size impact report for #{TWILIO_VERIFY_NAME}"
+  f.puts "Size impact report for #{TWILIO_VERIFY_NAME}
   f.puts ""
 
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
