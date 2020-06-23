@@ -34,11 +34,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         .setHTTPMethod(.post)
         .setParameters(createFactorBody(createFactorPayload: payload))
         .build()
-      networkProvider.execute(request, success: { response in
-        success(response)
-      }) { error in
-        failure(error)
-      }
+      networkProvider.execute(request, success: success, failure: failure)
     } catch {
       failure(error)
     }
@@ -52,11 +48,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         .setHTTPMethod(.post)
         .setParameters(verifyFactorBody(authPayload: authPayload))
         .build()
-      networkProvider.execute(request, success: { response in
-        success(response)
-      }) { error in
-        failure(error)
-      }
+      networkProvider.execute(request, success: success, failure: failure)
     } catch {
       failure(error)
     }
