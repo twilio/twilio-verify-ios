@@ -47,29 +47,29 @@ File.open("#{SIZE_REPORT_DIR}/#{TWILIO_VERIFY_NAME} Size Impact Report.txt", 'w'
   f.puts ""
 
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
-  puts app_thinning_plist
-  for variant in app_thinning_plist['variants']
-    variant_name = variant[0]
-    variant_properties = variant[1]
-    variant_architecture = 'arm64'
-
-    compressed_app_size = `stat -f %z "#{IPA_DIR}/#{variant_name}"`.strip
-    uncompressed_app_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_twilio_verify_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_VERIFY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_twilio_security_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "#{IPA_DIR}/Frameworks/#{TWILIO_VERIFY_NAME}" -v "#{IPA_DIR}/Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-
-    info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_app_size), 'uncompressed_framework_size' => format_bytes(uncompressed_twilio_verify_framework_size + uncompressed_twilio_security_framework_size) }
-
-    f.puts "Variant: #{variant_name}"
-    f.puts " - Architecture: #{variant_architecture}"
-    f.puts " - Devices supported: #{format_variants(variant_properties)}"
-    f.puts " - Compressed download application size: #{format_bytes(compressed_app_size)}"
-    f.puts " - Uncompressed application size: #{format_bytes(uncompressed_app_size)}"
-    f.puts " - Uncompressed size of #{TWILIO_VERIFY_NAME} framework: #{format_bytes(uncompressed_twilio_verify_framework_size + uncompressed_twilio_security_framework_size)}"
-    f.puts " - Uncompressed application size without #{TWILIO_VERIFY_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
-    f.puts ""
-  end
+#  puts app_thinning_plist
+#  for variant in app_thinning_plist['variants']
+#    variant_name = variant[0]
+#    variant_properties = variant[1]
+#    variant_architecture = 'arm64'
+#
+#    compressed_app_size = `stat -f %z "#{IPA_DIR}/#{variant_name}"`.strip
+#    uncompressed_app_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+#    uncompressed_twilio_verify_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_VERIFY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+#    uncompressed_twilio_security_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+#    uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "#{IPA_DIR}/Frameworks/#{TWILIO_VERIFY_NAME}" -v "#{IPA_DIR}/Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+#
+#    info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_app_size), 'uncompressed_framework_size' => format_bytes(uncompressed_twilio_verify_framework_size + uncompressed_twilio_security_framework_size) }
+#
+#    f.puts "Variant: #{variant_name}"
+#    f.puts " - Architecture: #{variant_architecture}"
+#    f.puts " - Devices supported: #{format_variants(variant_properties)}"
+#    f.puts " - Compressed download application size: #{format_bytes(compressed_app_size)}"
+#    f.puts " - Uncompressed application size: #{format_bytes(uncompressed_app_size)}"
+#    f.puts " - Uncompressed size of #{TWILIO_VERIFY_NAME} framework: #{format_bytes(uncompressed_twilio_verify_framework_size + uncompressed_twilio_security_framework_size)}"
+#    f.puts " - Uncompressed application size without #{TWILIO_VERIFY_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
+#    f.puts ""
+#  end
 
 end
 
