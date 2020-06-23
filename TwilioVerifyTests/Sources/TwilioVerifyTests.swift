@@ -21,6 +21,33 @@ class TwilioVerifyTests: XCTestCase {
   }
   
   func testCreateFactor_shouldSucceed() {
+    createFactor()
+  }
+  
+  func testVerifyFactor_shouldSucceed() {
+    createFactor()
+    let successExpectation = expectation(description: "Wait for success response")
+    let expectedResponse: [String: Any] = [Constants.sidKey: Constants.sidValue,
+                                           Constants.statusKey: FactorStatus.verified.rawValue]
+    let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
+    networkProvider.response = Response(data: data, headers: [:])
+    let factorInput = VerifyPushFactorInput(sid: Constants.sidValue)
+    var pushFactor: PushFactor!
+    twilioVerify.verifyFactor(withInput: factorInput, success: { factor in
+      pushFactor = factor as? PushFactor
+      successExpectation.fulfill()
+    }) { error in
+      XCTFail()
+      successExpectation.fulfill()
+    }
+    wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
+                   "Sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
+    XCTAssertEqual(pushFactor.status, FactorStatus(rawValue: expectedResponse[Constants.statusKey] as! String),
+                   "Factor status should be \(FactorStatus(rawValue: expectedResponse[Constants.statusKey] as! String)!) but was \(pushFactor.status)")
+  }
+  
+  func createFactor() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse: [String: Any] = [Constants.sidKey: Constants.sidValue,
                                            Constants.friendlyNameKey: Constants.friendlyNameValue,
@@ -46,14 +73,18 @@ class TwilioVerifyTests: XCTestCase {
       identity: Constants.identity,
       pushToken: Constants.pushToken,
       enrollmentJwe: jwe)
-    
+    var pushFactor: PushFactor!
     twilioVerify.createFactor(withInput: factorInput, success: { factor in
+      pushFactor = factor as? PushFactor
       successExpectation.fulfill()
     }) { error in
       XCTFail()
       successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
+                   "Sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
+    XCTAssertNotNil(pushFactor.keyPairAlias, "Alias shouldn't be nil")
   }
 }
 
