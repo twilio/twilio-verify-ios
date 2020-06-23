@@ -153,14 +153,16 @@ class ChallengeAPIClientTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date(),
       factor: factor)
+    var apiResponse: Response?
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
-      XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
+      apiResponse = response
       successExpectation.fulfill()
     }) { error in
       XCTFail()
       successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(apiResponse?.data, expectedResponse, "Response should be \(expectedResponse) but was \(apiResponse!.data)")
   }
   
   func testUpdateChallenge_withError_shouldFail() {
@@ -185,14 +187,16 @@ class ChallengeAPIClientTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date(),
       factor: factor)
+    var apiError: TestError?
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual(error as! TestError, expectedError)
+      apiError = error as? TestError
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError, expectedError)
   }
   
   func testUpdateChallenge_withInvalidURL_shouldFail() {
@@ -216,14 +220,16 @@ class ChallengeAPIClientTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date(),
       factor: factor)
+    var apiError: NetworkError?
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
+      apiError = error as? NetworkError
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError?.errorDescription, NetworkError.invalidURL.errorDescription)
   }
   
   func testUpdateChallenge_withValidData_shouldMatchExpectedParams() {

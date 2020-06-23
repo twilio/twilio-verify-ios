@@ -51,11 +51,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
         .setHTTPMethod(.post)
         .setParameters(updateChallengeBody(authPayload: authPayload))
         .build()
-      networkProvider.execute(request, success: { response in
-        success(response)
-      }) { error in
-        failure(error)
-      }
+      networkProvider.execute(request, success: success, failure: failure)
     } catch {
       failure(error)
     }
