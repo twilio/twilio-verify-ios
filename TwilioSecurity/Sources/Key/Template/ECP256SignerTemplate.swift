@@ -54,7 +54,7 @@ extension ECP256SignerTemplate {
   }
   
   private func isSecureEnclaveAvailable() -> Bool {
-    return TARGET_OS_SIMULATOR == 0
+    TARGET_OS_SIMULATOR == 0
   }
   
   struct Constants {
