@@ -273,7 +273,7 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
                     "User agent header should not be nil")
     XCTAssertEqual(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self), expectedParams.asString(),
-    "Body should be \(expectedParams.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
+                   "Body should be \(expectedParams.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
   }
 }
 
