@@ -8,9 +8,13 @@
 
 import Foundation
 
+public typealias FactorSuccessBlock = (Factor) -> ()
+public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
+
 protocol PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock)
+                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class PushFactory {
@@ -26,7 +30,7 @@ class PushFactory {
 
 extension PushFactory: PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
       let alias = generateKeyPairAlias()
       let publicKey = try keyStorage.createKey(withAlias: alias)
@@ -71,6 +75,30 @@ extension PushFactory: PushFactoryProtocol {
       }
     } catch {
       failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+    }
+  }
+  
+  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    do {
+      let factor = try repository.get(withSid: sid)
+      guard let pushFactor = factor as? PushFactor else {
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
+        return
+      }
+      guard let alias = pushFactor.keyPairAlias else {
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError))
+        return
+      }
+      let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid)
+      repository.verify(pushFactor, payload: payload, success: success) { error in
+        failure(TwilioVerifyError.networkError(error: error as NSError))
+      }
+    } catch {
+      if let error = error as? TwilioVerifyError {
+        failure(error)
+      } else {
+        failure(TwilioVerifyError.storageError(error: error as NSError))
+      }
     }
   }
 }

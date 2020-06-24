@@ -59,7 +59,7 @@ extension AuthenticationProvider {
     static let contentType = "twilio-pba;v=1"
     static let subKey = "sub"
     static let expKey = "exp"
-    static let jwtValidFor: Double = 10
+    static let jwtValidFor: Double = 10 * 60
     static let iatKey = "nbf"
   }
 }
@@ -83,8 +83,8 @@ private extension AuthenticationProvider {
   func generatePayload(_ factor: PushFactor) -> [String: Any] {
     let currentDate = Date()
     return [Constants.subKey: factor.accountSid,
-            Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970,
-            Constants.iatKey: currentDate.timeIntervalSince1970
+            Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970.rounded(),
+            Constants.iatKey: currentDate.timeIntervalSince1970.rounded()
     ]
   }
 }

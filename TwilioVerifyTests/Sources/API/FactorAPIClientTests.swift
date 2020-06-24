@@ -74,8 +74,8 @@ class FactorAPIClientTests: XCTestCase {
   
   func testCreateFactor_withValidData_shouldMatchExpectedParams() {
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.createFactorURL)"
-      .replacingOccurrences(of: FactorAPIClient.Constants.serviceSidPath, with: Constants.serviceSid)
-      .replacingOccurrences(of: FactorAPIClient.Constants.entityPath, with: Constants.entity)
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.entity)
     let binding = ["public_key": "12345"]
     let bindingString = String(data: try! JSONEncoder().encode(binding), encoding: .utf8)
     let config = ["sdk_version": "1.0.0", "app_id": "TwilioVerify",
@@ -189,9 +189,9 @@ class FactorAPIClientTests: XCTestCase {
       config: Config(credentialSid: Constants.credentialSid))
     
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.verifyFactorURL)"
-      .replacingOccurrences(of: FactorAPIClient.Constants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: FactorAPIClient.Constants.entityPath, with: factor.entityIdentity)
-      .replacingOccurrences(of: FactorAPIClient.Constants.factorSidPath, with: factor.sid)
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
     
     factorAPIClient.verify(factor, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
     
