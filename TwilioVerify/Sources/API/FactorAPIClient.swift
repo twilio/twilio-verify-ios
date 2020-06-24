@@ -29,7 +29,7 @@ class FactorAPIClient {
 extension FactorAPIClient: FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: payload.jwe))
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: payload.jwe))
       let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: payload), requestHelper: requestHelper)
         .setHTTPMethod(.post)
         .setParameters(createFactorBody(createFactorPayload: payload))
@@ -47,7 +47,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
     do {
       let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: Constants.jwtAuthenticationUser, password: authToken))
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
       let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
         .setHTTPMethod(.post)
         .setParameters(verifyFactorBody(authPayload: authPayload))
@@ -66,8 +66,8 @@ extension FactorAPIClient: FactorAPIClientProtocol {
 private extension FactorAPIClient {
   func createURL(createFactorPayload: CreateFactorPayload) -> String {
     "\(baseURL)\(Constants.createFactorURL)"
-      .replacingOccurrences(of: Constants.serviceSidPath, with: createFactorPayload.serviceSid)
-      .replacingOccurrences(of: Constants.entityPath, with: createFactorPayload.entity)
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: createFactorPayload.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: createFactorPayload.entity)
   }
   
   func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
@@ -89,9 +89,9 @@ private extension FactorAPIClient {
   
   func verifyURL(for factor: Factor) -> String {
     "\(baseURL)\(Constants.verifyFactorURL)"
-      .replacingOccurrences(of: Constants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: Constants.entityPath, with: factor.entityIdentity)
-      .replacingOccurrences(of: Constants.factorSidPath, with: factor.sid)
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
   }
   
   func verifyFactorBody(authPayload: String) -> [Parameter] {
@@ -101,16 +101,12 @@ private extension FactorAPIClient {
 
 extension FactorAPIClient {
   struct Constants {
-    static let jwtAuthenticationUser = "token"
-    static let serviceSidPath = "{ServiceSid}"
-    static let entityPath = "{EntityIdentity}"
-    static let factorSidPath = "{FactorSid}"
     static let friendlyNameKey = "FriendlyName"
     static let factorTypeKey = "FactorType"
     static let bindingKey = "Binding"
     static let configKey = "Config"
     static let authPayloadKey = "AuthPayload"
-    static let createFactorURL = "Services/\(serviceSidPath)/Entities/\(entityPath)/Factors"
-    static let verifyFactorURL = "Services/\(serviceSidPath)/Entities/\(entityPath)/Factors/\(factorSidPath)"
+    static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors"
+    static let verifyFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
   }
 }
