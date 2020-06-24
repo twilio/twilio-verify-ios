@@ -130,6 +130,151 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
                     "User agent header should not be nil")
   }
+  
+  func testUpdateChallenge_withSuccessResponse_shouldSucceed() {
+    let successExpectation = expectation(description: "Wait for success response")
+    let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
+    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    let factor = PushFactor(
+      sid: Constants.factorSid,
+      friendlyName: Constants.friendlyName,
+      accountSid: Constants.accountSid,
+      serviceSid: Constants.serviceSid,
+      entityIdentity: Constants.entity,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.credentialSid))
+    let challenge = FactorChallenge(
+      sid: Constants.challengeSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      factorSid: Constants.factorSid,
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+      factor: factor)
+    var apiResponse: Response?
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
+      apiResponse = response
+      successExpectation.fulfill()
+    }) { error in
+      XCTFail()
+      successExpectation.fulfill()
+    }
+    wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(apiResponse?.data, expectedResponse, "Response should be \(expectedResponse) but was \(apiResponse!.data)")
+  }
+  
+  func testUpdateChallenge_withError_shouldFail() {
+    let failureExpectation = expectation(description: "Wait for failure response")
+    let expectedError = TestError.operationFailed
+    networkProvider.error = expectedError
+    let factor = PushFactor(
+      sid: Constants.factorSid,
+      friendlyName: Constants.friendlyName,
+      accountSid: Constants.accountSid,
+      serviceSid: Constants.serviceSid,
+      entityIdentity: Constants.entity,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.credentialSid))
+    let challenge = FactorChallenge(
+      sid: Constants.challengeSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      factorSid: Constants.factorSid,
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+      factor: factor)
+    var apiError: TestError?
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { error in
+      apiError = error as? TestError
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError, expectedError)
+  }
+  
+  func testUpdateChallenge_withInvalidURL_shouldFail() {
+    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
+    let failureExpectation = expectation(description: "Wait for failure response")
+    let factor = PushFactor(
+      sid: Constants.factorSid,
+      friendlyName: Constants.friendlyName,
+      accountSid: Constants.accountSid,
+      serviceSid: Constants.serviceSid,
+      entityIdentity: Constants.entity,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.credentialSid))
+    let challenge = FactorChallenge(
+      sid: Constants.challengeSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      factorSid: Constants.factorSid,
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+      factor: factor)
+    var apiError: NetworkError?
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { error in
+      apiError = error as? NetworkError
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+    XCTAssertEqual(apiError?.errorDescription, NetworkError.invalidURL.errorDescription)
+  }
+  
+  func testUpdateChallenge_withValidData_shouldMatchExpectedParams() {
+    var expectedParams = Parameters()
+    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.authPayloadKey, value: Constants.authPayload)])
+    let factor = PushFactor(
+      sid: Constants.factorSid,
+      friendlyName: Constants.friendlyName,
+      accountSid: Constants.accountSid,
+      serviceSid: Constants.serviceSid,
+      entityIdentity: Constants.entity,
+      createdAt: Date(),
+      config: Config(credentialSid: Constants.credentialSid))
+    let challenge = FactorChallenge(
+      sid: Constants.challengeSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      factorSid: Constants.factorSid,
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+    factor: factor)
+    let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengeURL)"
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.challengeSidPath, with: challenge.sid)
+    
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
+    
+    XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
+                   "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
+    XCTAssertEqual(networkProvider.urlRequest!.httpMethod, HTTPMethod.post.value,
+                   "HTTP method should be \(HTTPMethod.post.value) but was \(networkProvider.urlRequest!.httpMethod!)")
+    XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType], MediaType.urlEncoded.value,
+                   "Content type should be \(MediaType.urlEncoded.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType]!)")
+    XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType], MediaType.json.value,
+                   "Accept type should be \(MediaType.json.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType]!)")
+    XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.authorization],
+                    "Authorization header should not be nil")
+    XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
+                    "User agent header should not be nil")
+    XCTAssertEqual(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self), expectedParams.asString(),
+                   "Body should be \(expectedParams.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
+  }
 }
 
 extension ChallengeAPIClientTests {
@@ -140,6 +285,9 @@ extension ChallengeAPIClientTests {
     static let accountSid = "accountSid123"
     static let entity = "entityIdentity"
     static let credentialSid = "credentialSid123"
+    static let challengeSid = "challengeSid123"
+    static let challengeDetails = ChallengeDetails(message: "message", fields: [], date: Date())
+    static let authPayload = "authPayload123"
     static let factorType = FactorType.push
     static let baseURL = "https://twilio.com/"
   }
