@@ -17,7 +17,7 @@ class TwilioVerifyManagerTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     factorFacade = FactorFacadeMock()
-    twilioVerify = TwilioVerifyManager.init(factorFacade: factorFacade)
+    twilioVerify = TwilioVerifyManager(factorFacade: factorFacade)
   }
   
   func testCreateFactor_withFactorResponse_shouldSucceed() {
