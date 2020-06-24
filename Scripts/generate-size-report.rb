@@ -61,8 +61,8 @@ File.open("#{SIZE_REPORT_DIR}/#{TWILIO_VERIFY_NAME} Size Impact Report.txt", 'w'
     puts "Something"
     uncompressed_app_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
     uncompressed_twilio_verify_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_VERIFY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_twilio_security_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "Frameworks/#{TWILIO_VERIFY_NAME}" -v "Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+    # uncompressed_twilio_security_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{TWILIO_SECURITY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
+    uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "Frameworks/#{TWILIO_VERIFY_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
 
     info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_app_size), 'uncompressed_framework_size' => format_bytes(uncompressed_twilio_verify_framework_size + uncompressed_twilio_security_framework_size) }
 
