@@ -19,6 +19,6 @@ struct FactorChallenge: Challenge {
   let expirationDate: Date
   var factor: Factor? = nil
   // Original values to generate signature
-  let signatureFields: [String]? = nil
-  let response: [String: Any]? = nil
+  var signatureFields: [String]? = nil
+  var response: [String: Any]? = nil
 }
