@@ -42,12 +42,19 @@ extension ECP256SignerTemplate {
                              kSecAttrAccessControl: accessControl] as [String: Any]
     let publicParameters = [kSecAttrLabel: alias,
                             kSecAttrAccessControl: accessControl] as [String: Any]
-    let parameters = [kSecAttrKeyType: algorithm,
+    var parameters = [kSecAttrKeyType: algorithm,
                       kSecPrivateKeyAttrs: privateParameters,
                       kSecPublicKeyAttrs: publicParameters,
-                      kSecAttrKeySizeInBits: Constants.keySize,
-                      kSecAttrTokenID: kSecAttrTokenIDSecureEnclave] as [String: Any]
+                      kSecAttrKeySizeInBits: Constants.keySize] as [String: Any]
+    
+    if isSecureEnclaveAvailable() {
+      parameters[kSecAttrTokenID as String] = kSecAttrTokenIDSecureEnclave
+    }
     return parameters
+  }
+  
+  private func isSecureEnclaveAvailable() -> Bool {
+    TARGET_OS_SIMULATOR == 0
   }
   
   struct Constants {
