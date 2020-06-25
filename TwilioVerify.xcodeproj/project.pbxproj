@@ -461,6 +461,7 @@
 			children = (
 				209357362487136B008FDBCC /* Models */,
 				20E5157924A3B2DA00A467FC /* ChallengeMapper.swift */,
+				20E5157924A3B2DA00A467FC /* ChallengeMapper.swift */,
 				2042279F24A4FB1500CD001B /* ChallengeRepository.swift */,
 			);
 			path = Challenge;
