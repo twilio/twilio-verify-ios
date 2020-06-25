@@ -50,8 +50,8 @@ class ChallengeMapperTests: XCTestCase {
                    "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
     XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
                    "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
-    XCTAssertEqual(challenge.response, challengeData,
-                   "Response should be \(challengeData) but was \(challenge.response!)")
+    XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
+                   "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
     XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
                    "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
     XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,
@@ -80,7 +80,6 @@ class ChallengeMapperTests: XCTestCase {
                                      Constants.detailsKey: detailsString,
                                      Constants.hiddenDetailsKey: hiddenDetailsString,
                                      Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var challenge: FactorChallenge!
@@ -96,8 +95,8 @@ class ChallengeMapperTests: XCTestCase {
                    "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
     XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
                    "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
-    XCTAssertEqual(challenge.response, challengeData,
-                   "Response should be \(challengeData) but was \(challenge.response!)")
+    XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
+                   "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
     XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
                    "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
     XCTAssertTrue(challenge.challengeDetails.fields.isEmpty, "Detail fields should be empty")
@@ -142,8 +141,8 @@ class ChallengeMapperTests: XCTestCase {
                    "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
     XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
                    "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
-    XCTAssertEqual(challenge.response, challengeData,
-                   "Response should be \(challengeData) but was \(challenge.response!)")
+    XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
+                   "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
     XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
                    "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
     XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,

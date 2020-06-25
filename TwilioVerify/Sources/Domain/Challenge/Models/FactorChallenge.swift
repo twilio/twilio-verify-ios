@@ -20,5 +20,5 @@ struct FactorChallenge: Challenge {
   var factor: Factor? = nil
   // Original values to generate signature
   var signatureFields: [String]? = nil
-  var response: Data? = nil
+  var response: [String: Any]? = nil
 }

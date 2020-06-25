@@ -19,11 +19,11 @@ public class TwilioVerifyManager {
 
 extension TwilioVerifyManager: TwilioVerify {
   public func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
+    factorFacade.createFactor(withInput: input, success: success, failure: failure)
   }
   
   public func verifyFactor(withInput input: VerifyFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
+    factorFacade.verifyFactor(withInput: input, success: success, failure: failure)
   }
   
   public func updateFactor(withInput input: UpdateFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
