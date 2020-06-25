@@ -29,9 +29,9 @@ class ChallengeMapper: ChallengeMapperProtocol {
         signatureFields = nil
       }
       
-      var response: Data?
+      var response: [String: Any]?
       if challengeDTO.status == .pending && signatureFields != nil {
-        response = data
+        response = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
       } else {
         response = nil
       }
