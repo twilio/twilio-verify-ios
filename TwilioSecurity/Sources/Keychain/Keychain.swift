@@ -16,7 +16,7 @@ protocol KeychainProtocol {
   func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair
   func copyItemMatching(query: Query) throws -> AnyObject
   func addItem(withQuery query: Query) -> OSStatus
-  func deleteItem(withQuery query: Query) -> OSStatus
+  @discardableResult func deleteItem(withQuery query: Query) -> OSStatus
 }
 
 extension KeychainProtocol {
@@ -82,9 +82,11 @@ class Keychain: KeychainProtocol {
   }
   
   func addItem(withQuery query: Query) -> OSStatus {
+    deleteItem(withQuery: query)
     return SecItemAdd(query as CFDictionary, nil)
   }
   
+  @discardableResult
   func deleteItem(withQuery query: Query) -> OSStatus {
     return SecItemDelete(query as CFDictionary)
   }

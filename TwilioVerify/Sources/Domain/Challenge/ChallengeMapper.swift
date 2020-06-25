@@ -25,15 +25,11 @@ class ChallengeMapper: ChallengeMapperProtocol {
       var signatureFields: [String]?
       if challengeDTO.status == .pending && signatureFieldsHeader != nil {
         signatureFields = signatureFieldsHeader?.components(separatedBy: Constants.signatureFieldsHeaderSeparator)
-      } else {
-        signatureFields = nil
       }
       
-      var response: Data?
+      var response: [String: Any]?
       if challengeDTO.status == .pending && signatureFields != nil {
-        response = data
-      } else {
-        response = nil
+        response = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
       }
       
       let detailsDTO = try JSONDecoder().decode(ChallengeDetailsDTO.self, from: challengeDTO.details.data(using: .utf8)!)
@@ -48,7 +44,7 @@ class ChallengeMapper: ChallengeMapperProtocol {
         updatedAt: updatedAt,
         expirationDate: expirationDate,
         signatureFields: signatureFields,
-        response: [:])
+        response: response)
       return factorChallenge
     } catch {
       throw TwilioVerifyError.mapperError(error: error as NSError)
