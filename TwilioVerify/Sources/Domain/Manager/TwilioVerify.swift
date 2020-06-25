@@ -11,7 +11,7 @@ import Foundation
 public typealias FactorSuccessBlock = (Factor) -> ()
 public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
 public typealias ChallengeSuccessBlock = (Challenge) -> ()
-public typealias SuccessBlock = () -> ()
+public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {
   func createFactor(
@@ -52,13 +52,13 @@ public protocol TwilioVerify {
 
   func updateChallenge(
     withInput input: UpdateChallengeInput,
-    success: @escaping SuccessBlock,
+    success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func deleteFactor(
     withSid sid: String,
-    success: @escaping SuccessBlock,
+    success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 }

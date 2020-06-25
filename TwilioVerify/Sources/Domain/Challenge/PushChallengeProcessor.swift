@@ -10,8 +10,8 @@ import Foundation
 import TwilioSecurity
 
 protocol PushChallengeProcessorProtocol {
-  func get(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func update(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func getChallenge(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class PushChallengeProcessor {
@@ -26,14 +26,14 @@ class PushChallengeProcessor {
 }
 
 extension PushChallengeProcessor: PushChallengeProcessorProtocol {
-  func get(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func getChallenge(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     challengeProvider.get(withSid: sid, withFactor: factor, success: success, failure: { error in
       failure(TwilioVerifyError.inputError(error: error as NSError))
     })
   }
   
-  func update(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    get(withSid: sid, withFactor: factor, success: { challenge in
+  func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    getChallenge(withSid: sid, withFactor: factor, success: { challenge in
       guard let factorChallenge = challenge as? FactorChallenge else {
         failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
         return
@@ -62,7 +62,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
         return
       }
       do {
-        let _ = try self.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
+        _ = try self.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
         success()
       } catch {
         failure(TwilioVerifyError.inputError(error: error as NSError))
