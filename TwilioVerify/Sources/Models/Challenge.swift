@@ -19,7 +19,7 @@ public protocol Challenge {
   var expirationDate: Date { get }
 }
 
-public enum ChallengeStatus: String {
+public enum ChallengeStatus: String, Codable {
   case pending
   case approved
   case denied
@@ -32,7 +32,7 @@ public struct ChallengeDetails {
   let date: Date?
 }
 
-struct Detail {
+struct Detail: Codable {
   let label: String
   let value: String
 }

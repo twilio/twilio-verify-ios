@@ -10,16 +10,24 @@ import Foundation
 @testable import TwilioVerify
 
 class ChallengeProviderMock {
-  var error: TwilioVerifyError?
+  var error: Error?
   var challenge: Challenge!
 }
 
 extension ChallengeProviderMock: ChallengeProvider {
-  func get(forSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
       return
     }
     success(challenge)
+  }
+  
+  func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
+    
+  }
+  
+  func getAll(withFactor factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
+    
   }
 }

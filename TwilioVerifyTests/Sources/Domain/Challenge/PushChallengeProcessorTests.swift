@@ -36,7 +36,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -75,7 +75,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -117,7 +117,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -149,7 +149,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -181,7 +181,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -213,7 +213,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -245,7 +245,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -277,7 +277,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -298,7 +298,7 @@ class PushChallengeProcessorTests: XCTestCase {
     jwtGenerator.error = JwtSignerError.invalidFormat
     let expectedError = TwilioVerifyError.inputError(error: JwtSignerError.invalidFormat as NSError)
     var error: TwilioVerifyError!
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -317,7 +317,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let expectation = self.expectation(description: "testUpdate_withValidData_shouldGenerateCorrectSignature")
     challengeProvider.challenge = Constants.challenge
     jwtGenerator.jwt = Constants.jwt
-    pushChallengeProcessor.update(forSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
+    pushChallengeProcessor.update(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       expectation.fulfill()
     }) { failureReason in
       XCTFail()

@@ -10,8 +10,8 @@ import Foundation
 import TwilioSecurity
 
 protocol PushChallengeProcessorProtocol {
-  func get(forSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func update(forSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func get(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func update(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class PushChallengeProcessor {
@@ -26,12 +26,14 @@ class PushChallengeProcessor {
 }
 
 extension PushChallengeProcessor: PushChallengeProcessorProtocol {
-  func get(forSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    challengeProvider.get(forSid: sid, withFactor: factor, success: success, failure: failure)
+  func get(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    challengeProvider.get(withSid: sid, withFactor: factor, success: success, failure: { error in
+      failure(TwilioVerifyError.inputError(error: error as NSError))
+    })
   }
   
-  func update(forSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    get(forSid: sid, withFactor: factor, success: { challenge in
+  func update(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping SuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    get(withSid: sid, withFactor: factor, success: { challenge in
       guard let factorChallenge = challenge as? FactorChallenge else {
         failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
         return

@@ -2,12 +2,32 @@
 //  ChallengeRepository.swift
 //  TwilioVerify
 //
-//  Created by Yeimi Moreno on 6/24/20.
+//  Created by Sergio Fierro on 6/25/20.
 //  Copyright © 2020 Twilio. All rights reserved.
 //
 
 import Foundation
 
 protocol ChallengeProvider {
-  func get(forSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
+  func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
+  func getAll(withFactor factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock)
+}
+
+class ChallengeRepository {
+  
+}
+
+extension ChallengeRepository: ChallengeProvider {
+  func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
+    
+  }
+  
+  func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
+    
+  }
+  
+  func getAll(withFactor factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
+    
+  }
 }
