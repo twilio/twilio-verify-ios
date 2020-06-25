@@ -8,11 +8,11 @@
 
 import Foundation
 
-typealias SuccessBlock = (Response) -> ()
+typealias SuccessResponseBlock = (Response) -> ()
 typealias FailureBlock = (Error) -> ()
 
 protocol NetworkProvider {
-  func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
+  func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
 class NetworkAdapter: NetworkProvider {
@@ -23,7 +23,7 @@ class NetworkAdapter: NetworkProvider {
     self.session = session
   }
   
-  func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     session.dataTask(with: urlRequest) { result in
       switch result {
         case .success(let response):

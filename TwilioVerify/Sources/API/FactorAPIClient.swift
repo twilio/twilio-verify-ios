@@ -9,8 +9,8 @@
 import Foundation
 
 protocol FactorAPIClientProtocol {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
-  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
+  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
 class FactorAPIClient {
@@ -27,7 +27,7 @@ class FactorAPIClient {
 }
 
 extension FactorAPIClient: FactorAPIClientProtocol {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: payload.jwe))
       let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: payload), requestHelper: requestHelper)
@@ -44,7 +44,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
     }
   }
   
-  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
       let authToken = try authentication.generateJWT(forFactor: factor)
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
