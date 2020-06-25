@@ -10,6 +10,13 @@
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
 		2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFC2486F712009728E4 /* URLSessionMock.swift */; };
 		2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */; };
+		2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753924A256F800D70FAA /* TwilioVerifyManagerTests.swift */; };
+		2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753C24A263B900D70FAA /* FactorFacadeMock.swift */; };
+		2048753F24A2641A00D70FAA /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */; };
+		2048754024A2A11900D70FAA /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; };
+		2048754124A2A11900D70FAA /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3797246F313500B9388F /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2048754424A2A11A00D70FAA /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
+		2048754524A2A11A00D70FAA /* TwilioVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2051B01D248AF1E400033B41 /* MapperError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01C248AF1E400033B41 /* MapperError.swift */; };
 		2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01F248AF4F000033B41 /* PushFactorDTO.swift */; };
 		2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */; };
@@ -67,6 +74,8 @@
 		F20353DC249C1EBF0067DA73 /* TwilioVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DB249C1EBF0067DA73 /* TwilioVerify.swift */; };
 		F20353DF249C22690067DA73 /* TwilioVerifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DE249C22690067DA73 /* TwilioVerifyManager.swift */; };
 		F0A2CCB8249AAF8E0002E7AA /* JwtSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2CCB7249AAF8E0002E7AA /* JwtSignerTests.swift */; };
+		F20353DC249C1EBF0067DA73 /* TwilioVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DB249C1EBF0067DA73 /* TwilioVerify.swift */; };
+		F20353DF249C22690067DA73 /* TwilioVerifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DE249C22690067DA73 /* TwilioVerifyManager.swift */; };
 		F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBAF249000CF00688E5C /* KeyStorage.swift */; };
 		F207BBB224901A6900688E5C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB124901A6900688E5C /* Storage.swift */; };
 		F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB424901E8D00688E5C /* StorageTests.swift */; };
@@ -114,6 +123,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2048754224A2A11A00D70FAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2AA3796246F313500B9388F;
+			remoteInfo = TwilioSecurity;
+		};
+		2048754624A2A11A00D70FAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2AA3777246F30BE00B9388F;
+			remoteInfo = TwilioVerify;
+		};
 		F2A7BB00248FDC1D0005DF7C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
@@ -151,10 +174,28 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2048754824A2A11A00D70FAA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2048754124A2A11900D70FAA /* TwilioSecurity.framework in Embed Frameworks */,
+				2048754524A2A11A00D70FAA /* TwilioVerify.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2003C43F2480232900279BBD /* TwilioVerifyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
 		2019ABFC2486F712009728E4 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapterTests.swift; sourceTree = "<group>"; };
+		2048753924A256F800D70FAA /* TwilioVerifyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyManagerTests.swift; sourceTree = "<group>"; };
+		2048753C24A263B900D70FAA /* FactorFacadeMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeMock.swift; sourceTree = "<group>"; };
+		2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyTests.swift; sourceTree = "<group>"; };
 		2051B01C248AF1E400033B41 /* MapperError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperError.swift; sourceTree = "<group>"; };
 		2051B01F248AF4F000033B41 /* PushFactorDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactorDTO.swift; sourceTree = "<group>"; };
 		2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorizationTests.swift; sourceTree = "<group>"; };
@@ -301,6 +342,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2048754024A2A11900D70FAA /* TwilioSecurity.framework in Frameworks */,
+				2048754424A2A11A00D70FAA /* TwilioVerify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +354,23 @@
 			isa = PBXGroup;
 			children = (
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		2048753824A256E300D70FAA /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				2048753B24A263AD00D70FAA /* Mocks */,
+				2048753924A256F800D70FAA /* TwilioVerifyManagerTests.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		2048753B24A263AD00D70FAA /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				2048753C24A263B900D70FAA /* FactorFacadeMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -429,6 +489,7 @@
 				20C710C9248AAB0100B0F448 /* Domain */,
 				20E3BB1F248984B300BC90DE /* API */,
 				2060CFFC248574B4001DD494 /* Networking */,
+				2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -473,6 +534,7 @@
 		20C710C9248AAB0100B0F448 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				2048753824A256E300D70FAA /* Manager */,
 				20C710CA248AAB0700B0F448 /* Factor */,
 			);
 			path = Domain;
@@ -944,10 +1006,13 @@
 				F2F62F99248846D800E330E4 /* Sources */,
 				F2F62F9A248846D800E330E4 /* Frameworks */,
 				F2F62F9B248846D800E330E4 /* Resources */,
+				2048754824A2A11A00D70FAA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2048754324A2A11A00D70FAA /* PBXTargetDependency */,
+				2048754724A2A11A00D70FAA /* PBXTargetDependency */,
 			);
 			name = HostApp;
 			productName = HostApp;
@@ -1102,6 +1167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */,
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F2C552C32493F3D2006F6CDF /* FakeFactorInput.swift in Sources */,
 				F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */,
@@ -1118,6 +1184,8 @@
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
+				2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */,
+				2048753F24A2641A00D70FAA /* TwilioVerifyTests.swift in Sources */,
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
 				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
@@ -1184,6 +1252,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2048754324A2A11A00D70FAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2AA3796246F313500B9388F /* TwilioSecurity */;
+			targetProxy = 2048754224A2A11A00D70FAA /* PBXContainerItemProxy */;
+		};
+		2048754724A2A11A00D70FAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2AA3777246F30BE00B9388F /* TwilioVerify */;
+			targetProxy = 2048754624A2A11A00D70FAA /* PBXContainerItemProxy */;
+		};
 		F2A7BB01248FDC1D0005DF7C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2F62F9C248846D800E330E4 /* HostApp */;
