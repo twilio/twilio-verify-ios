@@ -25,15 +25,11 @@ class ChallengeMapper: ChallengeMapperProtocol {
       var signatureFields: [String]?
       if challengeDTO.status == .pending && signatureFieldsHeader != nil {
         signatureFields = signatureFieldsHeader?.components(separatedBy: Constants.signatureFieldsHeaderSeparator)
-      } else {
-        signatureFields = nil
       }
       
       var response: [String: Any]?
       if challengeDTO.status == .pending && signatureFields != nil {
         response = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
-      } else {
-        response = nil
       }
       
       let detailsDTO = try JSONDecoder().decode(ChallengeDetailsDTO.self, from: challengeDTO.details.data(using: .utf8)!)
