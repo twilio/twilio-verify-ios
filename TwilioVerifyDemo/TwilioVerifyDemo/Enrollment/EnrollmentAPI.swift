@@ -35,6 +35,12 @@ protocol Enrollment {
 
 class EnrollmentAPI: Enrollment {
   
+  private let urlSession: URLSession
+  
+  init(urlSession: URLSession = URLSession.shared) {
+    self.urlSession = urlSession
+  }
+  
   func enroll(at url: String, identity: String, success: @escaping (EnrollmentResponse) -> (), failure: @escaping (Error) -> ()) {
     guard let url = URL(string: url) else {
       failure(NetworkError.invalidURL)
@@ -50,7 +56,7 @@ class EnrollmentAPI: Enrollment {
     request.httpBody = parameters
     request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
     
-    URLSession.shared.dataTask(with: request) { data, response, error in
+    let task = urlSession.dataTask(with: request) { data, response, error in
       if let error = error {
         failure(error)
         return
@@ -65,6 +71,7 @@ class EnrollmentAPI: Enrollment {
         return
       }
       success(response)
-    }.resume()
+    }
+    task.resume()
   }
 }
