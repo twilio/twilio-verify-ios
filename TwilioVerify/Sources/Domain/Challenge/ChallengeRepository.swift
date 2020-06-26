@@ -8,8 +8,6 @@
 
 import Foundation
 
-public typealias ChallengeSuccessBlock = (Challenge) -> ()
-
 protocol ChallengeProvider {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
