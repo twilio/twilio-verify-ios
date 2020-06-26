@@ -90,10 +90,19 @@ private extension CreateFactorPresenter {
   
   struct Constants {
     static let enrollmentURLKey = "enrollmentURL"
+    static let pushTokenKey = "PushToken"
+    static let dummyPushToken = "0000000000000000000000000000000000000000000000000000000000000000"
   }
   
   func saveEnrollmentURL(_ url: String) {
     UserDefaults.standard.set(url, forKey: Constants.enrollmentURLKey)
+  }
+  
+  func pushToken() -> String {
+    if TARGET_OS_SIMULATOR == 1 {
+      return Constants.dummyPushToken
+    }
+    return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String ?? String()
   }
   
   func createFactor(_ enrollment: EnrollmentResponse, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
@@ -101,7 +110,7 @@ private extension CreateFactorPresenter {
       friendlyName: "\(enrollment.identity)'s Factor",
       serviceSid: enrollment.serviceSid,
       identity: enrollment.identity,
-      pushToken: UserDefaults.standard.value(forKey: "PushToken") as? String ?? String(),
+      pushToken: pushToken(),
       enrollmentJwe: enrollment.token
     )
     twilioVerify.createFactor(withInput: payload, success: success, failure: failure)
@@ -112,3 +121,4 @@ private extension CreateFactorPresenter {
     twilioVerify.verifyFactor(withInput: payload, success: success, failure: failure)
   }
 }
+
