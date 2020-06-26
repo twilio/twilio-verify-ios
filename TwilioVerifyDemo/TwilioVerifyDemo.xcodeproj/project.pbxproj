@@ -11,7 +11,6 @@
 		F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275353424A52150005A5605 /* UITextField+Extensions.swift */; };
 		F275353F24A52C05005A5605 /* CreateFactorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275353E24A52C05005A5605 /* CreateFactorPresenter.swift */; };
 		F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354124A52DBF005A5605 /* TwilioVerifyAdapter.swift */; };
-		F275354724A531B7005A5605 /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354624A531B7005A5605 /* URLSession+Extensions.swift */; };
 		F275354C24A53229005A5605 /* EnrollmentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354B24A53229005A5605 /* EnrollmentAPI.swift */; };
 		F297F61F24A5435300294A0D /* EnrollmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297F61E24A5435300294A0D /* EnrollmentResponse.swift */; };
 		F297F62424A5472300294A0D /* FactorListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297F62324A5472300294A0D /* FactorListViewController.swift */; };
@@ -60,7 +59,6 @@
 		F275353424A52150005A5605 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		F275353E24A52C05005A5605 /* CreateFactorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFactorPresenter.swift; sourceTree = "<group>"; };
 		F275354124A52DBF005A5605 /* TwilioVerifyAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyAdapter.swift; sourceTree = "<group>"; };
-		F275354624A531B7005A5605 /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
 		F275354B24A53229005A5605 /* EnrollmentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentAPI.swift; sourceTree = "<group>"; };
 		F297F61E24A5435300294A0D /* EnrollmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentResponse.swift; sourceTree = "<group>"; };
 		F297F62324A5472300294A0D /* FactorListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListViewController.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 			children = (
 				F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */,
 				F275353424A52150005A5605 /* UITextField+Extensions.swift */,
-				F275354624A531B7005A5605 /* URLSession+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,7 +336,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F275354724A531B7005A5605 /* URLSession+Extensions.swift in Sources */,
 				F297F62424A5472300294A0D /* FactorListViewController.swift in Sources */,
 				F2CFC41E24A575FA008430B6 /* FactorTableViewCell.swift in Sources */,
 				F275353F24A52C05005A5605 /* CreateFactorPresenter.swift in Sources */,
