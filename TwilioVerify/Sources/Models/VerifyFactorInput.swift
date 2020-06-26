@@ -12,6 +12,10 @@ public protocol VerifyFactorInput {
   var sid: String { get }
 }
 
-struct VerifyPushFactorInput: VerifyFactorInput {
-  let sid: String
+public struct VerifyPushFactorInput: VerifyFactorInput {
+  public let sid: String
+  
+  public init(sid: String) {
+    self.sid = sid
+  }
 }

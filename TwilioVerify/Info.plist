@@ -18,5 +18,7 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>BaseURL</key>
+	<string>$(BASE_URL)</string>
 </dict>
 </plist>

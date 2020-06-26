@@ -22,4 +22,12 @@ public struct PushFactorInput: FactorInput {
   public let factorType: FactorType = .push
   public let pushToken: String
   public let enrollmentJwe: String
+  
+  public init(friendlyName: String, serviceSid: String, identity: String, pushToken: String, enrollmentJwe: String) {
+    self.friendlyName = friendlyName
+    self.serviceSid = serviceSid
+    self.identity = identity
+    self.pushToken = pushToken
+    self.enrollmentJwe = enrollmentJwe
+  }
 }
