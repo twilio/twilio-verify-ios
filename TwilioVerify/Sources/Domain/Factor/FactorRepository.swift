@@ -38,9 +38,7 @@ extension FactorRepository: FactorProvider {
       } catch {
         failure(error)
       }
-    }) { error in
-      failure(error)
-    }
+    }, failure: failure)
   }
   
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
@@ -54,9 +52,7 @@ extension FactorRepository: FactorProvider {
       } catch {
         failure(error)
       }
-    }) { error in
-      failure(error)
-    }
+    }, failure: failure)
   }
   
   func save(_ factor: Factor) throws -> Factor {

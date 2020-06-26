@@ -42,11 +42,11 @@ extension TwilioVerifyManager: TwilioVerify {
     
   }
   
-  public func updateChallenge(withInput input: UpdateChallengeInput, success: () -> (), failure: @escaping TwilioVerifyErrorBlock) {
+  public func updateChallenge(withInput input: UpdateChallengeInput, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   
-  public func deleteFactor(withSid sid: String, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {
+  public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   

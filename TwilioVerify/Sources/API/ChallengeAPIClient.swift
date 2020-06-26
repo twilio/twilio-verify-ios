@@ -9,8 +9,8 @@
 import Foundation
 
 protocol ChallengeAPIClientProtocol {
-  func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
-  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock)
+  func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
 class ChallengeAPIClient {
@@ -26,7 +26,7 @@ class ChallengeAPIClient {
 }
 
 extension ChallengeAPIClient: ChallengeAPIClientProtocol {
-  func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
       let authToken = try authentication.generateJWT(forFactor: factor)
       let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
@@ -39,7 +39,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
     }
   }
   
-  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
       guard let factor = challenge.factor else {
         failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))

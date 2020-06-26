@@ -14,7 +14,7 @@ class NetworkProviderMock: NetworkProvider {
   var error: Error?
   private(set) var urlRequest: URLRequest?
   
-  func execute(_ urlRequest: URLRequest, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     self.urlRequest = urlRequest
     if let response = response {
       success(response)

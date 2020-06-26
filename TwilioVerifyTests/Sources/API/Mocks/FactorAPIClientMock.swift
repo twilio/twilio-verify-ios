@@ -17,7 +17,7 @@ class FactorAPIClientMock {
 }
 
 extension FactorAPIClientMock: FactorAPIClientProtocol {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
       return
@@ -25,7 +25,7 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     success(Response(data: factorData, headers: [:]))
   }
   
-  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
       return
