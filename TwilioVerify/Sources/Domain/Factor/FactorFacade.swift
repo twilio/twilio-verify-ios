@@ -12,6 +12,7 @@ import TwilioSecurity
 protocol FactorFacadeProtocol {
   func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func verifyFactor(withInput input: VerifyFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class FactorFacade {
@@ -46,6 +47,14 @@ extension FactorFacade: FactorFacadeProtocol {
       return
     }
     factory.verifyFactor(withSid: input.sid, success: success, failure: failure)
+  }
+  
+  func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    do {
+      success(try repository.get(withSid: sid))
+    } catch {
+      failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
+    }
   }
 }
 

@@ -8,9 +8,6 @@
 
 import Foundation
 
-public typealias FactorSuccessBlock = (Factor) -> ()
-public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
-
 protocol PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
