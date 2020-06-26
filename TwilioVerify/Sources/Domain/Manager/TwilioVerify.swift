@@ -33,20 +33,20 @@ public protocol TwilioVerify {
   )
 
   func getAllFactors(
-    success: ([Factor]) -> (),
+    success: @escaping ([Factor]) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func getChallenge(
     challengeSid: String,
     factorSid: String,
-    success: (Challenge) -> (),
+    success: @escaping (Challenge) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func getAllChallenges(
     withInput input: ChallengeListInput,
-    success: (ChallengeList) -> (),
+    success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 
@@ -76,6 +76,10 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
+    guard let baseURL = Bundle(for: TwilioVerifyBuilder.self).object(forInfoDictionaryKey: Constants.baseURLKey) as? String else {
+        return
+    }
+    self.baseURL = Constants.httpsPrefix + baseURL
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -83,7 +87,7 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  public func setURL(_ url: String) -> Self {
+  func setURL(_ url: String) -> Self {
     self.baseURL = url
     return self
   }
@@ -98,3 +102,11 @@ public class TwilioVerifyBuilder {
     return TwilioVerifyManager(factorFacade: factorFacade)
   }
 }
+
+private extension TwilioVerifyBuilder {
+  struct Constants {
+    static let baseURLKey = "BaseURL"
+    static let httpsPrefix = "https://"
+  }
+}
+

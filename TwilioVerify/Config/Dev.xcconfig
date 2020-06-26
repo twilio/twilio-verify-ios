@@ -1,0 +1,12 @@
+//
+//  Dev.xcconfig
+//  TwilioVerify
+//
+//  Created by Santiago Avila on 6/25/20.
+//  Copyright © 2020 Twilio. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+BASE_URL = verify.dev.twilio.com/v2/
