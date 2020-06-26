@@ -22,6 +22,75 @@ class PushChallengeProcessorTests: XCTestCase {
     pushChallengeProcessor = PushChallengeProcessor(challengeProvider: challengeProvider, jwtGenerator: jwtGenerator)
   }
   
+  func testGetChallenge_withInvalidInput_shouldFail() {
+    let expectation = self.expectation(description: "testGetChallenge_withInvalidInput_shouldFail")
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    var error: TwilioVerifyError!
+    challengeProvider.error = InputError.invalidInput
+    
+    pushChallengeProcessor.getChallenge(withSid: Constants.sid, withFactor: Constants.factor, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testGetChallenge_withValidInput_shouldSucceed() {
+    let expectation = self.expectation(description: "testGetChallenge_withValidInput_shouldSucceed")
+    var challenge: Challenge!
+    let expectedChallenge = ChallengeMock(
+      sid: Constants.sid,
+      factorSid: Constants.factorSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date())
+    challengeProvider.challenge = expectedChallenge
+    
+    pushChallengeProcessor.getChallenge(withSid: Constants.sid, withFactor: Constants.factor, success: { result in
+      challenge = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(challenge.sid, expectedChallenge.sid,
+                   "Challenge sid should be \(expectedChallenge.sid) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, expectedChallenge.factorSid,
+                   "Challenge factorSid should be \(expectedChallenge.factorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.challengeDetails.message, expectedChallenge.challengeDetails.message,
+                   "Challenge Details messade should be \(expectedChallenge.challengeDetails.message) but was \(challenge.challengeDetails.message)")
+    for (i, detail) in challenge.challengeDetails.fields.enumerated() {
+      XCTAssertEqual(detail.label, expectedChallenge.challengeDetails.fields[i].label,
+                     "Challenge detail label should be \(expectedChallenge.challengeDetails.fields[i].label) but was \(detail.label)")
+      XCTAssertEqual(detail.value, expectedChallenge.challengeDetails.fields[i].value,
+                     "Challenge detail value should be \(expectedChallenge.challengeDetails.fields[i].value) but was \(detail.value)")
+    }
+    XCTAssertEqual(challenge.hiddenDetails, expectedChallenge.hiddenDetails,
+                   "Challenge sid should be \(expectedChallenge.sid) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.status, expectedChallenge.status,
+                   "Challenge status should be \(expectedChallenge.status) but was \(challenge.status)")
+    XCTAssertEqual(challenge.createdAt, expectedChallenge.createdAt,
+                   "Challenge creation date should be \(expectedChallenge.createdAt) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, expectedChallenge.updatedAt,
+                   "Challenge update date should be \(expectedChallenge.updatedAt) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.expirationDate, expectedChallenge.expirationDate,
+                   "Challenge expiration date should be \(expectedChallenge.expirationDate) but was \(challenge.expirationDate)")
+    
+  }
+  
   func testUpdate_withInvalidChallenge_shouldFail() {
     let expectation = self.expectation(description: "testUpdate_withInvalidChallenge_shouldFail")
     let challenge = ChallengeMock(
@@ -345,7 +414,9 @@ private extension PushChallengeProcessorTests {
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: "alias")
-    static let challengeDetails = ChallengeDetails(message: "message", fields: [Detail(label: "label", value: "value")], date: Date())
+    static let challengeDetails = ChallengeDetails(
+      message: "message",
+      fields: [Detail(label: "label", value: "value")], date: Date())
     static let response = ["sid": sid, "factorSid": factorSid]
     static let signatureFields = Array(response.keys)
     static let challenge = FactorChallenge(
