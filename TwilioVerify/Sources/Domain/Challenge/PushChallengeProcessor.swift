@@ -33,7 +33,8 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
   }
   
   func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    getChallenge(withSid: sid, withFactor: factor, success: { challenge in
+    getChallenge(withSid: sid, withFactor: factor, success: { [weak self] challenge in
+      guard let strongSelf = self else { return }
       guard let factorChallenge = challenge as? FactorChallenge else {
         failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
         return
@@ -62,8 +63,16 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
         return
       }
       do {
-        _ = try self.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
-        success()
+        let authPayload = try strongSelf.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
+        strongSelf.challengeProvider.update(challenge, payload: authPayload, success: { updatedChallenge in
+          if updatedChallenge.status == status {
+            success()
+          } else {
+            failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+          }
+        }, failure: { error in
+          failure(TwilioVerifyError.inputError(error: error as NSError))
+        })
       } catch {
         failure(TwilioVerifyError.inputError(error: error as NSError))
       }
