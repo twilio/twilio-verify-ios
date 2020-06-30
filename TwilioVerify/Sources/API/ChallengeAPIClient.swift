@@ -10,6 +10,7 @@ import Foundation
 
 protocol ChallengeAPIClientProtocol {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
@@ -39,10 +40,31 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
     }
   }
   
+  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+    do {
+      let authToken = try authentication.generateJWT(forFactor: factor)
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+      var parameters = [Parameter(name: Constants.factorSidKey, value: factor.sid),
+                        Parameter(name: Constants.pageSizeKey, value: pageSize)]
+      if let status = status {
+        parameters.append(Parameter(name: Constants.statusKey, value: status))
+      }
+      if let pageToken = pageToken {
+        parameters.append(Parameter(name: Constants.pageTokenKey, value: pageToken))
+      }
+      let request = try URLRequestBuilder(withURL: getChallengesURL(forFactor: factor), requestHelper: requestHelper)
+        .setParameters(parameters)
+        .build()
+      networkProvider.execute(request, success: success, failure: failure)
+    } catch {
+      failure(error)
+    }
+  }
+  
   func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
       guard let factor = challenge.factor else {
-        failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+        failure(InputError.invalidInput)
         return
       }
       let authToken = try authentication.generateJWT(forFactor: factor)
@@ -66,6 +88,12 @@ private extension ChallengeAPIClient {
       .replacingOccurrences(of: APIConstants.challengeSidPath, with: sid)
   }
   
+  func getChallengesURL(forFactor factor: Factor) -> String {
+    "\(baseURL)\(Constants.getChallengesURL)"
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+  }
+  
   func updateChallengeURL(forSid sid: String, forFactor factor: Factor) -> String {
     "\(baseURL)\(Constants.updateChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
@@ -81,7 +109,12 @@ private extension ChallengeAPIClient {
 extension ChallengeAPIClient {
   struct Constants {
     static let authPayloadKey = "AuthPayload"
+    static let pageSizeKey = "PageSize"
+    static let pageTokenKey = "pageToken"
+    static let statusKey = "Status"
+    static let factorSidKey = "FactorSid"
     static let getChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges/\(APIConstants.challengeSidPath)"
+    static let getChallengesURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges"
     static let updateChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges/\(APIConstants.challengeSidPath)"
   }
 }
