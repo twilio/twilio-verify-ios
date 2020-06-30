@@ -24,7 +24,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     let successExpectation = expectation(description: "Wait for success response")
     factorFacade.factor = Constants.expectedFactor
     var factorResponse: Factor!
-    twilioVerify.createFactor(withInput: Constants.factorInput, success: { factor in
+    twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
     }) { failure in
@@ -51,7 +51,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     factorFacade.error = expectedError
     var error: TwilioVerifyError!
-    twilioVerify.createFactor(withInput: Constants.factorInput, success: { factor in
+    twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { failure in
@@ -64,10 +64,10 @@ class TwilioVerifyManagerTests: XCTestCase {
   
   func testVerifyFactor_withFactorResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
-    let factorInput = VerifyPushFactorInput(sid: "sid")
+    let factorPayload = VerifyPushFactorPayload(sid: "sid")
     factorFacade.factor = Constants.expectedFactor
     var factorResponse: Factor!
-    twilioVerify.verifyFactor(withInput: factorInput, success: { factor in
+    twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
     }) { failure in
@@ -91,11 +91,11 @@ class TwilioVerifyManagerTests: XCTestCase {
   
   func testVerifyFactor_withErrorReponse_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
-    let factorInput = VerifyPushFactorInput(sid: "sid")
+    let factorPayload = VerifyPushFactorPayload(sid: "sid")
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     factorFacade.error = expectedError
     var error: TwilioVerifyError!
-    twilioVerify.verifyFactor(withInput: factorInput, success: { factor in
+    twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
     }) { failure in
@@ -122,7 +122,7 @@ private extension TwilioVerifyManagerTests {
       entityIdentity: "entityIdentity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
-    static let factorInput = PushFactorInput(
+    static let factorPayload = PushFactorPayload(
       friendlyName: Constants.friendlyName,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,

@@ -1,5 +1,5 @@
 //
-//  FakeInput.swift
+//  FakeFactorPayload.swift
 //  TwilioVerifyTests
 //
 //  Created by Santiago Avila on 6/12/20.
@@ -9,13 +9,13 @@
 import Foundation
 @testable import TwilioVerify
 
-struct FakeFactorInput: FactorInput {
+struct FakeFactorPayload: FactorPayload {
   var friendlyName: String
   var serviceSid: String
   var identity: String
   var factorType: FactorType
 }
 
-struct FakeVerifyPushFactorInput: VerifyFactorInput {
+struct FakeVerifyPushFactorPayload: VerifyFactorPayload {
   let sid: String
 }

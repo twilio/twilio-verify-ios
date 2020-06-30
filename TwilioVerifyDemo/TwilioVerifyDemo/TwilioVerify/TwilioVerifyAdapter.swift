@@ -19,8 +19,8 @@ class TwilioVerifyAdapter {
 }
 
 extension TwilioVerifyAdapter: TwilioVerify {
-  func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    twilioVerify.createFactor(withInput: input, success: { factor in
+  func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    twilioVerify.createFactor(withPayload: payload, success: { factor in
       DispatchQueue.main.async {
         success(factor)
       }
@@ -31,8 +31,8 @@ extension TwilioVerifyAdapter: TwilioVerify {
     }
   }
   
-  func verifyFactor(withInput input: VerifyFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    twilioVerify.verifyFactor(withInput: input, success: { factor in
+  func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    twilioVerify.verifyFactor(withPayload: payload, success: { factor in
       DispatchQueue.main.async {
         success(factor)
       }
@@ -43,7 +43,7 @@ extension TwilioVerifyAdapter: TwilioVerify {
     }
   }
   
-  func updateFactor(withInput input: UpdateFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
   }
   
   func getAllFactors(success: @escaping ([Factor]) -> (), failure: @escaping TwilioVerifyErrorBlock) {
@@ -53,11 +53,11 @@ extension TwilioVerifyAdapter: TwilioVerify {
   func getChallenge(challengeSid: String, factorSid: String, success: @escaping (Challenge) -> (), failure: @escaping TwilioVerifyErrorBlock) {
   }
   
-  func getAllChallenges(withInput input: ChallengeListInput, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
+  func getAllChallenges(withPayload payload: ChallengeListPayload, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   
-  func updateChallenge(withInput input: UpdateChallengeInput, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {
+  func updateChallenge(withPayload payload: UpdateChallengePayload, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   

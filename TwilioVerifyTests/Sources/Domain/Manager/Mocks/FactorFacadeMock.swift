@@ -15,7 +15,7 @@ class FactorFacadeMock {
 }
 
 extension FactorFacadeMock: FactorFacadeProtocol {
-  func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
       return
@@ -23,7 +23,7 @@ extension FactorFacadeMock: FactorFacadeProtocol {
     success(factor)
   }
   
-  func verifyFactor(withInput input: VerifyFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
       return

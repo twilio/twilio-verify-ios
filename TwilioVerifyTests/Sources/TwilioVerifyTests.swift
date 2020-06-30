@@ -31,9 +31,9 @@ class TwilioVerifyTests: XCTestCase {
                                            Constants.statusKey: FactorStatus.verified.rawValue]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
     networkProvider.response = Response(data: data, headers: [:])
-    let factorInput = VerifyPushFactorInput(sid: Constants.sidValue)
+    let factorPayload = VerifyPushFactorPayload(sid: Constants.sidValue)
     var pushFactor: PushFactor!
-    twilioVerify.verifyFactor(withInput: factorInput, success: { factor in
+    twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
       pushFactor = factor as? PushFactor
       successExpectation.fulfill()
     }) { error in
@@ -67,14 +67,14 @@ class TwilioVerifyTests: XCTestCase {
               VlMGNkOWJiNDk2MGVmNjJmYjgtMTU4Mzg1MTI2NCIsInN1YiI6IkFDYzg1NjNkYWY4OGVkMjZmMjI3NjM4ZjU3Mz
               g3MjZmYmQifQ.R01YC9mfCzIf9W81GUUCMjTwnhzIIqxV-tcdJYuy6kA
               """
-    let factorInput = PushFactorInput(
+    let factorPayload = PushFactorPayload(
       friendlyName: Constants.friendlyName,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       pushToken: Constants.pushToken,
       enrollmentJwe: jwe)
     var pushFactor: PushFactor!
-    twilioVerify.createFactor(withInput: factorInput, success: { factor in
+    twilioVerify.createFactor(withPayload: factorPayload, success: { factor in
       pushFactor = factor as? PushFactor
       successExpectation.fulfill()
     }) { error in

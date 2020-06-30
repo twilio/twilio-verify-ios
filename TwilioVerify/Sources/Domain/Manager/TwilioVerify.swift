@@ -15,19 +15,19 @@ public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {
   func createFactor(
-    withInput input: FactorInput,
+    withPayload payload: FactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
   func verifyFactor(
-    withInput input: VerifyFactorInput,
+    withPayload payload: VerifyFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func updateFactor(
-    withInput input: UpdateFactorInput,
+    withPayload payload: UpdateFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
@@ -45,13 +45,13 @@ public protocol TwilioVerify {
   )
 
   func getAllChallenges(
-    withInput input: ChallengeListInput,
+    withPayload payload: ChallengeListPayload,
     success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func updateChallenge(
-    withInput input: UpdateChallengeInput,
+    withPayload payload: UpdateChallengePayload,
     success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
