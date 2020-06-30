@@ -19,3 +19,19 @@ struct FakeFactorPayload: FactorPayload {
 struct FakeVerifyPushFactorPayload: VerifyFactorPayload {
   let sid: String
 }
+
+struct FakeFactor: Factor {
+  var status: FactorStatus
+  var sid: String
+  var friendlyName: String
+  var accountSid: String
+  var serviceSid: String
+  var entityIdentity: String
+  var type: FactorType
+  var createdAt: Date
+}
+
+struct FakeUpdateChallengePayload: UpdateChallengePayload {
+  var factorSid: String
+  var challengeSid: String
+}

@@ -13,11 +13,13 @@ class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
   private var factorFacade: FactorFacadeMock!
+  private var challengeFacade: ChallengeFacadeMock!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
     factorFacade = FactorFacadeMock()
-    twilioVerify = TwilioVerifyManager(factorFacade: factorFacade)
+    challengeFacade = ChallengeFacadeMock()
+    twilioVerify = TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
   }
   
   func testCreateFactor_withFactorResponse_shouldSucceed() {

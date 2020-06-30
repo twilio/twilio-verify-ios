@@ -11,9 +11,11 @@ import Foundation
 public class TwilioVerifyManager {
   
   private let factorFacade: FactorFacadeProtocol
+  private let challengeFacade: ChallengeFacadeProtocol
   
-  init(factorFacade: FactorFacadeProtocol) {
+  init(factorFacade: FactorFacadeProtocol, challengeFacade: ChallengeFacadeProtocol) {
     self.factorFacade = factorFacade
+    self.challengeFacade = challengeFacade
   }
 }
 

@@ -99,7 +99,14 @@ public class TwilioVerifyBuilder {
       .setURL(baseURL)
       .setAuthentication(authentication)
       .build()
-    return TwilioVerifyManager(factorFacade: factorFacade)
+    let challengeFacade = ChallengeFacade.Builder()
+      .setNetworkProvider(networkProvider)
+      .setJWTGenerator(jwtGenerator)
+      .setURL(baseURL)
+      .setAuthentication(authentication)
+      .setFactorFacade(factorFacade)
+      .build()
+    return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
   }
 }
 
