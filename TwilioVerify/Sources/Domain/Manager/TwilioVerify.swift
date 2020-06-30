@@ -37,16 +37,16 @@ public protocol TwilioVerify {
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  func deleteFactor(
+    withSid sid: String,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+  
   func getChallenge(
     challengeSid: String,
     factorSid: String,
-    success: @escaping (Challenge) -> (),
-    failure: @escaping TwilioVerifyErrorBlock
-  )
-
-  func getAllChallenges(
-    withPayload payload: ChallengeListPayload,
-    success: @escaping (ChallengeList) -> (),
+    success: @escaping ChallengeSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
@@ -55,10 +55,10 @@ public protocol TwilioVerify {
     success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
-
-  func deleteFactor(
-    withSid sid: String,
-    success: @escaping EmptySuccessBlock,
+  
+  func getAllChallenges(
+    withPayload payload: ChallengeListPayload,
+    success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 }

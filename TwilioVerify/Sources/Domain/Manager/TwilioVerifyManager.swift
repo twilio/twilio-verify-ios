@@ -36,21 +36,19 @@ extension TwilioVerifyManager: TwilioVerify {
     
   }
   
-  public func getChallenge(challengeSid: String, factorSid: String, success: (Challenge) -> (), failure: @escaping TwilioVerifyErrorBlock) {
+  public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     
+  }
+  
+  public func getChallenge(challengeSid: String, factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    challengeFacade.get(withSid: challengeSid, withFactorSid: factorSid, success: success, failure: failure)
+  }
+  
+  public func updateChallenge(withPayload payload: UpdateChallengePayload, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    challengeFacade.update(withPayload: payload, success: success, failure: failure)
   }
   
   public func getAllChallenges(withPayload payload: ChallengeListPayload, success: (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
     
   }
-  
-  public func updateChallenge(withPayload payload: UpdateChallengePayload, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
-  }
-  
-  public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
-  }
-  
-  
 }
