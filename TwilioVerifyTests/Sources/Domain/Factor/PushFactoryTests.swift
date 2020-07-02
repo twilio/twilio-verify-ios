@@ -98,7 +98,7 @@ class PushFactoryTests: XCTestCase {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     keyStorage.createKeyResult = Constants.data
-    keyStorage.error = TestError.operationFailed
+    keyStorage.errorDeletingKey = TestError.operationFailed
     repository.error = TestError.operationFailed
     
     factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
