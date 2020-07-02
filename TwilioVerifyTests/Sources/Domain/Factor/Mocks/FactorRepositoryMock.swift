@@ -34,6 +34,14 @@ extension FactorRepositoryMock: FactorProvider {
     success(self.factor)
   }
   
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success()
+  }
+  
   func get(withSid sid: String) throws -> Factor {
     if let error = error {
       throw error
