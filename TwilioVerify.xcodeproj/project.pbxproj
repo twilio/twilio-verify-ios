@@ -43,7 +43,7 @@
 		2093573E24871827008FDBCC /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573D24871827008FDBCC /* Metadata.swift */; };
 		209357402487185A008FDBCC /* ChallengeListPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093573F2487185A008FDBCC /* ChallengeListPayload.swift */; };
 		20935746248719A9008FDBCC /* UpdateChallengePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935745248719A9008FDBCC /* UpdateChallengePayload.swift */; };
-		20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935747248719D5008FDBCC /* UpdateFactorInput.swift */; };
+		20935748248719D5008FDBCC /* UpdateFactorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20935747248719D5008FDBCC /* UpdateFactorPayload.swift */; };
 		20A08846249019BC00701CCC /* FactorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A08845249019BC00701CCC /* FactorRepository.swift */; };
 		20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A088492490465200701CCC /* FactorRepositoryTests.swift */; };
 		20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */; };
@@ -237,7 +237,7 @@
 		2093573D24871827008FDBCC /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		2093573F2487185A008FDBCC /* ChallengeListPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListPayload.swift; sourceTree = "<group>"; };
 		20935745248719A9008FDBCC /* UpdateChallengePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChallengePayload.swift; sourceTree = "<group>"; };
-		20935747248719D5008FDBCC /* UpdateFactorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorInput.swift; sourceTree = "<group>"; };
+		20935747248719D5008FDBCC /* UpdateFactorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorPayload.swift; sourceTree = "<group>"; };
 		20A08845249019BC00701CCC /* FactorRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepository.swift; sourceTree = "<group>"; };
 		20A088492490465200701CCC /* FactorRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorRepositoryTests.swift; sourceTree = "<group>"; };
 		20A92FC7248197CB00A9E8E7 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
@@ -456,7 +456,7 @@
 				2093573D24871827008FDBCC /* Metadata.swift */,
 				2093573F2487185A008FDBCC /* ChallengeListPayload.swift */,
 				20935745248719A9008FDBCC /* UpdateChallengePayload.swift */,
-				20935747248719D5008FDBCC /* UpdateFactorInput.swift */,
+				20935747248719D5008FDBCC /* UpdateFactorPayload.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1216,7 +1216,7 @@
 				F07B6F532492CA4400948FB1 /* JwtGenerator.swift in Sources */,
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */,
-				20935748248719D5008FDBCC /* UpdateFactorInput.swift in Sources */,
+				20935748248719D5008FDBCC /* UpdateFactorPayload.swift in Sources */,
 				20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */,
 				F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */,
 				20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */,
