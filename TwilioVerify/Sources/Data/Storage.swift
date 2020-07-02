@@ -13,6 +13,7 @@ protocol StorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
+  func getAll() throws -> [Data?]?
 }
 
 class Storage {
@@ -30,11 +31,11 @@ extension Storage: StorageProvider {
   }
   
   func get(_ key: String) throws -> Data {
-    do {
-      return try secureStorage.get(key)
-    } catch {
-      throw error
-    }
+    try secureStorage.get(key)
+  }
+  
+  func getAll() throws -> [Data?]? {
+    try secureStorage.getAll()
   }
   
   func removeValue(for key: String) throws {

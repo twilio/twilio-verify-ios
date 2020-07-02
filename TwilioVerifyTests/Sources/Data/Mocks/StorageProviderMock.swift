@@ -11,9 +11,11 @@ import Foundation
 
 class StorageProviderMock {
   var factorData: Data?
+  var factorsData: [Data]?
   var expectedSid: String?
   var errorSaving: Error?
   var errorGetting: Error?
+  var errorGettingAll: Error?
   var errorRemoving: Error?
   var removedKey: String?
 }
@@ -36,6 +38,13 @@ extension StorageProviderMock: StorageProvider {
       return factorData
     }
     fatalError("Expected params not set")
+  }
+  
+  func getAll() throws -> [Data?]? {
+    if let error = errorGettingAll {
+      throw error
+    }
+    return factorsData
   }
   
   func removeValue(for key: String) throws {
