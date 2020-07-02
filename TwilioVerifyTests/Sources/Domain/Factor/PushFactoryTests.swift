@@ -98,7 +98,7 @@ class PushFactoryTests: XCTestCase {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     keyStorage.createKeyResult = Constants.data
-    keyStorage.error = TestError.operationFailed
+    keyStorage.errorDeletingKey = TestError.operationFailed
     repository.error = TestError.operationFailed
     
     factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
@@ -351,8 +351,8 @@ class PushFactoryTests: XCTestCase {
                    "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
   }
   
-  func testDeleteFactor_withSuccessReponse_shouldSucceed(){
-    let expectation = self.expectation(description: "testDeleteFactor_withSuccessReponse_shouldSucceed")
+  func testDeleteFactor_withSuccessResponse_shouldSucceed(){
+    let expectation = self.expectation(description: "testDeleteFactor_withSuccessResponse_shouldSucceed")
     var factor = Constants.factor
     factor.keyPairAlias = "alias"
     repository.factor = factor
