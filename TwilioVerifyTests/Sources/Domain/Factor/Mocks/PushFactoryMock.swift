@@ -30,4 +30,12 @@ extension PushFactoryMock: PushFactoryProtocol {
     }
     success(factor)
   }
+  
+  func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success()
+  }
 }

@@ -14,6 +14,8 @@ class KeyStorageMock {
   var error: Error?
   var createKeyResult: String!
   var signResult: Data!
+  var deletedAlias: String?
+  var errorDeletingKey: Error?
 }
 
 extension KeyStorageMock: KeyStorage {
@@ -40,8 +42,9 @@ extension KeyStorageMock: KeyStorage {
   }
   
   func deleteKey(withAlias alias: String) throws {
-    if let error = error {
+    if let error = errorDeletingKey {
       throw error
     }
+    deletedAlias = alias
   }
 }
