@@ -11,6 +11,7 @@ import Foundation
 protocol FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
 }
 
 class FactorAPIClient {
@@ -53,6 +54,21 @@ extension FactorAPIClient: FactorAPIClientProtocol {
       failure(error)
     }
   }
+  
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+    do {
+      let authToken = try authentication.generateJWT(forFactor: factor)
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+      let request = try URLRequestBuilder(withURL: deleteURL(for: factor), requestHelper: requestHelper)
+        .setHTTPMethod(.delete)
+        .build()
+      networkProvider.execute(request, success: { _ in
+        success()
+      }, failure: failure)
+    } catch {
+      failure(error)
+    }
+  }
 }
 
 private extension FactorAPIClient {
@@ -89,6 +105,13 @@ private extension FactorAPIClient {
   func verifyFactorBody(authPayload: String) -> [Parameter] {
     [Parameter(name: Constants.authPayloadKey, value: authPayload)]
   }
+  
+  func deleteURL(for factor: Factor) -> String {
+    "\(baseURL)\(Constants.deleteFactorURL)"
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
+  }
 }
 
 extension FactorAPIClient {
@@ -100,5 +123,6 @@ extension FactorAPIClient {
     static let authPayloadKey = "AuthPayload"
     static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors"
     static let verifyFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
+    static let deleteFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
   }
 }
