@@ -108,16 +108,29 @@ class TwilioVerifyTests: XCTestCase {
     let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
     let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
     let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedResponse = [Constants.sidKey: Constants.expectedSidValue,
-                            Constants.factorSidKey: Constants.sidValue,
-                            Constants.createdDateKey: Constants.expectedCreatedDate,
-                            Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                            Constants.statusKey: Constants.expectedChallengeStatus.rawValue,
-                            Constants.detailsKey: detailsString,
-                            Constants.hiddenDetailsKey: hiddenDetailsString,
-                            Constants.expirationDateKey: Constants.expectedExpirationDate]
-    let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [ChallengeRepository.Constants.signatureFieldsHeader: Constants.statusKey])
+    let expectedGetResponse = [Constants.sidKey: Constants.expectedSidValue,
+                               Constants.factorSidKey: Constants.sidValue,
+                               Constants.createdDateKey: Constants.expectedCreatedDate,
+                               Constants.updatedDateKey: Constants.expectedUpdatedDate,
+                               Constants.statusKey: ChallengeStatus.pending.rawValue,
+                               Constants.detailsKey: detailsString,
+                               Constants.hiddenDetailsKey: hiddenDetailsString,
+                               Constants.expirationDateKey: Constants.expectedExpirationDate]
+    
+    let expectedUpdateResponse = [Constants.sidKey: Constants.expectedSidValue,
+                                  Constants.factorSidKey: Constants.sidValue,
+                                  Constants.createdDateKey: Constants.expectedCreatedDate,
+                                  Constants.updatedDateKey: Constants.expectedUpdatedDate,
+                                  Constants.statusKey: ChallengeStatus.approved.rawValue,
+                                  Constants.detailsKey: detailsString,
+                                  Constants.hiddenDetailsKey: hiddenDetailsString,
+                                  Constants.expirationDateKey: Constants.expectedExpirationDate]
+    let dataGetChallenge = try! JSONSerialization.data(withJSONObject: expectedGetResponse, options: .prettyPrinted)
+    let dataUpdateChallenge = try! JSONSerialization.data(withJSONObject: expectedUpdateResponse, options: .prettyPrinted)
+    networkProvider.response = nil
+    networkProvider.responses = [Response(data: dataGetChallenge, headers: [ChallengeRepository.Constants.signatureFieldsHeader: Constants.statusKey]),
+                                 Response(data: Data(), headers: [:]),
+                                 Response(data: dataUpdateChallenge, headers: [:])]
     twilioVerify.updateChallenge(withPayload: Constants.updatePushChallengePayload, success: {
       expectation.fulfill()
     }) { error in
@@ -225,6 +238,6 @@ private extension TwilioVerifyTests {
     static let updatePushChallengePayload = UpdatePushChallengePayload(
       factorSid: sidValue,
       challengeSid: expectedSidValue,
-      status: .pending)
+      status: .approved)
   }
 }
