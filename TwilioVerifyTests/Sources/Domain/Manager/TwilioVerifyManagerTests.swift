@@ -226,6 +226,6 @@ private extension TwilioVerifyManagerTests {
     static let updatePushChallengePayload = UpdatePushChallengePayload(
       factorSid: factorSid,
       challengeSid: challengeSid,
-      status: .pending)
+      status: .approved)
   }
 }
