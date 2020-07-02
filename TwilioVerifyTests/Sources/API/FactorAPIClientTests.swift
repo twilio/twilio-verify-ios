@@ -219,7 +219,24 @@ class FactorAPIClientTests: XCTestCase {
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    XCTAssertEqual((error as! TestError), TestError.operationFailed,
+                   "Error should be \(TestError.operationFailed) but was \(error!)")
+  }
+  
+  func testDeleteFactor_withInvalidURL_shouldFail() {
+    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
+    let expectation = self.expectation(description: "testDeleteFactor_withInvalidURL_shouldFail")
+    var error: Error!
+    factorAPIClient.delete(Constants.factor, success: {
+      expectation.fulfill()
+      XCTFail()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription,
+                   "Error should be \(NetworkError.invalidURL) but was \(error!)")
   }
 }
 
