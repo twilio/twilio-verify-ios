@@ -11,13 +11,13 @@ import Foundation
 public protocol Metadata {
   var page: Int { get }
   var pageSize: Int { get }
-  var nextPageURL: String? { get }
-  var key: String { get }
+  var previousPageToken: String? { get }
+  var nextPageToken: String? { get }
 }
 
 struct ChallengeListMetadata: Metadata {
   let page: Int
   let pageSize: Int
-  let nextPageURL: String?
-  let key: String
+  let previousPageToken: String?
+  let nextPageToken: String?
 }
