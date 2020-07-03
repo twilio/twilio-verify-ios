@@ -12,7 +12,7 @@ import TwilioSecurity
 class SecureStorageMock {
   var error: Error?
   var operationResult: Data!
-  var objectsData: [Data]?
+  var objectsData: [Data]!
   private(set) var callsToSave = 0
   private(set) var callsToGet = 0
   private(set) var callsToRemoveValue = 0
@@ -34,7 +34,7 @@ extension SecureStorageMock: SecureStorageProvider {
     return operationResult
   }
   
-  func getAll() throws -> [Data?]? {
+  func getAll() throws -> [Data?] {
     if let error = error {
       throw error
     }

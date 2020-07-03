@@ -53,6 +53,10 @@ class StorageTests: XCTestCase {
     }
   }
   
+  func testGetAll_withExistingValue_shouldReturnValues() {
+    
+  }
+  
   func testRemoveValue_successfully_shouldNotThrow() {
     XCTAssertNoThrow(try storage.removeValue(for: Constants.key), "Remove value should not throw")
   }

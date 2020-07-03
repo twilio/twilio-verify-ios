@@ -12,7 +12,7 @@ public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
-  func getAll() throws -> [Data?]?
+  func getAll() throws -> [Data?]
 }
 
 public class SecureStorage {
@@ -51,14 +51,14 @@ extension SecureStorage: SecureStorageProvider {
     }
   }
   
-  public func getAll() throws -> [Data?]? {
+  public func getAll() throws -> [Data?] {
     let query = keychainQuery.getAll()
     do {
       let result = try keychain.copyItemMatching(query: query) as? NSArray
       let objectsData = result?.map {
         (($0 as? [String: Any])?[kSecValueData as String]) as? Data
       }
-      return objectsData
+      return objectsData ?? []
     } catch {
       throw error
     }
