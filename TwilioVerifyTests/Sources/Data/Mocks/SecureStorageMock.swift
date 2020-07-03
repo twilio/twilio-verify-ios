@@ -16,6 +16,7 @@ class SecureStorageMock {
   private(set) var callsToSave = 0
   private(set) var callsToGet = 0
   private(set) var callsToRemoveValue = 0
+  private(set) var callsToGetAll = 0
 }
 
 extension SecureStorageMock: SecureStorageProvider {
@@ -35,6 +36,7 @@ extension SecureStorageMock: SecureStorageProvider {
   }
   
   func getAll() throws -> [Data?] {
+    callsToGetAll += 1
     if let error = error {
       throw error
     }
