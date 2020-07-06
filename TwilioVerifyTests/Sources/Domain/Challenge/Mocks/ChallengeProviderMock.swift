@@ -14,6 +14,7 @@ class ChallengeProviderMock {
   var challenge: Challenge!
   var updatedChallenge: Challenge!
   var errorUpdating: Error?
+  var challengeList: ChallengeList!
 }
 
 extension ChallengeProviderMock: ChallengeProvider {
@@ -36,6 +37,10 @@ extension ChallengeProviderMock: ChallengeProvider {
   }
   
   func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
-    
+    if let error = error {
+      failure(error)
+      return
+    }
+    success(challengeList)
   }
 }

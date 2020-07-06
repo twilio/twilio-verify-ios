@@ -26,14 +26,14 @@ class FactorFacadeTests: XCTestCase {
     let expectation = self.expectation(description: "testCreateFactor_withInvalidInput_shouldFail")
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    let fakeInput = FakeFactorInput(
+    let fakePayload = FakeFactorPayload(
       friendlyName: Constants.friendlyName,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       factorType: FactorType.push
     )
     
-    facade.createFactor(withInput: fakeInput, success: { _ in
+    facade.createFactor(withPayload: fakePayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { result in
@@ -54,7 +54,7 @@ class FactorFacadeTests: XCTestCase {
     var error: TwilioVerifyError!
     factory.error = expectedError
     
-    facade.createFactor(withInput: Constants.factorInput, success: { _ in
+    facade.createFactor(withPayload: Constants.factorPayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { result in
@@ -74,7 +74,7 @@ class FactorFacadeTests: XCTestCase {
     var factor: Factor!
     factory.factor = Constants.factor
     
-    facade.createFactor(withInput: Constants.factorInput, success: { result in
+    facade.createFactor(withPayload: Constants.factorPayload, success: { result in
       factor = result
       expectation.fulfill()
     }) { _ in
@@ -105,9 +105,9 @@ class FactorFacadeTests: XCTestCase {
     let expectation = self.expectation(description: "testVerifyFactor_withInvalidInput_shouldFail")
     let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
     var error: TwilioVerifyError!
-    let fakeInput = FakeVerifyPushFactorInput(sid: Constants.serviceSid)
+    let fakePayload = FakeVerifyPushFactorPayload(sid: Constants.serviceSid)
     
-    facade.verifyFactor(withInput: fakeInput, success: { _ in
+    facade.verifyFactor(withPayload: fakePayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { result in
@@ -128,7 +128,7 @@ class FactorFacadeTests: XCTestCase {
     var error: TwilioVerifyError!
     factory.error = expectedError
     
-    facade.verifyFactor(withInput: Constants.verifyFactorInput, success: { _ in
+    facade.verifyFactor(withPayload: Constants.verifyFactorPayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { result in
@@ -148,7 +148,7 @@ class FactorFacadeTests: XCTestCase {
     var factor: Factor!
     factory.factor = Constants.factor
     
-    facade.verifyFactor(withInput: Constants.verifyFactorInput, success: { result in
+    facade.verifyFactor(withPayload: Constants.verifyFactorPayload, success: { result in
       factor = result
       expectation.fulfill()
     }) { _ in
@@ -239,7 +239,7 @@ private extension FactorFacadeTests {
     static let identity = "identity"
     static let data = "data"
     static let config = Config(credentialSid: "credentialSid")
-    static let factorInput = PushFactorInput(
+    static let factorPayload = PushFactorPayload(
       friendlyName: Constants.friendlyName,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
@@ -255,6 +255,6 @@ private extension FactorFacadeTests {
       createdAt: Date(),
       config: Constants.config
     )
-    static let verifyFactorInput = VerifyPushFactorInput(sid: "sid")
+    static let verifyFactorPayload = VerifyPushFactorPayload(sid: "sid")
   }
 }

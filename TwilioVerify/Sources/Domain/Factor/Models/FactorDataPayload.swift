@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FactorPayload {
+protocol FactorDataPayload {
   var friendlyName: String { get }
   var type: FactorType { get }
   var serviceSid: String { get }
@@ -16,7 +16,7 @@ protocol FactorPayload {
   var config: [String: String] { get }
 }
 
-struct CreateFactorPayload: FactorPayload {
+struct CreateFactorPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
   let serviceSid: String
@@ -26,7 +26,7 @@ struct CreateFactorPayload: FactorPayload {
   let jwe: String
 }
 
-struct UpdateFactorPayload: FactorPayload {
+struct UpdateFactorDataPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
   let serviceSid: String

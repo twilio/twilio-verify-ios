@@ -11,22 +11,24 @@ import Foundation
 public class TwilioVerifyManager {
   
   private let factorFacade: FactorFacadeProtocol
+  private let challengeFacade: ChallengeFacadeProtocol
   
-  init(factorFacade: FactorFacadeProtocol) {
+  init(factorFacade: FactorFacadeProtocol, challengeFacade: ChallengeFacadeProtocol) {
     self.factorFacade = factorFacade
+    self.challengeFacade = challengeFacade
   }
 }
 
 extension TwilioVerifyManager: TwilioVerify {
-  public func createFactor(withInput input: FactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    factorFacade.createFactor(withInput: input, success: success, failure: failure)
+  public func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    factorFacade.createFactor(withPayload: payload, success: success, failure: failure)
   }
   
-  public func verifyFactor(withInput input: VerifyFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    factorFacade.verifyFactor(withInput: input, success: success, failure: failure)
+  public func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    factorFacade.verifyFactor(withPayload: payload, success: success, failure: failure)
   }
   
-  public func updateFactor(withInput input: UpdateFactorInput, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  public func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   
@@ -34,21 +36,19 @@ extension TwilioVerifyManager: TwilioVerify {
     
   }
   
-  public func getChallenge(challengeSid: String, factorSid: String, success: (Challenge) -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
-  }
-  
-  public func getAllChallenges(withInput input: ChallengeListInput, success: (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
-  }
-  
-  public func updateChallenge(withInput input: UpdateChallengeInput, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
-  }
-  
   public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     
   }
   
+  public func getChallenge(challengeSid: String, factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    challengeFacade.get(withSid: challengeSid, withFactorSid: factorSid, success: success, failure: failure)
+  }
   
+  public func updateChallenge(withPayload payload: UpdateChallengePayload, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    challengeFacade.update(withPayload: payload, success: success, failure: failure)
+  }
+  
+  public func getAllChallenges(withPayload payload: ChallengeListPayload, success: (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
+    
+  }
 }

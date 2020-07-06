@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FactorMapperProtocol {
-  func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor
+  func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor
   func fromStorage(withData data: Data) throws -> Factor
   func toData(_ factor: Factor) throws -> Data
   func status(fromData data: Data) throws -> FactorStatus
@@ -17,7 +17,7 @@ protocol FactorMapperProtocol {
 
 class FactorMapper: FactorMapperProtocol {
   
-  func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor {
+  func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor {
     let serviceSid = factorPayload.serviceSid
     let entityIdentity = factorPayload.entity
     guard !serviceSid.isEmpty, !entityIdentity.isEmpty else {

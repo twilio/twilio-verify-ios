@@ -106,19 +106,19 @@ private extension CreateFactorPresenter {
   }
   
   func createFactor(_ enrollment: EnrollmentResponse, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    let payload = PushFactorInput(
+    let payload = PushFactorPayload(
       friendlyName: "\(enrollment.identity)'s Factor",
       serviceSid: enrollment.serviceSid,
       identity: enrollment.identity,
       pushToken: pushToken(),
       enrollmentJwe: enrollment.token
     )
-    twilioVerify.createFactor(withInput: payload, success: success, failure: failure)
+    twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
   }
   
   func verify(_ factor: Factor, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    let payload = VerifyPushFactorInput(sid: factor.sid)
-    twilioVerify.verifyFactor(withInput: payload, success: success, failure: failure)
+    let payload = VerifyPushFactorPayload(sid: factor.sid)
+    twilioVerify.verifyFactor(withPayload: payload, success: success, failure: failure)
   }
 }
 
