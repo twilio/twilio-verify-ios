@@ -13,7 +13,7 @@ class NetworkProviderMock: NetworkProvider {
   var response: Response?
   var responses: [Response]?
   var error: Error?
-  var callsToExecute = 0
+  private(set) var callsToExecute = 0
   private(set) var urlRequest: URLRequest?
   
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
@@ -23,7 +23,7 @@ class NetworkProviderMock: NetworkProvider {
       return
     }
     if let response = responses?[callsToExecute] {
-      callsToExecute+=1
+      callsToExecute += 1
       success(response)
       return
     }
