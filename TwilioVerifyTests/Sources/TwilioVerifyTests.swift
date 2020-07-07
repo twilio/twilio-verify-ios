@@ -98,6 +98,35 @@ class TwilioVerifyTests: XCTestCase {
                    "Expiration date should be \(DateFormatter().RFC3339(expectedResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
   }
   
+  func testDeleteFactor_shouldSucceed() {
+    createFactor()
+    let expectation = self.expectation(description: "testDeleteFactor_shouldSucceed")
+    twilioVerify.deleteFactor(withSid: Constants.sidValue, success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+  }
+  
+  func testDeleteFactor_withoutExistingFactor_shouldFail() {
+    let expectation = self.expectation(description: "testDeleteFactor_withoutExistingFactor_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    twilioVerify.deleteFactor(withSid: "anotherSid", success: {
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+  }
+  
   func testUpdateChallenge_shouldSucceed() {
     createFactor()
     let expectation = self.expectation(description: "testGetChallenge_shouldSucceed")

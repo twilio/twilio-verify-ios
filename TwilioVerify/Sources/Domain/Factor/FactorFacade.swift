@@ -13,6 +13,7 @@ protocol FactorFacadeProtocol {
   func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class FactorFacade {
@@ -55,6 +56,10 @@ extension FactorFacade: FactorFacadeProtocol {
     } catch {
       failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
     }
+  }
+  
+  func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    factory.deleteFactor(withSid: sid, success: success, failure: failure)
   }
 }
 
