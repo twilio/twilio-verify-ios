@@ -238,6 +238,76 @@ class FactorAPIClientTests: XCTestCase {
     XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription,
                    "Error should be \(NetworkError.invalidURL) but was \(error!)")
   }
+  
+  func testUpdateFactor_withSuccessResponse_shouldSucceed() {
+    let successExpectation = expectation(description: "Wait for success response")
+    let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
+    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
+      XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
+      successExpectation.fulfill()
+    }) { error in
+      XCTFail()
+      successExpectation.fulfill()
+    }
+    wait(for: [successExpectation], timeout: 5)
+  }
+  
+  func testUpdateFactor_withError_shouldFail() {
+    let failureExpectation = expectation(description: "Wait for failure response")
+    let expectedError = TestError.operationFailed
+    networkProvider.error = expectedError
+    
+    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { error in
+      XCTAssertEqual(error as! TestError, expectedError)
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+  }
+  
+  func testUpdateFactor_withInvalidURL_shouldFail() {
+    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
+    let failureExpectation = expectation(description: "Wait for failure response")
+    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
+      XCTFail()
+      failureExpectation.fulfill()
+    }) { error in
+      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
+      failureExpectation.fulfill()
+    }
+    wait(for: [failureExpectation], timeout: 5)
+  }
+  
+  func testUpdateFactor_withValidData_shouldMatchExpectedParams() {
+    let configString = String(data: try! JSONEncoder().encode(Constants.config), encoding: .utf8)
+    var expectedParams = Parameters()
+    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
+                           Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)])
+    let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.updateFactorURL)"
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
+    
+    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: {_ in }, failure: {_ in })
+    
+    XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
+                   "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
+    XCTAssertEqual(networkProvider.urlRequest!.httpMethod, HTTPMethod.post.value,
+                   "HTTP method should be \(HTTPMethod.post.value) but was \(networkProvider.urlRequest!.httpMethod!)")
+    XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType], MediaType.urlEncoded.value,
+                   "Content type should be \(MediaType.urlEncoded.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType]!)")
+    XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType], MediaType.json.value,
+                   "Accept type should be \(MediaType.json.value) but was \(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.acceptType]!)")
+    XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.authorization],
+                    "Authorization header should not be nil")
+    XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
+                    "User agent header should not be nil")
+    XCTAssertEqual(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self), expectedParams.asString(),
+                   "Body should be \(expectedParams.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
+  }
 }
 
 extension FactorAPIClientTests {
@@ -251,6 +321,10 @@ extension FactorAPIClientTests {
     static let factorType = FactorType.push
     static let jwe = "jwe"
     static let authPayload = "authPayload"
+    static let pushTokenKey = "notification_token"
+    static let pushToken = "pushToken"
+    static let config = [pushTokenKey: pushToken]
+    static let updateFactorDataPayload = UpdateFactorDataPayload(friendlyName: friendlyName, type: factorType, serviceSid: serviceSid, entity: entity, config: config, factorSid: factorSid)
     static let baseURL = "https://twilio.com/"
     static let factor = PushFactor(
       sid: Constants.factorSid,

@@ -44,4 +44,16 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     }
     success()
   }
+  
+  func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    if factor.sid == expectedFactorSid {
+      success(Response(data: statusData, headers: [:]))
+      return
+    }
+    fatalError("Expected params not set")
+  }
 }
