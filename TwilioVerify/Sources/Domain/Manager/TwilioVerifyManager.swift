@@ -37,7 +37,7 @@ extension TwilioVerifyManager: TwilioVerify {
   }
   
   public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
+    factorFacade.delete(withSid: sid, success: success, failure: failure)
   }
   
   public func getChallenge(challengeSid: String, factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {

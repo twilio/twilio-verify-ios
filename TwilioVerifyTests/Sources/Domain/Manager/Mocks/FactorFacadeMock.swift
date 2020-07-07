@@ -38,4 +38,12 @@ extension FactorFacadeMock: FactorFacadeProtocol {
     }
     success(factor)
   }
+  
+  func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success()
+  }
 }
