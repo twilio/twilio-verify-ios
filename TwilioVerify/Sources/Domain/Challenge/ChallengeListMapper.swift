@@ -13,6 +13,7 @@ protocol ChallengeListMapperProtocol {
 }
 
 class ChallengeListMapper {
+  
   private let challengeMapper: ChallengeMapperProtocol
   
   init(challengeMapper: ChallengeMapperProtocol = ChallengeMapper()){
