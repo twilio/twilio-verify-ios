@@ -13,6 +13,7 @@ class FactorRepositoryMock {
   var error: Error?
   var saveError: Error?
   var verifyError: Error?
+  var deleteError: Error?
   var factor: Factor!
 }
 
@@ -35,7 +36,7 @@ extension FactorRepositoryMock: FactorProvider {
   }
   
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
-    if let error = error {
+    if let error = deleteError {
       failure(error)
       return
     }
