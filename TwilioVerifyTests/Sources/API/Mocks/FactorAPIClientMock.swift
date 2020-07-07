@@ -36,4 +36,12 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     }
     fatalError("Expected params not set")
   }
+  
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success()
+  }
 }
