@@ -88,6 +88,8 @@
 		F07B6F5A2492CA6700948FB1 /* JwtGeneratorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F582492CA6700948FB1 /* JwtGeneratorMock.swift */; };
 		F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F592492CA6700948FB1 /* FactorMock.swift */; };
 		F07B6F5D2492CB2600948FB1 /* AuthenticationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07B6F5C2492CB2600948FB1 /* AuthenticationProviderTests.swift */; };
+		F08379A024AE7A37003F18DD /* ChallengeListMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F083799F24AE7A37003F18DD /* ChallengeListMapperTests.swift */; };
+		F08379A224AE7BBE003F18DD /* ChallengeListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08379A124AE7BBE003F18DD /* ChallengeListDTO.swift */; };
 		F0A2CCB8249AAF8E0002E7AA /* JwtSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2CCB7249AAF8E0002E7AA /* JwtSignerTests.swift */; };
 		F20353DC249C1EBF0067DA73 /* TwilioVerify.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DB249C1EBF0067DA73 /* TwilioVerify.swift */; };
 		F20353DF249C22690067DA73 /* TwilioVerifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20353DE249C22690067DA73 /* TwilioVerifyManager.swift */; };
@@ -282,6 +284,8 @@
 		F07B6F582492CA6700948FB1 /* JwtGeneratorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtGeneratorMock.swift; sourceTree = "<group>"; };
 		F07B6F592492CA6700948FB1 /* FactorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactorMock.swift; sourceTree = "<group>"; };
 		F07B6F5C2492CB2600948FB1 /* AuthenticationProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationProviderTests.swift; sourceTree = "<group>"; };
+		F083799F24AE7A37003F18DD /* ChallengeListMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListMapperTests.swift; sourceTree = "<group>"; };
+		F08379A124AE7BBE003F18DD /* ChallengeListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListDTO.swift; sourceTree = "<group>"; };
 		F0A2CCB7249AAF8E0002E7AA /* JwtSignerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JwtSignerTests.swift; sourceTree = "<group>"; };
 		F20353DB249C1EBF0067DA73 /* TwilioVerify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerify.swift; sourceTree = "<group>"; };
 		F20353DE249C22690067DA73 /* TwilioVerifyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyManager.swift; sourceTree = "<group>"; };
@@ -647,6 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */,
+				F08379A124AE7BBE003F18DD /* ChallengeListDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				204227A724A53EB400CD001B /* Mocks */,
 				F0261C6324A56D3D007881E9 /* PushChallengeProcessorTests.swift */,
 				20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */,
+				F083799F24AE7A37003F18DD /* ChallengeListMapperTests.swift */,
 				204227A324A538E800CD001B /* ChallengeRepositoryTests.swift */,
 				2086796024ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift */,
 			);
@@ -1209,6 +1215,7 @@
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
+				F08379A224AE7BBE003F18DD /* ChallengeListDTO.swift in Sources */,
 				2093573824871378008FDBCC /* FactorChallenge.swift in Sources */,
 				20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */,
 				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
@@ -1277,6 +1284,7 @@
 				20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */,
 				2086796324ABD45E00D1F0B9 /* ChallengeFacadeMock.swift in Sources */,
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
+				F08379A024AE7A37003F18DD /* ChallengeListMapperTests.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
 				2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */,

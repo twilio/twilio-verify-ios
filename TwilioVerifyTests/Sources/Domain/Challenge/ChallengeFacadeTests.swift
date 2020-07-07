@@ -215,8 +215,10 @@ class ChallengeFacadeTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(challengeList.challenges.count, Constants.expectedChallengeList.challenges.count,
                    "Challenge list should be \(Constants.expectedChallengeList.challenges) but were \(challengeList.challenges)")
-    XCTAssertEqual(challengeList.metadata.key, Constants.expectedChallengeList.metadata.key,
-                   "Metadata should be \(Constants.expectedChallengeList.metadata) but was \(challengeList.metadata)")
+    XCTAssertEqual(challengeList.metadata.page, Constants.expectedChallengeList.metadata.page,
+                   "Metadata page should be \(Constants.expectedChallengeList.metadata.page) but was \(challengeList.metadata.page)")
+    XCTAssertEqual(challengeList.metadata.pageSize, Constants.expectedChallengeList.metadata.pageSize,
+                   "Metadata page size should be \(Constants.expectedChallengeList.metadata.pageSize) but was \(challengeList.metadata.pageSize)")
   }
   
   func testGetAllChallenges_withErrorGettingFactor_shouldFail() {
@@ -301,6 +303,6 @@ private extension ChallengeFacadeTests {
       pageSize: 1)
     static let expectedChallengeList = FactorChallengeList(
       challenges: [expectedChallenge],
-      metadata: ChallengeListMetadata(page: 1, pageSize: 1, nextPageURL: nil, key: "key"))
+      metadata: ChallengeListMetadata(page: 1, pageSize: 1, previousPageToken: nil, nextPageToken: nil))
   }
 }

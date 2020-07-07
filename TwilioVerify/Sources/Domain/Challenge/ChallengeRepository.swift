@@ -58,7 +58,15 @@ extension ChallengeRepository: ChallengeProvider {
   }
   
   func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
-    //TODO: https://issues.corp.twilio.com/browse/ACCSEC-17936
+    apiClient.getAll(forFactor: factor, status: status?.rawValue, pageSize: pageSize, pageToken: pageToken, success: { [weak self] response in
+      guard let strongSelf = self else { return }
+      do {
+        let challengeList = try strongSelf.challengeListMapper.fromAPI(withData: response.data)
+        success(challengeList)
+      } catch {
+        failure(error)
+      }
+    }, failure: failure)
   }
 }
 
