@@ -12,6 +12,7 @@ protocol FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
+  func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
 class FactorAPIClient {
@@ -69,6 +70,20 @@ extension FactorAPIClient: FactorAPIClientProtocol {
       failure(error)
     }
   }
+  
+  func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+    do {
+      let authToken = try authentication.generateJWT(forFactor: factor)
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+      let request = try URLRequestBuilder(withURL: updateURL(for: factor), requestHelper: requestHelper)
+        .setHTTPMethod(.post)
+        .setParameters(updateFactorBody(updateFactorDataPayload: updateFactorDataPayload))
+        .build()
+      networkProvider.execute(request, success: success, failure: failure)
+    } catch {
+      failure(error)
+    }
+  }
 }
 
 private extension FactorAPIClient {
@@ -112,6 +127,22 @@ private extension FactorAPIClient {
       .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
   }
+  
+  func updateURL(for factor: Factor) -> String {
+    "\(baseURL)\(Constants.updateFactorURL)"
+      .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
+  }
+  
+  func updateFactorBody(updateFactorDataPayload: UpdateFactorDataPayload) throws -> [Parameter] {
+    guard let configData = try? JSONEncoder().encode(updateFactorDataPayload.config),
+      let configString = String(data: configData, encoding: .utf8) else {
+        throw NetworkError.invalidData
+    }
+    return [Parameter(name: Constants.friendlyNameKey, value: updateFactorDataPayload.friendlyName),
+            Parameter(name: Constants.configKey, value: configString)]
+  }
 }
 
 extension FactorAPIClient {
@@ -122,7 +153,8 @@ extension FactorAPIClient {
     static let configKey = "Config"
     static let authPayloadKey = "AuthPayload"
     static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors"
-    static let verifyFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
-    static let deleteFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
+    static let verifyFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
+    static let deleteFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
+    static let updateFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
   }
 }
