@@ -12,6 +12,7 @@ protocol FactorProvider {
   func create(withPayload payload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
+  func getAll(success: @escaping ([Factor]) -> (), failure: @escaping FailureBlock)
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
 }
@@ -66,6 +67,17 @@ extension FactorRepository: FactorProvider {
         failure(error)
       }
     }, failure: failure)
+  }
+  
+  func getAll(success: @escaping ([Factor]) -> (), failure: @escaping FailureBlock) {
+    do {
+      let factors = try storage.getAll().compactMap {
+        try? factorMapper.fromStorage(withData: $0)
+      }
+      success(factors)
+    } catch {
+      failure(error)
+    }
   }
   
   func save(_ factor: Factor) throws -> Factor {

@@ -15,6 +15,7 @@ class FactorRepositoryMock {
   var verifyError: Error?
   var deleteError: Error?
   var factor: Factor!
+  var factors: [Factor]!
 }
 
 extension FactorRepositoryMock: FactorProvider {
@@ -41,6 +42,14 @@ extension FactorRepositoryMock: FactorProvider {
       return
     }
     success()
+  }
+  
+  func getAll(success: @escaping ([Factor]) -> (), failure: @escaping FailureBlock) {
+    if let error = deleteError {
+      failure(error)
+      return
+    }
+    success(factors)
   }
   
   func get(withSid sid: String) throws -> Factor {
