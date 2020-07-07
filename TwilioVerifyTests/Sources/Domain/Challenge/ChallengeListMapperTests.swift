@@ -146,8 +146,8 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withNoPage_shouldThrow() {
-    let challengeListDTO = [ChallengeListDTO.CodingKeys.challenges.rawValue: Array<ChallengeDTO>(),
-                            ChallengeListDTO.CodingKeys.meta.rawValue: []]
+    let challengeListDTO = [Constants.challengesKey: Array<ChallengeDTO>(),
+                            Constants.metadataKey: []]
     let challengeListData = try! JSONEncoder().encode(challengeListDTO)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeListData), "Mapping from API should throw") { failure in
@@ -179,6 +179,8 @@ private extension ChallengeListMapperTests {
     static let pageSizeKey = "pageSize"
     static let nextPageURLKey = "nextPageURL"
     static let keyKey = "key"
+    static let challengesKey = "challenges"
+    static let metadataKey = "meta"
     static let expectedSidValue1 = "sid123"
     static let expectedSidValue2 = "sid123"
     static let expectedFactorSid = "factorSid123"
