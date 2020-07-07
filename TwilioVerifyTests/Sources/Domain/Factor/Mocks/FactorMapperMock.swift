@@ -13,12 +13,12 @@ class FactorMapperMock {
   var expectedFactor: Factor?
   var expectedData: Data?
   var expectedStatusData: Data?
-  var expectedFactorPayload: FactorPayload?
+  var expectedFactorPayload: FactorDataPayload?
   var error: Error?
 }
 
 extension FactorMapperMock: FactorMapperProtocol {
-  func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor {
+  func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor {
     if let error = error {
       throw error
     }

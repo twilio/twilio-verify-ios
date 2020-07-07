@@ -15,19 +15,19 @@ public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {
   func createFactor(
-    withInput input: FactorInput,
+    withPayload payload: FactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
   func verifyFactor(
-    withInput input: VerifyFactorInput,
+    withPayload payload: VerifyFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func updateFactor(
-    withInput input: UpdateFactorInput,
+    withPayload payload: UpdateFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
@@ -37,28 +37,28 @@ public protocol TwilioVerify {
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  func deleteFactor(
+    withSid sid: String,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+  
   func getChallenge(
     challengeSid: String,
     factorSid: String,
-    success: @escaping (Challenge) -> (),
-    failure: @escaping TwilioVerifyErrorBlock
-  )
-
-  func getAllChallenges(
-    withInput input: ChallengeListInput,
-    success: @escaping (ChallengeList) -> (),
+    success: @escaping ChallengeSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func updateChallenge(
-    withInput input: UpdateChallengeInput,
+    withPayload payload: UpdateChallengePayload,
     success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
-
-  func deleteFactor(
-    withSid sid: String,
-    success: @escaping EmptySuccessBlock,
+  
+  func getAllChallenges(
+    withPayload payload: ChallengeListPayload,
+    success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 }
@@ -99,7 +99,14 @@ public class TwilioVerifyBuilder {
       .setURL(baseURL)
       .setAuthentication(authentication)
       .build()
-    return TwilioVerifyManager(factorFacade: factorFacade)
+    let challengeFacade = ChallengeFacade.Builder()
+      .setNetworkProvider(networkProvider)
+      .setJWTGenerator(jwtGenerator)
+      .setURL(baseURL)
+      .setAuthentication(authentication)
+      .setFactorFacade(factorFacade)
+      .build()
+    return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
   }
 }
 

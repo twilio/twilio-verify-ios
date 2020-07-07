@@ -1,5 +1,5 @@
 //
-//  UpdateChallengeInput.swift
+//  UpdateChallengePayload.swift
 //  TwilioVerify
 //
 //  Created by Sergio Fierro on 6/2/20.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-public protocol UpdateChallengeInput {
+public protocol UpdateChallengePayload {
   var factorSid: String { get }
   var challengeSid: String { get }
 }
 
-struct UpdatePushChallengeInput: UpdateChallengeInput {
+struct UpdatePushChallengePayload: UpdateChallengePayload {
   let factorSid: String
   let challengeSid: String
   let status: ChallengeStatus

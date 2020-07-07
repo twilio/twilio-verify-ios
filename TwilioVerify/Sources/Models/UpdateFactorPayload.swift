@@ -1,5 +1,5 @@
 //
-//  UpdateFactorInput.swift
+//  UpdateFactorPayload.swift
 //  TwilioVerify
 //
 //  Created by Sergio Fierro on 6/2/20.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol UpdateFactorInput {
+public protocol UpdateFactorPayload {
   var sid: String { get }
 }
 
-struct UpdatePushFactorInput: UpdateFactorInput {
+struct UpdatePushFactorPayload: UpdateFactorPayload {
   let sid: String
   let pushToken: String
 }
