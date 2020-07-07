@@ -48,7 +48,7 @@ extension TwilioVerifyManager: TwilioVerify {
     challengeFacade.update(withPayload: payload, success: success, failure: failure)
   }
   
-  public func getAllChallenges(withPayload payload: ChallengeListPayload, success: (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
+  public func getAllChallenges(withPayload payload: ChallengeListPayload, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
+    challengeFacade.getAll(withPayload: payload, success: success, failure: failure)
   }
 }
