@@ -35,7 +35,7 @@ extension SecureStorageMock: SecureStorageProvider {
     return operationResult
   }
   
-  func getAll() throws -> [Data?] {
+  func getAll() throws -> [Data] {
     callsToGetAll += 1
     if let error = error {
       throw error
