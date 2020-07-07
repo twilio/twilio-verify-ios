@@ -78,6 +78,25 @@ class StorageTests: XCTestCase {
     }
   }
   
+  func testGetAllData_withExistingValues_shouldReturnValues() {
+    let expectedData1 = "data".data(using: .utf8)!
+    let valueData1 = [kSecValueData as String: expectedData1]
+    let expectedData2 = "data2".data(using: .utf8)!
+    let valueData2 = [kSecValueData as String: expectedData2]
+    var data: [Data?]!
+    keychain.keys = [[valueData1, valueData2] as AnyObject]
+    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertEqual(data.first, expectedData1, "Data should be \(expectedData1) but was \(data!.first!!)")
+    XCTAssertEqual(data.last, expectedData2, "Data should be \(expectedData2) but was \(data!.last!!)")
+  }
+  
+  func testGetAllData_withoutDataSaved_shouldReturnEmptyArray() {
+    var data: [Data?]!
+    keychain.keys = ["data".data(using: .utf8)! as AnyObject]
+    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertTrue(data.isEmpty)
+  }
+  
   func testRemoveValue_valueExistsForKey_shouldReturnValue() {
     let key = "key"
     keychain.deleteItemStatus = errSecSuccess

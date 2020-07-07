@@ -87,6 +87,21 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
   
+  func testGetAllData_shouldReturnValidQuery() {
+    let query = keychainQuery.getAll()
+    let keyClass = query[kSecClass as String] as! CFString
+    let returnAttributes = query[kSecReturnAttributes as String] as! CFBoolean
+    let returnData = query[kSecReturnData as String] as! CFBoolean
+    let matchLimit = query[kSecMatchLimit as String] as! CFString
+    let access = query[kSecAttrAccessible as String] as! CFString
+    
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertTrue(returnAttributes as! Bool)
+    XCTAssertTrue(returnData as! Bool)
+    XCTAssertEqual(matchLimit, kSecMatchLimitAll)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+  }
+  
   func testDelete_withKey_shouldReturnValidQuery() {
     let query = keychainQuery.delete(withKey: Constants.alias)
     let keyClass = query[kSecClass as String] as! CFString
