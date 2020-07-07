@@ -13,6 +13,7 @@ class FactorRepositoryMock {
   var error: Error?
   var saveError: Error?
   var verifyError: Error?
+  var deleteError: Error?
   var factor: Factor!
 }
 
@@ -32,6 +33,14 @@ extension FactorRepositoryMock: FactorProvider {
     }
     self.factor.status = FactorStatus.verified
     success(self.factor)
+  }
+  
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+    if let error = deleteError {
+      failure(error)
+      return
+    }
+    success()
   }
   
   func get(withSid sid: String) throws -> Factor {

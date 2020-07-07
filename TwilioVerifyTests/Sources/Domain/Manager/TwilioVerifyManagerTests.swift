@@ -108,6 +108,37 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription, "Error should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
   }
   
+  func testDeleteFactor_withSuccessResponse_shouldSucceed() {
+    let expectation = self.expectation(description: "testDeleteFactor_withSuccessResponse_shouldSucceed")
+    twilioVerify.deleteFactor(withSid: Constants.factorSid, success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+  }
+  
+  func testDeleteFactor_withErrorResponse_shouldFail() {
+    let expectation = self.expectation(description: "testDeleteFactor_withErrorResponse_shouldFail")
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    factorFacade.error = expectedError
+    var error: TwilioVerifyError!
+    twilioVerify.deleteFactor(withSid: Constants.factorSid, success: {
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
   func testGetChallenge_withSuccessResponse_shouldSucceed() {
     let expectation = self.expectation(description: "testGetChallenge_withSuccessResponse_shouldSucceed")
     challengeFacade.challenge = Constants.expectedChallenge
