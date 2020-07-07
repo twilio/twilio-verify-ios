@@ -11,11 +11,6 @@ import Foundation
 struct ChallengeListDTO: Codable {
   let challenges: [ChallengeDTO]
   let meta: MetadataDTO
-  
-  enum CodingKeys: String, CodingKey {
-    case challenges
-    case meta
-  }
 }
 
 struct MetadataDTO: Codable {

@@ -13,6 +13,7 @@ protocol ChallengeListMapperProtocol {
 }
 
 class ChallengeListMapper {
+  
   private let challengeMapper: ChallengeMapperProtocol
   
   init(challengeMapper: ChallengeMapperProtocol = ChallengeMapper()){
@@ -32,8 +33,7 @@ extension ChallengeListMapper: ChallengeListMapperProtocol {
       if let nextUrl = challengeListDTO.meta.nextPageURL, let url = URLComponents(string: nextUrl) {
         nextPageToken = url.queryItems?.first(where: {$0.name == Constants.pageToken})?.value
       }
-      // page from API starts in zero
-      let page = challengeListDTO.meta.page + 1
+      let page = challengeListDTO.meta.page
       let metadata = ChallengeListMetadata(page: page, pageSize: challengeListDTO.meta.pageSize, previousPageToken: previousPageToken, nextPageToken: nextPageToken)
       let challenges = try challengeListDTO.challenges.map { try challengeMapper.fromAPI(withChallengeDTO: $0) }
       let challengeList = FactorChallengeList(challenges: challenges, metadata: metadata)

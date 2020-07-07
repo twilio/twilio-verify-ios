@@ -12,6 +12,7 @@ protocol PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
 class PushFactory {
@@ -96,6 +97,33 @@ extension PushFactory: PushFactoryProtocol {
       } else {
         failure(TwilioVerifyError.storageError(error: error as NSError))
       }
+    }
+  }
+  
+  func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    do {
+      let factor = try repository.get(withSid: sid)
+      guard let pushFactor = factor as? PushFactor else {
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
+        return
+      }
+      guard let alias = pushFactor.keyPairAlias else {
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError))
+        return
+      }
+      repository.delete(factor, success: { [weak self] in
+        guard let strongSelf = self else { return }
+        do {
+          try strongSelf.keyStorage.deleteKey(withAlias: alias)
+          success()
+        } catch {
+          failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+        }
+      }, failure: { error in
+        failure(TwilioVerifyError.networkError(error: error as NSError))
+      })
+    } catch {
+      failure(TwilioVerifyError.storageError(error: error as NSError))
     }
   }
 }

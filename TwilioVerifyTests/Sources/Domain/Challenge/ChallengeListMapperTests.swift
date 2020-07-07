@@ -41,7 +41,7 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndNoPreviousPageUrl_shouldReturnChallengeList() {
-    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage - 1, pageSize: Constants.expectedPageSize, previousPageURL: nil, nextPageURL: Constants.expectedNextPageURL))
+    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage, pageSize: Constants.expectedPageSize, previousPageURL: nil, nextPageURL: Constants.expectedNextPageURL))
     challengeMapper.factorChallenge = Constants.challenge
     let challengeListData = try! JSONEncoder().encode(expectedChallengeListDTO)
     var challengeList: ChallengeList!
@@ -62,7 +62,7 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndNoPreviousPageToken_shouldReturnChallengeList() {
-    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage - 1, pageSize: Constants.expectedPageSize, previousPageURL: "http://www.twilio.com", nextPageURL: Constants.expectedNextPageURL))
+    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage, pageSize: Constants.expectedPageSize, previousPageURL: "http://www.twilio.com", nextPageURL: Constants.expectedNextPageURL))
     challengeMapper.factorChallenge = Constants.challenge
     let challengeListData = try! JSONEncoder().encode(expectedChallengeListDTO)
     var challengeList: ChallengeList!
@@ -83,7 +83,7 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndNoNextPageUrl_shouldReturnChallengeList() {
-    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage - 1, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: nil))
+    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: nil))
     challengeMapper.factorChallenge = Constants.challenge
     let challengeListData = try! JSONEncoder().encode(expectedChallengeListDTO)
     var challengeList: ChallengeList!
@@ -104,7 +104,7 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndNoNextPageToken_shouldReturnChallengeList() {
-    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage - 1, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: "http://www.twilio.com"))
+    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: "http://www.twilio.com"))
     challengeMapper.factorChallenge = Constants.challenge
     let challengeListData = try! JSONEncoder().encode(expectedChallengeListDTO)
     var challengeList: ChallengeList!
@@ -125,7 +125,7 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndInvalidNextPageUrl_shouldReturnChallengeList() {
-    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage - 1, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: "twilio"))
+    let expectedChallengeListDTO = ChallengeListDTO(challenges: Constants.expectedChallenges, meta: MetadataDTO(page: Constants.expectedPage, pageSize: Constants.expectedPageSize, previousPageURL: Constants.expectedPreviousPageURL, nextPageURL: "twilio"))
     challengeMapper.factorChallenge = Constants.challenge
     let challengeListData = try! JSONEncoder().encode(expectedChallengeListDTO)
     var challengeList: ChallengeList!
@@ -146,8 +146,8 @@ class ChallengeListMapperTests: XCTestCase {
   }
   
   func testFromAPI_withNoPage_shouldThrow() {
-    let challengeListDTO = [ChallengeListDTO.CodingKeys.challenges.rawValue: Array<ChallengeDTO>(),
-                            ChallengeListDTO.CodingKeys.meta.rawValue: []]
+    let challengeListDTO = [Constants.challengesKey: Array<ChallengeDTO>(),
+                            Constants.metadataKey: []]
     let challengeListData = try! JSONEncoder().encode(challengeListDTO)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeListData), "Mapping from API should throw") { failure in
@@ -179,6 +179,8 @@ private extension ChallengeListMapperTests {
     static let pageSizeKey = "pageSize"
     static let nextPageURLKey = "nextPageURL"
     static let keyKey = "key"
+    static let challengesKey = "challenges"
+    static let metadataKey = "meta"
     static let expectedSidValue1 = "sid123"
     static let expectedSidValue2 = "sid123"
     static let expectedFactorSid = "factorSid123"
@@ -208,7 +210,7 @@ private extension ChallengeListMapperTests {
     static let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
     static let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
     static let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    static let expectedMetadata = MetadataDTO(page: expectedPage - 1, pageSize: expectedPageSize, previousPageURL: expectedPreviousPageURL, nextPageURL: expectedNextPageURL)
+    static let expectedMetadata = MetadataDTO(page: expectedPage, pageSize: expectedPageSize, previousPageURL: expectedPreviousPageURL, nextPageURL: expectedNextPageURL)
     static let expectedChallenges = [generateChallengeDTO(withSid: expectedSidValue1, withStatus: .approved),
                                      generateChallengeDTO(withSid: expectedSidValue2, withStatus: .denied)]
     static let challenge = generateFactorChallenge(withStatus: .approved, withFactor: generateFactor(withSid: Constants.expectedFactorSid))

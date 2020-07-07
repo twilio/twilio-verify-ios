@@ -14,6 +14,8 @@ class StorageProviderMock {
   var expectedSid: String?
   var errorSaving: Error?
   var errorGetting: Error?
+  var errorRemoving: Error?
+  var removedKey: String?
 }
 
 extension StorageProviderMock: StorageProvider {
@@ -37,6 +39,9 @@ extension StorageProviderMock: StorageProvider {
   }
   
   func removeValue(for key: String) throws {
-    
+    if let error = errorRemoving, key == expectedSid {
+      throw error
+    }
+    removedKey = key
   }
 }
