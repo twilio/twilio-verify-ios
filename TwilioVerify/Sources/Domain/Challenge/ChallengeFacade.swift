@@ -29,7 +29,7 @@ class ChallengeFacade {
 
 extension ChallengeFacade: ChallengeFacadeProtocol {
   func get(withSid sid: String, withFactorSid factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    factorFacade.get(withSid: sid, success: { [weak self] factor in
+    factorFacade.get(withSid: factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
       switch factor {
         case is PushFactor:
