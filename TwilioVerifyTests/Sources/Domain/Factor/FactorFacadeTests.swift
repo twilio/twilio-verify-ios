@@ -228,6 +228,38 @@ class FactorFacadeTests: XCTestCase {
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
                    "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
   }
+  
+  func testDelete_withSuccessResponse_shouldSucceed() {
+    let expectation = self.expectation(description: "testDelete_withSuccessResponse_shouldSucceed")
+    facade.delete(withSid: "sid", success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(factory.deleteFactorCalled, "Delete factor should be called")
+  }
+  
+  func testDelete_withErrorResponse_shouldFail() {
+    let expectation = self.expectation(description: "testDelete_withErrorResponse_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError)
+    factory.error = expectedError
+    var error: TwilioVerifyError!
+    facade.delete(withSid: "sid", success: {
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
 }
 
 private extension FactorFacadeTests {
