@@ -11,6 +11,7 @@ import Foundation
 public typealias FactorSuccessBlock = (Factor) -> ()
 public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
 public typealias ChallengeSuccessBlock = (Challenge) -> ()
+public typealias FactorListSuccessBlock = ([Factor]) -> ()
 public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {

@@ -44,8 +44,8 @@ extension FactorRepositoryMock: FactorProvider {
     success()
   }
   
-  func getAll(success: @escaping ([Factor]) -> (), failure: @escaping FailureBlock) {
-    if let error = deleteError {
+  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
       failure(error)
       return
     }
