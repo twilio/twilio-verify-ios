@@ -153,8 +153,8 @@ extension FactorAPIClient {
     static let configKey = "Config"
     static let authPayloadKey = "AuthPayload"
     static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors"
-    static let verifyFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
-    static let deleteFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
-    static let updateFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors/\(APIConstants.factorSidPath)"
+    static let verifyFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
+    static let deleteFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
+    static let updateFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
   }
 }
