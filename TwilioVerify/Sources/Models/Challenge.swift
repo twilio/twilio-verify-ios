@@ -27,12 +27,12 @@ public enum ChallengeStatus: String, Codable {
 }
 
 public struct ChallengeDetails {
-  let message: String
-  let fields: [Detail]
-  let date: Date?
+  public let message: String
+  public let fields: [Detail]
+  public let date: Date?
 }
 
-struct Detail: Codable {
-  let label: String
-  let value: String
+public struct Detail: Codable {
+  public let label: String
+  public let value: String
 }

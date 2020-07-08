@@ -51,6 +51,15 @@ extension TwilioVerifyAdapter: TwilioVerify {
   }
   
   func getChallenge(challengeSid: String, factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { challenge in
+      DispatchQueue.main.async {
+        success(challenge)
+      }
+    }) { error in
+      DispatchQueue.main.async {
+        failure(error)
+      }
+    }
   }
   
   func getAllChallenges(withPayload payload: ChallengeListPayload, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
