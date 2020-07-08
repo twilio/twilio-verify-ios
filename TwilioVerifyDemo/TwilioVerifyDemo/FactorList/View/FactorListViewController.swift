@@ -22,6 +22,9 @@ class FactorListViewController: UIViewController {
     super.viewDidLoad()
     presenter = FactorListPresenter(withView: self)
     setupUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
     presenter.getFactors()
   }
   
@@ -37,7 +40,7 @@ class FactorListViewController: UIViewController {
 //MARK: - UIAdaptivePresentationControllerDelegate
 extension FactorListViewController: UIAdaptivePresentationControllerDelegate {
   func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-    presenter.getFactors()
+    viewWillAppear(true)
   }
 }
 
