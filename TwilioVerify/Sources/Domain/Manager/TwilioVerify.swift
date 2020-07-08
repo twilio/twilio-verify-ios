@@ -34,7 +34,7 @@ public protocol TwilioVerify {
   )
 
   func getAllFactors(
-    success: @escaping ([Factor]) -> (),
+    success: @escaping FactorListSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
