@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwilioVerify
 
 protocol ChallengeDetailView: class {
   func updateView()
@@ -42,6 +43,7 @@ class ChallengeDetailViewController: UIViewController {
   
   
   @IBAction func updateChallenge(_ sender: UIButton) {
+    presenter.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
   }
 }
 

@@ -12,6 +12,7 @@ import TwilioVerify
 protocol ChallengeDetailPresentable {
   var challenge: Challenge! {get}
   func fetchChallengeDetails()
+  func updateChallenge(withStatus status: ChallengeStatus)
 }
 
 class ChallengeDetailPresenter {
@@ -41,13 +42,26 @@ class ChallengeDetailPresenter {
 }
 
 extension ChallengeDetailPresenter: ChallengeDetailPresentable {
- 
   func fetchChallengeDetails() {
-    twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { challenge in
-      self.challenge = challenge
+    twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { [weak self] challenge in
+      guard let strongSelf = self else { return }
+      strongSelf.challenge = challenge
     }) { error in
       print(error)
     }
   }
-
+  
+  func updateChallenge(withStatus status: ChallengeStatus) {
+    let payload = UpdatePushChallengePayload(
+      factorSid: factorSid,
+      challengeSid: challengeSid,
+      status: status
+      )
+    twilioVerify.updateChallenge(withPayload: payload, success: { [weak self] in
+      guard let strongSelf = self else { return }
+      strongSelf.fetchChallengeDetails()
+    }) { error in
+      print(error)
+    }
+  }
 }
