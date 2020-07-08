@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TwilioVerify
 
 protocol FactorListView: class {
   func reloadData()
