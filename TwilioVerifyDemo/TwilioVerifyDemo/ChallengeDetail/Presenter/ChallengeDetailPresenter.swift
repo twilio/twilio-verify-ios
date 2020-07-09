@@ -38,7 +38,6 @@ class ChallengeDetailPresenter {
     self.factorSid = factorSid
     fetchChallengeDetails()
   }
-  
 }
 
 extension ChallengeDetailPresenter: ChallengeDetailPresentable {
@@ -46,8 +45,9 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
     twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
       strongSelf.challenge = challenge
-    }) { error in
-      print(error)
+    }) { [weak self] error in
+      guard let strongSelf = self else { return }
+      strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
     }
   }
   
@@ -60,8 +60,9 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
     twilioVerify.updateChallenge(withPayload: payload, success: { [weak self] in
       guard let strongSelf = self else { return }
       strongSelf.fetchChallengeDetails()
-    }) { error in
-      print(error)
+    }) { [weak self] error in
+      guard let strongSelf = self else { return }
+      strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
     }
   }
 }
