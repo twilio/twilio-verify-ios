@@ -255,6 +255,41 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
+  
+  func testGetAllChallenges_withValidData_shouldSucceed() {
+    let expectation = self.expectation(description: "testGetAllChallenges_withValidData_shouldSucceed")
+    challengeFacade.challengeList = Constants.expectedChallengeList
+    var challengeList: ChallengeList!
+    twilioVerify.getAllChallenges(withPayload: Constants.challengeListPayload, success: { result in
+      challengeList = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(challengeList.challenges.count, Constants.expectedChallengeList.challenges.count,
+                   "Challenge list should be \(Constants.expectedChallengeList.challenges) but were \(challengeList.challenges)")
+    
+  }
+  
+  func testGetAllChallenges_withFailureResponse_shouldFail() {
+    let expectation = self.expectation(description: "testGetAllChallenges_withFailureResponse_shouldFail")
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    challengeFacade.error = expectedError
+    var error: TwilioVerifyError!
+    twilioVerify.getAllChallenges(withPayload: Constants.challengeListPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+  }
 }
 
 private extension TwilioVerifyManagerTests {
@@ -266,6 +301,7 @@ private extension TwilioVerifyManagerTests {
     static let pushToken = "ACBtoken"
     static let enrollmentJWE = "jwe"
     static let challengeSid = "challengeSid"
+    static let challengeSid2 = "challengeSid2"
     static let expectedFactor = PushFactor(
       sid: factorSid,
       friendlyName: "friendlyName",
@@ -290,9 +326,25 @@ private extension TwilioVerifyManagerTests {
       updatedAt: Date(),
       expirationDate: Date(),
       factor: expectedFactor)
+    static let expectedChallenge2 = FactorChallenge(
+      sid: challengeSid2,
+      challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
+      hiddenDetails: "hiddenDetails",
+      factorSid: factorSid,
+      status: .approved,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+      factor: expectedFactor)
     static let updatePushChallengePayload = UpdatePushChallengePayload(
       factorSid: factorSid,
       challengeSid: challengeSid,
       status: .approved)
+    static let challengeListPayload = ChallengeListPayload(
+      factorSid: factorSid,
+      pageSize: 1)
+    static let expectedChallengeList = FactorChallengeList(
+      challenges: [expectedChallenge, expectedChallenge2],
+      metadata: ChallengeListMetadata(page: 1, pageSize: 1, previousPageToken: nil, nextPageToken: nil))
   }
 }

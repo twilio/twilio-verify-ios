@@ -14,6 +14,7 @@ class ChallengeMapperMock {
   var expectedSignatureFieldsHeader: String?
   var factorChallenge: FactorChallenge?
   var error: Error?
+  private(set) var callsToMap = 0
 }
 
 extension ChallengeMapperMock: ChallengeMapperProtocol {
@@ -21,9 +22,21 @@ extension ChallengeMapperMock: ChallengeMapperProtocol {
     if let error = error {
       throw error
     }
+    callsToMap += 1
     if let expectedData = expectedData, expectedData == data,
       let factorChallenge = factorChallenge, expectedSignatureFieldsHeader == signatureFieldsHeader 
     {
+      return factorChallenge
+    }
+    fatalError("Expected params not set")
+  }
+  
+  func fromAPI(withChallengeDTO challengeDTO: ChallengeDTO) throws -> FactorChallenge {
+    if let error = error {
+      throw error
+    }
+    callsToMap += 1
+    if let factorChallenge = factorChallenge {
       return factorChallenge
     }
     fatalError("Expected params not set")
