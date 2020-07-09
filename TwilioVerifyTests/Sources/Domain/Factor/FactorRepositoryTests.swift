@@ -95,7 +95,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
-    factorMapper.error = expectedError
+    factorMapper.fromAPIError = expectedError
     factorRepository.create(withPayload: factorPayload, success: { factor in
       XCTFail()
       failureExpectation.fulfill()
@@ -220,7 +220,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
   }
 
-  func testVerifyFactor_withErrorInMaper_shouldFail() {
+  func testVerifyFactor_withErrorInMapper_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let factor = Constants.generateFactor()
     let payload = "authPayload"
@@ -240,6 +240,92 @@ class FactorRepositoryTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
     XCTAssertEqual((error as! MapperError).errorDescription, MapperError.invalidArgument.errorDescription,
                    "Error description should be \(MapperError.invalidArgument.errorDescription) but was \((error as! MapperError).errorDescription)")
+  }
+  
+  func testUpdateFactor_withValidResponse_shouldSuceed() {
+    let expectation = self.expectation(description: "testUpdateFactor_withValidResponse_shouldSuceed")
+    let payload = Constants.updateFactorPayload
+    let expectedFactor = Constants.generateFactor()
+    let factorData = try! JSONEncoder().encode(expectedFactor)
+    storage.expectedSid = payload.factorSid
+    storage.factorData = factorData
+    factorMapper.expectedData = factorData
+    factorMapper.expectedFactorPayload = payload
+    factorAPIClient.expectedFactorSid = payload.factorSid
+    factorAPIClient.statusData = factorData
+    var factor: Factor!
+    factorRepository.update(withPayload: payload, success: { response in
+      factor = response
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor should be \(expectedFactor) but was \(factor!)")
+  }
+  
+  func testUpdateFactor_withInvalidResponse_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withInvalidResponse_shouldFail")
+    let payload = Constants.updateFactorPayload
+    let factorData = try! JSONEncoder().encode(Constants.generateFactor())
+    storage.expectedSid = payload.factorSid
+    storage.factorData = factorData
+    factorMapper.expectedData = factorData
+    let expectedError = NetworkError.invalidData
+    factorAPIClient.error = expectedError
+    var error: Error!
+    factorRepository.update(withPayload: payload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
+  }
+  
+  func testUpdateFactor_withErrorInMapper_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withErrorInMapper_shouldFail")
+    let payload = Constants.updateFactorPayload
+    let factorData = try! JSONEncoder().encode(Constants.generateFactor())
+    storage.expectedSid = payload.factorSid
+    storage.factorData = factorData
+    factorMapper.expectedData = factorData
+    factorMapper.expectedFactorPayload = payload
+    let expectedError = MapperError.illegalArgument
+    factorMapper.fromAPIError = expectedError
+    factorAPIClient.expectedFactorSid = payload.factorSid
+    factorAPIClient.statusData = factorData
+    var error: Error!
+    factorRepository.update(withPayload: payload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual((error as! MapperError).errorDescription, expectedError.errorDescription)
+  }
+  
+  func testUpdateFactor_withErrorInStorage_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withErrorInStorage_shouldFail")
+    let payload = Constants.updateFactorPayload
+    let expectedError = StorageError.error("Factor not found")
+    storage.errorGetting = expectedError
+    storage.expectedSid = payload.factorSid
+    var error: Error!
+    factorRepository.update(withPayload: payload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual((error as! StorageError).errorDescription, expectedError.errorDescription)
   }
 
   func testSaveFactor_withFactorSuccessfullyStored_shouldSucceed() {
@@ -357,8 +443,8 @@ class FactorRepositoryTests: XCTestCase {
                    "Error should be \(TestError.operationFailed) but was \(error!)")
   }
   
-  func testGetAllFactor_withFactorsStored_shouldSucced() {
-    let expectation = self.expectation(description: "testGetAllFactor_withFactorStored_shouldSucced")
+  func testGetAllFactors_withFactorsStored_shouldSucced() {
+    let expectation = self.expectation(description: "testGetAllFactors_withFactorsStored_shouldSucced")
     let factor1ExpectedSid = "sid123"
     let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
     let factor2ExpectedSid = "sid000"
@@ -382,8 +468,8 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
   
-  func testGetAllFactor_withSomeInvalidDataStored_shouldReturnOnlyFactors() {
-    let expectation = self.expectation(description: "testGetAllFactor_withSomeInvalidDataStored_shouldReturnOnlyFactors")
+  func testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors() {
+    let expectation = self.expectation(description: "testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors")
     let factor1ExpectedSid = "sid123"
     let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
     let factor2ExpectedSid = "sid000"
@@ -409,8 +495,8 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
   
-  func testGetAllFactor_withStorageError_shouldFail() {
-    let expectation = self.expectation(description: "testGetAllFactor_withStorageError_shouldFail")
+  func testGetAllFactors_withStorageError_shouldFail() {
+    let expectation = self.expectation(description: "testGetAllFactors_withStorageError_shouldFail")
     let expectedError = TestError.operationFailed
     storage.errorGettingAll = expectedError
     var error: Error!
@@ -443,6 +529,13 @@ private extension FactorRepositoryTests {
     static let expectedSidValue = "sid123"
     static let expectedAccountSid = "accountSid123"
     static let expectedCredentialSid = "credentialSid123"
+    static let updateFactorPayload = UpdateFactorDataPayload(
+      friendlyName: Constants.friendlyNameValue,
+      type: Constants.pushType,
+      serviceSid: Constants.serviceSidValue,
+      entity: Constants.entityIdentityValue,
+      config: [:],
+      factorSid: Constants.expectedSidValue)
     static func generateFactor(withSid sid: String = Constants.expectedSidValue) -> PushFactor {
       PushFactor(
         sid: sid,

@@ -44,6 +44,14 @@ extension FactorRepositoryMock: FactorProvider {
     success()
   }
   
+  func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success(factor)
+  }
+  
   func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
