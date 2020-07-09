@@ -24,17 +24,24 @@ class FactorListViewController: UIViewController {
     setupUI()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    presenter.getFactors()
+  }
+  
   @IBAction func createFactor() {
-    guard let navController = createFactorViewController() as? UINavigationController,
-          let createFactorView = navController.viewControllers.first as? CreateFactorViewController else {
+    guard let navController = createFactorViewController() as? UINavigationController else {
       return
     }
-      //This is a work around, in the future this will be removed
-    createFactorView.callback = { [weak self] factor in
-      guard let strongSelf = self else { return }
-      strongSelf.presenter.append(factor)
-    }
     present(navController, animated: true, completion: nil)
+    navController.presentationController?.delegate = self
+  }
+}
+
+//MARK: - UIAdaptivePresentationControllerDelegate
+extension FactorListViewController: UIAdaptivePresentationControllerDelegate {
+  func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+    viewWillAppear(true)
   }
 }
 
