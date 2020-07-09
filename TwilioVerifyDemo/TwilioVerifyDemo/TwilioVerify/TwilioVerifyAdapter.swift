@@ -75,7 +75,15 @@ extension TwilioVerifyAdapter: TwilioVerify {
   }
   
   func updateChallenge(withPayload payload: UpdateChallengePayload, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
+    twilioVerify.updateChallenge(withPayload: payload, success: {
+      DispatchQueue.main.async {
+        success()
+      }
+    }) { error in
+      DispatchQueue.main.async {
+        failure(error)
+      }
+    }
   }
   
   func deleteFactor(withSid sid: String, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {

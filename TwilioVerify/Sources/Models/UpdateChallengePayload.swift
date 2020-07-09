@@ -13,8 +13,14 @@ public protocol UpdateChallengePayload {
   var challengeSid: String { get }
 }
 
-struct UpdatePushChallengePayload: UpdateChallengePayload {
-  let factorSid: String
-  let challengeSid: String
-  let status: ChallengeStatus
+public struct UpdatePushChallengePayload: UpdateChallengePayload {
+  public let factorSid: String
+  public let challengeSid: String
+  public let status: ChallengeStatus
+  
+  public init(factorSid: String, challengeSid: String, status: ChallengeStatus) {
+    self.factorSid = factorSid
+    self.challengeSid = challengeSid
+    self.status = status
+  }
 }

@@ -353,7 +353,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLz-Ku-Q4G">
                                 <rect key="frame" x="16" y="774" width="382" height="40"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-Oy-5ox">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-Oy-5ox">
                                         <rect key="frame" x="229" y="0.0" width="153" height="40"/>
                                         <color key="backgroundColor" red="0.13725490196078433" green="0.53333333333333333" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -361,7 +361,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="updateChallenge:" destination="kNe-Xc-0Fh" eventType="touchUpInside" id="EEc-fx-Mcp"/>
+                                            <action selector="updateChallenge:" destination="kNe-Xc-0Fh" eventType="touchUpInside" id="nfK-lL-hXS"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haj-jL-X8S">
@@ -372,7 +372,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="updateChallenge:" destination="kNe-Xc-0Fh" eventType="touchUpInside" id="TFl-l9-ktd"/>
+                                            <action selector="updateChallenge:" destination="kNe-Xc-0Fh" eventType="touchUpInside" id="gcH-Ml-pdf"/>
                                         </connections>
                                     </button>
                                 </subviews>

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import TwilioVerify
 
 protocol ChallengeDetailView: class {
   func updateView()
+  func showAlert(withMessage message: String)
 }
 
 class ChallengeDetailViewController: UIViewController {
@@ -42,6 +44,7 @@ class ChallengeDetailViewController: UIViewController {
   
   
   @IBAction func updateChallenge(_ sender: UIButton) {
+    presenter.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
   }
 }
 
@@ -63,6 +66,12 @@ extension ChallengeDetailViewController: ChallengeDetailView {
     updatedDateLabel.text = formatter.string(from: presenter.challenge.updatedAt)
     buttonsContainer.isHidden = !(presenter.challenge.status == .pending)
     detailsTextView.layoutSubviews()
+  }
+  
+  func showAlert(withMessage message: String) {
+    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+    present(alert, animated: true, completion: nil)
   }
 }
 
