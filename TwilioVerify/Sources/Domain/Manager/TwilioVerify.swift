@@ -11,6 +11,7 @@ import Foundation
 public typealias FactorSuccessBlock = (Factor) -> ()
 public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
 public typealias ChallengeSuccessBlock = (Challenge) -> ()
+public typealias FactorListSuccessBlock = ([Factor]) -> ()
 public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {
@@ -33,7 +34,7 @@ public protocol TwilioVerify {
   )
 
   func getAllFactors(
-    success: @escaping ([Factor]) -> (),
+    success: @escaping FactorListSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 

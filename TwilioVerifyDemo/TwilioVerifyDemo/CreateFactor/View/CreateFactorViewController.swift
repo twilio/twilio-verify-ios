@@ -13,8 +13,6 @@ protocol CreateFactorView: class {
   func showAlert(withMessage message: String)
   func stopLoader()
   func dismiss()
-  //This is a work around, in the future this will be removed
-  func append(factor: Factor)
 }
 
 class CreateFactorViewController: UIViewController {
@@ -23,9 +21,6 @@ class CreateFactorViewController: UIViewController {
   @IBOutlet private weak var enrollmentURLTextField: UITextField!
   @IBOutlet private weak var createButton: UIButton!
   @IBOutlet weak var loader: UIActivityIndicatorView!
-  
-  //This is a work around, in the future this will be removed
-  var callback: FactorSuccessBlock?
   
   private var presenter: CreateFactorPresentable!
   
@@ -57,16 +52,14 @@ extension CreateFactorViewController: CreateFactorView {
     loader.stopAnimating()
   }
   
-  //This is a work around, in the future this will be removed
-  func append(factor: Factor) {
-    callback?(factor)
-  }
-  
   func stopLoader() {
     loader.stopAnimating()
   }
   
   func dismiss() {
+    if #available(iOS 13.0, *), let presentationController = presentationController {
+      navigationController?.presentationController?.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
     dismiss(animated: true, completion: nil)
   }
 }

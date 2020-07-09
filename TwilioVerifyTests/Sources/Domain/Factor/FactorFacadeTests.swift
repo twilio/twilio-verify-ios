@@ -260,6 +260,42 @@ class FactorFacadeTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
+  
+  func testGetAll_withSuccessResponse_shouldSucced() {
+    let expectation = self.expectation(description: "testGetAll_withSuccessResponse_shouldSucced")
+    let factor = Constants.factor
+    repository.factors = [factor]
+    var factors: [Factor]!
+    facade.getAll(success: { factorList in
+      factors = factorList
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(factors.first?.sid, factor.sid, "Factor should be \(factor) but was \(factors.first!)")
+  }
+  
+  func testGetAll_withError_shouldFail() {
+    let expectation = self.expectation(description: "testGetAll_withError_shouldFail")
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    repository.error = TestError.operationFailed
+    var error: TwilioVerifyError!
+    facade.getAll(success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
 }
 
 private extension FactorFacadeTests {

@@ -12,9 +12,11 @@ import Foundation
 class FactorMapperMock {
   var expectedFactor: Factor?
   var expectedData: Data?
+  var expectedDataList: [Data]?
   var expectedStatusData: Data?
   var expectedFactorPayload: FactorDataPayload?
   var error: Error?
+  private(set) var callToFromStorage = 0
 }
 
 extension FactorMapperMock: FactorMapperProtocol {
@@ -47,6 +49,10 @@ extension FactorMapperMock: FactorMapperProtocol {
       return try JSONDecoder().decode(PushFactor.self, from: data)
     }
     if let expectedData = expectedData {
+      return try JSONDecoder().decode(PushFactor.self, from: expectedData)
+    }
+    if let expectedData = expectedDataList?[callToFromStorage] {
+      callToFromStorage += 1
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }
     fatalError("Expected params not set")
