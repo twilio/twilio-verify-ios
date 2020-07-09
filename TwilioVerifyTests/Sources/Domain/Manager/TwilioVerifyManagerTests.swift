@@ -220,6 +220,42 @@ class TwilioVerifyManagerTests: XCTestCase {
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
+  func testGetAllFactors_withSuccessResponse_shouldSucceed() {
+    let expectation = self.expectation(description: "testGetAllFactors_withSuccessResponse_shouldSucceed")
+    factorFacade.factor = Constants.expectedFactor
+    var factors: [Factor]!
+    twilioVerify.getAllFactors(success: { response in
+      factors = response
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(factors.first?.sid, Constants.expectedFactor.sid, "Factor should be \(Constants.expectedFactor) but was \(factors.first!)")
+  }
+  
+  func testGetAllFactors_withFAILUREResponse_shouldFail() {
+    let expectation = self.expectation(description: "testGetAllFactors_withFAILUREResponse_shouldFail")
+    factorFacade.factor = Constants.expectedFactor
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    factorFacade.error = expectedError
+    var error: TwilioVerifyError!
+    twilioVerify.getAllFactors(success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
   func testGetAllChallenges_withValidData_shouldSucceed() {
     let expectation = self.expectation(description: "testGetAllChallenges_withValidData_shouldSucceed")
     challengeFacade.challengeList = Constants.expectedChallengeList

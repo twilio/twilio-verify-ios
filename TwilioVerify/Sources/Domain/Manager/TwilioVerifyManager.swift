@@ -32,8 +32,8 @@ extension TwilioVerifyManager: TwilioVerify {
     
   }
   
-  public func getAllFactors(success: ([Factor]) -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
+  public func getAllFactors(success: @escaping FactorListSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    factorFacade.getAll(success: success, failure: failure)
   }
   
   public func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {

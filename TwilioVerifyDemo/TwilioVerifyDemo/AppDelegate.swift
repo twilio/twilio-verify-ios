@@ -56,7 +56,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       return
     }
     guard let challengeSid = response.notification.request.content.userInfo["challenge_sid"] as? String,
-          let factorSid = response.notification.request.content.userInfo["factor_sid"] as? String else {
+          let factorSid = response.notification.request.content.userInfo["factor_sid"] as? String,
+          let type = response.notification.request.content.userInfo["type"] as? String, type == "verify_push_challenge" else {
       return
     }
     
@@ -64,8 +65,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     guard let challengeNavigation = storyboard.instantiateViewController(withIdentifier: "ChallengeView") as? UINavigationController,
           let challengeView = challengeNavigation.viewControllers[0] as? ChallengeDetailViewController & ChallengeDetailView else {
       return
-      
     }
+    
     challengeView.presenter = ChallengeDetailPresenter(
       withView: challengeView,
       challengeSid: challengeSid,
@@ -73,6 +74,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     )
     
     window?.rootViewController?.present(challengeNavigation, animated: true, completion: nil)
-    
   }
 }
