@@ -59,8 +59,6 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         strongSelf.verify(factor, success: { factor in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismiss()
-          //This is a work around, in the future this will be removed
-          strongSelf.view?.append(factor: factor)
         }) { error in
           guard let strongSelf = self else { return }
           DispatchQueue.main.async {

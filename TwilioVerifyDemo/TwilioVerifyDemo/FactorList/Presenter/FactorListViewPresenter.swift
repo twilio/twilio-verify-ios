@@ -10,7 +10,7 @@ import Foundation
 import TwilioVerify
 
 protocol FactorListPresentable {
-  func append(_ factor: Factor)
+  func getFactors()
   func numberOfItems() -> Int
   func factor(at index: Int) -> Factor
 }
@@ -18,18 +18,26 @@ protocol FactorListPresentable {
 class FactorListPresenter {
   
   private weak var view: FactorListView?
+  private let twilioVerify: TwilioVerify
   private var factors: [Factor]
   
-  init(withView view: FactorListView) {
+  init(withView view: FactorListView,
+       twilioVerify: TwilioVerify = TwilioVerifyAdapter()) {
     self.view = view
+    self.twilioVerify = twilioVerify
     self.factors = [Factor]()
   }
 }
 
 extension FactorListPresenter: FactorListPresentable {
-  func append(_ factor: Factor) {
-    factors.append(factor)
-    view?.reloadData()
+  func getFactors() {
+    twilioVerify.getAllFactors(success: { [weak self] factorList in
+      guard let strongSelf = self else { return }
+      strongSelf.factors = factorList
+      strongSelf.view?.reloadData()
+    }) { error in
+      print(error.localizedDescription)
+    }
   }
   
   func numberOfItems() -> Int {

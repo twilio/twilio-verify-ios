@@ -56,7 +56,7 @@ class TwilioVerifyTests: XCTestCase {
     twilioVerify.getChallenge(challengeSid: Constants.expectedSidValue, factorSid: Constants.sidValue, success: { response in
       challenge = response as? FactorChallenge
       expectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       expectation.fulfill()
     }
@@ -131,11 +131,26 @@ class TwilioVerifyTests: XCTestCase {
                                  Response(data: dataUpdateChallenge, headers: [:])]
     twilioVerify.updateChallenge(withPayload: Constants.updatePushChallengePayload, success: {
       expectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
+  }
+  
+  func testGetAllFactors_shouldSucceed() {
+    createFactor()
+    let expectation = self.expectation(description: "testGetAllFactors_shouldSucceed")
+    var factors: [Factor]!
+    twilioVerify.getAllFactors(success: { response in
+      factors = response
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(factors.first?.sid, Constants.sidValue, "Factor should be \(Constants.sidValue) but was \(factors.first!.sid)")
   }
 }
 
