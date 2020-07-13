@@ -47,6 +47,31 @@ class TwilioVerifyTests: XCTestCase {
                    "Factor status should be \(FactorStatus(rawValue: expectedResponse[Constants.statusKey] as! String)!) but was \(pushFactor.status)")
   }
   
+  func testUpdateFactor_shouldSucceed() {
+    createFactor()
+    let expectation = self.expectation(description: "testUpdateFactor_shouldSucceed")
+    let expectedResponse: [String: Any] = [Constants.sidKey: Constants.expectedFactorSid,
+                                           Constants.friendlyNameKey: Constants.friendlyNameValue,
+                                           Constants.accountSidKey: Constants.accountSidValue,
+                                           Constants.statusKey: Constants.statusValue,
+                                           Constants.configKey: [Constants.credentialSidKey: Constants.credentialSidValue],
+                                           Constants.dateCreatedKey: Constants.dateCreatedValue]
+    let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
+    networkProvider.response = Response(data: data, headers: [:])
+    let payload = UpdatePushFactorPayload(sid: Constants.expectedFactorSid, pushToken: Constants.pushToken)
+    var pushFactor: PushFactor!
+    twilioVerify.updateFactor(withPayload: payload, success: { factor in
+      pushFactor = factor as? PushFactor
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
+                   "Factor sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
+  }
+  
   func testGetChallenge_shouldSucceed() {
     createFactor()
     let expectation = self.expectation(description: "testGetChallenge_shouldSucceed")
