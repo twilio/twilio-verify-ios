@@ -12,6 +12,7 @@ protocol PushFactoryProtocol {
   func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
 }
 
@@ -97,6 +98,28 @@ extension PushFactory: PushFactoryProtocol {
       } else {
         failure(TwilioVerifyError.storageError(error: error as NSError))
       }
+    }
+  }
+  
+  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    do {
+      let factor = try repository.get(withSid: sid)
+      guard let pushFactor = factor as? PushFactor else {
+        failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
+        return
+      }
+      let payload = UpdateFactorDataPayload(
+        friendlyName: pushFactor.friendlyName,
+        type: pushFactor.type,
+        serviceSid: pushFactor.serviceSid,
+        entity: pushFactor.entityIdentity,
+        config: config(withToken: pushToken),
+        factorSid: pushFactor.sid)
+      repository.update(withPayload: payload, success: success) { error in
+        failure(TwilioVerifyError.networkError(error: error as NSError))
+      }
+    } catch {
+      failure(TwilioVerifyError.storageError(error: error as NSError))
     }
   }
   
