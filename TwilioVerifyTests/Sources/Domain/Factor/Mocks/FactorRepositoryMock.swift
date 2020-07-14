@@ -13,6 +13,7 @@ class FactorRepositoryMock {
   var error: Error?
   var saveError: Error?
   var verifyError: Error?
+  var updateError: Error?
   var deleteError: Error?
   var factor: Factor!
   var factors: [Factor]!
@@ -45,7 +46,7 @@ extension FactorRepositoryMock: FactorProvider {
   }
   
   func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
-    if let error = error {
+    if let error = updateError {
       failure(error)
       return
     }

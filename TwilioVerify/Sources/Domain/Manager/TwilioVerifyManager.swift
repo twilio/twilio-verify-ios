@@ -29,7 +29,7 @@ extension TwilioVerifyManager: TwilioVerify {
   }
   
   public func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    
+    factorFacade.updateFactor(withPayload: payload, success: success, failure: failure)
   }
   
   public func getAllFactors(success: @escaping FactorListSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {

@@ -108,6 +108,48 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription, "Error should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
   }
   
+  func testUpdateFactor_withSuccessResponse_shouldSucceed() {
+    let expectation = self.expectation(description: "testUpdateFactor_withSuccessResponse_shouldSucceed")
+    factorFacade.factor = Constants.expectedFactor
+    var factor: Factor!
+    twilioVerify.updateFactor(withPayload: Constants.updatePushFactorPayload, success: { response in
+      factor = response
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(factor.sid, Constants.expectedFactor.sid,
+                   "Factor sid should be \(Constants.expectedFactor.sid) but was \(factor.sid)")
+    XCTAssertEqual(factor.friendlyName, Constants.expectedFactor.friendlyName,
+                   "Factor friendlyName should be \(Constants.expectedFactor.friendlyName) but was \(factor.friendlyName)")
+    XCTAssertEqual(factor.accountSid, Constants.expectedFactor.accountSid,
+                   "Factor accountSid should be \(Constants.expectedFactor.accountSid) but was \(factor.accountSid)")
+    XCTAssertEqual(factor.serviceSid, Constants.expectedFactor.serviceSid,
+                   "Factor serviceSid should be \(Constants.expectedFactor.serviceSid) but was \(factor.serviceSid)")
+    XCTAssertEqual(factor.entityIdentity, Constants.expectedFactor.entityIdentity,
+                   "Factor entityIdentity should be \(Constants.expectedFactor.entityIdentity) but was \(factor.entityIdentity)")
+    XCTAssertEqual(factor.createdAt, Constants.expectedFactor.createdAt,
+                   "Factor createdAt should be \(Constants.expectedFactor.createdAt) but was \(factor.createdAt)")
+  }
+  
+  func testUpdateFactor_withErrorResponse_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withErrorResponse_shouldFail")
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    factorFacade.error = expectedError
+    var error: TwilioVerifyError!
+    twilioVerify.updateFactor(withPayload: Constants.updatePushFactorPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription, "Error should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+  }
+  
   func testDeleteFactor_withSuccessResponse_shouldSucceed() {
     let expectation = self.expectation(description: "testDeleteFactor_withSuccessResponse_shouldSucceed")
     twilioVerify.deleteFactor(withSid: Constants.factorSid, success: {
@@ -316,6 +358,9 @@ private extension TwilioVerifyManagerTests {
       identity: Constants.identity,
       pushToken: Constants.pushToken,
       enrollmentJwe: Constants.enrollmentJWE)
+    static let updatePushFactorPayload = UpdatePushFactorPayload(
+      sid: Constants.factorSid,
+      pushToken: Constants.pushToken)
     static let expectedChallenge = FactorChallenge(
       sid: challengeSid,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),

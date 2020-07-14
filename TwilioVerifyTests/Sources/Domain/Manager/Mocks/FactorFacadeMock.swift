@@ -31,6 +31,14 @@ extension FactorFacadeMock: FactorFacadeProtocol {
     success(factor)
   }
   
+  func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success(factor)
+  }
+  
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
