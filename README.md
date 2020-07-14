@@ -36,6 +36,23 @@ None
 ## Installation
 
 ### Add library
+
+#### CocoaPods
+
+To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+pod 'TwilioVerify', '~> (insert latest version)'
+```
+
+#### Carthage
+
+To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "Twilio/TwilioVerify" ~> (insert latest version)
+```
+
 ### Register Your App with APNs
 If you want to receive challenges as push notifications, you should register Your App with APNs. More info [here](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns)
 
