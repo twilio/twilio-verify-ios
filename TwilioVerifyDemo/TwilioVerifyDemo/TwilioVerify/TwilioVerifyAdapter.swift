@@ -87,6 +87,14 @@ extension TwilioVerifyAdapter: TwilioVerify {
   }
   
   func deleteFactor(withSid sid: String, success: @escaping () -> (), failure: @escaping TwilioVerifyErrorBlock) {
-    
+    twilioVerify.deleteFactor(withSid: sid, success: {
+      DispatchQueue.main.async {
+        success()
+      }
+    }) { error in
+      DispatchQueue.main.async {
+        failure(error)
+      }
+    }
   }
 }
