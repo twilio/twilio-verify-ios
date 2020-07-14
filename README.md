@@ -27,9 +27,9 @@ None
 <a name='Requirements'></a>
 
 ## Requirements
-* iOS 11
+* iOS 11+
 * Swift 5.2
-* Xcode 11.5
+* Xcode 11.x
 
 <a name='Installation'></a>
 
@@ -42,7 +42,7 @@ None
 To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> (insert latest version)'
+pod 'TwilioVerify'
 ```
 
 #### Carthage
@@ -50,7 +50,7 @@ pod 'TwilioVerify', '~> (insert latest version)'
 To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Twilio/TwilioVerify" ~> (insert latest version)
+binary <url_to_binary>
 ```
 
 ### Register Your App with APNs
@@ -85,7 +85,7 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 ## Using the sample app
 
 ### Adding a factor
-* Press Create factor in the factor list (main view, top right)
+* Press Create factor in the factor list (click on the +, top right)
 * Enter the entity identity to use. This value should be an UUID that identifies the user to prevent PII information use
 * Enter the enrollment URL (Enrollment JWE generation URL, including the path, e.g. https://yourapp.ngrok.io/enroll)
 * Press Create factor
