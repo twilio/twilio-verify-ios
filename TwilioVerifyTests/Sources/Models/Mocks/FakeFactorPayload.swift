@@ -20,6 +20,10 @@ struct FakeVerifyPushFactorPayload: VerifyFactorPayload {
   let sid: String
 }
 
+struct FakeUpdateFactorPayload: UpdateFactorPayload {
+  let sid: String
+}
+
 struct FakeFactor: Factor {
   var status: FactorStatus
   var sid: String

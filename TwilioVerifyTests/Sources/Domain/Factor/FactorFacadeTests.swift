@@ -175,6 +175,78 @@ class FactorFacadeTests: XCTestCase {
                    "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
   }
   
+  func testUpdateFactor_withValidInput_shouldSucceed() {
+    let expectation = self.expectation(description: "testUpdateFactor_withValidInput_shouldSucceed")
+    factory.factor = Constants.factor
+    var factor: Factor!
+    facade.updateFactor(withPayload: Constants.updateFactorPayload, success: { response in
+      factor = response
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(factor is PushFactor,  "Factor should be a PushFactor")
+    let pushFactor = factor as! PushFactor
+    XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
+                   "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")
+    XCTAssertEqual(pushFactor.friendlyName, Constants.factor.friendlyName,
+                   "Friendly name should be \(Constants.factor.friendlyName) but was \(pushFactor.friendlyName)")
+    XCTAssertEqual(pushFactor.accountSid, Constants.factor.accountSid,
+                   "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
+    XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
+                   "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
+    XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
+                   "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
+    XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
+                   "Credential Sid should be \(Constants.factor.config.credentialSid) but was \(pushFactor.config.credentialSid)")
+  }
+  
+  func testUpdateFactor_withInvalidInput_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withInvalidInput_shouldFail")
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    var error: TwilioVerifyError!
+    let fakePayload = FakeUpdateFactorPayload(sid: Constants.serviceSid)
+    
+    facade.updateFactor(withPayload: fakePayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { result in
+      error = result
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
+  func testUpdateFactor_withValidInputAndErrorVerifyingFactor_shouldFail() {
+    let expectation = self.expectation(description: "testUpdateFactor_withValidInputAndErrorVerifyingFactor_shouldFail")
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    var error: TwilioVerifyError!
+    factory.error = expectedError
+    
+    facade.updateFactor(withPayload: Constants.updateFactorPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { result in
+      error = result
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+    XCTAssertEqual(error.originalError, expectedError.originalError,
+                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+  }
+  
   func testGet_factorNotStored_shouldFail() {
     let expectation = self.expectation(description: "testGet_factorNotStored_shouldFail")
     let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError)
@@ -323,6 +395,9 @@ private extension FactorFacadeTests {
       createdAt: Date(),
       config: Constants.config
     )
+    static let updateFactorPayload = UpdatePushFactorPayload(
+      sid: Constants.factor.sid,
+      pushToken: Constants.pushToken)
     static let verifyFactorPayload = VerifyPushFactorPayload(sid: "sid")
   }
 }
