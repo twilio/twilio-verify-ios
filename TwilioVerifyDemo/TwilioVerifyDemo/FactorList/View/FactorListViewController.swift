@@ -36,6 +36,14 @@ class FactorListViewController: UIViewController {
     present(navController, animated: true, completion: nil)
     navController.presentationController?.delegate = self
   }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let factorDetailView = segue.destination as? FactorDetailViewController,
+          let index = sender as? Int else {
+      return
+    }
+    factorDetailView.presenter = FactorDetailPresenter(withView: factorDetailView, factor: presenter.factor(at: index))
+  }
 }
 
 //MARK: - UIAdaptivePresentationControllerDelegate
@@ -68,7 +76,7 @@ extension FactorListViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension FactorListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+    performSegue(withIdentifier: Constants.factorDetailSegueId, sender: indexPath.row)
   }
 }
 
@@ -82,6 +90,7 @@ private extension FactorListViewController {
   struct Constants {
     static let createFactorView = "CreateFactorView"
     static let storyboardId = "Main"
+    static let factorDetailSegueId = "FactorDetail"
   }
   
   func setupUI() {
