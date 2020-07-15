@@ -13,6 +13,7 @@ protocol FactorListPresentable {
   func getFactors()
   func numberOfItems() -> Int
   func factor(at index: Int) -> Factor
+  func delete(at index: Int)
 }
 
 class FactorListPresenter {
@@ -46,5 +47,17 @@ extension FactorListPresenter: FactorListPresentable {
   
   func factor(at index: Int) -> Factor {
     factors[index]
+  }
+  
+  func delete(at index: Int) {
+    let factor = factors.remove(at: index)
+    view?.reloadData()
+    twilioVerify.deleteFactor(withSid: factor.sid, success: {
+    }) { [weak self] error in
+      guard let strongSelf = self else { return }
+      strongSelf.factors.insert(factor, at: index)
+      strongSelf.view?.reloadData()
+      strongSelf.view?.showAlert(withMessage: error.localizedDescription)
+    }
   }
 }

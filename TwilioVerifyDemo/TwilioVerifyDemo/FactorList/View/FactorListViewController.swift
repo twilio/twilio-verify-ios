@@ -10,6 +10,7 @@ import UIKit
 
 protocol FactorListView: class {
   func reloadData()
+  func showAlert(withMessage message: String)
 }
 
 class FactorListViewController: UIViewController {
@@ -70,11 +71,25 @@ extension FactorListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
   }
+  
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteActoun = UIContextualAction(style: .destructive, title: Constants.delete) { (_, _, handler: @escaping (Bool) -> Void) in
+      self.presenter.delete(at: indexPath.row)
+      handler(true)
+    }
+    return UISwipeActionsConfiguration(actions: [deleteActoun])
+  }
 }
 
 extension FactorListViewController: FactorListView {
   func reloadData() {
     tableView.reloadData()
+  }
+  
+  func showAlert(withMessage message: String) {
+    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+    present(alert, animated: true, completion: nil)
   }
 }
 
@@ -82,6 +97,7 @@ private extension FactorListViewController {
   struct Constants {
     static let createFactorView = "CreateFactorView"
     static let storyboardId = "Main"
+    static let delete = "Delete"
   }
   
   func setupUI() {
