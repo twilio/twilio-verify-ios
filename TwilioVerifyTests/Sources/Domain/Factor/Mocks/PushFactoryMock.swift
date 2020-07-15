@@ -12,6 +12,7 @@ import Foundation
 class PushFactoryMock {
   var error: TwilioVerifyError?
   var factor: Factor!
+  var deleteFactorCalled = false
 }
 
 extension PushFactoryMock: PushFactoryProtocol {
@@ -29,5 +30,22 @@ extension PushFactoryMock: PushFactoryProtocol {
       return
     }
     success(factor)
+  }
+  
+  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    if let error = error {
+      failure(error)
+      return
+    }
+    success(factor)
+  }
+  
+  func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    deleteFactorCalled = true
+    if let error = error {
+      failure(error)
+      return
+    }
+    success()
   }
 }

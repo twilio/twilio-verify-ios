@@ -12,6 +12,7 @@ public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
+  func getAll() throws -> [Data]
 }
 
 public class SecureStorage {
@@ -45,6 +46,22 @@ extension SecureStorage: SecureStorageProvider {
     do {
       let result = try keychain.copyItemMatching(query: query)
       return result as! Data
+    } catch {
+      throw error
+    }
+  }
+  
+  public func getAll() throws -> [Data] {
+    let query = keychainQuery.getAll()
+    do {
+      let result = try keychain.copyItemMatching(query: query)
+      guard let resultArray = result as? [Any] else {
+        return []
+      }
+      let objectsData = resultArray.map {
+        (($0 as? [String: Any])?[kSecValueData as String]) as? Data
+      }.compactMap { $0 }
+      return objectsData
     } catch {
       throw error
     }

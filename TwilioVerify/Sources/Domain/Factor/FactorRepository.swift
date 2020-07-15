@@ -11,6 +11,9 @@ import Foundation
 protocol FactorProvider {
   func create(withPayload payload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
+  func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
+  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock)
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
 }
@@ -38,9 +41,7 @@ extension FactorRepository: FactorProvider {
       } catch {
         failure(error)
       }
-    }) { error in
-      failure(error)
-    }
+    }, failure: failure)
   }
   
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
@@ -54,7 +55,44 @@ extension FactorRepository: FactorProvider {
       } catch {
         failure(error)
       }
-    }) { error in
+    }, failure: failure)
+  }
+  
+  func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+    do {
+      let factor = try get(withSid: payload.factorSid)
+      apiClient.update(factor, updateFactorDataPayload: payload, success: { [weak self] response in
+        guard let strongSelf = self else { return }
+        do {
+          success(try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: payload))
+        } catch {
+          failure(error)
+        }
+      }, failure: failure)
+    } catch {
+      failure(error)
+    }
+  }
+  
+  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+    apiClient.delete(factor, success: { [weak self] in
+      guard let strongSelf = self else { return }
+      do {
+        try strongSelf.storage.removeValue(for: factor.sid)
+        success()
+      } catch {
+        failure(error)
+      }
+    }, failure: failure)
+  }
+  
+  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock) {
+    do {
+      let factors = try storage.getAll().compactMap {
+        try? factorMapper.fromStorage(withData: $0)
+      }
+      success(factors)
+    } catch {
       failure(error)
     }
   }

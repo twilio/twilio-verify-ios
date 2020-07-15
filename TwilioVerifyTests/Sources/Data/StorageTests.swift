@@ -53,6 +53,28 @@ class StorageTests: XCTestCase {
     }
   }
   
+  func testGetAll_withExistingValue_shouldReturnValues() {
+    var data: [Data?]!
+    let expectedData = [Constants.data]
+    let expectedCallsToMethod = 1
+    secureStorage.objectsData = expectedData
+    
+    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
+    XCTAssertEqual(
+      secureStorage.callsToGetAll,
+      expectedCallsToMethod,
+      "Get all should be called \(expectedCallsToMethod) time but was called \(secureStorage.callsToGet) times"
+    )
+  }
+  
+  func testGetAll_withError_shouldThrow() {
+    secureStorage.error = TestError.operationFailed
+    XCTAssertThrowsError(try storage.getAll(), "GetAll should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
   func testRemoveValue_successfully_shouldNotThrow() {
     XCTAssertNoThrow(try storage.removeValue(for: Constants.key), "Remove value should not throw")
   }

@@ -1,5 +1,5 @@
 //
-//  ChallengeListInput.swift
+//  ChallengeListPayload.swift
 //  TwilioVerify
 //
 //  Created by Sergio Fierro on 6/2/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ChallengeListInput {
+public struct ChallengeListPayload {
   let factorSid: String
   let pageSize: Int
   var status: ChallengeStatus? = nil

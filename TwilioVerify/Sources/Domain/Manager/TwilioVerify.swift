@@ -8,52 +8,58 @@
 
 import Foundation
 
+public typealias FactorSuccessBlock = (Factor) -> ()
+public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
+public typealias ChallengeSuccessBlock = (Challenge) -> ()
+public typealias FactorListSuccessBlock = ([Factor]) -> ()
+public typealias EmptySuccessBlock = () -> ()
+
 public protocol TwilioVerify {
   func createFactor(
-    withInput input: FactorInput,
+    withPayload payload: FactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
   func verifyFactor(
-    withInput input: VerifyFactorInput,
+    withPayload payload: VerifyFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func updateFactor(
-    withInput input: UpdateFactorInput,
+    withPayload payload: UpdateFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func getAllFactors(
-    success: ([Factor]) -> (),
-    failure: @escaping TwilioVerifyErrorBlock
-  )
-
-  func getChallenge(
-    challengeSid: String,
-    factorSid: String,
-    success: (Challenge) -> (),
-    failure: @escaping TwilioVerifyErrorBlock
-  )
-
-  func getAllChallenges(
-    withInput input: ChallengeListInput,
-    success: (ChallengeList) -> (),
-    failure: @escaping TwilioVerifyErrorBlock
-  )
-
-  func updateChallenge(
-    withInput input: UpdateChallengeInput,
-    success: () -> (),
+    success: @escaping FactorListSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
   func deleteFactor(
     withSid sid: String,
-    success: @escaping () -> (),
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+  
+  func getChallenge(
+    challengeSid: String,
+    factorSid: String,
+    success: @escaping ChallengeSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+
+  func updateChallenge(
+    withPayload payload: UpdateChallengePayload,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+  
+  func getAllChallenges(
+    withPayload payload: ChallengeListPayload,
+    success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
 }
@@ -71,6 +77,10 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
+    guard let baseURL = Bundle(for: TwilioVerifyBuilder.self).object(forInfoDictionaryKey: Constants.baseURLKey) as? String else {
+        return
+    }
+    self.baseURL = Constants.httpsPrefix + baseURL
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -78,7 +88,7 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  public func setURL(_ url: String) -> Self {
+  func setURL(_ url: String) -> Self {
     self.baseURL = url
     return self
   }
@@ -90,6 +100,21 @@ public class TwilioVerifyBuilder {
       .setURL(baseURL)
       .setAuthentication(authentication)
       .build()
-    return TwilioVerifyManager(factorFacade: factorFacade)
+    let challengeFacade = ChallengeFacade.Builder()
+      .setNetworkProvider(networkProvider)
+      .setJWTGenerator(jwtGenerator)
+      .setURL(baseURL)
+      .setAuthentication(authentication)
+      .setFactorFacade(factorFacade)
+      .build()
+    return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
   }
 }
+
+private extension TwilioVerifyBuilder {
+  struct Constants {
+    static let baseURLKey = "BaseURL"
+    static let httpsPrefix = "https://"
+  }
+}
+

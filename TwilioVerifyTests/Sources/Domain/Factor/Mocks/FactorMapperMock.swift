@@ -12,14 +12,17 @@ import Foundation
 class FactorMapperMock {
   var expectedFactor: Factor?
   var expectedData: Data?
+  var expectedDataList: [Data]?
   var expectedStatusData: Data?
-  var expectedFactorPayload: FactorPayload?
+  var expectedFactorPayload: FactorDataPayload?
   var error: Error?
+  var fromAPIError: Error?
+  private(set) var callToFromStorage = 0
 }
 
 extension FactorMapperMock: FactorMapperProtocol {
-  func fromAPI(withData data: Data, factorPayload: FactorPayload) throws -> Factor {
-    if let error = error {
+  func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor {
+    if let error = fromAPIError {
       throw error
     }
     if let expectedData = expectedData, let expectedFactorPayload = expectedFactorPayload, expectedData == data, expectedFactorPayload.entity == factorPayload.entity
@@ -47,6 +50,10 @@ extension FactorMapperMock: FactorMapperProtocol {
       return try JSONDecoder().decode(PushFactor.self, from: data)
     }
     if let expectedData = expectedData {
+      return try JSONDecoder().decode(PushFactor.self, from: expectedData)
+    }
+    if let expectedData = expectedDataList?[callToFromStorage] {
+      callToFromStorage += 1
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }
     fatalError("Expected params not set")
