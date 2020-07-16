@@ -10,15 +10,30 @@ import XCTest
 
 class URLSessionMock: URLSession {
   
-  private let urlSessionDataTask: URLSessionDataTaskMock
+  private let urlSessionDataTask: URLSessionDataTaskMock?
+  var urlSessionDataTasks: [URLSessionDataTaskMock]?
+  private(set) var callsToDataTask = -1
   
   init(data: Data?, httpURLResponse: HTTPURLResponse?, error: Error?) {
     urlSessionDataTask = URLSessionDataTaskMock(data: data, httpURLResponse: httpURLResponse, requestError: error)
   }
   
+  init(urlSessionDataTasks: [URLSessionDataTaskMock]) {
+    self.urlSessionDataTasks = urlSessionDataTasks
+    urlSessionDataTask = nil
+  }
+  
   override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-    urlSessionDataTask.completionHandler = completionHandler
-    return urlSessionDataTask
+    if let urlSessionDataTask = urlSessionDataTask {
+      urlSessionDataTask.completionHandler = completionHandler
+      return urlSessionDataTask
+    }
+    if let urlSessionDataTasks = urlSessionDataTasks {
+      callsToDataTask += 1
+      urlSessionDataTasks[callsToDataTask].completionHandler = completionHandler
+      return urlSessionDataTasks[callsToDataTask]
+    }
+    fatalError("Expected params not set")
   }
 }
 

@@ -175,7 +175,7 @@ class TwilioVerifyTests: XCTestCase {
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(factors.first?.sid, Constants.expectedFactorSid, "Factor should be \(Constants.expectedFactorSid) but was \(factors.first!.sid)")
+    XCTAssertNotNil(factors.first(where: { $0.sid == Constants.expectedFactorSid }), "Factor should exists")
   }
   
   func testGetAllChallenges_shouldSucceed() {
