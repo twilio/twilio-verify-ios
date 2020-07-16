@@ -30,7 +30,7 @@
 		F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6537E24BF7AA900C6D70C /* DateFormatter+Extensions.swift */; };
 		F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6538024BF7BB600C6D70C /* ChallengeTableViewCell.swift */; };
 		F2B6538324BF7BB600C6D70C /* ChallengeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2B6538124BF7BB600C6D70C /* ChallengeTableViewCell.xib */; };
-		F2CFC41B24A56E6B008430B6 /* FactorListViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */; };
+		F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */; };
 		F2CFC41E24A575FA008430B6 /* FactorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41C24A575FA008430B6 /* FactorTableViewCell.swift */; };
 		F2CFC41F24A575FA008430B6 /* FactorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2CFC41D24A575FA008430B6 /* FactorTableViewCell.xib */; };
 		F2DBF5CB24903879007FEDAC /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */; };
@@ -91,7 +91,7 @@
 		F2B6538024BF7BB600C6D70C /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
 		F2B6538124BF7BB600C6D70C /* ChallengeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeTableViewCell.xib; sourceTree = "<group>"; };
 		F2CC679024B5122B000CB11E /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListViewPresenter.swift; sourceTree = "<group>"; };
+		F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListPresenter.swift; sourceTree = "<group>"; };
 		F2CFC41C24A575FA008430B6 /* FactorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorTableViewCell.swift; sourceTree = "<group>"; };
 		F2CFC41D24A575FA008430B6 /* FactorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactorTableViewCell.xib; sourceTree = "<group>"; };
 		F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,7 +224,7 @@
 		F297F62224A5470400294A0D /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */,
+				F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -441,7 +441,7 @@
 				F275353F24A52C05005A5605 /* CreateFactorPresenter.swift in Sources */,
 				F2B6537B24BF6F3E00C6D70C /* FactorDetailViewController.swift in Sources */,
 				F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */,
-				F2CFC41B24A56E6B008430B6 /* FactorListViewPresenter.swift in Sources */,
+				F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */,
 				F2AA37C7246F323C00B9388F /* CreateFactorViewController.swift in Sources */,
 				F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */,
 				F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */,

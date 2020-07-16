@@ -27,7 +27,6 @@ class CreateFactorViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     presenter = CreateFactorPresenter(withView: self)
-    presenter.registerForPushNotifications()
     setupUI()
   }
   
