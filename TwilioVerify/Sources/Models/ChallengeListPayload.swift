@@ -9,8 +9,15 @@
 import Foundation
 
 public struct ChallengeListPayload {
-  let factorSid: String
-  let pageSize: Int
-  var status: ChallengeStatus? = nil
-  var pageToken: String? = nil
+  public let factorSid: String
+  public let pageSize: Int
+  public var status: ChallengeStatus? = nil
+  public var pageToken: String? = nil
+  
+  public init(factorSid: String, pageSize: Int, status: ChallengeStatus? = nil, pageToken: String? = nil) {
+    self.factorSid = factorSid
+    self.pageSize = pageSize
+    self.status = status
+    self.pageToken = pageToken
+  }
 }
