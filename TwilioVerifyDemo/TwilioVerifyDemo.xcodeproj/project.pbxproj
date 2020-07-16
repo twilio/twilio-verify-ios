@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F221391224B50555006B9406 /* BackendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F221391124B50555006B9406 /* BackendListViewController.swift */; };
 		F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */; };
 		F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */; };
 		F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */; };
@@ -63,7 +62,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F221391124B50555006B9406 /* BackendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendListViewController.swift; sourceTree = "<group>"; };
 		F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
 		F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailPresenter.swift; sourceTree = "<group>"; };
 		F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -117,14 +115,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F221391024B5053C006B9406 /* SampleBackendPicker */ = {
-			isa = PBXGroup;
-			children = (
-				F221391124B50555006B9406 /* BackendListViewController.swift */,
-			);
-			path = SampleBackendPicker;
-			sourceTree = "<group>";
-		};
 		F24C243524B6143D00C1B92C /* ChallengeDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +245,6 @@
 				F297F62824A5594F00294A0D /* TwilioVerifyDemo.entitlements */,
 				F24C243524B6143D00C1B92C /* ChallengeDetail */,
 				F2CC678E24B50774000CB11E /* Common */,
-				F221391024B5053C006B9406 /* SampleBackendPicker */,
 				F297F62024A546F500294A0D /* FactorList */,
 				F275354A24A53218005A5605 /* Enrollment */,
 				F275354024A52DA7005A5605 /* TwilioVerify */,
@@ -447,7 +436,6 @@
 				F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */,
 				F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */,
 				F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */,
-				F221391224B50555006B9406 /* BackendListViewController.swift in Sources */,
 				F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */,
 				F275354C24A53229005A5605 /* EnrollmentAPI.swift in Sources */,
 				F297F61F24A5435300294A0D /* EnrollmentResponse.swift in Sources */,

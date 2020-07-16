@@ -81,48 +81,6 @@
             </objects>
             <point key="canvasLocation" x="1335" y="226"/>
         </scene>
-        <!--Sample Backends-->
-        <scene sceneID="kv6-xq-3jr">
-            <objects>
-                <tableViewController id="eC8-JD-eeL" customClass="BackendListViewController" customModule="TwilioVerifyDemo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pZ7-Pm-Fin">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DefaultCell" textLabel="mJz-zT-spy" imageView="zYY-1g-lMe" style="IBUITableViewCellStyleDefault" id="sbg-3G-iY5">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sbg-3G-iY5" id="kqg-A1-pGG">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mJz-zT-spy">
-                                            <rect key="frame" x="59" y="0.0" width="335" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="globe" catalog="system" id="zYY-1g-lMe">
-                                            <rect key="frame" x="22.25" y="12.5" width="19.5" height="18.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="eC8-JD-eeL" id="uT5-rr-VlM"/>
-                            <outlet property="delegate" destination="eC8-JD-eeL" id="ZuN-9d-Usl"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Sample Backends" id="lOb-cU-HmU"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rMe-9K-KZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1346" y="909"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="FJI-eY-0rX">
             <objects>
@@ -643,32 +601,6 @@
             <point key="canvasLocation" x="594" y="227"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="1H7-o2-s7T">
-            <objects>
-                <navigationController storyboardIdentifier="BackendListView" automaticallyAdjustsScrollViewInsets="NO" id="g16-Dc-60i" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wha-Ip-PRE">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.20746630429999999" green="0.47376841310000001" blue="0.75125902889999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="barTintColor" red="0.20746630429999999" green="0.47376841310000001" blue="0.75125902889999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="eC8-JD-eeL" kind="relationship" relationship="rootViewController" id="A8o-Cb-nUn"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QuM-2J-mXI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="593" y="909"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="LdO-W2-Pby">
             <objects>
                 <navigationController storyboardIdentifier="ChallengeView" automaticallyAdjustsScrollViewInsets="NO" id="cIM-pR-9J3" sceneMemberID="viewController">
@@ -699,7 +631,4 @@
         <segue reference="rys-OU-Wxz"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.20746630429999999" green="0.47376841310000001" blue="0.75125902889999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-    <resources>
-        <image name="globe" catalog="system" width="128" height="121"/>
-    </resources>
 </document>
