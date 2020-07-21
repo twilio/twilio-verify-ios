@@ -2,7 +2,7 @@
 //  ChallengeDetailViewController.swift
 //  TwilioVerifyDemo
 //
-//  Created by Santiago  Avila on 7/8/20.
+//  Created by Santiago Avila on 7/8/20.
 //  Copyright © 2020 Twilio. All rights reserved.
 //
 
@@ -42,7 +42,6 @@ class ChallengeDetailViewController: UIViewController {
     }
   }
   
-  
   @IBAction func updateChallenge(_ sender: UIButton) {
     presenter.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
   }
@@ -59,11 +58,8 @@ extension ChallengeDetailViewController: ChallengeDetailView {
     }
     detailsTextView.text = detailText
     detailsHeightConstraint.constant = detailsTextView.contentSize.height
-    let formatter = DateFormatter()
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    formatter.dateFormat = "MMM d yyy, h:mm a"
-    expirationDateLabel.text = formatter.string(from: presenter.challenge.expirationDate)
-    updatedDateLabel.text = formatter.string(from: presenter.challenge.updatedAt)
+    expirationDateLabel.text = presenter.challenge.expirationDate.verifyStringFormat()
+    updatedDateLabel.text = presenter.challenge.updatedAt.verifyStringFormat()
     buttonsContainer.isHidden = !(presenter.challenge.status == .pending)
     detailsTextView.layoutSubviews()
   }
@@ -82,3 +78,4 @@ private extension ChallengeDetailViewController {
     buttonsContainer.isHidden = true
   }
 }
+

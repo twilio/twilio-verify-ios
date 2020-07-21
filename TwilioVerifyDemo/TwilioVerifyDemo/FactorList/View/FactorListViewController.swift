@@ -27,6 +27,7 @@ class FactorListViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    presenter.registerForPushNotifications()
     presenter.getFactors()
   }
   
@@ -36,6 +37,14 @@ class FactorListViewController: UIViewController {
     }
     present(navController, animated: true, completion: nil)
     navController.presentationController?.delegate = self
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let factorDetailView = segue.destination as? FactorDetailViewController,
+          let index = sender as? Int else {
+      return
+    }
+    factorDetailView.presenter = FactorDetailPresenter(withView: factorDetailView, factor: presenter.factor(at: index))
   }
 }
 
@@ -69,7 +78,7 @@ extension FactorListViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension FactorListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+    performSegue(withIdentifier: Constants.factorDetailSegueId, sender: indexPath.row)
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -98,6 +107,7 @@ private extension FactorListViewController {
     static let createFactorView = "CreateFactorView"
     static let storyboardId = "Main"
     static let delete = "Delete"
+    static let factorDetailSegueId = "FactorDetail"
   }
   
   func setupUI() {

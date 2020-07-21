@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F221391224B50555006B9406 /* BackendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F221391124B50555006B9406 /* BackendListViewController.swift */; };
 		F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */; };
 		F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */; };
 		F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */; };
@@ -25,7 +24,12 @@
 		F2AA37DA246F323F00B9388F /* TwilioVerifyDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37D9246F323F00B9388F /* TwilioVerifyDemoTests.swift */; };
 		F2AA37E6246F325800B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA37E5246F325800B9388F /* TwilioVerify.framework */; };
 		F2AA37E7246F325800B9388F /* TwilioVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA37E5246F325800B9388F /* TwilioVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F2CFC41B24A56E6B008430B6 /* FactorListViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */; };
+		F2B6537B24BF6F3E00C6D70C /* FactorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6537A24BF6F3E00C6D70C /* FactorDetailViewController.swift */; };
+		F2B6537D24BF6FB000C6D70C /* FactorDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6537C24BF6FB000C6D70C /* FactorDetailPresenter.swift */; };
+		F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6537E24BF7AA900C6D70C /* DateFormatter+Extensions.swift */; };
+		F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6538024BF7BB600C6D70C /* ChallengeTableViewCell.swift */; };
+		F2B6538324BF7BB600C6D70C /* ChallengeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2B6538124BF7BB600C6D70C /* ChallengeTableViewCell.xib */; };
+		F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */; };
 		F2CFC41E24A575FA008430B6 /* FactorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41C24A575FA008430B6 /* FactorTableViewCell.swift */; };
 		F2CFC41F24A575FA008430B6 /* FactorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2CFC41D24A575FA008430B6 /* FactorTableViewCell.xib */; };
 		F2DBF5CB24903879007FEDAC /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */; };
@@ -58,7 +62,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F221391124B50555006B9406 /* BackendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendListViewController.swift; sourceTree = "<group>"; };
 		F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
 		F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailPresenter.swift; sourceTree = "<group>"; };
 		F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -80,8 +83,13 @@
 		F2AA37D9246F323F00B9388F /* TwilioVerifyDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyDemoTests.swift; sourceTree = "<group>"; };
 		F2AA37DB246F323F00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2AA37E5246F325800B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2B6537A24BF6F3E00C6D70C /* FactorDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorDetailViewController.swift; sourceTree = "<group>"; };
+		F2B6537C24BF6FB000C6D70C /* FactorDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorDetailPresenter.swift; sourceTree = "<group>"; };
+		F2B6537E24BF7AA900C6D70C /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		F2B6538024BF7BB600C6D70C /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
+		F2B6538124BF7BB600C6D70C /* ChallengeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeTableViewCell.xib; sourceTree = "<group>"; };
 		F2CC679024B5122B000CB11E /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListViewPresenter.swift; sourceTree = "<group>"; };
+		F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListPresenter.swift; sourceTree = "<group>"; };
 		F2CFC41C24A575FA008430B6 /* FactorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorTableViewCell.swift; sourceTree = "<group>"; };
 		F2CFC41D24A575FA008430B6 /* FactorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactorTableViewCell.xib; sourceTree = "<group>"; };
 		F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,14 +115,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F221391024B5053C006B9406 /* SampleBackendPicker */ = {
-			isa = PBXGroup;
-			children = (
-				F221391124B50555006B9406 /* BackendListViewController.swift */,
-			);
-			path = SampleBackendPicker;
-			sourceTree = "<group>";
-		};
 		F24C243524B6143D00C1B92C /* ChallengeDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +145,7 @@
 			children = (
 				F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */,
 				F275353424A52150005A5605 /* UITextField+Extensions.swift */,
+				F2B6537E24BF7AA900C6D70C /* DateFormatter+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -213,7 +214,7 @@
 		F297F62224A5470400294A0D /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				F2CFC41A24A56E6B008430B6 /* FactorListViewPresenter.swift */,
+				F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -240,19 +241,15 @@
 		F2AA37C1246F323C00B9388F /* TwilioVerifyDemo */ = {
 			isa = PBXGroup;
 			children = (
+				F2B6537524BF6ED100C6D70C /* FactorDetail */,
+				F297F62824A5594F00294A0D /* TwilioVerifyDemo.entitlements */,
 				F24C243524B6143D00C1B92C /* ChallengeDetail */,
 				F2CC678E24B50774000CB11E /* Common */,
-				F221391024B5053C006B9406 /* SampleBackendPicker */,
-				F297F62824A5594F00294A0D /* TwilioVerifyDemo.entitlements */,
 				F297F62024A546F500294A0D /* FactorList */,
 				F275354A24A53218005A5605 /* Enrollment */,
 				F275354024A52DA7005A5605 /* TwilioVerify */,
 				F275353924A52BCC005A5605 /* CreateFactor */,
 				F275352E24A51C9B005A5605 /* Extensions */,
-				F2AA37C2246F323C00B9388F /* AppDelegate.swift */,
-				F2AA37CB246F323E00B9388F /* Assets.xcassets */,
-				F2AA37CD246F323E00B9388F /* LaunchScreen.storyboard */,
-				F2AA37D0246F323E00B9388F /* Info.plist */,
 			);
 			path = TwilioVerifyDemo;
 			sourceTree = "<group>";
@@ -276,9 +273,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F2B6537524BF6ED100C6D70C /* FactorDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F2B6537724BF6EE200C6D70C /* Presenter */,
+				F2B6537624BF6EDA00C6D70C /* View */,
+			);
+			path = FactorDetail;
+			sourceTree = "<group>";
+		};
+		F2B6537624BF6EDA00C6D70C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F2B6537A24BF6F3E00C6D70C /* FactorDetailViewController.swift */,
+				F2B6538024BF7BB600C6D70C /* ChallengeTableViewCell.swift */,
+				F2B6538124BF7BB600C6D70C /* ChallengeTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F2B6537724BF6EE200C6D70C /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F2B6537C24BF6FB000C6D70C /* FactorDetailPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		F2CC678E24B50774000CB11E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F2AA37D0246F323E00B9388F /* Info.plist */,
+				F2AA37CD246F323E00B9388F /* LaunchScreen.storyboard */,
+				F2AA37CB246F323E00B9388F /* Assets.xcassets */,
+				F2AA37C2246F323C00B9388F /* AppDelegate.swift */,
 				F2CC678F24B5077B000CB11E /* View */,
 			);
 			path = Common;
@@ -376,6 +404,7 @@
 			files = (
 				F2AA37CF246F323E00B9388F /* LaunchScreen.storyboard in Resources */,
 				F2AA37CC246F323E00B9388F /* Assets.xcassets in Resources */,
+				F2B6538324BF7BB600C6D70C /* ChallengeTableViewCell.xib in Resources */,
 				F2CFC41F24A575FA008430B6 /* FactorTableViewCell.xib in Resources */,
 				F2AA37CA246F323C00B9388F /* Main.storyboard in Resources */,
 			);
@@ -395,20 +424,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2B6537D24BF6FB000C6D70C /* FactorDetailPresenter.swift in Sources */,
 				F297F62424A5472300294A0D /* FactorListViewController.swift in Sources */,
 				F2CFC41E24A575FA008430B6 /* FactorTableViewCell.swift in Sources */,
 				F275353F24A52C05005A5605 /* CreateFactorPresenter.swift in Sources */,
+				F2B6537B24BF6F3E00C6D70C /* FactorDetailViewController.swift in Sources */,
 				F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */,
-				F2CFC41B24A56E6B008430B6 /* FactorListViewPresenter.swift in Sources */,
+				F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */,
 				F2AA37C7246F323C00B9388F /* CreateFactorViewController.swift in Sources */,
 				F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */,
+				F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */,
 				F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */,
 				F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */,
-				F221391224B50555006B9406 /* BackendListViewController.swift in Sources */,
 				F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */,
 				F275354C24A53229005A5605 /* EnrollmentAPI.swift in Sources */,
 				F297F61F24A5435300294A0D /* EnrollmentResponse.swift in Sources */,
 				F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */,
+				F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,7 +609,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				INFOPLIST_FILE = TwilioVerifyDemo/Info.plist;
+				INFOPLIST_FILE = TwilioVerifyDemo/Common/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -601,7 +633,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				INFOPLIST_FILE = TwilioVerifyDemo/Info.plist;
+				INFOPLIST_FILE = TwilioVerifyDemo/Common/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

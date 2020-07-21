@@ -9,12 +9,10 @@
 import UIKit
 import Foundation
 import TwilioVerify
-import UserNotifications
 
 protocol CreateFactorPresentable {
   func create(withIdentity identity: String?, enrollmentURL: String?)
   func enrollmentURL() -> String?
-  func registerForPushNotifications()
 }
 
 class CreateFactorPresenter {
@@ -33,21 +31,6 @@ class CreateFactorPresenter {
 }
 
 extension CreateFactorPresenter: CreateFactorPresentable {
-  func registerForPushNotifications() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-      guard granted else {
-        return
-      }
-      UNUserNotificationCenter.current().getNotificationSettings { settings in
-        guard settings.authorizationStatus == .authorized else { return }
-        DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
-        }
-      }
-    }
-    
-  }
-  
   func create(withIdentity identity: String?, enrollmentURL: String?) {
     guard let identity = identity, !identity.isEmpty else {
       view?.showAlert(withMessage: "Invalid Entity")
