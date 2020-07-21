@@ -27,6 +27,7 @@ class FactorListViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    presenter.registerForPushNotifications()
     presenter.getFactors()
   }
   

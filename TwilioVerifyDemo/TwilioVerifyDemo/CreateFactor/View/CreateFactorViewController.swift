@@ -27,7 +27,6 @@ class CreateFactorViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     presenter = CreateFactorPresenter(withView: self)
-    presenter.registerForPushNotifications()
     setupUI()
   }
   
@@ -41,10 +40,6 @@ class CreateFactorViewController: UIViewController {
     let url = enrollmentURLTextField.text
     loader.startAnimating()
     presenter.create(withIdentity: identity, enrollmentURL: url)
-  }
-  
-  override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-    pickSampleBackend()
   }
 }
 
@@ -78,18 +73,6 @@ private extension CreateFactorViewController {
     identityTextField.addBottomBorder()
     enrollmentURLTextField.addBottomBorder()
     createButton.layer.cornerRadius = 8
-  }
-  
-  func pickSampleBackend() {
-    guard let navController = backendListViewController() as? UINavigationController,
-          let backendListView = navController.viewControllers.first as? BackendListViewController else {
-      return
-    }
-    backendListView.callback = { [weak self] url in
-      guard let strongSelf = self else { return }
-      strongSelf.enrollmentURLTextField.text = url
-    }
-    present(navController, animated: true, completion: nil)
   }
   
   func backendListViewController() -> UIViewController {

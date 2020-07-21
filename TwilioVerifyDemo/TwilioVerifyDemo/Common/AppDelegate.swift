@@ -36,7 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     let deviceTokenString = deviceToken.map { data in String(format: "%02.2hhx", data) }.joined()
-    UserDefaults.standard.set(deviceTokenString, forKey: "PushToken")
+    let tokenInServer = UserDefaults.standard.object(forKey: "PushToken") as? String ?? String()
+    
+    if tokenInServer != deviceTokenString {
+      UserDefaults.standard.set(true, forKey: "ShouldUpdatePushToken")
+      UserDefaults.standard.set(deviceTokenString, forKey: "PushToken")
+    } else {
+      UserDefaults.standard.set(false, forKey: "ShouldUpdatePushToken")
+    }
   }
   
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

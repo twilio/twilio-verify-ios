@@ -12,7 +12,12 @@ public protocol UpdateFactorPayload {
   var sid: String { get }
 }
 
-struct UpdatePushFactorPayload: UpdateFactorPayload {
-  let sid: String
-  let pushToken: String
+public struct UpdatePushFactorPayload: UpdateFactorPayload {
+  public let sid: String
+  public let pushToken: String
+  
+  public init(sid: String, pushToken: String) {
+    self.sid = sid
+    self.pushToken = pushToken
+  }
 }

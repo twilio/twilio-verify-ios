@@ -44,6 +44,15 @@ extension TwilioVerifyAdapter: TwilioVerify {
   }
   
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    twilioVerify.updateFactor(withPayload: payload, success: { factor in
+      DispatchQueue.main.async {
+        success(factor)
+      }
+    }) { error in
+      DispatchQueue.main.async {
+        failure(error)
+      }
+    }
   }
   
   func getAllFactors(success: @escaping FactorListSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
