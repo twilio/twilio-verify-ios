@@ -8,6 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
+		2016FD8624C0EBFF00AECDF4 /* CreateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD8524C0EBFF00AECDF4 /* CreateFactorTests.swift */; };
+		2016FD8824C0EFF400AECDF4 /* create_factor_valid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD8724C0EFF400AECDF4 /* create_factor_valid_response.json */; };
+		2016FD8A24C0F8FA00AECDF4 /* invalid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD8924C0F8FA00AECDF4 /* invalid_response.json */; };
+		2016FD8C24C0FAB400AECDF4 /* VerifyFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD8B24C0FAB400AECDF4 /* VerifyFactorTests.swift */; };
+		2016FD8E24C0FB0A00AECDF4 /* BaseFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD8D24C0FB0A00AECDF4 /* BaseFactorTests.swift */; };
+		2016FD9124C0FD4800AECDF4 /* verify_factor_valid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD8F24C0FD4800AECDF4 /* verify_factor_valid_response.json */; };
+		2016FD9424C1018100AECDF4 /* UpdateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD9324C1018100AECDF4 /* UpdateFactorTests.swift */; };
+		2016FD9624C102B300AECDF4 /* DeleteFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD9524C102B300AECDF4 /* DeleteFactorTests.swift */; };
+		2016FD9824C1088300AECDF4 /* UpdateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FD9724C1088300AECDF4 /* UpdateChallengeTests.swift */; };
+		2016FD9C24C10A6900AECDF4 /* get_challenges_valid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD9924C10A6900AECDF4 /* get_challenges_valid_response.json */; };
+		2016FD9D24C10A6900AECDF4 /* get_challenge_pending_valid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD9A24C10A6900AECDF4 /* get_challenge_pending_valid_response.json */; };
+		2016FD9E24C10A6900AECDF4 /* get_challenge_approved_valid_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2016FD9B24C10A6900AECDF4 /* get_challenge_approved_valid_response.json */; };
+		2016FDA124C117FA00AECDF4 /* GetChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FDA024C117FA00AECDF4 /* GetChallengeTests.swift */; };
+		2016FDA324C1186100AECDF4 /* GetAllChallengesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2016FDA224C1186100AECDF4 /* GetAllChallengesTests.swift */; };
 		2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFC2486F712009728E4 /* URLSessionMock.swift */; };
 		2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */; };
 		204227A024A4FB1500CD001B /* ChallengeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2042279F24A4FB1500CD001B /* ChallengeRepository.swift */; };
@@ -208,6 +222,20 @@
 
 /* Begin PBXFileReference section */
 		2003C43F2480232900279BBD /* TwilioVerifyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
+		2016FD8524C0EBFF00AECDF4 /* CreateFactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFactorTests.swift; sourceTree = "<group>"; };
+		2016FD8724C0EFF400AECDF4 /* create_factor_valid_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = create_factor_valid_response.json; sourceTree = "<group>"; };
+		2016FD8924C0F8FA00AECDF4 /* invalid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalid_response.json; sourceTree = "<group>"; };
+		2016FD8B24C0FAB400AECDF4 /* VerifyFactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFactorTests.swift; sourceTree = "<group>"; };
+		2016FD8D24C0FB0A00AECDF4 /* BaseFactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFactorTests.swift; sourceTree = "<group>"; };
+		2016FD8F24C0FD4800AECDF4 /* verify_factor_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verify_factor_valid_response.json; sourceTree = "<group>"; };
+		2016FD9324C1018100AECDF4 /* UpdateFactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFactorTests.swift; sourceTree = "<group>"; };
+		2016FD9524C102B300AECDF4 /* DeleteFactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFactorTests.swift; sourceTree = "<group>"; };
+		2016FD9724C1088300AECDF4 /* UpdateChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChallengeTests.swift; sourceTree = "<group>"; };
+		2016FD9924C10A6900AECDF4 /* get_challenges_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_challenges_valid_response.json; sourceTree = "<group>"; };
+		2016FD9A24C10A6900AECDF4 /* get_challenge_pending_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_challenge_pending_valid_response.json; sourceTree = "<group>"; };
+		2016FD9B24C10A6900AECDF4 /* get_challenge_approved_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_challenge_approved_valid_response.json; sourceTree = "<group>"; };
+		2016FDA024C117FA00AECDF4 /* GetChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChallengeTests.swift; sourceTree = "<group>"; };
+		2016FDA224C1186100AECDF4 /* GetAllChallengesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAllChallengesTests.swift; sourceTree = "<group>"; };
 		2019ABFC2486F712009728E4 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapterTests.swift; sourceTree = "<group>"; };
 		2042279F24A4FB1500CD001B /* ChallengeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRepository.swift; sourceTree = "<group>"; };
@@ -389,6 +417,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2016FD8424C0EBED00AECDF4 /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				2016FD9F24C10A8100AECDF4 /* APIResponses */,
+				2016FD8524C0EBFF00AECDF4 /* CreateFactorTests.swift */,
+				2016FD8B24C0FAB400AECDF4 /* VerifyFactorTests.swift */,
+				2016FD8D24C0FB0A00AECDF4 /* BaseFactorTests.swift */,
+				2016FD9324C1018100AECDF4 /* UpdateFactorTests.swift */,
+				2016FD9524C102B300AECDF4 /* DeleteFactorTests.swift */,
+				2016FD9724C1088300AECDF4 /* UpdateChallengeTests.swift */,
+				2016FDA024C117FA00AECDF4 /* GetChallengeTests.swift */,
+				2016FDA224C1186100AECDF4 /* GetAllChallengesTests.swift */,
+			);
+			path = Integration;
+			sourceTree = "<group>";
+		};
+		2016FD9F24C10A8100AECDF4 /* APIResponses */ = {
+			isa = PBXGroup;
+			children = (
+				2016FD8724C0EFF400AECDF4 /* create_factor_valid_response.json */,
+				2016FD8924C0F8FA00AECDF4 /* invalid_response.json */,
+				2016FD8F24C0FD4800AECDF4 /* verify_factor_valid_response.json */,
+				2016FD9B24C10A6900AECDF4 /* get_challenge_approved_valid_response.json */,
+				2016FD9A24C10A6900AECDF4 /* get_challenge_pending_valid_response.json */,
+				2016FD9924C10A6900AECDF4 /* get_challenges_valid_response.json */,
+			);
+			path = APIResponses;
+			sourceTree = "<group>";
+		};
 		2019ABFB2486F6FD009728E4 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,6 +598,7 @@
 		20B8A3EB2485581D003F69EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2016FD8424C0EBED00AECDF4 /* Integration */,
 				F05A319C2493E26C0098F49C /* Models */,
 				F207BBB324901E5300688E5C /* Data */,
 				20C710C9248AAB0100B0F448 /* Domain */,
@@ -1178,6 +1236,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2016FD9D24C10A6900AECDF4 /* get_challenge_pending_valid_response.json in Resources */,
+				2016FD9124C0FD4800AECDF4 /* verify_factor_valid_response.json in Resources */,
+				2016FD9E24C10A6900AECDF4 /* get_challenge_approved_valid_response.json in Resources */,
+				2016FD8824C0EFF400AECDF4 /* create_factor_valid_response.json in Resources */,
+				2016FD9C24C10A6900AECDF4 /* get_challenges_valid_response.json in Resources */,
+				2016FD8A24C0F8FA00AECDF4 /* invalid_response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1272,15 +1336,19 @@
 				F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */,
 				F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
+				2016FD8C24C0FAB400AECDF4 /* VerifyFactorTests.swift in Sources */,
 				F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */,
 				20C36FEF24914B7C00DF6C0E /* FactorMapperMock.swift in Sources */,
 				F07B6F5D2492CB2600948FB1 /* AuthenticationProviderTests.swift in Sources */,
 				2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */,
 				F2E6C9F62492DD1F00922FBA /* PushFactoryTests.swift in Sources */,
 				F0261C6824A56DB2007881E9 /* ChallengeMock.swift in Sources */,
+				2016FD9824C1088300AECDF4 /* UpdateChallengeTests.swift in Sources */,
 				2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */,
 				20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */,
 				2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */,
+				2016FDA124C117FA00AECDF4 /* GetChallengeTests.swift in Sources */,
+				2016FD9624C102B300AECDF4 /* DeleteFactorTests.swift in Sources */,
 				20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */,
 				2086796324ABD45E00D1F0B9 /* ChallengeFacadeMock.swift in Sources */,
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
@@ -1293,6 +1361,7 @@
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
 				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
+				2016FD8624C0EBFF00AECDF4 /* CreateFactorTests.swift in Sources */,
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
@@ -1312,8 +1381,11 @@
 				2086796124ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift in Sources */,
 				20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */,
 				20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */,
+				2016FD9424C1018100AECDF4 /* UpdateFactorTests.swift in Sources */,
 				2060D00024857976001DD494 /* ParametersTests.swift in Sources */,
+				2016FDA324C1186100AECDF4 /* GetAllChallengesTests.swift in Sources */,
 				F07B6F572492CA5900948FB1 /* JwtSignerMock.swift in Sources */,
+				2016FD8E24C0FB0A00AECDF4 /* BaseFactorTests.swift in Sources */,
 				F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */,
 				F07B6F5A2492CA6700948FB1 /* JwtGeneratorMock.swift in Sources */,
 			);
