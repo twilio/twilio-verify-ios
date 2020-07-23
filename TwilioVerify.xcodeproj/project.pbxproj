@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		F216C2AF24C904F900AFC3A1 /* TwilioSecuritySDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F216C2B324C904F900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioSecuritySDK" */;
+			buildPhases = (
+				F216C2B424C9051800AFC3A1 /* Build Universal Framework */,
+			);
+			dependencies = (
+			);
+			name = TwilioSecuritySDK;
+			productName = TwilioSecuritySDK;
+		};
+		F216C2B524C9057900AFC3A1 /* TwilioVerifySDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F216C2B624C9057900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioVerifySDK" */;
+			buildPhases = (
+				F216C2BA24C9058700AFC3A1 /* Build Universal Framework */,
+			);
+			dependencies = (
+			);
+			name = TwilioVerifySDK;
+			productName = TwilioVerifySDK;
+		};
 		F2FB79BF2489A36D004B22E6 /* Universal Builder */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = F2FB79C22489A36D004B22E6 /* Build configuration list for PBXAggregateTarget "Universal Builder" */;
@@ -1111,6 +1133,8 @@
 				F2F62F9A248846D800E330E4 /* Frameworks */,
 				F2F62F9B248846D800E330E4 /* Resources */,
 				2048754824A2A11A00D70FAA /* Embed Frameworks */,
+				F2E500B724C9309C00BCC7AF /* ShellScript */,
+				F2E500B824C930BC00BCC7AF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1133,6 +1157,12 @@
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = Twilio;
 				TargetAttributes = {
+					F216C2AF24C904F900AFC3A1 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					F216C2B524C9057900AFC3A1 = {
+						CreatedOnToolsVersion = 11.6;
+					};
 					F2AA3777246F30BE00B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
 						LastSwiftMigration = 1150;
@@ -1174,6 +1204,8 @@
 				F2AA379E246F313500B9388F /* TwilioSecurityTests */,
 				F2F62F9C248846D800E330E4 /* HostApp */,
 				F2FB79BF2489A36D004B22E6 /* Universal Builder */,
+				F216C2AF24C904F900AFC3A1 /* TwilioSecuritySDK */,
+				F216C2B524C9057900AFC3A1 /* TwilioVerifySDK */,
 			);
 		};
 /* End PBXProject section */
@@ -1220,6 +1252,76 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F216C2B424C9051800AFC3A1 /* Build Universal Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Universal Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nCONFIGURATION_DEBUG=\"Release\"\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION_DEBUG}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"TwilioSecurity\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean install\n\nxcodebuild -target \"TwilioSecurity\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphonesimulator BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean install\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/TwilioSecurity.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 4a. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/TwilioSecurity.framework/TwilioSecurity\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/TwilioSecurity.framework/TwilioSecurity\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/TwilioSecurity.framework/TwilioSecurity\"\n\n# Step 4b. Copy strip-frameworks script to SDK folder\ncp \"${SRCROOT}/Scripts/strip-frameworks.sh\" \"${UNIVERSAL_OUTPUTFOLDER}/TwilioSecurity.framework/\"\n\n# Step 5. Remove old versions of framework from Desktop\nrm -rf \"${HOME}/Desktop/TwilioSecurity.framework\"\n\n# Step 6. Copy framework to Desktop\nditto \"${UNIVERSAL_OUTPUTFOLDER}/TwilioSecurity.framework\" \"${HOME}/Desktop/TwilioSecurity.framework\"\n\n# Step 7. Convenience step to open the project's directory in Finder\nopen \"${HOME}/Desktop/\"\n";
+		};
+		F216C2BA24C9058700AFC3A1 /* Build Universal Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Universal Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nCONFIGURATION_DEBUG=\"Release\"\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION_DEBUG}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild \\\n-target \"TwilioVerify\" \\\n ONLY_ACTIVE_ARCH=NO \\\n-configuration \"${CONFIGURATION_DEBUG}\" \\\n-sdk iphoneos \\\nBUILD_DIR=\"${BUILD_DIR}\" \\\nBUILD_ROOT=\"${BUILD_ROOT}\" \\\nclean install CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\nxcodebuild \\\n-target \"TwilioVerify\" \\\nONLY_ACTIVE_ARCH=NO \\\n-configuration \\\n\"${CONFIGURATION_DEBUG}\" \\\n-sdk iphonesimulator \\\nBUILD_DIR=\"${BUILD_DIR}\" \\\nBUILD_ROOT=\"${BUILD_ROOT}\" \\\nclean install CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/TwilioVerify.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 4a. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/TwilioVerify.framework/TwilioVerify\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/TwilioVerify.framework/TwilioVerify\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/TwilioVerify.framework/TwilioVerify\"\n\n# Step 4b. Copy strip-frameworks script to SDK folder\ncp \"${SRCROOT}/Scripts/strip-frameworks.sh\" \"${UNIVERSAL_OUTPUTFOLDER}/TwilioVerify.framework/\"\n\n# Step 5. Remove old versions of framework from Desktop\nrm -rf \"${HOME}/Desktop/TwilioVerify.framework\"\n\n# Step 6. Copy framework to Desktop\nditto \"${UNIVERSAL_OUTPUTFOLDER}/TwilioVerify.framework\" \"${HOME}/Desktop/TwilioVerify.framework\"\n\n# Step 7. Convenience step to open the project's directory in Finder\nopen \"${HOME}/Desktop/\"\n";
+		};
+		F2E500B724C9309C00BCC7AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/AppSizer/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\n";
+		};
+		F2E500B824C930BC00BCC7AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/AppSizer/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n";
+		};
 		F2FB79C32489A393004B22E6 /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1453,6 +1555,67 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F216C2AE24C8DCF200AFC3A1 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Universal Builder";
+			};
+			name = Dev;
+		};
+		F216C2B024C904F900AFC3A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F216C2B124C904F900AFC3A1 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Dev;
+		};
+		F216C2B224C904F900AFC3A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F216C2B724C9057900AFC3A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F216C2B824C9057900AFC3A1 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Dev;
+		};
+		F216C2B924C9057900AFC3A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F2AA378A246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F2CFC42524A5A224008430B6 /* Debug.xcconfig */;
@@ -2026,6 +2189,26 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F216C2B324C904F900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioSecuritySDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F216C2B024C904F900AFC3A1 /* Debug */,
+				F216C2B124C904F900AFC3A1 /* Dev */,
+				F216C2B224C904F900AFC3A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F216C2B624C9057900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioVerifySDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F216C2B724C9057900AFC3A1 /* Debug */,
+				F216C2B824C9057900AFC3A1 /* Dev */,
+				F216C2B924C9057900AFC3A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F2AA3772246F30BE00B9388F /* Build configuration list for PBXProject "TwilioVerify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2091,6 +2274,7 @@
 			buildConfigurations = (
 				F2FB79C02489A36D004B22E6 /* Debug */,
 				F2FB79C12489A36D004B22E6 /* Release */,
+				F216C2AE24C8DCF200AFC3A1 /* Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
