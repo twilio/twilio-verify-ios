@@ -10,6 +10,7 @@ public struct ECP256SignerTemplate {
   public var parameters: [Swift.String : Any]
   public var algorithm: Swift.String
   public var signatureAlgorithm: Security.SecKeyAlgorithm
+  public var accessControl: Security.SecAccessControl
   public init(withAlias alias: Swift.String, shouldExist: Swift.Bool) throws
 }
 extension ECP256SignerTemplate : TwilioSecurity.SignerTemplate {
@@ -22,6 +23,7 @@ public protocol Template {
 public protocol SignerTemplate : TwilioSecurity.Template {
   var signatureAlgorithm: Security.SecKeyAlgorithm { get }
   var parameters: [Swift.String : Any] { get }
+  var accessControl: Security.SecAccessControl { get }
 }
 public protocol KeyManagerProtocol {
   func signer(withTemplate template: TwilioSecurity.SignerTemplate) throws -> TwilioSecurity.Signer
@@ -39,6 +41,7 @@ public protocol SecureStorageProvider {
   func save(_ data: Foundation.Data, withKey key: Swift.String) throws
   func get(_ key: Swift.String) throws -> Foundation.Data
   func removeValue(for key: Swift.String) throws
+  func getAll() throws -> [Foundation.Data]
 }
 @_hasMissingDesignatedInitializers public class SecureStorage {
   convenience public init()
@@ -47,6 +50,7 @@ public protocol SecureStorageProvider {
 extension SecureStorage : TwilioSecurity.SecureStorageProvider {
   public func save(_ data: Foundation.Data, withKey key: Swift.String) throws
   public func get(_ key: Swift.String) throws -> Foundation.Data
+  public func getAll() throws -> [Foundation.Data]
   public func removeValue(for key: Swift.String) throws
 }
 public protocol Signer {
