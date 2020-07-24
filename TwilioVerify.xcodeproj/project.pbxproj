@@ -1122,8 +1122,6 @@
 				F2F62F9A248846D800E330E4 /* Frameworks */,
 				F2F62F9B248846D800E330E4 /* Resources */,
 				2048754824A2A11A00D70FAA /* Embed Frameworks */,
-				F2E500B724C9309C00BCC7AF /* ShellScript */,
-				F2E500B824C930BC00BCC7AF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1275,40 +1273,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\n${SRCROOT}/Scripts/build-frameworks.sh TwilioVerify\n";
-		};
-		F2E500B724C9309C00BCC7AF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/AppSizer/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\n";
-		};
-		F2E500B824C930BC00BCC7AF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/AppSizer/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
