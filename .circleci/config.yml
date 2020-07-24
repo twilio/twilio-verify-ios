@@ -84,6 +84,8 @@ commands:
     parameters:
       scheme:
         type: string
+      artifact:
+        type: string
     steps:
       - run:
           name: "Build Universal Framework"
@@ -92,9 +94,9 @@ commands:
           name: "Zip Framework"
           command: |
                   cd ~/Desktop
-                  zip -r << parameters.scheme >>.zip << parameters.scheme >>.framework
+                  zip -r << parameters.artifact >>.zip << parameters.artifact >>.framework
       - store_artifacts:
-          path: ~Desktop/<< parameters.scheme >>.zip
+          path: ~Desktop/<< parameters.artifact >>.zip
 
   build_app_sizer:
     steps:
@@ -135,11 +137,13 @@ jobs:
     steps:
       - build_framework:
           scheme: TwilioSecuritySDK
+          artifact: TwilioSecurity
   Build TwilioVerify:
     executor: macos_executor
     steps:
       - build_framework:
           scheme: TwilioVerifySDK
+          artifact: TwilioVerify
   Size report:
     executor: macos_executor
     steps:
