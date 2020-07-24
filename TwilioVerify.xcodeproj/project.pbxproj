@@ -29,17 +29,6 @@
 			name = TwilioVerifySDK;
 			productName = TwilioVerifySDK;
 		};
-		F2FB79BF2489A36D004B22E6 /* Universal Builder */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = F2FB79C22489A36D004B22E6 /* Build configuration list for PBXAggregateTarget "Universal Builder" */;
-			buildPhases = (
-				F2FB79C32489A393004B22E6 /* Build Universal Framework */,
-			);
-			dependencies = (
-			);
-			name = "Universal Builder";
-			productName = "Universal Builder";
-		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -1203,7 +1192,6 @@
 				F2AA3796246F313500B9388F /* TwilioSecurity */,
 				F2AA379E246F313500B9388F /* TwilioSecurityTests */,
 				F2F62F9C248846D800E330E4 /* HostApp */,
-				F2FB79BF2489A36D004B22E6 /* Universal Builder */,
 				F216C2AF24C904F900AFC3A1 /* TwilioSecuritySDK */,
 				F216C2B524C9057900AFC3A1 /* TwilioVerifySDK */,
 			);
@@ -1268,7 +1256,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nCONFIGURATION_DEBUG=\"Release\"\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION_DEBUG}-universal\nFRAMEWORK_NAME=\"TwilioSecurity\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${FRAMEWORK_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" BITCODE_GENERATION_MODE=bitcode clean build\n\nxcodebuild -target \"${FRAMEWORK_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphonesimulator BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" BITCODE_GENERATION_MODE=bitcode clean build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/${FRAMEWORK_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory\nSIMULATOR_SWIFT_MODULES_DIR=\"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.\"\nif [ -d \"${SIMULATOR_SWIFT_MODULES_DIR}\" ]; then\ncp -R \"${SIMULATOR_SWIFT_MODULES_DIR}\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule\"\nfi\n# Step 4a. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\"\n\n# Step 4b. Copy strip-frameworks script to SDK folder\ncp \"${SRCROOT}/Scripts/strip-frameworks.sh\" \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/\"\n\n# Step 5. Remove old versions of framework from Desktop\nrm -rf \"${HOME}/Desktop/${FRAMEWORK_NAME}.framework\"\n\n# Step 6. Copy framework to Desktop\nditto \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework\" \"${HOME}/Desktop/${FRAMEWORK_NAME}.framework\"\n\n# Step 7. Convenience step to open the project's directory in Finder\nopen \"${HOME}/Desktop/\"\n";
+			shellScript = "#!/bin/sh\n\n${SRCROOT}/Scripts/build-frameworks.sh TwilioSecurity\n";
 		};
 		F216C2BA24C9058700AFC3A1 /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1286,7 +1274,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nCONFIGURATION_DEBUG=\"Release\"\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION_DEBUG}-universal\nFRAMEWORK_NAME=\"TwilioVerify\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${FRAMEWORK_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" BITCODE_GENERATION_MODE=bitcode clean build\n\nxcodebuild -target \"${FRAMEWORK_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration \"${CONFIGURATION_DEBUG}\" -sdk iphonesimulator BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" BITCODE_GENERATION_MODE=bitcode clean build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/${FRAMEWORK_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory\nSIMULATOR_SWIFT_MODULES_DIR=\"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.\"\nif [ -d \"${SIMULATOR_SWIFT_MODULES_DIR}\" ]; then\ncp -R \"${SIMULATOR_SWIFT_MODULES_DIR}\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule\"\nfi\n# Step 4a. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION_DEBUG}-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\"\n\n# Step 4b. Copy strip-frameworks script to SDK folder\ncp \"${SRCROOT}/Scripts/strip-frameworks.sh\" \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/\"\n\n# Step 5. Remove old versions of framework from Desktop\nrm -rf \"${HOME}/Desktop/${FRAMEWORK_NAME}.framework\"\n\n# Step 6. Copy framework to Desktop\nditto \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework\" \"${HOME}/Desktop/${FRAMEWORK_NAME}.framework\"\n\n# Step 7. Convenience step to open the project's directory in Finder\nopen \"${HOME}/Desktop/\"\n";
+			shellScript = "#!/bin/sh\n\n${SRCROOT}/Scripts/build-frameworks.sh TwilioVerify\n";
 		};
 		F2E500B724C9309C00BCC7AF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1321,24 +1309,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/AppSizer/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\n";
-		};
-		F2FB79C32489A393004B22E6 /* Build Universal Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Universal Framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Scripts/build-frameworks.sh Release\n\n#Opens the directory with the frameworks\nopen $SRCROOT/temp/DerivedData/Build/Products/Release-universal\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1555,13 +1525,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F216C2AE24C8DCF200AFC3A1 /* Dev */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "Universal Builder";
-			};
-			name = Dev;
-		};
 		F216C2B024C904F900AFC3A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2168,24 +2131,6 @@
 			};
 			name = Release;
 		};
-		F2FB79C02489A36D004B22E6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		F2FB79C12489A36D004B22E6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2265,16 +2210,6 @@
 				F2F62FAF248846DC00E330E4 /* Debug */,
 				F2CFC42C24A5A2DF008430B6 /* Dev */,
 				F2F62FB0248846DC00E330E4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F2FB79C22489A36D004B22E6 /* Build configuration list for PBXAggregateTarget "Universal Builder" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F2FB79C02489A36D004B22E6 /* Debug */,
-				F2FB79C12489A36D004B22E6 /* Release */,
-				F216C2AE24C8DCF200AFC3A1 /* Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -19,7 +19,7 @@ coverage_directory = '/coverage'
 default_platform(:ios)
 
 platform :ios do
-  desc "TwilioSecurity unit tests"
+  desc "Unit tests"
   lane :test do |options|
     scan(
       scheme: options[:scheme],
@@ -39,6 +39,17 @@ platform :ios do
       proj: "TwilioVerify.xcodeproj",
       html: true,
       verbose: false
+    )
+  end
+
+  lane :build_universal_framework do |options|
+    build_app(
+      silent: true,
+      clean: true,
+      scheme: options[:scheme],
+      workspace: "TwilioVerify.xcworkspace",
+      skip_codesigning: true,
+      skip_archive: true
     )
   end
 end

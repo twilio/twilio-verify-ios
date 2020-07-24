@@ -1,80 +1,42 @@
-#!/bin/bash
+#!/bin/sh
 
-source `dirname $0`/env.sh
-pushd ${BASE_DIR}
+CONFIGURATION="Release"
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
+FRAMEWORK_NAME=$1
+DEVICE_LIBRARY_PATH="${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework"
 
-function make_universal_framework() {
-  if [ ! -d "${BUILD_DIR}/${CONFIGURATION}-iphoneos" ]; then
-    return 0
-  fi
+DEVICE_BCSYMBOLMAP_PATH="${BUILD_DIR}/${CONFIGURATION}-iphoneos"
 
-  if [ ! -d "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator" ]; then
-    return 0
-  fi
+DEVICE_DSYM_PATH="${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework.dSYM"
+SIMULATOR_DSYM_PATH="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework.dSYM"
 
-  FRAMEWORK_NAME=$1
-  FRAMEWORK_PACKAGE="${FRAMEWORK_NAME}.framework"
-  UUIDS=`dwarfdump --uuid "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"`
-  
-  # Note: Important to use the iPhoneOS version of the framework as the basis as the Info.plist contains important values with respect to run-on-device capabililty
-  cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
-  
-  # SIMULATOR_SWIFT_MODULES_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule/."
-  # if [ -d "${SIMULATOR_SWIFT_MODULES_DIR}" ]; then
-  #   cp -R "${SIMULATOR_SWIFT_MODULES_DIR}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/Modules/${FRAMEWORK_NAME}.swiftmodule"
-  # fi
-  
-  lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" \
-               "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}" 
-              #  "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}/${FRAMEWORK_NAME}"
-
-  if [ "${CONFIGURATION}" = "Release" ]; then
-  #   echo Combine Device and Simulator .dSYM files into one
-    cp -av "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/"
-
-    lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
-                 "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}" \
-                 "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_PACKAGE}.dSYM/Contents/Resources/DWARF/${FRAMEWORK_NAME}"
-
-    # Collect the appropriate bcsymbolmap files
-    for bcsymbolmap in `ls ${BUILD_DIR}/${CONFIGURATION}-iphoneos/*.bcsymbolmap`; do 
-      UUID=`basename ${bcsymbolmap} .bcsymbolmap`
-
-      if [ `echo "${UUIDS}" | grep ${UUID} | wc -l` -gt "0" ]; then
-        mkdir -p "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
-        cp -av "${bcsymbolmap}" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/BCSymbolMaps/"
-      fi
-    done
-  fi
-  cp `dirname $0`/strip-frameworks.sh "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_PACKAGE}/"
-}
-
-# Output folder preparation
-rm -rf ${BUILD_DIR}/${CONFIGURATION}*
-rm -rf "${UNIVERSAL_OUTPUTFOLDER}"
+# make sure the output directory exists
 mkdir -p "${UNIVERSAL_OUTPUTFOLDER}"
 
-# determine bitcode generation mode. We only want full bitcode segments for release builds
-BITCODE_MODE=marker
-if [ "${CONFIGURATION}" = "Release" ]; then
-  BITCODE_MODE=bitcode
+# Step 1. Build Device and Simulator versions
+xcodebuild -target "${FRAMEWORK_NAME}" ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" -sdk iphoneos BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BITCODE_GENERATION_MODE=bitcode clean build
+
+xcodebuild -target "${FRAMEWORK_NAME}" ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" -sdk iphonesimulator BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BITCODE_GENERATION_MODE=bitcode clean build
+
+# Step 2. Copy the framework structure (from iphoneos build) to the universal folder
+cp -R "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework" "${UNIVERSAL_OUTPUTFOLDER}/"
+
+# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory
+SIMULATOR_SWIFT_MODULES_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/."
+if [ -d "${SIMULATOR_SWIFT_MODULES_DIR}" ]; then
+cp -R "${SIMULATOR_SWIFT_MODULES_DIR}" "${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule"
 fi
+# Step 4a. Create universal binary file using lipo and place the combined executable in the copied framework directory
+lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}"
 
-# Build the TwilioVideo target which does the framework, unit and integration tests
-for framework in TwilioSecurity TwilioVerify; do
-  for env in iphoneos; do
-    xcodebuild \
-      -workspace TwilioVerify.xcworkspace \
-      -scheme ${framework} \
-      -derivedDataPath ${DERIVED_DATA_DIR} \
-      -configuration ${CONFIGURATION} \
-      -sdk ${env} \
-      clean install CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-${env}
-  done
-done
+# Step 4b. Copy strip-frameworks script to SDK folder
+cp "${SRCROOT}/Scripts/strip-frameworks.sh" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/"
 
-# Combine Device, Simulator .framework files into one
-make_universal_framework TwilioSecurity
-make_universal_framework TwilioVerify
+# Step 5. Remove old versions of framework from Desktop
+rm -rf "${HOME}/Desktop/${FRAMEWORK_NAME}.framework"
 
-popd
+# Step 6. Copy framework to Desktop
+ditto "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework" "${HOME}/Desktop/${FRAMEWORK_NAME}.framework"
+
+# Step 7. Convenience step to open the project's directory in Finder
+open "${HOME}/Desktop/"

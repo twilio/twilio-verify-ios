@@ -20,7 +20,12 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane ios test
 ```
-TwilioSecurity unit tests
+Unit tests
+### ios build_universal_framework
+```
+fastlane ios build_universal_framework
+```
+
 
 ----
 
