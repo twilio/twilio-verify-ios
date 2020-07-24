@@ -125,7 +125,7 @@ commands:
 
 jobs:
   Setup:
-    executor: macos+executor
+    executor: macos_executor
     steps:
       - setup
   TwilioSecurity Unit Tests:
@@ -163,8 +163,13 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - TwilioSecurity Unit Tests
-      - TwilioVerify Unit Tests
+      - Setup
+      - TwilioSecurity Unit Tests:
+          requires:
+            - Setup
+      - TwilioVerify Unit Tests:
+          requires:
+            - Setup
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       - Build TwilioSecurity:
