@@ -23,11 +23,6 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "*/**"
-            - vendor/bundle
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
@@ -79,15 +74,14 @@ commands:
       scheme:
         type: string
     steps:
-      - attach_workspace:
-          at: .
+      - setup
       - run:
           name: Test
           command: bundle exec fastlane test scheme:<< parameters.scheme >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
-
+      
   build_framework:
     parameters:
       scheme:
@@ -95,8 +89,6 @@ commands:
       artifact:
         type: string
     steps:
-      - attach_workspace:
-          at: .
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
@@ -110,8 +102,7 @@ commands:
 
   build_app_sizer:
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
+      - setup
       - use_system_ruby
       # - build_frameworks
       # - run:
@@ -128,10 +119,6 @@ commands:
           command: ./Scripts/build-app-sizer.sh
 
 jobs:
-  Setup:
-    executor: macos_executor
-    steps:
-      - setup
   TwilioSecurity Unit Tests:
     executor: macos_executor
     steps:
@@ -167,13 +154,8 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Setup
-      - TwilioSecurity Unit Tests:
-          requires:
-            - Setup
-      - TwilioVerify Unit Tests:
-          requires:
-            - Setup
+      - TwilioSecurity Unit Tests
+      - TwilioVerify Unit Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       - Build TwilioSecurity:
@@ -184,10 +166,7 @@ workflows:
           requires:
             - TwilioSecurity Unit Tests
             - TwilioVerify Unit Tests
-      - Size report:
-          requires:
-            - Build TwilioSecurity
-            - Build TwilioVerify
+      - Size report
 
       
       
