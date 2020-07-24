@@ -81,7 +81,7 @@ commands:
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
-      
+
   build_framework:
     parameters:
       scheme:
@@ -89,6 +89,7 @@ commands:
       artifact:
         type: string
     steps:
+      - setup 
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
