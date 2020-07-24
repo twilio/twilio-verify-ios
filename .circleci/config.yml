@@ -24,9 +24,9 @@ commands:
           paths:
             - vendor/bundle
       - persist_to_workspace:
-        root: .
-        paths:
-          - *
+          root: .
+          paths:
+            - "*"
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
@@ -92,8 +92,8 @@ commands:
       artifact:
         type: string
     steps:
-      - attach_to_workspace:
-        at: /tmp/workspace
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
