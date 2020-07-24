@@ -134,12 +134,12 @@ jobs:
     executor: macos_executor
     steps:
       - build_framework:
-          scheme: TwilioSecurity
+          scheme: TwilioSecuritySDK
   Build TwilioVerify:
     executor: macos_executor
     steps:
       - build_framework:
-          scheme: TwilioVerify
+          scheme: TwilioVerifySDK
   Size report:
     executor: macos_executor
     steps:
