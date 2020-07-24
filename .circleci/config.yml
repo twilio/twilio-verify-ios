@@ -80,11 +80,21 @@ commands:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
 
-  build_frameworks:
+  build_framework:
+    parameters:
+      scheme:
+        type: string
     steps:
       - run:
-          name: "Build Frameworks"
-          command: ./Scripts/build-frameworks.sh
+          name: "Build Universal Framework"
+          command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
+      - run:
+          name: "Zip Framework"
+          command: |
+                  cd ~/Desktop
+                  zip -r << parameters.scheme >>.zip << parameters.scheme >>.framework
+      - store_artifacts:
+          path: ~Desktop/<< parameters.scheme >>.zip
 
   build_app_sizer:
     steps:
@@ -120,10 +130,16 @@ jobs:
     steps:
       - test:
           scheme: TwilioVerifyDemo
-  Build Frameworks:
+  Build TwilioSecurity:
     executor: macos_executor
     steps:
-      - build_frameworks
+      - build_framework:
+          scheme: TwilioSecurity
+  Build TwilioVerify:
+    executor: macos_executor
+    steps:
+      - build_framework:
+          scheme: TwilioVerify
   Size report:
     executor: macos_executor
     steps:
@@ -136,10 +152,14 @@ workflows:
       - TwilioVerify Unit Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      # - Build Frameworks
-          # requires:
-          #   - TwilioSecurity Unit Tests
-          #   - TwilioVerify Unit Tests
+      - Build TwilioSecurity:
+          requires:
+            - TwilioSecurity Unit Tests
+            - TwilioVerify Unit Tests
+      - Build TwilioVerify:
+          requires:
+            - TwilioSecurity Unit Tests
+            - TwilioVerify Unit Tests
       - Size report
 
       
