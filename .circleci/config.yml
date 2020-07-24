@@ -26,7 +26,7 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - "**/*"
+            - "*/**"
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
@@ -79,7 +79,7 @@ commands:
         type: string
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: .
       - run:
           name: Test
           command: bundle exec fastlane test scheme:<< parameters.scheme >>
@@ -95,7 +95,7 @@ commands:
         type: string
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: .
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
