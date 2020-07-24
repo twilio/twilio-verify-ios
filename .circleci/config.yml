@@ -27,6 +27,7 @@ commands:
           root: .
           paths:
             - "*/**"
+            - vendor/bundle
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
