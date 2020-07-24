@@ -1,5 +1,8 @@
 version: 2.1
 
+references:
+
+
 executors:
   macos_executor:
     macos:
@@ -20,6 +23,10 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - persist_to_workspace:
+        root: .
+        paths:
+          - *
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
@@ -51,19 +58,6 @@ commands:
     steps:
       - store_artifacts:
             path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
-
-  test:
-    parameters:
-      scheme:
-        type: string
-    steps:
-      - setup
-      - run:
-          name: Test
-          command: bundle exec fastlane test scheme:<< parameters.scheme >>
-      - store_scan_artifacts
-      - store_test_output
-      - store_scan_results
   
   configure_secrets:
     steps:
@@ -79,6 +73,17 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
+  test:
+    parameters:
+      scheme:
+        type: string
+    steps:
+      - run:
+          name: Test
+          command: bundle exec fastlane test scheme:<< parameters.scheme >>
+      - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
 
   build_framework:
     parameters:
@@ -87,6 +92,8 @@ commands:
       artifact:
         type: string
     steps:
+      - attach_to_workspace:
+        at: /tmp/workspace
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework scheme:<< parameters.scheme >>
@@ -117,6 +124,10 @@ commands:
           command: ./Scripts/build-app-sizer.sh
 
 jobs:
+  Setup:
+    executor: macos+executor
+    steps:
+      - setup
   TwilioSecurity Unit Tests:
     executor: macos_executor
     steps:
