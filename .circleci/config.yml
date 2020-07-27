@@ -167,10 +167,10 @@ workflows:
           requires:
             - TwilioSecurity Unit Tests
             - TwilioVerify Unit Tests
-      - Size report:
-          requires:
-            - Build TwilioSecurity
-            - Build TwilioVerify
+      # - Size report:
+      #     requires:
+      #       - Build TwilioSecurity
+      #       - Build TwilioVerify
 
       
       
