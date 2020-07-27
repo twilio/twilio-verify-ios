@@ -28,7 +28,7 @@ platform :ios do
       device: "iPhone 11",
       reset_simulator: true,
       code_coverage: true,
-      suppress_xcode_output: false,
+      suppress_xcode_output: true,
       output_types: 'junit,html',
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + options[:scheme]
@@ -39,7 +39,7 @@ platform :ios do
       workspace: "TwilioVerify.xcworkspace",
       proj: project_name + options[:scheme] + ".xcodeproj",
       html: true,
-      verbose: true
+      verbose: false
     )
   end
 
