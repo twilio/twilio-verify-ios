@@ -21,6 +21,7 @@ default_platform(:ios)
 platform :ios do
   desc "Unit tests"
   lane :test do |options|
+    project_name = options[:scheme] == "TwilioSecurity" ? options[:scheme] + "/" : ""
     scan(
       scheme: options[:scheme],
       workspace: "TwilioVerify.xcworkspace",
@@ -36,17 +37,25 @@ platform :ios do
       output_directory: output_directory + options[:scheme] + coverage_directory,
       scheme: options[:scheme],
       workspace: "TwilioVerify.xcworkspace",
-      proj: "TwilioVerify.xcodeproj",
+      proj: project_name + options[:scheme] + ".xcodeproj",
       html: true,
       verbose: false
     )
   end
 
-  lane :build_universal_framework do |options|
+  lane :build_universal_framework do
     build_app(
       silent: true,
       clean: true,
-      scheme: options[:scheme],
+      scheme: "TwilioSecuritySDK",
+      workspace: "TwilioVerify.xcworkspace",
+      skip_codesigning: true,
+      skip_archive: true
+    )
+    build_app(
+      silent: true,
+      clean: false,
+      scheme: "TwilioVerifySDK",
       workspace: "TwilioVerify.xcworkspace",
       skip_codesigning: true,
       skip_archive: true

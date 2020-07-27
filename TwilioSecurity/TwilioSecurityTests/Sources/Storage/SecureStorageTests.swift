@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioSecurity
 
-class StorageTests: XCTestCase {
+class SecureStorageTests: XCTestCase {
 
   var keychain: KeychainMock!
   var storage: SecureStorageProvider!
@@ -128,7 +128,7 @@ class StorageTests: XCTestCase {
   }
 }
 
-private extension StorageTests {
+private extension SecureStorageTests {
   func clearKeychain() {
     let secItemClasses = [kSecClassGenericPassword,
                           kSecClassInternetPassword,
