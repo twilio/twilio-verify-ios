@@ -19,11 +19,22 @@ extension URLSession {
         result(.failure(NetworkError.invalidData))
         return
       }
-      guard let response = response as? HTTPURLResponse, response.statusCode < 300 else {
+      guard let response = response as? HTTPURLResponse else {
         result(.failure(NetworkError.invalidResponse(errorResponse: data)))
+        return
+      }
+      guard response.statusCode < 300 else {
+        let failureResponse = FailureResponse(responseCode: response.statusCode, errorData: data, headers: response.allHeaderFields)
+        result(.failure(NetworkError.unsuccessStatusCode(failureResponse: failureResponse)))
         return
       }
       result(.success(Response(data: data, headers: response.allHeaderFields)))
     }
   }
+}
+
+internal struct FailureResponse {
+  let responseCode: Int
+  let errorData: Data
+  let headers: [AnyHashable: Any]
 }

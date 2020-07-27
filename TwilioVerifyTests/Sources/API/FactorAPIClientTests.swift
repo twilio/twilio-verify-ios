@@ -14,12 +14,14 @@ class FactorAPIClientTests: XCTestCase {
   private var factorAPIClient: FactorAPIClient!
   private var networkProvider: NetworkProviderMock!
   private var authentication: AuthenticationMock!
+  private var dateProvider: DateProviderMock!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
     networkProvider = NetworkProviderMock()
     authentication = AuthenticationMock()
-    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL)
+    dateProvider = DateProviderMock()
+    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL, dateProvider: dateProvider)
   }
   
   func testCreateFactor_withSuccessResponse_shouldSucceed() {
@@ -121,6 +123,39 @@ class FactorAPIClientTests: XCTestCase {
       successExpectation.fulfill()
     }
     wait(for: [successExpectation], timeout: 5)
+  }
+  
+  func testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
+    let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
+    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    networkProvider.responses = [expectedError, expectedResponse]
+    var response: Response!
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { result in
+      response = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(response.data, expectedResponse.data, "Response should be \(expectedResponse) but was \(response.data)")
+  }
+  
+  func testVerifyFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
+    let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    networkProvider.error = expectedError
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testVerifyFactor_withError_shouldFail() {
@@ -334,5 +369,9 @@ extension FactorAPIClientTests {
       entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
+    static let failureResponse = FailureResponse(
+      responseCode: 401,
+      errorData: "error".data(using: .utf8)!,
+      headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
   }
 }
