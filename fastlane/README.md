@@ -20,7 +20,7 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios test
 ```
-Unit tests
+Runs the different test plans [TwilioVerify | TwilioSecurity | Integration]
 ### ios build_universal_framework
 ```
 fastlane ios build_universal_framework

@@ -112,7 +112,25 @@
 		F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBB92490320D00688E5C /* KeyStorageAdapterTests.swift */; };
 		F207BBBC249032CC00688E5C /* KeyManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBBB249032CC00688E5C /* KeyManagerMock.swift */; };
 		F207BBBE2490337000688E5C /* SignerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F207BBBD2490337000688E5C /* SignerMock.swift */; };
-		F236CEBB24CF4E2E002EBD50 /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F236CEBA24CF4E2E002EBD50 /* TwilioSecurity.framework */; };
+		F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
+		F27A33E524CF898700A8053D /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
+		F27A33E624CF898700A8053D /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
+		F27A33E924CF898D00A8053D /* SecureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */; };
+		F27A33EA24CF898D00A8053D /* ECSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44B24773C180061A2D8 /* ECSignerTests.swift */; };
+		F27A33EB24CF898D00A8053D /* ECP256SignerTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */; };
+		F27A33EC24CF898D00A8053D /* KeychainMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB42F2476E5580061A2D8 /* KeychainMock.swift */; };
+		F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */; };
+		F27A33EE24CF898D00A8053D /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2358B3D2480285200C2D1AB /* KeychainTests.swift */; };
+		F27A33FD24CF8B5E00A8053D /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */; };
+		F27A33FE24CF8B5E00A8053D /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */; };
+		F27A340224CF8B6600A8053D /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */; };
+		F27A340324CF8B6600A8053D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340024CF8B6600A8053D /* Keychain.swift */; };
+		F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340124CF8B6600A8053D /* KeyManager.swift */; };
+		F27A340624CF8B6D00A8053D /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340524CF8B6D00A8053D /* KeyPair.swift */; };
+		F27A340824CF8B7200A8053D /* ECSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340724CF8B7200A8053D /* ECSigner.swift */; };
+		F27A340B24CF8B7800A8053D /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340924CF8B7800A8053D /* Template.swift */; };
+		F27A340C24CF8B7800A8053D /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */; };
+		F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BC2493E34A006F6CDF /* FactorFacade.swift */; };
@@ -262,13 +280,22 @@
 		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
 		F20CB42F2476E5580061A2D8 /* KeychainMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainMock.swift; sourceTree = "<group>"; };
-		F20CB4312476E6380061A2D8 /* KeyManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerMock.swift; sourceTree = "<group>"; };
+		F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerSecurityMock.swift; sourceTree = "<group>"; };
 		F20CB4462477299E0061A2D8 /* ECSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSigner.swift; sourceTree = "<group>"; };
 		F20CB44B24773C180061A2D8 /* ECSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSignerTests.swift; sourceTree = "<group>"; };
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
-		F20CB451247749A60061A2D8 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		F236CEBA24CF4E2E002EBD50 /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
+		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
+		F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
+		F27A340024CF8B6600A8053D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		F27A340124CF8B6600A8053D /* KeyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
+		F27A340524CF8B6D00A8053D /* KeyPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
+		F27A340724CF8B7200A8053D /* ECSigner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSigner.swift; sourceTree = "<group>"; };
+		F27A340924CF8B7800A8053D /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
+		F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
+		F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorageTests.swift; sourceTree = "<group>"; };
 		F27F7A3724858DCB001F2869 /* KeychainQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
 		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
 		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
@@ -280,7 +307,7 @@
 		F2AA3788246F30BF00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2AA3799246F313500B9388F /* TwilioSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioSecurity.h; sourceTree = "<group>"; };
 		F2AA379A246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2AA37A6246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2C2706724CF922C007FDCF6 /* CompleteSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CompleteSuite.xctestplan; sourceTree = "<group>"; };
 		F2C552BC2493E34A006F6CDF /* FactorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacade.swift; sourceTree = "<group>"; };
 		F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeTests.swift; sourceTree = "<group>"; };
 		F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryMock.swift; sourceTree = "<group>"; };
@@ -310,7 +337,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F236CEBB24CF4E2E002EBD50 /* TwilioSecurity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,7 +771,7 @@
 			isa = PBXGroup;
 			children = (
 				F20CB42F2476E5580061A2D8 /* KeychainMock.swift */,
-				F20CB4312476E6380061A2D8 /* KeyManagerMock.swift */,
+				F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -774,14 +800,6 @@
 			path = KeyPair;
 			sourceTree = "<group>";
 		};
-		F20CB450247749900061A2D8 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				F20CB451247749A60061A2D8 /* TestError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
 		F25CF4582473008000BE4DB1 /* Key */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,13 +810,109 @@
 			path = Key;
 			sourceTree = "<group>";
 		};
+		F27A33DA24CF887A00A8053D /* Plans */ = {
+			isa = PBXGroup;
+			children = (
+				F2C2706724CF922C007FDCF6 /* CompleteSuite.xctestplan */,
+			);
+			path = Plans;
+			sourceTree = "<group>";
+		};
+		F27A33DD24CF88C400A8053D /* TwilioVerify */ = {
+			isa = PBXGroup;
+			children = (
+				20B8A3EB2485581D003F69EB /* Sources */,
+			);
+			path = TwilioVerify;
+			sourceTree = "<group>";
+		};
+		F27A33DE24CF88D100A8053D /* TwilioSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				F20CB44D247741140061A2D8 /* KeyPair */,
+				F20CB4272476E3900061A2D8 /* Sources */,
+			);
+			path = TwilioSecurity;
+			sourceTree = "<group>";
+		};
+		F27A33EF24CF89AF00A8053D /* TwilioVerify */ = {
+			isa = PBXGroup;
+			children = (
+				F2AA37EA246F3CD500B9388F /* Sources */,
+			);
+			path = TwilioVerify;
+			sourceTree = "<group>";
+		};
+		F27A33F024CF89B900A8053D /* TwilioSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				F27A33F524CF89DB00A8053D /* Sources */,
+			);
+			path = TwilioSecurity;
+			sourceTree = "<group>";
+		};
+		F27A33F524CF89DB00A8053D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F27A33F824CF89F000A8053D /* Storage */,
+				F27A33F724CF89E900A8053D /* Keychain */,
+				F27A33F624CF89E400A8053D /* Key */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		F27A33F624CF89E400A8053D /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				F27A340524CF8B6D00A8053D /* KeyPair.swift */,
+				F27A33FA24CF8A0F00A8053D /* Signer */,
+				F27A33F924CF8A0A00A8053D /* Template */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
+		F27A33F724CF89E900A8053D /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				F27A340024CF8B6600A8053D /* Keychain.swift */,
+				F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */,
+				F27A340124CF8B6600A8053D /* KeyManager.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
+		F27A33F824CF89F000A8053D /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */,
+				F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		F27A33F924CF8A0A00A8053D /* Template */ = {
+			isa = PBXGroup;
+			children = (
+				F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */,
+				F27A340924CF8B7800A8053D /* Template.swift */,
+			);
+			path = Template;
+			sourceTree = "<group>";
+		};
+		F27A33FA24CF8A0F00A8053D /* Signer */ = {
+			isa = PBXGroup;
+			children = (
+				F27A340724CF8B7200A8053D /* ECSigner.swift */,
+			);
+			path = Signer;
+			sourceTree = "<group>";
+		};
 		F2AA376E246F30BE00B9388F = {
 			isa = PBXGroup;
 			children = (
 				F2AA377A246F30BE00B9388F /* TwilioVerify */,
 				F2AA3785246F30BF00B9388F /* TwilioVerifyTests */,
 				F2AA3798246F313500B9388F /* TwilioSecurity */,
-				F2AA37A3246F313500B9388F /* TwilioSecurityTests */,
 				F2F62F9E248846D800E330E4 /* HostApp */,
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
@@ -818,8 +932,9 @@
 		F2AA377A246F30BE00B9388F /* TwilioVerify */ = {
 			isa = PBXGroup;
 			children = (
+				F27A33F024CF89B900A8053D /* TwilioSecurity */,
+				F27A33EF24CF89AF00A8053D /* TwilioVerify */,
 				F2CFC42324A5A1F2008430B6 /* Config */,
-				F2AA37EA246F3CD500B9388F /* Sources */,
 				F2AA377C246F30BE00B9388F /* Info.plist */,
 			);
 			path = TwilioVerify;
@@ -828,8 +943,10 @@
 		F2AA3785246F30BF00B9388F /* TwilioVerifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				F27A33DE24CF88D100A8053D /* TwilioSecurity */,
+				F27A33DD24CF88C400A8053D /* TwilioVerify */,
+				F27A33DA24CF887A00A8053D /* Plans */,
 				20E3BB222489901D00BC90DE /* Error */,
-				20B8A3EB2485581D003F69EB /* Sources */,
 				F2AA3788246F30BF00B9388F /* Info.plist */,
 			);
 			path = TwilioVerifyTests;
@@ -843,17 +960,6 @@
 				F2AA379A246F313500B9388F /* Info.plist */,
 			);
 			path = TwilioSecurity;
-			sourceTree = "<group>";
-		};
-		F2AA37A3246F313500B9388F /* TwilioSecurityTests */ = {
-			isa = PBXGroup;
-			children = (
-				F20CB450247749900061A2D8 /* Error */,
-				F20CB44D247741140061A2D8 /* KeyPair */,
-				F20CB4272476E3900061A2D8 /* Sources */,
-				F2AA37A6246F313500B9388F /* Info.plist */,
-			);
-			path = TwilioSecurityTests;
 			sourceTree = "<group>";
 		};
 		F2AA37AE246F314000B9388F /* Frameworks */ = {
@@ -932,6 +1038,7 @@
 		F2FB79B2248979F4004B22E6 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */,
 				F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */,
 			);
 			path = Storage;
@@ -1110,15 +1217,20 @@
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
+				F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */,
 				F08379A224AE7BBE003F18DD /* ChallengeListDTO.swift in Sources */,
+				F27A340B24CF8B7800A8053D /* Template.swift in Sources */,
 				2093573824871378008FDBCC /* FactorChallenge.swift in Sources */,
 				20A92FCE24819E2600A9E8E7 /* MediaType.swift in Sources */,
 				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
 				20E3BB1C24896BD800BC90DE /* FactorAPIClient.swift in Sources */,
 				F07B6F532492CA4400948FB1 /* JwtGenerator.swift in Sources */,
+				F27A33FE24CF8B5E00A8053D /* SecurityStorage.swift in Sources */,
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */,
 				20935748248719D5008FDBCC /* UpdateFactorPayload.swift in Sources */,
+				F27A340824CF8B7200A8053D /* ECSigner.swift in Sources */,
+				F27A340C24CF8B7800A8053D /* ECP256SignerTemplate.swift in Sources */,
 				20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */,
 				F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */,
 				20C0B19F2486DDED0041E67F /* URLSession+Extensions.swift in Sources */,
@@ -1132,6 +1244,7 @@
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */,
 				20A08846249019BC00701CCC /* FactorRepository.swift in Sources */,
+				F27A340624CF8B6D00A8053D /* KeyPair.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				F20353DF249C22690067DA73 /* TwilioVerifyManager.swift in Sources */,
 				20A92FC8248197CB00A9E8E7 /* URLRequestBuilder.swift in Sources */,
@@ -1144,9 +1257,12 @@
 				2093573E24871827008FDBCC /* Metadata.swift in Sources */,
 				F20353DC249C1EBF0067DA73 /* TwilioVerify.swift in Sources */,
 				20C710C8248AA23600B0F448 /* FactorMapper.swift in Sources */,
+				F27A33FD24CF8B5E00A8053D /* SecureStorage.swift in Sources */,
 				F0261C6224A56D27007881E9 /* PushChallengeProcessor.swift in Sources */,
 				2093573024870DA7008FDBCC /* FactorDataPayload.swift in Sources */,
+				F27A340324CF8B6600A8053D /* Keychain.swift in Sources */,
 				2086795F24ABA26200D1F0B9 /* ChallengeFacade.swift in Sources */,
+				F27A340224CF8B6600A8053D /* KeychainQuery.swift in Sources */,
 				2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */,
 				F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */,
 				2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */,
@@ -1162,9 +1278,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27A33E624CF898700A8053D /* KeychainQueryTests.swift in Sources */,
 				2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */,
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */,
+				F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */,
+				F27A33EE24CF898D00A8053D /* KeychainTests.swift in Sources */,
 				F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
 				F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */,
@@ -1188,14 +1307,17 @@
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
 				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
+				F27A33EC24CF898D00A8053D /* KeychainMock.swift in Sources */,
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
 				F0261C6424A56D3D007881E9 /* PushChallengeProcessorTests.swift in Sources */,
 				204227AB24A53F6000CD001B /* ChallengeListMapperMock.swift in Sources */,
 				20C36FEC24914B1800DF6C0E /* StorageProviderMock.swift in Sources */,
+				F27A33E524CF898700A8053D /* KeyManagerTests.swift in Sources */,
 				F2C552C12493EBAB006F6CDF /* PushFactoryMock.swift in Sources */,
 				2086796524ABD5F300D1F0B9 /* PushChallengeProcessorMock.swift in Sources */,
+				F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */,
 				20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */,
 				204227A624A53D2B00CD001B /* ChallengeAPIClientMock.swift in Sources */,
 				20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */,
@@ -1206,11 +1328,15 @@
 				F0A2CCB8249AAF8E0002E7AA /* JwtSignerTests.swift in Sources */,
 				2086796124ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift in Sources */,
 				20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */,
+				F27A33E924CF898D00A8053D /* SecureStorageTests.swift in Sources */,
 				20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */,
 				2060D00024857976001DD494 /* ParametersTests.swift in Sources */,
 				F07B6F572492CA5900948FB1 /* JwtSignerMock.swift in Sources */,
 				F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */,
 				F07B6F5A2492CA6700948FB1 /* JwtGeneratorMock.swift in Sources */,
+				F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */,
+				F27A33EA24CF898D00A8053D /* ECSignerTests.swift in Sources */,
+				F27A33EB24CF898D00A8053D /* ECP256SignerTemplateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

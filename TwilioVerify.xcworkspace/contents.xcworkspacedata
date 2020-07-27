@@ -2,13 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:AppSizer/AppSizer.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TwilioSecurity/TwilioSecurity.xcodeproj">
+      location = "group:TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:TwilioVerify.xcodeproj">
