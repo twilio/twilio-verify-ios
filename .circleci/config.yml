@@ -107,7 +107,7 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - builds
+            - ~/Code/builds
 
   build_app_sizer:
     steps:
