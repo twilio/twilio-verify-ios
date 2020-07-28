@@ -101,7 +101,7 @@ commands:
                   ls
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
-          path: << parameters.artifact >>.framework.zip
+          path: Desktop/<< parameters.artifact >>.framework.zip
       # - run: mkdir -p ~/Code/builds
       # - run: cp << parameters.artifact >>.framework.zip ~/Code/builds
       # - persist_to_workspace:
