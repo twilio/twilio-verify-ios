@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
-require 'twilio'
-
 require 'plist'
 require 'filesize'
 require 'fileutils'
