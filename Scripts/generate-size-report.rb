@@ -1,20 +1,22 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
+require 'twilio'
+
 require 'plist'
 require 'filesize'
 require 'fileutils'
 
-# Locations
+FRAMEWORK_NAME = ENV['FRAMEWORK_NAME']
+FRAMEWORK_PACKAGE = ENV['FRAMEWORK_PACKAGE']
+
 IPA_DIR = ENV['IPA_DIR']
 SIZE_REPORT_DIR = ENV['SIZE_REPORT_DIR']
-
-FRAMEWORK_NAME = "TwilioVerify"
 
 def format_bytes(bytes)
   return Kernel::sprintf("%0.1f MB", Filesize.from(bytes.to_s).to('MB'))
 end
-  
+
 def format_variants(variant)
   if !variant['variantDescriptors'].nil?
     # Xcode 10
@@ -26,12 +28,12 @@ def format_variants(variant)
     return "Universal binary"
   end
 end
-  
+
 def create_markdown_snippet(info)
   File.open("#{SIZE_REPORT_DIR}/SizeImpact.md", 'w') do |f|
     f.puts "Architecture | Compressed Size | Uncompressed Size"
     f.puts "------------ | --------------- | -----------------"
-  
+
     info.sort.map do |key,value|
       f.puts "#{key} | #{value['compressed_app_size']} | #{value['uncompressed_framework_size']}"
     end
