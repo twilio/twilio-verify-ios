@@ -29,6 +29,7 @@ xcodebuild \
   -sdk iphoneos \
   -parallelizeTargets \
   -archivePath "${ARCHIVE_PATH}" \
+  -quiet \
   ONLY_ACTIVE_ARCH=NO \
   BITCODE_GENERATION_MODE=${BITCODE_MODE} \
   archive

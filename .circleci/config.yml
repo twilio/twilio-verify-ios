@@ -104,13 +104,13 @@ commands:
 
   build_app_sizer:
     steps:
+      - use_system_ruby
       - setup
       - attach_workspace:
           at: ~/Desktop
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-      - use_system_ruby
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
