@@ -103,7 +103,7 @@ commands:
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
       - run: mkdir -p ~/Code/builds
-      - run: cp ~/Desktop/ ~/Code/builds
+      - run: cp -a ~/Desktop/. ~/Code/builds
       - persist_to_workspace:
           root: .
           paths:
