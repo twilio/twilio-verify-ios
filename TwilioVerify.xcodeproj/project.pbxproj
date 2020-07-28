@@ -87,12 +87,12 @@
 		20E5157A24A3B2DA00A467FC /* ChallengeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157924A3B2DA00A467FC /* ChallengeMapper.swift */; };
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
+		20E9419024D09AEF0079CA4E /* DateProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E9418F24D09AEF0079CA4E /* DateProviderMock.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
 		20FCC7F024CF47A7001C4B5D /* BaseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCC7EF24CF47A7001C4B5D /* BaseAPIClient.swift */; };
 		20FCC7F224CF47C1001C4B5D /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCC7F124CF47C1001C4B5D /* DateProvider.swift */; };
 		20FCC7F424CF7DF2001C4B5D /* DateProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCC7F324CF7DF2001C4B5D /* DateProviderTests.swift */; };
 		20FCC7F624CF7E89001C4B5D /* UserDefaultsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCC7F524CF7E89001C4B5D /* UserDefaultsMock.swift */; };
-		20FCC7F824CF842A001C4B5D /* DateProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCC7F724CF842A001C4B5D /* DateProviderMock.swift */; };
 		F0261C4224A26289007881E9 /* ChallengeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */; };
 		F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4324A263F1007881E9 /* APIConstants.swift */; };
 		F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4524A267CF007881E9 /* ChallengeAPIClientTests.swift */; };
@@ -302,12 +302,12 @@
 		20E5157924A3B2DA00A467FC /* ChallengeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapper.swift; sourceTree = "<group>"; };
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
+		20E9418F24D09AEF0079CA4E /* DateProviderMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateProviderMock.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		20FCC7EF24CF47A7001C4B5D /* BaseAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPIClient.swift; sourceTree = "<group>"; };
 		20FCC7F124CF47C1001C4B5D /* DateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
 		20FCC7F324CF7DF2001C4B5D /* DateProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProviderTests.swift; sourceTree = "<group>"; };
 		20FCC7F524CF7E89001C4B5D /* UserDefaultsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsMock.swift; sourceTree = "<group>"; };
-		20FCC7F724CF842A001C4B5D /* DateProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProviderMock.swift; sourceTree = "<group>"; };
 		F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClient.swift; sourceTree = "<group>"; };
 		F0261C4324A263F1007881E9 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		F0261C4524A267CF007881E9 /* ChallengeAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClientTests.swift; sourceTree = "<group>"; };
@@ -459,6 +459,7 @@
 		2019ABFB2486F6FD009728E4 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				20E9418F24D09AEF0079CA4E /* DateProviderMock.swift */,
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
 			);
 			path = Mocks;
@@ -738,6 +739,13 @@
 			path = Challenge;
 			sourceTree = "<group>";
 		};
+		20E9418E24D09A4F0079CA4E /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		F05A319C2493E26C0098F49C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -930,6 +938,7 @@
 				F2F62F9E248846D800E330E4 /* HostApp */,
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
+				20E9418E24D09A4F0079CA4E /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1366,6 +1375,7 @@
 				2016FDA124C117FA00AECDF4 /* GetChallengeTests.swift in Sources */,
 				2016FD9624C102B300AECDF4 /* DeleteFactorTests.swift in Sources */,
 				20A0884A2490465200701CCC /* FactorRepositoryTests.swift in Sources */,
+				20E9419024D09AEF0079CA4E /* DateProviderMock.swift in Sources */,
 				2086796324ABD45E00D1F0B9 /* ChallengeFacadeMock.swift in Sources */,
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				F08379A024AE7A37003F18DD /* ChallengeListMapperTests.swift in Sources */,
@@ -1383,7 +1393,6 @@
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
 				F0261C6424A56D3D007881E9 /* PushChallengeProcessorTests.swift in Sources */,
 				204227AB24A53F6000CD001B /* ChallengeListMapperMock.swift in Sources */,
-				20FCC7F824CF842A001C4B5D /* DateProviderMock.swift in Sources */,
 				20C36FEC24914B1800DF6C0E /* StorageProviderMock.swift in Sources */,
 				F2C552C12493EBAB006F6CDF /* PushFactoryMock.swift in Sources */,
 				2086796524ABD5F300D1F0B9 /* PushChallengeProcessorMock.swift in Sources */,
