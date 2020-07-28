@@ -101,13 +101,13 @@ commands:
                   ls
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
-          path: Desktop/<< parameters.artifact >>.framework.zip
-      # - run: mkdir -p ~/Code/builds
-      # - run: cp << parameters.artifact >>.framework.zip ~/Code/builds
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - builds
+          path: ~/Desktop/<< parameters.artifact >>.framework.zip
+      - run: mkdir -p ~/Code/builds
+      - run: cp ~/Desktop/ ~/Code/builds
+      - persist_to_workspace:
+          root: .
+          paths:
+            - builds
 
   build_app_sizer:
     steps:
