@@ -117,11 +117,9 @@ commands:
       - run:
           name: "Copy Frameworks"
           command: |
-            cd ~/Code/builds
-            ls
-            cp -R ~/Desktop/TwilioVerify.framework AppSizer/AppSizer/Frameworks
+            cp -R ~/Code/builds/TwilioVerify.framework AppSizer/AppSizer/Frameworks
       - use_system_ruby
-      # - build_frameworks
+      - build_frameworks
       # - run:
       #     name: "Copy Frameworks"
       #     command: cp -R temp/DerivedData/Build/Products/Release-universal/. AppSizer/AppSizer/Frameworks
