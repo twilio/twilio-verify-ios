@@ -1,0 +1,11 @@
+framework module TwilioVerify {
+  umbrella header "TwilioVerify.h"
+
+  export *
+  module * { export * }
+}
+
+module TwilioVerify.Swift {
+    header "TwilioVerify-Swift.h"
+    requires objc
+}

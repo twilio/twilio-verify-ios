@@ -2,7 +2,7 @@
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
 require 'plist'
-require 'filesize'
+require_relative 'filesize'
 require 'fileutils'
 
 FRAMEWORK_NAME = ENV['FRAMEWORK_NAME']

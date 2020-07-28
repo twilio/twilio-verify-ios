@@ -1,0 +1,237 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TwilioVerify
+import Foundation
+import Swift
+@_exported import TwilioVerify
+import UIKit
+public protocol VerifyFactorPayload {
+  var sid: Swift.String { get }
+}
+public struct VerifyPushFactorPayload : TwilioVerify.VerifyFactorPayload {
+  public let sid: Swift.String
+  public init(sid: Swift.String)
+}
+public protocol KeyManagerProtocol {
+  func signer(withTemplate template: TwilioVerify.SignerTemplate) throws -> TwilioVerify.Signer
+  func deleteKey(withAlias alias: Swift.String) throws
+}
+@_hasMissingDesignatedInitializers public class KeyManager {
+  convenience public init()
+  @objc deinit
+}
+extension KeyManager : TwilioVerify.KeyManagerProtocol {
+  public func signer(withTemplate template: TwilioVerify.SignerTemplate) throws -> TwilioVerify.Signer
+  public func deleteKey(withAlias alias: Swift.String) throws
+}
+public protocol Template {
+  var alias: Swift.String { get }
+  var algorithm: Swift.String { get }
+  var shouldExist: Swift.Bool { get }
+}
+public protocol SignerTemplate : TwilioVerify.Template {
+  var signatureAlgorithm: Security.SecKeyAlgorithm { get }
+  var parameters: [Swift.String : Any] { get }
+  var accessControl: Security.SecAccessControl { get }
+}
+public enum TwilioVerifyError : Foundation.LocalizedError {
+  case networkError(error: Foundation.NSError)
+  case mapperError(error: Foundation.NSError)
+  case storageError(error: Foundation.NSError)
+  case inputError(error: Foundation.NSError)
+  case keyStorageError(error: Foundation.NSError)
+  case initializationError(error: Foundation.NSError)
+  case authenticationTokenError(error: Foundation.NSError)
+  public var originalError: Foundation.NSError {
+    get
+  }
+  public var errorDescription: Swift.String {
+    get
+  }
+  public var code: Swift.Int {
+    get
+  }
+}
+public protocol UpdateFactorPayload {
+  var sid: Swift.String { get }
+}
+public struct UpdatePushFactorPayload : TwilioVerify.UpdateFactorPayload {
+  public let sid: Swift.String
+  public let pushToken: Swift.String
+  public init(sid: Swift.String, pushToken: Swift.String)
+}
+public protocol Signer {
+  func sign(_ data: Foundation.Data) throws -> Foundation.Data
+  func verify(_ data: Foundation.Data, withSignature signature: Foundation.Data) -> Swift.Bool
+  func getPublic() throws -> Foundation.Data
+}
+public struct ECP256SignerTemplate {
+  public var alias: Swift.String
+  public var shouldExist: Swift.Bool
+  public var parameters: [Swift.String : Any]
+  public var algorithm: Swift.String
+  public var signatureAlgorithm: Security.SecKeyAlgorithm
+  public var accessControl: Security.SecAccessControl
+  public init(withAlias alias: Swift.String, shouldExist: Swift.Bool) throws
+}
+extension ECP256SignerTemplate : TwilioVerify.SignerTemplate {
+}
+public protocol FactorPayload {
+  var friendlyName: Swift.String { get }
+  var serviceSid: Swift.String { get }
+  var identity: Swift.String { get }
+  var factorType: TwilioVerify.FactorType { get }
+}
+public struct PushFactorPayload : TwilioVerify.FactorPayload {
+  public let friendlyName: Swift.String
+  public let serviceSid: Swift.String
+  public let identity: Swift.String
+  public let factorType: TwilioVerify.FactorType
+  public let pushToken: Swift.String
+  public let enrollmentJwe: Swift.String
+  public init(friendlyName: Swift.String, serviceSid: Swift.String, identity: Swift.String, pushToken: Swift.String, enrollmentJwe: Swift.String)
+}
+public struct ChallengeListPayload {
+  public let factorSid: Swift.String
+  public let pageSize: Swift.Int
+  public var status: TwilioVerify.ChallengeStatus?
+  public var pageToken: Swift.String?
+  public init(factorSid: Swift.String, pageSize: Swift.Int, status: TwilioVerify.ChallengeStatus? = nil, pageToken: Swift.String? = nil)
+}
+public protocol UpdateChallengePayload {
+  var factorSid: Swift.String { get }
+  var challengeSid: Swift.String { get }
+}
+public struct UpdatePushChallengePayload : TwilioVerify.UpdateChallengePayload {
+  public let factorSid: Swift.String
+  public let challengeSid: Swift.String
+  public let status: TwilioVerify.ChallengeStatus
+  public init(factorSid: Swift.String, challengeSid: Swift.String, status: TwilioVerify.ChallengeStatus)
+}
+public protocol Factor {
+  var status: TwilioVerify.FactorStatus { get set }
+  var sid: Swift.String { get }
+  var friendlyName: Swift.String { get }
+  var accountSid: Swift.String { get }
+  var serviceSid: Swift.String { get }
+  var entityIdentity: Swift.String { get }
+  var type: TwilioVerify.FactorType { get }
+  var createdAt: Foundation.Date { get }
+}
+public enum FactorStatus : Swift.String, Swift.Codable {
+  case verified
+  case unverified
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FactorType : Swift.String, Swift.Codable {
+  case push
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+public protocol Challenge {
+  var sid: Swift.String { get }
+  var challengeDetails: TwilioVerify.ChallengeDetails { get }
+  var hiddenDetails: Swift.String { get }
+  var factorSid: Swift.String { get }
+  var status: TwilioVerify.ChallengeStatus { get }
+  var createdAt: Foundation.Date { get }
+  var updatedAt: Foundation.Date { get }
+  var expirationDate: Foundation.Date { get }
+}
+public enum ChallengeStatus : Swift.String, Swift.Codable {
+  case pending
+  case approved
+  case denied
+  case expired
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ChallengeDetails {
+  public let message: Swift.String
+  public let fields: [TwilioVerify.Detail]
+  public let date: Foundation.Date?
+}
+public struct Detail : Swift.Codable {
+  public let label: Swift.String
+  public let value: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_hasMissingDesignatedInitializers public class TwilioVerifyManager {
+  @objc deinit
+}
+extension TwilioVerifyManager : TwilioVerify.TwilioVerify {
+  public func createFactor(withPayload payload: TwilioVerify.FactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func verifyFactor(withPayload payload: TwilioVerify.VerifyFactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func updateFactor(withPayload payload: TwilioVerify.UpdateFactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func getAllFactors(success: @escaping TwilioVerify.FactorListSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func deleteFactor(withSid sid: Swift.String, success: @escaping TwilioVerify.EmptySuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func getChallenge(challengeSid: Swift.String, factorSid: Swift.String, success: @escaping TwilioVerify.ChallengeSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func updateChallenge(withPayload payload: TwilioVerify.UpdateChallengePayload, success: @escaping TwilioVerify.EmptySuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  public func getAllChallenges(withPayload payload: TwilioVerify.ChallengeListPayload, success: @escaping (TwilioVerify.ChallengeList) -> (), failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+}
+public protocol Metadata {
+  var page: Swift.Int { get }
+  var pageSize: Swift.Int { get }
+  var previousPageToken: Swift.String? { get }
+  var nextPageToken: Swift.String? { get }
+}
+public typealias FactorSuccessBlock = (TwilioVerify.Factor) -> ()
+public typealias TwilioVerifyErrorBlock = (TwilioVerify.TwilioVerifyError) -> ()
+public typealias ChallengeSuccessBlock = (TwilioVerify.Challenge) -> ()
+public typealias FactorListSuccessBlock = ([TwilioVerify.Factor]) -> ()
+public typealias EmptySuccessBlock = () -> ()
+public protocol TwilioVerify {
+  func createFactor(withPayload payload: TwilioVerify.FactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func verifyFactor(withPayload payload: TwilioVerify.VerifyFactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func updateFactor(withPayload payload: TwilioVerify.UpdateFactorPayload, success: @escaping TwilioVerify.FactorSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func getAllFactors(success: @escaping TwilioVerify.FactorListSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func deleteFactor(withSid sid: Swift.String, success: @escaping TwilioVerify.EmptySuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func getChallenge(challengeSid: Swift.String, factorSid: Swift.String, success: @escaping TwilioVerify.ChallengeSuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func updateChallenge(withPayload payload: TwilioVerify.UpdateChallengePayload, success: @escaping TwilioVerify.EmptySuccessBlock, failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+  func getAllChallenges(withPayload payload: TwilioVerify.ChallengeListPayload, success: @escaping (TwilioVerify.ChallengeList) -> (), failure: @escaping TwilioVerify.TwilioVerifyErrorBlock)
+}
+public class TwilioVerifyBuilder {
+  public init()
+  public func build() -> TwilioVerify.TwilioVerify
+  @objc deinit
+}
+public protocol SecureStorageProvider {
+  func save(_ data: Foundation.Data, withKey key: Swift.String) throws
+  func get(_ key: Swift.String) throws -> Foundation.Data
+  func removeValue(for key: Swift.String) throws
+  func getAll() throws -> [Foundation.Data]
+}
+@_hasMissingDesignatedInitializers public class SecureStorage {
+  convenience public init()
+  @objc deinit
+}
+extension SecureStorage : TwilioVerify.SecureStorageProvider {
+  public func save(_ data: Foundation.Data, withKey key: Swift.String) throws
+  public func get(_ key: Swift.String) throws -> Foundation.Data
+  public func getAll() throws -> [Foundation.Data]
+  public func removeValue(for key: Swift.String) throws
+}
+public protocol ChallengeList {
+  var challenges: [TwilioVerify.Challenge] { get }
+  var metadata: TwilioVerify.Metadata { get }
+}
+extension TwilioVerify.FactorStatus : Swift.Equatable {}
+extension TwilioVerify.FactorStatus : Swift.Hashable {}
+extension TwilioVerify.FactorStatus : Swift.RawRepresentable {}
+extension TwilioVerify.FactorType : Swift.Equatable {}
+extension TwilioVerify.FactorType : Swift.Hashable {}
+extension TwilioVerify.FactorType : Swift.RawRepresentable {}
+extension TwilioVerify.ChallengeStatus : Swift.Equatable {}
+extension TwilioVerify.ChallengeStatus : Swift.Hashable {}
+extension TwilioVerify.ChallengeStatus : Swift.RawRepresentable {}
