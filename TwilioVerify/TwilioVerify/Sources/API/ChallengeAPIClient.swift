@@ -14,69 +14,85 @@ protocol ChallengeAPIClientProtocol {
   func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
-class ChallengeAPIClient {
+class ChallengeAPIClient: BaseAPIClient {
   private let networkProvider: NetworkProvider
   private let authentication: Authentication
   private let baseURL: String
   
-  init(networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String) {
+  init(networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String, dateProvider: DateProvider = DateAdapter()) {
     self.networkProvider = networkProvider
     self.authentication = authentication
     self.baseURL = baseURL
+    super.init(dateProvider: dateProvider)
   }
 }
 
 extension ChallengeAPIClient: ChallengeAPIClientProtocol {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
-    do {
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: getChallengeURL(forSid: sid, forFactor: factor), requestHelper: requestHelper)
-        .setHTTPMethod(.get)
-        .build()
-      networkProvider.execute(request, success: success, failure: failure)
-    } catch {
-      failure(error)
+    func getChallenge(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        let request = try URLRequestBuilder(withURL: getChallengeURL(forSid: sid, forFactor: factor), requestHelper: requestHelper)
+          .setHTTPMethod(.get)
+          .build()
+        networkProvider.execute(request, success: success, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: getChallenge, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
+      }
     }
+    getChallenge()
   }
   
   func getAll(forFactor factor: Factor, status: String?, pageSize: Int, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
-    do {
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      var parameters = [Parameter(name: Constants.factorSidKey, value: factor.sid),
-                        Parameter(name: Constants.pageSizeKey, value: pageSize)]
-      if let status = status {
-        parameters.append(Parameter(name: Constants.statusKey, value: status))
+    func getAllChallenges(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        var parameters = [Parameter(name: Constants.factorSidKey, value: factor.sid),
+                          Parameter(name: Constants.pageSizeKey, value: pageSize)]
+        if let status = status {
+          parameters.append(Parameter(name: Constants.statusKey, value: status))
+        }
+        if let pageToken = pageToken {
+          parameters.append(Parameter(name: Constants.pageTokenKey, value: pageToken))
+        }
+        let request = try URLRequestBuilder(withURL: getChallengesURL(forFactor: factor), requestHelper: requestHelper)
+          .setParameters(parameters)
+          .build()
+        networkProvider.execute(request, success: success, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: getAllChallenges, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
       }
-      if let pageToken = pageToken {
-        parameters.append(Parameter(name: Constants.pageTokenKey, value: pageToken))
-      }
-      let request = try URLRequestBuilder(withURL: getChallengesURL(forFactor: factor), requestHelper: requestHelper)
-        .setParameters(parameters)
-        .build()
-      networkProvider.execute(request, success: success, failure: failure)
-    } catch {
-      failure(error)
     }
+    getAllChallenges()
   }
   
   func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
-    do {
-      guard let factor = challenge.factor else {
-        failure(InputError.invalidInput)
-        return
+    func updateChallenge(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        guard let factor = challenge.factor else {
+          failure(InputError.invalidInput)
+          return
+        }
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        let request = try URLRequestBuilder(withURL: updateChallengeURL(forSid: challenge.sid, forFactor: factor), requestHelper: requestHelper)
+          .setHTTPMethod(.post)
+          .setParameters(updateChallengeBody(authPayload: authPayload))
+          .build()
+        networkProvider.execute(request, success: success, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: updateChallenge, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
       }
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: updateChallengeURL(forSid: challenge.sid, forFactor: factor), requestHelper: requestHelper)
-        .setHTTPMethod(.post)
-        .setParameters(updateChallengeBody(authPayload: authPayload))
-        .build()
-      networkProvider.execute(request, success: success, failure: failure)
-    } catch {
-      failure(error)
     }
+    updateChallenge()
   }
 }
 

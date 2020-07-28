@@ -11,7 +11,7 @@ import XCTest
 
 class NetworkProviderMock: NetworkProvider {
   var response: Response?
-  var responses: [Response]?
+  var responses: [Any]?
   var error: Error?
   private(set) var callsToExecute = 0
   private(set) var urlRequest: URLRequest?
@@ -24,10 +24,18 @@ class NetworkProviderMock: NetworkProvider {
     }
     if let response = responses?[callsToExecute] {
       callsToExecute += 1
-      success(response)
+      switch response {
+        case is Response:
+          success(response as! Response)
+        case is Error:
+          failure(response as! Error)
+        default:
+          fatalError("Expected params not set")
+      }
       return
     }
     if let error = error {
+      callsToExecute += 1
       failure(error)
     }
   }

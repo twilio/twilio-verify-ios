@@ -15,16 +15,17 @@ protocol FactorAPIClientProtocol {
   func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
-class FactorAPIClient {
+class FactorAPIClient: BaseAPIClient {
   
   private let networkProvider: NetworkProvider
   private let authentication: Authentication
   private let baseURL: String
   
-  init(networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String) {
+  init(networkProvider: NetworkProvider = NetworkAdapter(), authentication: Authentication, baseURL: String, dateProvider: DateProvider = DateAdapter()) {
     self.networkProvider = networkProvider
     self.authentication = authentication
     self.baseURL = baseURL
+    super.init(dateProvider: dateProvider)
   }
 }
 
@@ -43,46 +44,61 @@ extension FactorAPIClient: FactorAPIClientProtocol {
   }
   
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
-    do {
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
-        .setHTTPMethod(.post)
-        .setParameters(verifyFactorBody(authPayload: authPayload))
-        .build()
-      networkProvider.execute(request, success: success, failure: failure)
-    } catch {
-      failure(error)
+    func verifyFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
+          .setHTTPMethod(.post)
+          .setParameters(verifyFactorBody(authPayload: authPayload))
+          .build()
+        networkProvider.execute(request, success: success, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: verifyFactor, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
+      }
     }
+    verifyFactor()
   }
   
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
-    do {
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: deleteURL(for: factor), requestHelper: requestHelper)
-        .setHTTPMethod(.delete)
-        .build()
-      networkProvider.execute(request, success: { _ in
-        success()
-      }, failure: failure)
-    } catch {
-      failure(error)
+    func deleteFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        let request = try URLRequestBuilder(withURL: deleteURL(for: factor), requestHelper: requestHelper)
+          .setHTTPMethod(.delete)
+          .build()
+        networkProvider.execute(request, success: { _ in
+          success()
+        }, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: deleteFactor, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
+      }
     }
+    deleteFactor()
   }
   
   func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
-    do {
-      let authToken = try authentication.generateJWT(forFactor: factor)
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
-      let request = try URLRequestBuilder(withURL: updateURL(for: factor), requestHelper: requestHelper)
-        .setHTTPMethod(.post)
-        .setParameters(updateFactorBody(updateFactorDataPayload: updateFactorDataPayload))
-        .build()
-      networkProvider.execute(request, success: success, failure: failure)
-    } catch {
-      failure(error)
+    func updateFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
+      do {
+        let authToken = try authentication.generateJWT(forFactor: factor)
+        let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
+        let request = try URLRequestBuilder(withURL: updateURL(for: factor), requestHelper: requestHelper)
+          .setHTTPMethod(.post)
+          .setParameters(updateFactorBody(updateFactorDataPayload: updateFactorDataPayload))
+          .build()
+        networkProvider.execute(request, success: success, failure: { error in
+          self.validateFailureResponse(error: error, retryBlock: updateFactor, retries: retries, failure: failure)
+        })
+      } catch {
+        failure(error)
+      }
     }
+    updateFactor()
   }
 }
 

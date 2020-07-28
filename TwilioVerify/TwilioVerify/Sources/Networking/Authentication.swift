@@ -29,9 +29,12 @@ enum AuthenticationError: LocalizedError {
 class AuthenticationProvider {
   
   private let jwtGenerator: JwtGeneratorProtocol
+  private let dateProvider: DateProvider
   
-  init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol = JwtGenerator()) {
+  init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol = JwtGenerator(),
+       dateProvider: DateProvider = DateAdapter()) {
     self.jwtGenerator = jwtGenerator
+    self.dateProvider = dateProvider
   }
 }
 
@@ -48,18 +51,6 @@ extension AuthenticationProvider: Authentication {
     } catch {
       throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
     }
-  }
-}
-
-extension AuthenticationProvider {
-  struct Constants {
-    static let ctyKey = "cty"
-    static let kidKey = "kid"
-    static let contentType = "twilio-pba;v=1"
-    static let subKey = "sub"
-    static let expKey = "exp"
-    static let jwtValidFor: Double = 10 * 60
-    static let iatKey = "nbf"
   }
 }
 
@@ -80,10 +71,22 @@ private extension AuthenticationProvider {
   }
   
   func generatePayload(_ factor: PushFactor) -> [String: Any] {
-    let currentDate = Date()
+    let currentDate = dateProvider.getCurrentTime()
     return [Constants.subKey: factor.accountSid,
-            Constants.expKey: currentDate.addingTimeInterval(Constants.jwtValidFor).timeIntervalSince1970.rounded(),
-            Constants.iatKey: currentDate.timeIntervalSince1970.rounded()
+            Constants.expKey: currentDate + Constants.jwtValidFor,
+            Constants.iatKey: currentDate
     ]
+  }
+}
+
+extension AuthenticationProvider {
+  struct Constants {
+    static let ctyKey = "cty"
+    static let kidKey = "kid"
+    static let contentType = "twilio-pba;v=1"
+    static let subKey = "sub"
+    static let expKey = "exp"
+    static let jwtValidFor = 10 * 60
+    static let iatKey = "nbf"
   }
 }

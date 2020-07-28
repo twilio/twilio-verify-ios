@@ -22,6 +22,11 @@
 
 /* Begin PBXBuildFile section */
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
+		2017297624D0A2D70029493D /* BaseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297524D0A2D70029493D /* BaseAPIClient.swift */; };
+		2017297824D0A3190029493D /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297724D0A3190029493D /* DateProvider.swift */; };
+		2017297A24D0A41E0029493D /* DateProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297924D0A41E0029493D /* DateProviderTests.swift */; };
+		2017297C24D0A43F0029493D /* UserDefaultsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297B24D0A43F0029493D /* UserDefaultsMock.swift */; };
+		2017297E24D0A4980029493D /* DateProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297D24D0A4980029493D /* DateProviderMock.swift */; };
 		2019ABFD2486F712009728E4 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFC2486F712009728E4 /* URLSessionMock.swift */; };
 		2019ABFF2486F74B009728E4 /* NetworkAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */; };
 		204227A024A4FB1500CD001B /* ChallengeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2042279F24A4FB1500CD001B /* ChallengeRepository.swift */; };
@@ -202,6 +207,11 @@
 
 /* Begin PBXFileReference section */
 		2003C43F2480232900279BBD /* TwilioVerifyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwilioVerifyError.swift; sourceTree = "<group>"; };
+		2017297524D0A2D70029493D /* BaseAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPIClient.swift; sourceTree = "<group>"; };
+		2017297724D0A3190029493D /* DateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
+		2017297924D0A41E0029493D /* DateProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProviderTests.swift; sourceTree = "<group>"; };
+		2017297B24D0A43F0029493D /* UserDefaultsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsMock.swift; sourceTree = "<group>"; };
+		2017297D24D0A4980029493D /* DateProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProviderMock.swift; sourceTree = "<group>"; };
 		2019ABFC2486F712009728E4 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapterTests.swift; sourceTree = "<group>"; };
 		2042279F24A4FB1500CD001B /* ChallengeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRepository.swift; sourceTree = "<group>"; };
@@ -391,6 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
+				2017297D24D0A4980029493D /* DateProviderMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -624,6 +635,7 @@
 				20E3BB1B24896BD800BC90DE /* FactorAPIClient.swift */,
 				F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */,
 				F0261C4324A263F1007881E9 /* APIConstants.swift */,
+				2017297524D0A2D70029493D /* BaseAPIClient.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -719,6 +731,7 @@
 				F07B6F4E2492C9A800948FB1 /* JWT */,
 				F207BBAF249000CF00688E5C /* KeyStorage.swift */,
 				F207BBB124901A6900688E5C /* Storage.swift */,
+				2017297724D0A3190029493D /* DateProvider.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -730,6 +743,7 @@
 				F207BBB62490208900688E5C /* Mocks */,
 				F207BBB424901E8D00688E5C /* StorageTests.swift */,
 				F207BBB92490320D00688E5C /* KeyStorageAdapterTests.swift */,
+				2017297924D0A41E0029493D /* DateProviderTests.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -744,6 +758,7 @@
 				F207BBBD2490337000688E5C /* SignerMock.swift */,
 				20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */,
 				F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */,
+				2017297B24D0A43F0029493D /* UserDefaultsMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1282,6 +1297,7 @@
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
 				F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */,
+				2017297624D0A2D70029493D /* BaseAPIClient.swift in Sources */,
 				F08379A224AE7BBE003F18DD /* ChallengeListDTO.swift in Sources */,
 				F27A340B24CF8B7800A8053D /* Template.swift in Sources */,
 				2093573824871378008FDBCC /* FactorChallenge.swift in Sources */,
@@ -1331,6 +1347,7 @@
 				F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */,
 				2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */,
 				20A92FCC24819B0900A9E8E7 /* RequestHelper.swift in Sources */,
+				2017297824D0A3190029493D /* DateProvider.swift in Sources */,
 				20E5157A24A3B2DA00A467FC /* ChallengeMapper.swift in Sources */,
 				F207BBB224901A6900688E5C /* Storage.swift in Sources */,
 				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
@@ -1368,6 +1385,7 @@
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
 				2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */,
+				2017297E24D0A4980029493D /* DateProviderMock.swift in Sources */,
 				204227A424A538E800CD001B /* ChallengeRepositoryTests.swift in Sources */,
 				2048753F24A2641A00D70FAA /* TwilioVerifyTests.swift in Sources */,
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
@@ -1378,6 +1396,7 @@
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
 				F239EC1424D07CD900141A00 /* BaseFactorTests.swift in Sources */,
+				2017297C24D0A43F0029493D /* UserDefaultsMock.swift in Sources */,
 				F0261C6424A56D3D007881E9 /* PushChallengeProcessorTests.swift in Sources */,
 				204227AB24A53F6000CD001B /* ChallengeListMapperMock.swift in Sources */,
 				F239EC1524D07CD900141A00 /* VerifyFactorTests.swift in Sources */,
@@ -1408,6 +1427,7 @@
 				F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */,
 				F239EC1624D07CD900141A00 /* DeleteFactorTests.swift in Sources */,
 				F27A33EA24CF898D00A8053D /* ECSignerTests.swift in Sources */,
+				2017297A24D0A41E0029493D /* DateProviderTests.swift in Sources */,
 				F27A33EB24CF898D00A8053D /* ECP256SignerTemplateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

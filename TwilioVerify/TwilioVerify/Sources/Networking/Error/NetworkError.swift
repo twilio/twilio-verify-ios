@@ -12,6 +12,7 @@ enum NetworkError: LocalizedError {
   case invalidURL
   case invalidBody
   case invalidResponse(errorResponse: Data)
+  case unsuccessStatusCode(failureResponse: FailureResponse)
   case invalidData
 }
 
@@ -26,6 +27,8 @@ extension NetworkError {
         return "Invalid Response"
       case .invalidData:
         return "Invalid Data"
+      case .unsuccessStatusCode:
+        return "Unsuccess status scode"
     }
   }
   
@@ -33,6 +36,15 @@ extension NetworkError {
     switch self {
       case .invalidResponse(let errorResponse):
         return errorResponse
+      default:
+        return nil
+    }
+  }
+  
+  var failureResponse: FailureResponse? {
+    switch self {
+      case .unsuccessStatusCode(let failureResponse):
+        return failureResponse
       default:
         return nil
     }
