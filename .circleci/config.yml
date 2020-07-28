@@ -105,7 +105,7 @@ commands:
       - run: mkdir -p ~/Code/builds
       - run: cp -a ~/Desktop/. ~/Code/builds
       - persist_to_workspace:
-          root: Desktop
+          root: ~/Code/builds
           paths:
             - "**/*"
 
