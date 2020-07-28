@@ -96,11 +96,12 @@ commands:
       - run:
           name: "Zip Framework"
           command: |
+                  ls
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
-          path: << parameters.artifact >>.zip
+          path: << parameters.artifact >>.framework.zip
       - run: mkdir -p ~/Code/builds
-      - run: cp << parameters.artifact >>.framework ~/Code/builds
+      - run: cp << parameters.artifact >>.framework.zip ~/Code/builds
       - persist_to_workspace:
           root: .
           paths:
