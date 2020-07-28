@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F22EA92E24916DC5008712CF /* dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = F22EA92D24916DC5008712CF /* dev.plist */; };
-		F22EA935249186A3008712CF /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93124918634008712CF /* TwilioSecurity.framework */; };
-		F22EA936249186A3008712CF /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93124918634008712CF /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; };
 		F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F27AF9F7248EA61D009A62F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */; };
@@ -26,7 +24,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F22EA936249186A3008712CF /* TwilioSecurity.framework in Embed Frameworks */,
 				F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -52,7 +49,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F22EA935249186A3008712CF /* TwilioSecurity.framework in Frameworks */,
 				F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,7 +190,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/bash\n\"${SRCROOT}/AppSizer/Frameworks/TwilioSecurity.framework/strip-frameworks.sh\"\n\"${SRCROOT}/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\"\n";
+			shellScript = "/bin/bash\n\"${SRCROOT}/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
