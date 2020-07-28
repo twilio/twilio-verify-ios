@@ -87,8 +87,8 @@ commands:
         type: string
     steps:
       - setup 
-      - attach_workspace:
-          at: ~/Code
+      # - attach_workspace:
+      #     at: ~/Code
 
       - run:
           name: "Build Universal Framework"
@@ -97,15 +97,16 @@ commands:
           name: "Zip Framework"
           command: |
                   ls
+                  cd ~/Desktop
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
-          path: << parameters.artifact >>.framework.zip
-      - run: mkdir -p ~/Code/builds
-      - run: cp << parameters.artifact >>.framework.zip ~/Code/builds
-      - persist_to_workspace:
-          root: .
-          paths:
-            - builds
+          path: cd ~/<< parameters.artifact >>.framework.zip
+      # - run: mkdir -p ~/Code/builds
+      # - run: cp << parameters.artifact >>.framework.zip ~/Code/builds
+      # - persist_to_workspace:
+      #     root: .
+      #     paths:
+      #       - builds
 
   build_app_sizer:
     steps:
