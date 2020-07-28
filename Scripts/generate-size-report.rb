@@ -43,7 +43,7 @@ FileUtils.mkdir_p(SIZE_REPORT_DIR)
 info = {}
 
 File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do |f|
-  f.puts "Size impact report for #{FRAMEWORK_NAME} v#{BASE_VERSION}"
+  f.puts "Size impact report for #{FRAMEWORK_NAME}"
   f.puts ""
 
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
