@@ -98,7 +98,7 @@ commands:
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.zip
       - persist_to_workspace:
-          root: /Framework
+          root: .
           paths:
             - ~/Desktop/<< parameters.artifact >>.framework
 
@@ -106,11 +106,11 @@ commands:
     steps:
       - setup
       - attach_workspace:
-          at: /Framework
+          at: .
       - run:
           name: "Copy Frameworks"
           command: |
-            cp -R /Framework/. AppSizer/AppSizer/Frameworks
+            cp -R ~/Desktop/TwilioVerify.framework AppSizer/AppSizer/Frameworks
       - use_system_ruby
       # - build_frameworks
       # - run:
