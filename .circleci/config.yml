@@ -87,6 +87,9 @@ commands:
         type: string
     steps:
       - setup 
+      # - attach_workspace:
+      #     at: ~/Code
+
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
@@ -97,10 +100,10 @@ commands:
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.zip
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ~/Desktop/<< parameters.artifact >>.framework
+      # - persist_to_workspace:
+      #     root: .
+      #     paths:
+      #       - ~/Desktop/<< parameters.artifact >>.framework
 
   build_app_sizer:
     steps:
@@ -154,12 +157,12 @@ workflows:
       - TwilioVerify Complete Suite of Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      - Build TwilioVerify:
-          requires:
-            - TwilioVerify Complete Suite of Tests
-      - Size report:
-          requires:
-            - Build TwilioVerify
+      - Build TwilioVerify
+          # requires:
+          #   - TwilioVerify Complete Suite of Tests
+      # - Size report:
+      #     requires:
+      #       - Build TwilioVerify
 
       
       
