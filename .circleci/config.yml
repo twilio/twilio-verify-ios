@@ -113,10 +113,12 @@ commands:
     steps:
       - setup
       - attach_workspace:
-          at: .
+          at: ~/Code/builds
       - run:
           name: "Copy Frameworks"
           command: |
+            cd ~/Code/builds
+            ls
             cp -R ~/Desktop/TwilioVerify.framework AppSizer/AppSizer/Frameworks
       - use_system_ruby
       # - build_frameworks
@@ -164,9 +166,9 @@ workflows:
       - Build TwilioVerify
           # requires:
           #   - TwilioVerify Complete Suite of Tests
-      # - Size report:
-      #     requires:
-      #       - Build TwilioVerify
+      - Size report:
+          requires:
+            - Build TwilioVerify
 
       
       
