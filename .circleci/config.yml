@@ -116,7 +116,11 @@ commands:
           at: ~/Code/builds
       - run:
           name: "Copy Frameworks"
-          command: cp -R ~/Code/builds/TwilioVerify.framework AppSizer/AppSizer/Frameworks
+          command: |
+                  cp -a ~/Code/builds/. ./AppSizer/AppSizer/Frameworks
+                  cd ./AppSizer/AppSizer/Frameworks
+                  pwd
+                  ls
       - use_system_ruby
       - run:
           name: "Build AppSizer App"
