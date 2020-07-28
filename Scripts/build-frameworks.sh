@@ -30,13 +30,13 @@ fi
 lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}"
 
 # Step 4b. Copy strip-frameworks script to SDK folder
-cp "${PROJECT_DIR}/Scripts/strip-frameworks.sh" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/"
+cp "${SRCROOT}/Scripts/strip-frameworks.sh" "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/"
 
 # Step 5. Remove old versions of framework from Desktop
-rm -rf "~/${FRAMEWORK_NAME}.framework"
+rm -rf "${HOME}/Desktop/${FRAMEWORK_NAME}.framework"
 
 # Step 6. Copy framework to Desktop
-ditto "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework" "~/${FRAMEWORK_NAME}.framework"
+ditto "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework" "${HOME}/Desktop/${FRAMEWORK_NAME}.framework"
 
 # Step 7. Convenience step to open the project's directory in Finder
-open "~/"
+open "${HOME}/Desktop/"
