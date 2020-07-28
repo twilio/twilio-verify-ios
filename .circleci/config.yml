@@ -105,9 +105,9 @@ commands:
       - run: mkdir -p ~/Code/builds
       - run: cp -a ~/Desktop/. ~/Code/builds
       - persist_to_workspace:
-          root: .
+          root: Desktop
           paths:
-            - ~/Code/builds
+            - "**/*"
 
   build_app_sizer:
     steps:
