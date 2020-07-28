@@ -96,8 +96,9 @@ commands:
       - run:
           name: "Zip Framework"
           command: |
-                  ls
                   cd ~/Desktop
+                  pwd
+                  ls
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
           path: cd ~/<< parameters.artifact >>.framework.zip
