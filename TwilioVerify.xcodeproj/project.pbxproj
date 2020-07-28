@@ -460,7 +460,6 @@
 			isa = PBXGroup;
 			children = (
 				2019ABFC2486F712009728E4 /* URLSessionMock.swift */,
-				20FCC7F724CF842A001C4B5D /* DateProviderMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
