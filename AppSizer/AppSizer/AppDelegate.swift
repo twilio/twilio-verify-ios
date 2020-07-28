@@ -8,7 +8,6 @@
 
 import UIKit
 import TwilioVerify
-import TwilioSecurity
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    print("TwilioSecurityVersion: \(KeyManager())")
     print("TwilioVerifyVersion: \(TwilioVerifyBuilder().build())")
     return true
   }
