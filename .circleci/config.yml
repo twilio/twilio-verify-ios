@@ -97,15 +97,13 @@ commands:
           name: "Zip Framework"
           command: |
                   cd ~/Desktop
-                  pwd
-                  ls
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
-      - run: mkdir -p ~/Code/builds
-      - run: cp -a ~/Desktop/. ~/Code/builds
+      # - run: mkdir -p ~/Code/builds
+      # - run: cp -a ~/Desktop/. ~/Code/builds
       - persist_to_workspace:
-          root: ~/Code/builds
+          root: ~/Desktop
           paths:
             - "**/*"
 
@@ -113,14 +111,10 @@ commands:
     steps:
       - setup
       - attach_workspace:
-          at: ~/Code/builds
+          at: ~/Desktop
       - run:
           name: "Copy Frameworks"
-          command: |
-                  cp -a ~/Code/builds/. ./AppSizer/AppSizer/Frameworks
-                  cd ./AppSizer/AppSizer/Frameworks
-                  pwd
-                  ls
+          command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - use_system_ruby
       - run:
           name: "Build AppSizer App"
