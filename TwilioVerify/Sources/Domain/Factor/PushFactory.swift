@@ -9,7 +9,7 @@
 import Foundation
 
 protocol PushFactoryProtocol {
-  func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
+  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
@@ -28,7 +28,7 @@ class PushFactory {
 }
 
 extension PushFactory: PushFactoryProtocol {
-  func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String,
+  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
       let alias = generateKeyPairAlias()
@@ -39,10 +39,10 @@ extension PushFactory: PushFactoryProtocol {
         friendlyName: friendlyName,
         type: .push,
         serviceSid: serviceSid,
-        entity: identity,
+        identity: identity,
         config: config,
         binding: binding,
-        jwe: jwe
+        accessToken: accessToken
       )
       
       repository.create(withPayload: payload, success: { [weak self] factor in
@@ -112,7 +112,7 @@ extension PushFactory: PushFactoryProtocol {
         friendlyName: pushFactor.friendlyName,
         type: pushFactor.type,
         serviceSid: pushFactor.serviceSid,
-        entity: pushFactor.entityIdentity,
+        identity: pushFactor.identity,
         config: config(withToken: pushToken),
         factorSid: pushFactor.sid)
       repository.update(withPayload: payload, success: success) { error in

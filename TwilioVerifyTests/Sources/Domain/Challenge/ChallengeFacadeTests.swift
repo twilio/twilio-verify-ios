@@ -271,14 +271,14 @@ private extension ChallengeFacadeTests {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "entityIdentity",
+      identity: "identity",
       type: .push, createdAt: Date())
     static let expectedFactor = PushFactor(
       sid: factorSid,
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "entityIdentity",
+      identity: "identity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
     static let expectedChallenge = FactorChallenge(

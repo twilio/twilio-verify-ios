@@ -29,7 +29,7 @@ internal class BaseFactorTests: XCTestCase {
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = TwilioVerifyBuilder().setURL("https://twilio.com").setNetworkProvider(networkProvider).build()
-    let jwe = """
+    let accessToken = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
               AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
               Z5Ijp7ImlkZW50aXR5IjoiWUViZDE1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNSIsImZhY3RvciI6InB1c2
@@ -44,7 +44,7 @@ internal class BaseFactorTests: XCTestCase {
       serviceSid: "serviceSid",
       identity: "identity",
       pushToken: "pushToken",
-      enrollmentJwe: jwe)
+      accessToken: accessToken)
     twilioVerify.createFactor(withPayload: factorPayload, success: { factor in
       self.factor = factor as? PushFactor
       expectation.fulfill()

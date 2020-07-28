@@ -14,7 +14,7 @@ public protocol Factor {
   var friendlyName: String { get }
   var accountSid: String { get }
   var serviceSid: String { get }
-  var entityIdentity: String { get }
+  var identity: String { get }
   var type: FactorType { get }
   var createdAt: Date { get }
 }
