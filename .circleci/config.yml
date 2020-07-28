@@ -8,7 +8,6 @@ executors:
 commands:
   setup:
     steps:
-      - checkout
       - configure_secrets
       - configure_xcode_signing
       - restore_cache:
@@ -71,6 +70,7 @@ commands:
       test_plan:
         type: string
     steps:
+      - checkout
       - setup
       - run:
           name: Test
@@ -86,6 +86,7 @@ commands:
       artifact:
         type: string
     steps:
+      - checkout
       - setup 
       - run:
           name: "Build Universal Framework"
@@ -104,6 +105,7 @@ commands:
 
   build_app_sizer:
     steps:
+      - checkout
       - use_system_ruby
       - setup
       - attach_workspace:
