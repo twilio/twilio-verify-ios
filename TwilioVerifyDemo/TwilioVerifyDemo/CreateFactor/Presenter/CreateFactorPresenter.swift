@@ -11,37 +11,37 @@ import Foundation
 import TwilioVerify
 
 protocol CreateFactorPresentable {
-  func create(withIdentity identity: String?, enrollmentURL: String?)
-  func enrollmentURL() -> String?
+  func create(withIdentity identity: String?, accessTokenURL: String?)
+  func accessTokenURL() -> String?
 }
 
 class CreateFactorPresenter {
   
   private weak var view: CreateFactorView?
   private let twilioVerify: TwilioVerify
-  private let enrollment: Enrollment
+  private let accessTokensAPI: AccessTokensAPI
   
   init(withView view: CreateFactorView,
        twilioVerify: TwilioVerify = TwilioVerifyAdapter(),
-       enrollment: Enrollment = EnrollmentAPI()) {
+       accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
     self.view = view
     self.twilioVerify = twilioVerify
-    self.enrollment = enrollment
+    self.accessTokensAPI = accessTokensAPI
   }
 }
 
 extension CreateFactorPresenter: CreateFactorPresentable {
-  func create(withIdentity identity: String?, enrollmentURL: String?) {
+  func create(withIdentity identity: String?, accessTokenURL: String?) {
     guard let identity = identity, !identity.isEmpty else {
-      view?.showAlert(withMessage: "Invalid Entity")
+      view?.showAlert(withMessage: "Invalid Identity")
       return
     }
-    guard let url = enrollmentURL, !url.isEmpty else {
+    guard let url = accessTokenURL, !url.isEmpty else {
       view?.showAlert(withMessage: "Invalid URL")
       return
     }
-    saveEnrollmentURL(url)
-    enrollment.enroll(at: url, identity: identity, success: { [weak self] response in
+    saveAccessTokenURL(url)
+    accessTokensAPI.accessTokens(at: url, identity: identity, success: { [weak self] response in
       guard let strongSelf = self else { return }
       strongSelf.createFactor(response, success: { factor in
         strongSelf.verify(factor, success: { factor in
@@ -67,21 +67,21 @@ extension CreateFactorPresenter: CreateFactorPresentable {
     }
   }
   
-  func enrollmentURL() -> String? {
-    return UserDefaults.standard.value(forKey: Constants.enrollmentURLKey) as? String
+  func accessTokenURL() -> String? {
+    return UserDefaults.standard.value(forKey: Constants.accessTokenURLKey) as? String
   }
 }
 
 private extension CreateFactorPresenter {
   
   struct Constants {
-    static let enrollmentURLKey = "enrollmentURL"
+    static let accessTokenURLKey = "accessTokenURL"
     static let pushTokenKey = "PushToken"
     static let dummyPushToken = "0000000000000000000000000000000000000000000000000000000000000000"
   }
   
-  func saveEnrollmentURL(_ url: String) {
-    UserDefaults.standard.set(url, forKey: Constants.enrollmentURLKey)
+  func saveAccessTokenURL(_ url: String) {
+    UserDefaults.standard.set(url, forKey: Constants.accessTokenURLKey)
   }
   
   func pushToken() -> String {
@@ -91,13 +91,13 @@ private extension CreateFactorPresenter {
     return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String ?? String()
   }
   
-  func createFactor(_ enrollment: EnrollmentResponse, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(_ accessToken: AccessTokenResponse, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     let payload = PushFactorPayload(
-      friendlyName: "\(enrollment.identity)'s Factor",
-      serviceSid: enrollment.serviceSid,
-      identity: enrollment.identity,
+      friendlyName: "\(accessToken.identity)'s Factor",
+      serviceSid: accessToken.serviceSid,
+      identity: accessToken.identity,
       pushToken: pushToken(),
-      enrollmentJwe: enrollment.token
+      accessToken: accessToken.token
     )
     twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
   }
