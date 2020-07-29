@@ -246,7 +246,7 @@ private extension TwilioVerifyTests {
                                            Constants.dateCreatedKey: Constants.dateCreatedValue]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
     networkProvider.response = Response(data: data, headers: [:])
-    let jwe = """
+    let accessToken = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
               AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
               Z5Ijp7ImlkZW50aXR5IjoiWUViZDE1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNSIsImZhY3RvciI6InB1c2
@@ -261,7 +261,7 @@ private extension TwilioVerifyTests {
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       pushToken: Constants.pushToken,
-      enrollmentJwe: jwe)
+      accessToken: accessToken)
     var pushFactor: PushFactor!
     twilioVerify.createFactor(withPayload: factorPayload, success: { factor in
       pushFactor = factor as? PushFactor
@@ -333,13 +333,13 @@ private extension TwilioVerifyTests {
     static let serviceSid = "serviceSid123"
     static let identity = "identityValue"
     static let pushToken = "ACBtoken"
-    static let enrollmentJWE = "jwe"
+    static let accessToken = "accessToken"
     static let expectedFactor = PushFactor(
       sid: "sid",
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "entityIdentity",
+      identity: "identity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
     static let updatePushChallengePayload = UpdatePushChallengePayload(

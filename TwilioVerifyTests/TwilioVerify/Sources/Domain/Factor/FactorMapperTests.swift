@@ -27,12 +27,12 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.dateCreatedKey: Constants.expectedDate]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
-                                            entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
+                                            identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken)
     var factor: Factor!
     XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
     XCTAssertEqual(factor.type, factorPayload.type, "Factor type should be \(factorPayload.type) but was \(factor.type)")
     XCTAssertEqual(factor.serviceSid, factorPayload.serviceSid, "Factor serviceSid should be \(factorPayload.serviceSid) but was \(factor.serviceSid)")
-    XCTAssertEqual(factor.entityIdentity, factorPayload.entity, "Factor entity should be \(factorPayload.entity) but was \(factor.entityIdentity)")
+    XCTAssertEqual(factor.identity, factorPayload.identity, "Factor identity should be \(factorPayload.identity) but was \(factor.identity)")
     XCTAssertEqual(factor.sid, expectedFactorResponse[Constants.sidKey] as! String,
                    "Factor sid should be \(expectedFactorResponse[Constants.sidKey] as! String) but was \(factor.sid)")
     XCTAssertEqual(factor.friendlyName, expectedFactorResponse[Constants.friendlyNameKey] as! String,
@@ -50,7 +50,7 @@ class FactorMapperTests: XCTestCase {
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
-                                            entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
+                                            identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual((error as! TwilioVerifyError).errorDescription, TwilioVerifyError.mapperError(error: NSError()).errorDescription)
     }
@@ -61,18 +61,18 @@ class FactorMapperTests: XCTestCase {
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: "",
-                                            entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
+                                            identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidArgument)
     }
   }
   
-  func testFromAPI_withInvalidEntityInPayload_shouldThrow() {
+  func testFromAPI_withInvalidIdentityInPayload_shouldThrow() {
     let expectedFactorResponse = [Constants.friendlyNameKey: Constants.expectedFriendlyName,
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
-                                            entity: "", config: [:], binding: [:], jwe: Constants.jweValue)
+                                            identity: "", config: [:], binding: [:], accessToken: Constants.accessToken)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidArgument)
     }
@@ -87,7 +87,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.dateCreatedKey: "2020/06/01"]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
     let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
-                                            entity: Constants.entityIdentityValue, config: [:], binding: [:], jwe: Constants.jweValue)
+                                            identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidDate)
     }
@@ -100,7 +100,7 @@ class FactorMapperTests: XCTestCase {
       friendlyName: Constants.expectedFriendlyName,
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
-      entityIdentity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid),
       keyPairAlias: Constants.expectedKeyPairAlias)
@@ -148,7 +148,7 @@ class FactorMapperTests: XCTestCase {
       friendlyName: Constants.expectedFriendlyName,
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
-      entityIdentity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid),
       keyPairAlias: Constants.expectedKeyPairAlias)
@@ -196,8 +196,8 @@ private extension FactorMapperTests {
     static let pushType = FactorType.push
     static let friendlyNameValue = "factor name"
     static let serviceSidValue = "serviceSid123"
-    static let entityIdentityValue = "entityId123"
-    static let jweValue = "jwe"
+    static let identityValue = "identity123"
+    static let accessToken = "accessToken"
     static let expectedSidValue = "sid123"
     static let expectedFriendlyName = "push_factor"
     static let expectedAccountSid = "accountSid123"

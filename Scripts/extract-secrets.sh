@@ -15,10 +15,4 @@ pushd ${SECRETS_DIR}
   tar -xvf Provisioning\ Profiles.tar 
 popd
 
-# # Circle CI Testing Credentials
-# echo $TEST_CREDENTIALS_CI | base64 -D -o ${SECRETS_DIR}/video-ios-credentials-circleci.plist
-
-# # FTL Testing Credentials
-# echo $TEST_CREDENTIALS_FTL | base64 -D -o ${SECRETS_DIR}/video-ios-credentials-ftl.plist
-
 popd

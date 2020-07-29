@@ -29,7 +29,7 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.factor = Constants.fakeFactor
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -52,7 +52,7 @@ class PushFactoryTests: XCTestCase {
     var error: TwilioVerifyError!
     keyStorage.errorCreatingKey = TestError.operationFailed
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -76,7 +76,7 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.error = TestError.operationFailed
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -101,7 +101,7 @@ class PushFactoryTests: XCTestCase {
     keyStorage.errorDeletingKey = TestError.operationFailed
     repository.error = TestError.operationFailed
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -126,7 +126,7 @@ class PushFactoryTests: XCTestCase {
     repository.saveError = TestError.operationFailed
     repository.factor = Constants.factor
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -152,7 +152,7 @@ class PushFactoryTests: XCTestCase {
     repository.saveError = TestError.operationFailed
     repository.factor = Constants.factor
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
                           XCTFail()
                           expectation.fulfill()
@@ -175,7 +175,7 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.factor = Constants.factor
     
-    factory.createFactor(withJwe: Constants.jwe, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
                          serviceSid: Constants.serviceSid, identity: Constants.identity, success: { factor in
                           pushFactor = (factor as! PushFactor)
                           expectation.fulfill()
@@ -193,8 +193,8 @@ class PushFactoryTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
-                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
+    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
+                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -343,8 +343,8 @@ class PushFactoryTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
-                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
+    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
+                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -372,8 +372,8 @@ class PushFactoryTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
-                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
+    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
+                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -579,7 +579,7 @@ class PushFactoryTests: XCTestCase {
 
 private extension PushFactoryTests {
   struct Constants {
-    static let jwe = "jwe"
+    static let accessToken = "accessToken"
     static let friendlyName = "friendlyName"
     static let pushToken = "pushToken"
     static let serviceSid = "serviceSid"
@@ -591,7 +591,7 @@ private extension PushFactoryTests {
       friendlyName: Constants.friendlyName,
       accountSid: "accountSid",
       serviceSid: Constants.serviceSid,
-      entityIdentity: Constants.identity,
+      identity: Constants.identity,
       createdAt: Date(),
       config: Constants.config
     )
@@ -601,7 +601,7 @@ private extension PushFactoryTests {
       friendlyName: Constants.friendlyName,
       accountSid: "accountSid",
       serviceSid: Constants.serviceSid,
-      entityIdentity: Constants.identity,
+      identity: Constants.identity,
       type: .push,
       createdAt: Date())
   }

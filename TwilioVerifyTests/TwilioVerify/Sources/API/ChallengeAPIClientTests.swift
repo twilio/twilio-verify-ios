@@ -114,7 +114,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let sid = "sid"
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
       .replacingOccurrences(of: APIConstants.challengeSidPath, with: sid)
     
     challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: {_ in }, failure: {_ in })
@@ -281,7 +281,7 @@ class ChallengeAPIClientTests: XCTestCase {
       factor: Constants.factor)
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
       .replacingOccurrences(of: APIConstants.challengeSidPath, with: challenge.sid)
     
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
@@ -377,7 +377,7 @@ class ChallengeAPIClientTests: XCTestCase {
     
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
     
     challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: pageSize, pageToken: nil, success: { _ in }) { _ in }
     let components = URLComponents(url: networkProvider.urlRequest!.url!, resolvingAgainstBaseURL: true)
@@ -412,7 +412,7 @@ class ChallengeAPIClientTests: XCTestCase {
     
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
+      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
     
     challengeAPIClient.getAll(forFactor: Constants.factor, status: status, pageSize: pageSize, pageToken: pageToken, success: { _ in }) { _ in }
     let components = URLComponents(url: networkProvider.urlRequest!.url!, resolvingAgainstBaseURL: true)
@@ -460,7 +460,7 @@ extension ChallengeAPIClientTests {
     static let friendlyName = "factor name"
     static let serviceSid = "serviceSid123"
     static let accountSid = "accountSid123"
-    static let entity = "entityIdentity"
+    static let identity = "identity"
     static let credentialSid = "credentialSid123"
     static let challengeSid = "challengeSid123"
     static let challengeDetails = ChallengeDetails(message: "message", fields: [], date: Date())
@@ -482,7 +482,7 @@ extension ChallengeAPIClientTests {
       friendlyName: Constants.friendlyName,
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
-      entityIdentity: Constants.entity,
+      identity: Constants.identity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid)
     )

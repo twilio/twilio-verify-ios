@@ -12,7 +12,7 @@ protocol FactorDataPayload {
   var friendlyName: String { get }
   var type: FactorType { get }
   var serviceSid: String { get }
-  var entity: String { get }
+  var identity: String { get }
   var config: [String: String] { get }
 }
 
@@ -20,17 +20,17 @@ struct CreateFactorPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
   let serviceSid: String
-  let entity: String
+  let identity: String
   let config: [String: String]
   let binding: [String: String]
-  let jwe: String
+  let accessToken: String
 }
 
 struct UpdateFactorDataPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
   let serviceSid: String
-  let entity: String
+  let identity: String
   let config: [String: String]
   let factorSid: String
 }
