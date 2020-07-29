@@ -290,12 +290,9 @@
 		F207BBB92490320D00688E5C /* KeyStorageAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorageAdapterTests.swift; sourceTree = "<group>"; };
 		F207BBBB249032CC00688E5C /* KeyManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerMock.swift; sourceTree = "<group>"; };
 		F207BBBD2490337000688E5C /* SignerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignerMock.swift; sourceTree = "<group>"; };
-		F20CB4202476DE7A0061A2D8 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
-		F20CB4252476DF570061A2D8 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F20CB42B2476E4400061A2D8 /* ECP256SignerTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplateTests.swift; sourceTree = "<group>"; };
 		F20CB42F2476E5580061A2D8 /* KeychainMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainMock.swift; sourceTree = "<group>"; };
 		F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerSecurityMock.swift; sourceTree = "<group>"; };
-		F20CB4462477299E0061A2D8 /* ECSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSigner.swift; sourceTree = "<group>"; };
 		F20CB44B24773C180061A2D8 /* ECSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSignerTests.swift; sourceTree = "<group>"; };
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
@@ -324,17 +321,13 @@
 		F27A340924CF8B7800A8053D /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
 		F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorageTests.swift; sourceTree = "<group>"; };
-		F27F7A3724858DCB001F2869 /* KeychainQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
 		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
 		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
-		F27F7A3F2485AF96001F2869 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2AA3781246F30BF00B9388F /* TwilioVerifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwilioVerifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA3788246F30BF00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2AA3799246F313500B9388F /* TwilioSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioSecurity.h; sourceTree = "<group>"; };
-		F2AA379A246F313500B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2C2706724CF922C007FDCF6 /* CompleteSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CompleteSuite.xctestplan; sourceTree = "<group>"; };
 		F2C552BC2493E34A006F6CDF /* FactorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacade.swift; sourceTree = "<group>"; };
 		F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeTests.swift; sourceTree = "<group>"; };
@@ -343,8 +336,6 @@
 		F2CFC42424A5A214008430B6 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Dev.xcconfig; sourceTree = "<group>"; };
 		F2CFC42524A5A224008430B6 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		F2CFC42624A5A233008430B6 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		F2DF31712473013A00CF4DC3 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
-		F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
 		F2E6C9F32492C76A00922FBA /* PushFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactory.swift; sourceTree = "<group>"; };
 		F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryTests.swift; sourceTree = "<group>"; };
 		F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorageMock.swift; sourceTree = "<group>"; };
@@ -356,7 +347,6 @@
 		F2F62FA8248846DC00E330E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2F62FAB248846DC00E330E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2F62FAD248846DC00E330E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2FB79B024897354004B22E6 /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -748,16 +738,6 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		F20CB41F2476DE200061A2D8 /* Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				F20CB4202476DE7A0061A2D8 /* KeyManager.swift */,
-				F20CB4252476DF570061A2D8 /* Keychain.swift */,
-				F27F7A3724858DCB001F2869 /* KeychainQuery.swift */,
-			);
-			path = Keychain;
-			sourceTree = "<group>";
-		};
 		F20CB4272476E3900061A2D8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -813,14 +793,6 @@
 			path = Signer;
 			sourceTree = "<group>";
 		};
-		F20CB4452477296B0061A2D8 /* Signer */ = {
-			isa = PBXGroup;
-			children = (
-				F20CB4462477299E0061A2D8 /* ECSigner.swift */,
-			);
-			path = Signer;
-			sourceTree = "<group>";
-		};
 		F20CB44D247741140061A2D8 /* KeyPair */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,16 +828,6 @@
 				F239EC0224D07CD000141A00 /* verify_factor_valid_response.json */,
 			);
 			path = APIResponses;
-			sourceTree = "<group>";
-		};
-		F25CF4582473008000BE4DB1 /* Key */ = {
-			isa = PBXGroup;
-			children = (
-				F20CB4452477296B0061A2D8 /* Signer */,
-				F2DF31702473012900CF4DC3 /* Template */,
-				F27F7A3F2485AF96001F2869 /* KeyPair.swift */,
-			);
-			path = Key;
 			sourceTree = "<group>";
 		};
 		F27A33DA24CF887A00A8053D /* Plans */ = {
@@ -970,7 +932,6 @@
 			children = (
 				F2AA377A246F30BE00B9388F /* TwilioVerify */,
 				F2AA3785246F30BF00B9388F /* TwilioVerifyTests */,
-				F2AA3798246F313500B9388F /* TwilioSecurity */,
 				F2F62F9E248846D800E330E4 /* HostApp */,
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
@@ -1010,16 +971,6 @@
 			path = TwilioVerifyTests;
 			sourceTree = "<group>";
 		};
-		F2AA3798246F313500B9388F /* TwilioSecurity */ = {
-			isa = PBXGroup;
-			children = (
-				F2AA37ED246F3CF000B9388F /* Sources */,
-				F2AA3799246F313500B9388F /* TwilioSecurity.h */,
-				F2AA379A246F313500B9388F /* Info.plist */,
-			);
-			path = TwilioSecurity;
-			sourceTree = "<group>";
-		};
 		F2AA37AE246F314000B9388F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1043,16 +994,6 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		F2AA37ED246F3CF000B9388F /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				F2FB79AF24897347004B22E6 /* Storage */,
-				F20CB41F2476DE200061A2D8 /* Keychain */,
-				F25CF4582473008000BE4DB1 /* Key */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 		F2CFC42324A5A1F2008430B6 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -1061,15 +1002,6 @@
 				F2CFC42624A5A233008430B6 /* Release.xcconfig */,
 			);
 			path = Config;
-			sourceTree = "<group>";
-		};
-		F2DF31702473012900CF4DC3 /* Template */ = {
-			isa = PBXGroup;
-			children = (
-				F2DF31712473013A00CF4DC3 /* Template.swift */,
-				F2DF31732473024300CF4DC3 /* ECP256SignerTemplate.swift */,
-			);
-			path = Template;
 			sourceTree = "<group>";
 		};
 		F2F62F9E248846D800E330E4 /* HostApp */ = {
@@ -1083,14 +1015,6 @@
 				F2F62FAD248846DC00E330E4 /* Info.plist */,
 			);
 			path = HostApp;
-			sourceTree = "<group>";
-		};
-		F2FB79AF24897347004B22E6 /* Storage */ = {
-			isa = PBXGroup;
-			children = (
-				F2FB79B024897354004B22E6 /* SecureStorage.swift */,
-			);
-			path = Storage;
 			sourceTree = "<group>";
 		};
 		F2FB79B2248979F4004B22E6 /* Storage */ = {
