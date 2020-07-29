@@ -37,20 +37,31 @@ class NetworkAdapterTests: XCTestCase {
   func testRequest_withFailureResponseCode_shouldReturnInvalidResponseError() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedDataResponse = "response".data(using: .utf8)!
-    let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
+    let statusCode = 400
+    let headersFields = ["key": "value"]
+    let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: statusCode, httpVersion: "", headerFields: headersFields)
     let session = URLSessionMock(data: expectedDataResponse, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
-    
+    var error: Error!
     networkProvider.execute(urlRequest, success: { response in
       XCTFail()
       failureExpectation.fulfill()
-    }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidResponse(errorResponse: expectedDataResponse).errorDescription)
-      XCTAssertEqual((error as! NetworkError).errorResponse,  expectedDataResponse)
+    }) { failure in
+      error = failure
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
+    let failureResponse = (error as! NetworkError).failureResponse!
+    let expectedError = NetworkError.failureStatusCode(
+      failureResponse: FailureResponse(
+        responseCode: statusCode,
+        errorData: expectedDataResponse,
+        headers: headersFields))
+    XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
+    XCTAssertEqual(failureResponse.responseCode, statusCode)
+    XCTAssertEqual(failureResponse.errorData, expectedDataResponse)
+    XCTAssertEqual(failureResponse.headers as! [String: String], headersFields)
   }
   
   func testRequest_withNoData_shouldReturnInvalidDataError() {

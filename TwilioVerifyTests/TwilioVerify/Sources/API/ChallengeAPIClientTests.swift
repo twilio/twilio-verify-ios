@@ -10,16 +10,18 @@ import XCTest
 @testable import TwilioVerify
 
 class ChallengeAPIClientTests: XCTestCase {
-
+  
   private var challengeAPIClient: ChallengeAPIClient!
   private var networkProvider: NetworkProviderMock!
   private var authentication: AuthenticationMock!
-
+  private var dateProvider: DateProviderMock!
+  
   override func setUpWithError() throws {
     try super.setUpWithError()
     networkProvider = NetworkProviderMock()
     authentication = AuthenticationMock()
-    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL)
+    dateProvider = DateProviderMock()
+    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: Constants.baseURL, dateProvider: dateProvider)
   }
   
   func testGetChallenge_withSuccessResponse_shouldSucceed() {
@@ -40,6 +42,39 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertEqual(apiResponse?.data, expectedResponse, "Response should be \(expectedResponse) but was \(apiResponse!.data)")
     XCTAssertEqual(apiResponse?.headers.count, expectedHeaders.count, "Headers count should be \(expectedHeaders.count) but was \(apiResponse!.headers.count)")
     XCTAssertEqual(apiResponse!.headers["header"] as! String, expectedHeaders["header"]!, "Header should be \(expectedHeaders["header"]!) but was \(apiResponse!.headers["header"]!)")
+  }
+  
+  func testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
+    let expectation = self.expectation(description: "testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    networkProvider.responses = [expectedError, expectedResponse]
+    var response: Response!
+    challengeAPIClient.get(withSid: "sid", withFactor: Constants.factor, success: { result in
+      response = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(response.data, expectedResponse.data, "Response should be \(expectedResponse) but was \(response.data)")
+  }
+  
+  func testGetChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
+    let expectation = self.expectation(description: "testGetChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    networkProvider.error = expectedError
+    challengeAPIClient.get(withSid: "sid", withFactor: Constants.factor, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { _ in
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testGetChallenge_withError_shouldFail() {
@@ -122,6 +157,39 @@ class ChallengeAPIClientTests: XCTestCase {
     }
     wait(for: [successExpectation], timeout: 5)
     XCTAssertEqual(apiResponse?.data, expectedResponse, "Response should be \(expectedResponse) but was \(apiResponse!.data)")
+  }
+  
+  func testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
+    let expectation = self.expectation(description: "testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    networkProvider.responses = [expectedError, expectedResponse]
+    var response: Response!
+    challengeAPIClient.update(Constants.challenge, withAuthPayload: Constants.authPayload, success: { result in
+      response = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(response.data, expectedResponse.data, "Response should be \(expectedResponse) but was \(response.data)")
+  }
+  
+  func testUpdateChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
+    let expectation = self.expectation(description: "testUpdateChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    networkProvider.error = expectedError
+    challengeAPIClient.update(Constants.challenge, withAuthPayload: Constants.authPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { _ in
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testUpdateChallenge_withError_shouldFail() {
@@ -210,7 +278,7 @@ class ChallengeAPIClientTests: XCTestCase {
       createdAt: Date(),
       updatedAt: Date(),
       expirationDate: Date(),
-    factor: Constants.factor)
+      factor: Constants.factor)
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
@@ -251,6 +319,39 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertEqual(error, expectedError)
   }
   
+  func testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
+    let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    networkProvider.responses = [expectedError, expectedResponse]
+    var response: Response!
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { result in
+      response = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(response.data, expectedResponse.data, "Response should be \(expectedResponse) but was \(response.data)")
+  }
+  
+  func testGetAll_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
+    let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
+    networkProvider.error = expectedError
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { _ in
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+  }
+  
   func testGetAll_withInvalidURL_shouldFail() {
     challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
     let expectation = self.expectation(description: "testGetAll_withInvalidURL_shouldFail")
@@ -273,7 +374,7 @@ class ChallengeAPIClientTests: XCTestCase {
     var expectedParams = Parameters()
     expectedParams.addAll([Parameter(name: ChallengeAPIClient.Constants.factorSidKey, value: Constants.factor.sid),
                            Parameter(name: ChallengeAPIClient.Constants.pageSizeKey, value: pageSize)])
-   
+    
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
@@ -308,7 +409,7 @@ class ChallengeAPIClientTests: XCTestCase {
                            Parameter(name: ChallengeAPIClient.Constants.pageSizeKey, value: pageSize),
                            Parameter(name: ChallengeAPIClient.Constants.statusKey, value: status),
                            Parameter(name: ChallengeAPIClient.Constants.pageTokenKey, value: pageToken)])
-   
+    
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
@@ -366,6 +467,16 @@ extension ChallengeAPIClientTests {
     static let authPayload = "authPayload123"
     static let factorType = FactorType.push
     static let baseURL = "https://twilio.com/"
+    static let challenge = FactorChallenge(
+      sid: Constants.challengeSid,
+      challengeDetails: Constants.challengeDetails,
+      hiddenDetails: "",
+      factorSid: Constants.factorSid,
+      status: .pending,
+      createdAt: Date(),
+      updatedAt: Date(),
+      expirationDate: Date(),
+      factor: Constants.factor)
     static let factor = PushFactor(
       sid: Constants.factorSid,
       friendlyName: Constants.friendlyName,
@@ -375,5 +486,9 @@ extension ChallengeAPIClientTests {
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid)
     )
+    static let failureResponse = FailureResponse(
+      responseCode: 401,
+      errorData: "error".data(using: .utf8)!,
+      headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
   }
 }
