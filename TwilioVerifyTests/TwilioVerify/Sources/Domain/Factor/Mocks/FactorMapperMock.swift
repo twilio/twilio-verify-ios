@@ -25,7 +25,7 @@ extension FactorMapperMock: FactorMapperProtocol {
     if let error = fromAPIError {
       throw error
     }
-    if let expectedData = expectedData, let expectedFactorPayload = expectedFactorPayload, expectedData == data, expectedFactorPayload.entity == factorPayload.entity
+    if let expectedData = expectedData, let expectedFactorPayload = expectedFactorPayload, expectedData == data, expectedFactorPayload.identity == factorPayload.identity
     {
       return try JSONDecoder().decode(PushFactor.self, from: expectedData)
     }

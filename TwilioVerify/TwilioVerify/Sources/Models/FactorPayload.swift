@@ -21,13 +21,13 @@ public struct PushFactorPayload: FactorPayload {
   public let identity: String
   public let factorType: FactorType = .push
   public let pushToken: String
-  public let enrollmentJwe: String
+  public let accessToken: String
   
-  public init(friendlyName: String, serviceSid: String, identity: String, pushToken: String, enrollmentJwe: String) {
+  public init(friendlyName: String, serviceSid: String, identity: String, pushToken: String, accessToken: String) {
     self.friendlyName = friendlyName
     self.serviceSid = serviceSid
     self.identity = identity
     self.pushToken = pushToken
-    self.enrollmentJwe = enrollmentJwe
+    self.accessToken = accessToken
   }
 }

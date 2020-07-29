@@ -16,7 +16,7 @@ class PushFactoryMock {
 }
 
 extension PushFactoryMock: PushFactoryProtocol {
-  func createFactor(withJwe jwe: String, friendlyName: String, pushToken: String, serviceSid: String, identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String, identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
       return

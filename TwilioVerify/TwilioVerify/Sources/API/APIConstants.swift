@@ -11,7 +11,7 @@ import Foundation
 struct APIConstants {
   static let jwtAuthenticationUser = "token"
   static let serviceSidPath = "{ServiceSid}"
-  static let entityPath = "{EntityIdentity}"
+  static let identityPath = "{Identity}"
   static let factorSidPath = "{FactorSid}"
   static let challengeSidPath = "{ChallengeSid}"
 }

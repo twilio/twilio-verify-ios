@@ -30,7 +30,7 @@ struct FakeFactor: Factor {
   var friendlyName: String
   var accountSid: String
   var serviceSid: String
-  var entityIdentity: String
+  var identity: String
   var type: FactorType
   var createdAt: Date
 }

@@ -184,7 +184,7 @@ class PushChallengeProcessorTests: XCTestCase {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "entityIdentity",
+      identity: "identity",
       type: .push,
       createdAt: Date())
     let challenge = FactorChallenge(
@@ -223,7 +223,7 @@ class PushChallengeProcessorTests: XCTestCase {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "identity",
+      identity: "identity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: nil)
@@ -467,7 +467,7 @@ private extension PushChallengeProcessorTests {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "identity",
+      identity: "identity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: "alias")

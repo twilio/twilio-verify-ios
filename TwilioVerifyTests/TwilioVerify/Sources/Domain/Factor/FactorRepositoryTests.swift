@@ -30,9 +30,9 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:], binding: [:],
-      jwe: Constants.jweValue)
+      accessToken: Constants.accessToken)
     let factor = Constants.generateFactor()
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
@@ -54,7 +54,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factorResponse?.sid, factor.sid, "Factor sid should be \(factor.sid) but was \(factorResponse!.sid)")
     XCTAssertEqual(factorResponse?.accountSid, factor.accountSid, "Factor accountSid should be \(factor.accountSid) but was \(factorResponse!.accountSid)")
     XCTAssertEqual(factorResponse?.createdAt, factor.createdAt, "Factor createdAt should be \(factor.createdAt) but was \(factorResponse!.createdAt)")
-    XCTAssertEqual(factorResponse?.entityIdentity, factor.entityIdentity, "Factor entityIdentity should be \(factor.entityIdentity) but was \(factorResponse!.entityIdentity)")
+    XCTAssertEqual(factorResponse?.identity, factor.identity, "Factor identity should be \(factor.identity) but was \(factorResponse!.identity)")
     XCTAssertEqual(factorResponse?.friendlyName, factor.friendlyName, "Factor friendlyName should be \(factor.friendlyName) but was \(factorResponse!.friendlyName)")
     XCTAssertEqual(factorResponse?.serviceSid, factor.serviceSid, "Factor serviceSid should be \(factor.serviceSid) but was \(factorResponse!.serviceSid)")
     XCTAssertEqual(factorResponse?.status, factor.status, "Factor status should be \(factor.status) but was \(factorResponse!.status)")
@@ -67,9 +67,9 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:], binding: [:],
-      jwe: Constants.jweValue)
+      accessToken: Constants.accessToken)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
     factorRepository.create(withPayload: factorPayload, success: { factor in
@@ -89,9 +89,9 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:], binding: [:],
-      jwe: Constants.jweValue)
+      accessToken: Constants.accessToken)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
@@ -113,9 +113,9 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:], binding: [:],
-      jwe: Constants.jweValue)
+      accessToken: Constants.accessToken)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = factor
@@ -141,9 +141,9 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:], binding: [:],
-      jwe: Constants.jweValue)
+      accessToken: Constants.accessToken)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = factor
@@ -183,7 +183,7 @@ class FactorRepositoryTests: XCTestCase {
       friendlyName: Constants.friendlyNameValue,
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
-      entityIdentity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let expectedFactorData = try! JSONEncoder().encode(expectedFactor)
@@ -524,8 +524,8 @@ private extension FactorRepositoryTests {
     static let serviceSidKey = "service_sid"
     static let friendlyNameValue = "factor name"
     static let serviceSidValue = "serviceSid123"
-    static let entityIdentityValue = "entityId123"
-    static let jweValue = "jwe"
+    static let identityValue = "identity123"
+    static let accessToken = "accessToken"
     static let expectedSidValue = "sid123"
     static let expectedAccountSid = "accountSid123"
     static let expectedCredentialSid = "credentialSid123"
@@ -533,7 +533,7 @@ private extension FactorRepositoryTests {
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
       serviceSid: Constants.serviceSidValue,
-      entity: Constants.entityIdentityValue,
+      identity: Constants.identityValue,
       config: [:],
       factorSid: Constants.expectedSidValue)
     static func generateFactor(withSid sid: String = Constants.expectedSidValue) -> PushFactor {
@@ -542,7 +542,7 @@ private extension FactorRepositoryTests {
         friendlyName: Constants.friendlyNameValue,
         accountSid: Constants.expectedAccountSid,
         serviceSid: Constants.serviceSidValue,
-        entityIdentity: Constants.entityIdentityValue,
+        identity: Constants.identityValue,
         createdAt: Date(),
         config: Config(credentialSid: Constants.expectedCredentialSid))
     }
