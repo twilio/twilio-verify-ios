@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Entity Identity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nnP-ip-qbB">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Identity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nnP-ip-qbB">
                                 <rect key="frame" x="16" y="188" width="382" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1SK-U4-ZoR"/>
@@ -27,7 +27,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enrollment URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asf-Kj-V6U">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Access token URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asf-Kj-V6U" userLabel="Access token URL Text Field">
                                 <rect key="frame" x="16" y="228" width="382" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="qes-Rf-29Z"/>
@@ -71,8 +71,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Create Factor" largeTitleDisplayMode="always" id="G21-zq-fJN"/>
                     <connections>
+                        <outlet property="accessTokenURLTextField" destination="asf-Kj-V6U" id="fQU-Kb-YwS"/>
                         <outlet property="createButton" destination="IIO-J6-K4C" id="hXR-x0-4iD"/>
-                        <outlet property="enrollmentURLTextField" destination="asf-Kj-V6U" id="fQU-Kb-YwS"/>
                         <outlet property="identityTextField" destination="nnP-ip-qbB" id="7Du-K0-DUZ"/>
                         <outlet property="loader" destination="DTf-rj-Xpc" id="jMP-Tt-mhG"/>
                     </connections>
@@ -224,14 +224,14 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vwc-hL-aZY">
                                         <rect key="frame" x="0.0" y="40" width="382" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV">
-                                                <rect key="frame" x="123" y="0.0" width="35.5" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV" userLabel="Identity Label">
+                                                <rect key="frame" x="71" y="0.0" width="35.5" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entity Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXZ-Lb-651">
-                                                <rect key="frame" x="0.0" y="0.0" width="121" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXZ-Lb-651">
+                                                <rect key="frame" x="0.0" y="0.0" width="69" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="tmx-wS-EXM"/>
                                                 </constraints>
@@ -314,7 +314,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OQX-zu-67g"/>
                     <connections>
-                        <outlet property="entityLabel" destination="dHP-pe-nFV" id="xhX-Ch-ZCL"/>
+                        <outlet property="identityLabel" destination="dHP-pe-nFV" id="xhX-Ch-ZCL"/>
                         <outlet property="nameLabel" destination="AOe-kC-D0s" id="mVh-bS-t0W"/>
                         <outlet property="sidTextField" destination="T6I-Gh-YgV" id="eVk-gY-fYx"/>
                         <outlet property="statusLabel" destination="cpM-pe-GdU" id="tBF-ZQ-rNc"/>

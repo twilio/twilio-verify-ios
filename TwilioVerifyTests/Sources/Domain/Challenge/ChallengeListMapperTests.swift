@@ -235,7 +235,7 @@ private extension ChallengeListMapperTests {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      entityIdentity: "identity",
+      identity: "identity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
   }
