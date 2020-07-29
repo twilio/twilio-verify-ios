@@ -14,7 +14,7 @@ struct PushFactor: Factor, Codable {
   let friendlyName: String
   let accountSid: String
   let serviceSid: String
-  let identity: String
+  let entityIdentity: String
   let type: FactorType = .push
   let createdAt: Date
   let config: Config

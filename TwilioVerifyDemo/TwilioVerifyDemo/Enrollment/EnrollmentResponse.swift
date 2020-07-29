@@ -1,5 +1,5 @@
 //
-//  AccessTokenResponse.swift
+//  EnrollmentResponse.swift
 //  TwilioVerifyDemo
 //
 //  Created by Santiago Avila on 6/25/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AccessTokenResponse: Codable {
+struct EnrollmentResponse: Codable {
   let token: String
   let serviceSid: String
   let identity: String

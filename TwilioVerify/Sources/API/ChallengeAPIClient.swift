@@ -84,20 +84,20 @@ private extension ChallengeAPIClient {
   func getChallengeURL(forSid sid: String, forFactor factor: Factor) -> String {
     "\(baseURL)\(Constants.getChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.challengeSidPath, with: sid)
   }
   
   func getChallengesURL(forFactor factor: Factor) -> String {
     "\(baseURL)\(Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
   }
   
   func updateChallengeURL(forSid sid: String, forFactor factor: Factor) -> String {
     "\(baseURL)\(Constants.updateChallengeURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.challengeSidPath, with: sid)
   }
   
@@ -113,8 +113,8 @@ extension ChallengeAPIClient {
     static let pageTokenKey = "pageToken"
     static let statusKey = "Status"
     static let factorSidKey = "FactorSid"
-    static let getChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Challenges/\(APIConstants.challengeSidPath)"
-    static let getChallengesURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Challenges"
-    static let updateChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Challenges/\(APIConstants.challengeSidPath)"
+    static let getChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges/\(APIConstants.challengeSidPath)"
+    static let getChallengesURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges"
+    static let updateChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Challenges/\(APIConstants.challengeSidPath)"
   }
 }

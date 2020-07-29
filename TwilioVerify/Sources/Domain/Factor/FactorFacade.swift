@@ -35,7 +35,7 @@ extension FactorFacade: FactorFacadeProtocol {
       failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
       return
     }
-    factory.createFactor(withAccessToken: payload.accessToken,
+    factory.createFactor(withJwe: payload.enrollmentJwe,
                          friendlyName: payload.friendlyName,
                          pushToken: payload.pushToken,
                          serviceSid: payload.serviceSid,

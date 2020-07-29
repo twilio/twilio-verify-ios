@@ -93,8 +93,8 @@ class FactorFacadeTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
-                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -167,8 +167,8 @@ class FactorFacadeTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
-                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -197,8 +197,8 @@ class FactorFacadeTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
-                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -293,8 +293,8 @@ class FactorFacadeTests: XCTestCase {
                    "Accound sid should be \(Constants.factor.accountSid) but was \(pushFactor.accountSid)")
     XCTAssertEqual(pushFactor.serviceSid, Constants.factor.serviceSid,
                    "Service Sid should be \(Constants.factor.serviceSid) but was \(pushFactor.serviceSid)")
-    XCTAssertEqual(pushFactor.identity, Constants.factor.identity,
-                   "Identity should be \(Constants.factor.identity) but was \(pushFactor.identity)")
+    XCTAssertEqual(pushFactor.entityIdentity, Constants.factor.entityIdentity,
+                   "Entity Identity should be \(Constants.factor.entityIdentity) but was \(pushFactor.entityIdentity)")
     XCTAssertEqual(pushFactor.createdAt, Constants.factor.createdAt,
                    "Creation date should be \(Constants.factor.createdAt) but was \(pushFactor.createdAt)")
     XCTAssertEqual(pushFactor.config.credentialSid, Constants.factor.config.credentialSid,
@@ -372,7 +372,7 @@ class FactorFacadeTests: XCTestCase {
 
 private extension FactorFacadeTests {
   struct Constants {
-    static let accessToken = "accessToken"
+    static let jwe = "jwe"
     static let friendlyName = "friendlyName"
     static let pushToken = "pushToken"
     static let serviceSid = "serviceSid"
@@ -384,14 +384,14 @@ private extension FactorFacadeTests {
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       pushToken: Constants.pushToken,
-      accessToken: Constants.accessToken
+      enrollmentJwe: Constants.jwe
     )
     static let factor = PushFactor(
       sid: "sid",
       friendlyName: Constants.friendlyName,
       accountSid: "accountSid",
       serviceSid: Constants.serviceSid,
-      identity: Constants.identity,
+      entityIdentity: Constants.identity,
       createdAt: Date(),
       config: Constants.config
     )

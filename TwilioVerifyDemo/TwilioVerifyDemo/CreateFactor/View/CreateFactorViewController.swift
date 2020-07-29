@@ -18,7 +18,7 @@ protocol CreateFactorView: class {
 class CreateFactorViewController: UIViewController {
 
   @IBOutlet private weak var identityTextField: UITextField!
-  @IBOutlet private weak var accessTokenURLTextField: UITextField!
+  @IBOutlet private weak var enrollmentURLTextField: UITextField!
   @IBOutlet private weak var createButton: UIButton!
   @IBOutlet weak var loader: UIActivityIndicatorView!
   
@@ -32,14 +32,14 @@ class CreateFactorViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    accessTokenURLTextField.text = presenter.accessTokenURL()
+    enrollmentURLTextField.text = presenter.enrollmentURL()
   }
   
   @IBAction func createFactor() {
     let identity = identityTextField.text
-    let url = accessTokenURLTextField.text
+    let url = enrollmentURLTextField.text
     loader.startAnimating()
-    presenter.create(withIdentity: identity, accessTokenURL: url)
+    presenter.create(withIdentity: identity, enrollmentURL: url)
   }
 }
 
@@ -71,7 +71,7 @@ private extension CreateFactorViewController {
   
   func setupUI() {
     identityTextField.addBottomBorder()
-    accessTokenURLTextField.addBottomBorder()
+    enrollmentURLTextField.addBottomBorder()
     createButton.layer.cornerRadius = 8
   }
   

@@ -82,13 +82,13 @@
                                 <rect key="frame" x="0.0" y="40" width="350" height="20"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vDS-2V-5OX">
-                                        <rect key="frame" x="71" y="0.0" width="35.5" height="20"/>
+                                        <rect key="frame" x="123" y="0.0" width="35.5" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO0-Ej-1qD">
-                                        <rect key="frame" x="0.0" y="0.0" width="69" height="20"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entity Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO0-Ej-1qD">
+                                        <rect key="frame" x="0.0" y="0.0" width="121" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="CBO-dg-36g"/>
                                         </constraints>
@@ -152,7 +152,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="identityLabel" destination="vDS-2V-5OX" id="Qo6-eX-TtK"/>
+                <outlet property="entityLabel" destination="vDS-2V-5OX" id="Qo6-eX-TtK"/>
                 <outlet property="nameLabel" destination="dO1-eJ-eGP" id="2lL-DL-Qhw"/>
                 <outlet property="sidLabel" destination="eDv-tY-ath" id="rGs-nC-wL5"/>
                 <outlet property="statusLabel" destination="oHr-Xc-3gi" id="CQP-9e-8kM"/>

@@ -27,8 +27,8 @@ class FactorAPIClientTests: XCTestCase {
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = Response(data: expectedResponse, headers: [:])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
-                                                  serviceSid: Constants.serviceSid, identity: Constants.identity,
-                                                  config: [:], binding: [:], accessToken: Constants.accessToken)
+                                                  serviceSid: Constants.serviceSid, entity: Constants.entity,
+                                                  config: [:], binding: [:], jwe: Constants.jwe)
     factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
@@ -44,8 +44,8 @@ class FactorAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
-                                                  serviceSid: Constants.serviceSid, identity: Constants.identity,
-                                                  config: [:], binding: [:], accessToken: Constants.accessToken)
+                                                  serviceSid: Constants.serviceSid, entity: Constants.entity,
+                                                  config: [:], binding: [:], jwe: Constants.jwe)
     factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
@@ -60,8 +60,8 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
     let failureExpectation = expectation(description: "Wait for failure response")
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
-                                                  serviceSid: Constants.serviceSid, identity: Constants.identity,
-                                                  config: [:], binding: [:], accessToken: Constants.accessToken)
+                                                  serviceSid: Constants.serviceSid, entity: Constants.entity,
+                                                  config: [:], binding: [:], jwe: Constants.jwe)
     factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTFail()
       failureExpectation.fulfill()
@@ -75,7 +75,7 @@ class FactorAPIClientTests: XCTestCase {
   func testCreateFactor_withValidData_shouldMatchExpectedParams() {
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.createFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.entity)
     let binding = ["public_key": "12345"]
     let bindingString = String(data: try! JSONEncoder().encode(binding), encoding: .utf8)
     let config = ["sdk_version": "1.0.0", "app_id": "TwilioVerify",
@@ -88,8 +88,8 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
-                                                  serviceSid: Constants.serviceSid, identity: Constants.identity,
-                                                  config: config, binding: binding, accessToken: Constants.accessToken)
+                                                  serviceSid: Constants.serviceSid, entity: Constants.entity,
+                                                  config: config, binding: binding, jwe: Constants.jwe)
     
     factorAPIClient.create(withPayload: createFactorPayload, success: {_ in }, failure: {_ in })
     
@@ -155,7 +155,7 @@ class FactorAPIClientTests: XCTestCase {
     expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.authPayloadKey, value: Constants.authPayload)])
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.verifyFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
     
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
@@ -180,7 +180,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectation = self.expectation(description: "testDeleteFactor_withSuccessResponse_shouldSucceed")
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.verifyFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = Response(data: expectedResponse, headers: [:])
@@ -288,7 +288,7 @@ class FactorAPIClientTests: XCTestCase {
                            Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)])
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.updateFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: Constants.factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
     
     factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: {_ in }, failure: {_ in })
@@ -316,22 +316,22 @@ extension FactorAPIClientTests {
     static let friendlyName = "factor name"
     static let serviceSid = "serviceSid123"
     static let accountSid = "accountSid123"
-    static let identity = "identity"
+    static let entity = "entityIdentity"
     static let credentialSid = "credentialSid123"
     static let factorType = FactorType.push
-    static let accessToken = "accessToken"
+    static let jwe = "jwe"
     static let authPayload = "authPayload"
     static let pushTokenKey = "notification_token"
     static let pushToken = "pushToken"
     static let config = [pushTokenKey: pushToken]
-    static let updateFactorDataPayload = UpdateFactorDataPayload(friendlyName: friendlyName, type: factorType, serviceSid: serviceSid, identity: identity, config: config, factorSid: factorSid)
+    static let updateFactorDataPayload = UpdateFactorDataPayload(friendlyName: friendlyName, type: factorType, serviceSid: serviceSid, entity: entity, config: config, factorSid: factorSid)
     static let baseURL = "https://twilio.com/"
     static let factor = PushFactor(
       sid: Constants.factorSid,
       friendlyName: Constants.friendlyName,
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
-      identity: Constants.identity,
+      entityIdentity: Constants.entity,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid))
   }

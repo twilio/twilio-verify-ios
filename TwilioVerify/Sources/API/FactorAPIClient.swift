@@ -31,7 +31,7 @@ class FactorAPIClient {
 extension FactorAPIClient: FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     do {
-      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: payload.accessToken))
+      let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: payload.jwe))
       let request = try URLRequestBuilder(withURL: createURL(createFactorPayload: payload), requestHelper: requestHelper)
         .setHTTPMethod(.post)
         .setParameters(createFactorBody(createFactorPayload: payload))
@@ -90,7 +90,7 @@ private extension FactorAPIClient {
   func createURL(createFactorPayload: CreateFactorPayload) -> String {
     "\(baseURL)\(Constants.createFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: createFactorPayload.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: createFactorPayload.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: createFactorPayload.entity)
   }
   
   func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
@@ -113,7 +113,7 @@ private extension FactorAPIClient {
   func verifyURL(for factor: Factor) -> String {
     "\(baseURL)\(Constants.verifyFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
   }
   
@@ -124,14 +124,14 @@ private extension FactorAPIClient {
   func deleteURL(for factor: Factor) -> String {
     "\(baseURL)\(Constants.deleteFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
   }
   
   func updateURL(for factor: Factor) -> String {
     "\(baseURL)\(Constants.updateFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: factor.serviceSid)
-      .replacingOccurrences(of: APIConstants.identityPath, with: factor.identity)
+      .replacingOccurrences(of: APIConstants.entityPath, with: factor.entityIdentity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: factor.sid)
   }
   
@@ -152,7 +152,7 @@ extension FactorAPIClient {
     static let bindingKey = "Binding"
     static let configKey = "Config"
     static let authPayloadKey = "AuthPayload"
-    static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Factors"
+    static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.entityPath)/Factors"
     static let verifyFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
     static let deleteFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
     static let updateFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"

@@ -43,8 +43,8 @@ class VerifyFactorTests: BaseFactorTests {
                    "Factor type should be \(factor!.type) but was \(factorResponse.type)")
     XCTAssertEqual(factorResponse.status.rawValue, FactorStatus.verified.rawValue,
                    "Factor status should be \(FactorStatus.verified.rawValue) but was \(factorResponse.status.rawValue)")
-    XCTAssertEqual(factorResponse.identity, Constants.identity,
-                   "Factor identity should be \(Constants.identity) but was \(factorResponse.identity)")
+    XCTAssertEqual(factorResponse.entityIdentity, Constants.identity,
+                   "Factor identity should be \(Constants.identity) but was \(factorResponse.entityIdentity)")
     XCTAssertEqual(factorResponse.serviceSid, Constants.serviceSid,
                    "Factor service sid should be \(Constants.serviceSid) but was \(factorResponse.serviceSid)")
   }

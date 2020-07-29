@@ -1,5 +1,5 @@
 //
-//  AccessTokenAPI.swift
+//  EnrollmentAPI.swift
 //  TwilioVerifyDemo
 //
 //  Created by Santiago Avila on 6/25/20.
@@ -29,11 +29,11 @@ enum NetworkError: LocalizedError {
   }
 }
 
-protocol AccessTokensAPI {
-  func accessTokens(at url: String, identity: String, success: @escaping (AccessTokenResponse) -> (), failure: @escaping (Error) -> ())
+protocol Enrollment {
+  func enroll(at url: String, identity: String, success: @escaping (EnrollmentResponse) -> (), failure: @escaping (Error) -> ())
 }
 
-class AccessTokensAPIClient: AccessTokensAPI {
+class EnrollmentAPI: Enrollment {
   
   private let urlSession: URLSession
   
@@ -41,7 +41,7 @@ class AccessTokensAPIClient: AccessTokensAPI {
     self.urlSession = urlSession
   }
   
-  func accessTokens(at url: String, identity: String, success: @escaping (AccessTokenResponse) -> (), failure: @escaping (Error) -> ()) {
+  func enroll(at url: String, identity: String, success: @escaping (EnrollmentResponse) -> (), failure: @escaping (Error) -> ()) {
     guard let url = URL(string: url) else {
       failure(NetworkError.invalidURL)
       return
@@ -66,7 +66,7 @@ class AccessTokensAPIClient: AccessTokensAPI {
         return
       }
       guard let data = data,
-            let response = try? JSONDecoder().decode(AccessTokenResponse.self, from: data) else {
+            let response = try? JSONDecoder().decode(EnrollmentResponse.self, from: data) else {
         failure(NetworkError.invalidData)
         return
       }

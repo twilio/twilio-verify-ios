@@ -15,7 +15,7 @@ struct FactorMock: Factor {
   let friendlyName: String
   let accountSid: String
   let serviceSid: String
-  let identity: String
+  let entityIdentity: String
   let type: FactorType
   let createdAt: Date
 }

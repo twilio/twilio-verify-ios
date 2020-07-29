@@ -42,8 +42,8 @@ class TwilioVerifyManagerTests: XCTestCase {
                    "Factor accountSid should be \(Constants.expectedFactor.accountSid) but was \(factorResponse.accountSid)")
     XCTAssertEqual(factorResponse.serviceSid, Constants.expectedFactor.serviceSid,
                    "Factor serviceSid should be \(Constants.expectedFactor.serviceSid) but was \(factorResponse.serviceSid)")
-    XCTAssertEqual(factorResponse.identity, Constants.expectedFactor.identity,
-                   "Factor identity should be \(Constants.expectedFactor.identity) but was \(factorResponse.identity)")
+    XCTAssertEqual(factorResponse.entityIdentity, Constants.expectedFactor.entityIdentity,
+                   "Factor entityIdentity should be \(Constants.expectedFactor.entityIdentity) but was \(factorResponse.entityIdentity)")
     XCTAssertEqual(factorResponse.createdAt, Constants.expectedFactor.createdAt,
                    "Factor createdAt should be \(Constants.expectedFactor.createdAt) but was \(factorResponse.createdAt)")
   }
@@ -85,8 +85,8 @@ class TwilioVerifyManagerTests: XCTestCase {
                    "Factor accountSid should be \(Constants.expectedFactor.accountSid) but was \(factorResponse.accountSid)")
     XCTAssertEqual(factorResponse.serviceSid, Constants.expectedFactor.serviceSid,
                    "Factor serviceSid should be \(Constants.expectedFactor.serviceSid) but was \(factorResponse.serviceSid)")
-    XCTAssertEqual(factorResponse.identity, Constants.expectedFactor.identity,
-                   "Factor identity should be \(Constants.expectedFactor.identity) but was \(factorResponse.identity)")
+    XCTAssertEqual(factorResponse.entityIdentity, Constants.expectedFactor.entityIdentity,
+                   "Factor entityIdentity should be \(Constants.expectedFactor.entityIdentity) but was \(factorResponse.entityIdentity)")
     XCTAssertEqual(factorResponse.createdAt, Constants.expectedFactor.createdAt,
                    "Factor createdAt should be \(Constants.expectedFactor.createdAt) but was \(factorResponse.createdAt)")
   }
@@ -128,8 +128,8 @@ class TwilioVerifyManagerTests: XCTestCase {
                    "Factor accountSid should be \(Constants.expectedFactor.accountSid) but was \(factor.accountSid)")
     XCTAssertEqual(factor.serviceSid, Constants.expectedFactor.serviceSid,
                    "Factor serviceSid should be \(Constants.expectedFactor.serviceSid) but was \(factor.serviceSid)")
-    XCTAssertEqual(factor.identity, Constants.expectedFactor.identity,
-                   "Factor identity should be \(Constants.expectedFactor.identity) but was \(factor.identity)")
+    XCTAssertEqual(factor.entityIdentity, Constants.expectedFactor.entityIdentity,
+                   "Factor entityIdentity should be \(Constants.expectedFactor.entityIdentity) but was \(factor.entityIdentity)")
     XCTAssertEqual(factor.createdAt, Constants.expectedFactor.createdAt,
                    "Factor createdAt should be \(Constants.expectedFactor.createdAt) but was \(factor.createdAt)")
   }
@@ -341,7 +341,7 @@ private extension TwilioVerifyManagerTests {
     static let serviceSid = "serviceSid123"
     static let identity = "identityValue"
     static let pushToken = "ACBtoken"
-    static let accessToken = "accessToken"
+    static let enrollmentJWE = "jwe"
     static let challengeSid = "challengeSid"
     static let challengeSid2 = "challengeSid2"
     static let expectedFactor = PushFactor(
@@ -349,7 +349,7 @@ private extension TwilioVerifyManagerTests {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      identity: "identity",
+      entityIdentity: "entityIdentity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
     static let factorPayload = PushFactorPayload(
@@ -357,7 +357,7 @@ private extension TwilioVerifyManagerTests {
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       pushToken: Constants.pushToken,
-      accessToken: Constants.accessToken)
+      enrollmentJwe: Constants.enrollmentJWE)
     static let updatePushFactorPayload = UpdatePushFactorPayload(
       sid: Constants.factorSid,
       pushToken: Constants.pushToken)

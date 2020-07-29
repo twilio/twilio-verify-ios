@@ -30,7 +30,7 @@ class AuthenticationProviderTests: XCTestCase {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      identity: "identity",
+      entityIdentity: "entityIdentity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: "keyPairAlias")
@@ -53,7 +53,7 @@ class AuthenticationProviderTests: XCTestCase {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      identity: "identity",
+      entityIdentity: "entityIdentity",
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: nil)
@@ -70,7 +70,7 @@ class AuthenticationProviderTests: XCTestCase {
       friendlyName: "friendlyName",
       accountSid: "accountSid",
       serviceSid: "serviceSid",
-      identity: "identity",
+      entityIdentity: "entityIdentity",
       type: .push,
       createdAt: Date())
     XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in

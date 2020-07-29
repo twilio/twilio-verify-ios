@@ -13,8 +13,8 @@
 		F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275353424A52150005A5605 /* UITextField+Extensions.swift */; };
 		F275353F24A52C05005A5605 /* CreateFactorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275353E24A52C05005A5605 /* CreateFactorPresenter.swift */; };
 		F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354124A52DBF005A5605 /* TwilioVerifyAdapter.swift */; };
-		F275354C24A53229005A5605 /* AccessTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354B24A53229005A5605 /* AccessTokensAPI.swift */; };
-		F297F61F24A5435300294A0D /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297F61E24A5435300294A0D /* AccessTokenResponse.swift */; };
+		F275354C24A53229005A5605 /* EnrollmentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275354B24A53229005A5605 /* EnrollmentAPI.swift */; };
+		F297F61F24A5435300294A0D /* EnrollmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297F61E24A5435300294A0D /* EnrollmentResponse.swift */; };
 		F297F62424A5472300294A0D /* FactorListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297F62324A5472300294A0D /* FactorListViewController.swift */; };
 		F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37C2246F323C00B9388F /* AppDelegate.swift */; };
 		F2AA37C7246F323C00B9388F /* CreateFactorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AA37C6246F323C00B9388F /* CreateFactorViewController.swift */; };
@@ -68,8 +68,8 @@
 		F275353424A52150005A5605 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		F275353E24A52C05005A5605 /* CreateFactorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFactorPresenter.swift; sourceTree = "<group>"; };
 		F275354124A52DBF005A5605 /* TwilioVerifyAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyAdapter.swift; sourceTree = "<group>"; };
-		F275354B24A53229005A5605 /* AccessTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokensAPI.swift; sourceTree = "<group>"; };
-		F297F61E24A5435300294A0D /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
+		F275354B24A53229005A5605 /* EnrollmentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentAPI.swift; sourceTree = "<group>"; };
+		F297F61E24A5435300294A0D /* EnrollmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentResponse.swift; sourceTree = "<group>"; };
 		F297F62324A5472300294A0D /* FactorListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorListViewController.swift; sourceTree = "<group>"; };
 		F297F62824A5594F00294A0D /* TwilioVerifyDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwilioVerifyDemo.entitlements; sourceTree = "<group>"; };
 		F2AA37BF246F323C00B9388F /* TwilioVerifyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwilioVerifyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,13 +183,13 @@
 			path = TwilioVerify;
 			sourceTree = "<group>";
 		};
-		F275354A24A53218005A5605 /* AccessToken */ = {
+		F275354A24A53218005A5605 /* Enrollment */ = {
 			isa = PBXGroup;
 			children = (
-				F275354B24A53229005A5605 /* AccessTokensAPI.swift */,
-				F297F61E24A5435300294A0D /* AccessTokenResponse.swift */,
+				F275354B24A53229005A5605 /* EnrollmentAPI.swift */,
+				F297F61E24A5435300294A0D /* EnrollmentResponse.swift */,
 			);
-			path = AccessToken;
+			path = Enrollment;
 			sourceTree = "<group>";
 		};
 		F297F62024A546F500294A0D /* FactorList */ = {
@@ -246,7 +246,7 @@
 				F24C243524B6143D00C1B92C /* ChallengeDetail */,
 				F2CC678E24B50774000CB11E /* Common */,
 				F297F62024A546F500294A0D /* FactorList */,
-				F275354A24A53218005A5605 /* AccessToken */,
+				F275354A24A53218005A5605 /* Enrollment */,
 				F275354024A52DA7005A5605 /* TwilioVerify */,
 				F275353924A52BCC005A5605 /* CreateFactor */,
 				F275352E24A51C9B005A5605 /* Extensions */,
@@ -437,8 +437,8 @@
 				F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */,
 				F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */,
 				F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */,
-				F275354C24A53229005A5605 /* AccessTokensAPI.swift in Sources */,
-				F297F61F24A5435300294A0D /* AccessTokenResponse.swift in Sources */,
+				F275354C24A53229005A5605 /* EnrollmentAPI.swift in Sources */,
+				F297F61F24A5435300294A0D /* EnrollmentResponse.swift in Sources */,
 				F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */,
 				F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */,
 			);

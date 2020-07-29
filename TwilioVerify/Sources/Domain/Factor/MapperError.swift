@@ -20,7 +20,7 @@ extension MapperError {
       case .invalidDate:
         return "Invalid date format"
       case .invalidArgument:
-        return "ServiceSid or Identity is null or empty"
+        return "ServiceSid or EntityIdentity is null or empty"
       case .illegalArgument:
         return "Invalid factor type from data"
     }

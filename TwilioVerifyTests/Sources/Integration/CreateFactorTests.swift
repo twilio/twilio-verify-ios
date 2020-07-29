@@ -18,7 +18,7 @@ class CreateFactorTests: XCTestCase {
       let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any] else {
       fatalError("create_factor_valid_response.json not found")
     }
-    let expectation = self.expectation(description: "testCreateFactor_withValidAccessTokenAndValidAPIResponse_shouldReturnFactor")
+    let expectation = self.expectation(description: "testCreateFactor_withValidJWEAndValidAPIResponse_shouldReturnFactor")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
@@ -44,8 +44,8 @@ class CreateFactorTests: XCTestCase {
                    "Factor type should be \(jsonDictionary[Constants.factorStatusKey] as! String) but was \(factor.type.rawValue)")
     XCTAssertEqual(factor.status.rawValue, jsonDictionary[Constants.factorStatusKey] as! String,
                    "Factor status should be \(jsonDictionary[Constants.factorStatusKey] as! String) but was \(factor.status.rawValue)")
-    XCTAssertEqual(factor.identity, Constants.identity,
-                   "Factor identity should be \(Constants.identity) but was \(factor.identity)")
+    XCTAssertEqual(factor.entityIdentity, Constants.identity,
+                   "Factor identity should be \(Constants.identity) but was \(factor.entityIdentity)")
     XCTAssertEqual(factor.serviceSid, Constants.serviceSid,
                    "Factor service sid should be \(Constants.serviceSid) but was \(factor.serviceSid)")
   }
@@ -57,7 +57,7 @@ class CreateFactorTests: XCTestCase {
         fatalError("create_factor_valid_response.json not found")
     }
     
-    let expectation = self.expectation(description: "testCreateFactor_withValidAccessTokenAndInvalidAPIResponseCode_shouldFail")
+    let expectation = self.expectation(description: "testCreateFactor_withValidJWEAndInvalidAPIResponseCode_shouldFail")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
@@ -84,7 +84,7 @@ class CreateFactorTests: XCTestCase {
         fatalError("invalid_response.json not found")
     }
     
-    let expectation = self.expectation(description: "testCreateFactor_withValidAccessTokenAndInvalidAPIResponseBody_shouldFail")
+    let expectation = self.expectation(description: "testCreateFactor_withValidJWEAndInvalidAPIResponseBody_shouldFail")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
@@ -119,7 +119,7 @@ private extension CreateFactorTests {
     static let createFactorValidResponse = "create_factor_valid_response"
     static let createFactorInvalidResponse = "invalid_response"
     static let json = "json"
-    static let accessToken = """
+    static let jwe = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
               AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
               Z5Ijp7ImlkZW50aXR5IjoiWUViZDE1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNSIsImZhY3RvciI6InB1c2
@@ -134,6 +134,6 @@ private extension CreateFactorTests {
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
       pushToken: Constants.pushToken,
-      accessToken: Constants.accessToken)
+      enrollmentJwe: Constants.jwe)
   }
 }

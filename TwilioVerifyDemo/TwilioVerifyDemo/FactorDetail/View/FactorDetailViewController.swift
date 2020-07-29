@@ -17,7 +17,7 @@ protocol FactorDetailView: class {
 class FactorDetailViewController: UIViewController {
   
   @IBOutlet private weak var nameLabel: UILabel!
-  @IBOutlet private weak var identityLabel: UILabel!
+  @IBOutlet private weak var entityLabel: UILabel!
   @IBOutlet private weak var statusLabel: UILabel!
   @IBOutlet private weak var sidTextField: UITextField!
   @IBOutlet private weak var tableView: UITableView!
@@ -75,7 +75,7 @@ extension FactorDetailViewController: FactorDetailView {
   func updateFactorView() {
     nameLabel.text = presenter.factor.friendlyName
     sidTextField.text = presenter.factor.sid
-    identityLabel.text = presenter.factor.identity
+    entityLabel.text = presenter.factor.entityIdentity
     statusLabel.text = presenter.factor.status.rawValue
     title = presenter.factor.friendlyName
   }

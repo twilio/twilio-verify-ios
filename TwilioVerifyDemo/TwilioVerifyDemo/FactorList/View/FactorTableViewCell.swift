@@ -15,13 +15,13 @@ class FactorTableViewCell: UITableViewCell {
   
   @IBOutlet private weak var nameLabel: UILabel!
   @IBOutlet private weak var sidLabel: UILabel!
-  @IBOutlet private weak var identityLabel: UILabel!
+  @IBOutlet private weak var entityLabel: UILabel!
   @IBOutlet private weak var statusLabel: UILabel!
   
   func configure(with factor: Factor) {
     nameLabel.text = factor.friendlyName
     sidLabel.text = factor.sid
-    identityLabel.text = factor.identity
+    entityLabel.text = factor.entityIdentity
     statusLabel.text = factor.status.rawValue
   }
 }
