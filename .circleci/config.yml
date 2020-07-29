@@ -8,7 +8,6 @@ executors:
 commands:
   setup:
     steps:
-      - checkout
       - configure_secrets
       - configure_xcode_signing
       - restore_cache:
@@ -71,6 +70,7 @@ commands:
       test_plan:
         type: string
     steps:
+      - checkout
       - setup
       - run:
           name: Test
@@ -86,10 +86,8 @@ commands:
       artifact:
         type: string
     steps:
+      - checkout
       - setup 
-      # - attach_workspace:
-      #     at: ~/Code
-
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
@@ -100,8 +98,6 @@ commands:
                   zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
-      # - run: mkdir -p ~/Code/builds
-      # - run: cp -a ~/Desktop/. ~/Code/builds
       - persist_to_workspace:
           root: ~/Desktop
           paths:
@@ -109,13 +105,14 @@ commands:
 
   build_app_sizer:
     steps:
+      - checkout
+      - use_system_ruby
       - setup
       - attach_workspace:
           at: ~/Desktop
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-      - use_system_ruby
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
@@ -148,12 +145,12 @@ workflows:
       - TwilioVerify Complete Suite of Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      - Build TwilioVerify
-          # requires:
-          #   - TwilioVerify Complete Suite of Tests
-      - Size report:
+      - Build TwilioVerify:
           requires:
-            - Build TwilioVerify
+            - TwilioVerify Complete Suite of Tests
+      # - Size report:
+      #     requires:
+      #       - Build TwilioVerify
 
       
       
