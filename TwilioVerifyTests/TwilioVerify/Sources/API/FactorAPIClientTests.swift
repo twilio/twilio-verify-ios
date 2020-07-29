@@ -127,7 +127,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: Response!
@@ -145,7 +145,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testVerifyFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
       XCTFail()
@@ -243,7 +243,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testDeleteFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testDeleteFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     factorAPIClient.delete(Constants.factor, success: {
@@ -258,7 +258,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     factorAPIClient.delete(Constants.factor, success: {
       XCTFail()
@@ -320,7 +320,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testUpdateFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testUpdateFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: Response!
@@ -338,7 +338,7 @@ class FactorAPIClientTests: XCTestCase {
   
   func testUpdateFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testUpdateFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { _ in
       XCTFail()

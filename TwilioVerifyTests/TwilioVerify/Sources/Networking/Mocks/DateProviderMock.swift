@@ -22,7 +22,7 @@ extension DateProviderMock: DateProvider {
     fatalError("Expected params not set")
   }
   
-  func syncTime(date: String) {
+  func syncTime(_ date: String) {
     syncTimeCalled = true
   }
 }

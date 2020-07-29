@@ -25,7 +25,7 @@ extension URLSession {
       }
       guard response.statusCode < 300 else {
         let failureResponse = FailureResponse(responseCode: response.statusCode, errorData: data, headers: response.allHeaderFields)
-        result(.failure(NetworkError.unsuccessStatusCode(failureResponse: failureResponse)))
+        result(.failure(NetworkError.failureStatusCode(failureResponse: failureResponse)))
         return
       }
       result(.success(Response(data: data, headers: response.allHeaderFields)))

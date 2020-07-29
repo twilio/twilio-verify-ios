@@ -53,7 +53,7 @@ class NetworkAdapterTests: XCTestCase {
     }
     wait(for: [failureExpectation], timeout: 5)
     let failureResponse = (error as! NetworkError).failureResponse!
-    let expectedError = NetworkError.unsuccessStatusCode(
+    let expectedError = NetworkError.failureStatusCode(
       failureResponse: FailureResponse(
         responseCode: statusCode,
         errorData: expectedDataResponse,

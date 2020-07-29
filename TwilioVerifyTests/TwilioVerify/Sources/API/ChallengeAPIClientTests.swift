@@ -46,7 +46,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: Response!
@@ -64,7 +64,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testGetChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testGetChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     challengeAPIClient.get(withSid: "sid", withFactor: Constants.factor, success: { _ in
       XCTFail()
@@ -161,7 +161,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: Response!
@@ -179,7 +179,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testUpdateChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testUpdateChallenge_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     challengeAPIClient.update(Constants.challenge, withAuthPayload: Constants.authPayload, success: { _ in
       XCTFail()
@@ -321,7 +321,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: Response!
@@ -339,7 +339,7 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testGetAll_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
     let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
-    let expectedError = NetworkError.unsuccessStatusCode(failureResponse: Constants.failureResponse)
+    let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { _ in
       XCTFail()

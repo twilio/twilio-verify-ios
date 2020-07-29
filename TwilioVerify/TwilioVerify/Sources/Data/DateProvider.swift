@@ -8,12 +8,12 @@
 
 import Foundation
 
-internal protocol DateProvider {
+protocol DateProvider {
   func getCurrentTime() -> Int
-  func syncTime(date: String)
+  func syncTime(_ date: String)
 }
 
-internal class DateAdapter: DateProvider {
+class DateAdapter: DateProvider {
   
   private let userDefaults: UserDefaults
   
@@ -26,7 +26,7 @@ internal class DateAdapter: DateProvider {
     return localTime() + timeDifference
   }
   
-  func syncTime(date: String) {
+  func syncTime(_ date: String) {
     guard let time = DateFormatter().RFC1123(date)?.timeIntervalSince1970 else {
       return
     }
@@ -45,7 +45,7 @@ private extension DateAdapter {
   }
 }
 
-internal extension DateAdapter {
+extension DateAdapter {
   struct Constants {
     static let timeCorrectionKey = "timeCorrection"
   }

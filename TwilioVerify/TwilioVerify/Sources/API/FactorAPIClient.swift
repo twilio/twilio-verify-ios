@@ -53,7 +53,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
           .setParameters(verifyFactorBody(authPayload: authPayload))
           .build()
         networkProvider.execute(request, success: success, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: verifyFactor, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: verifyFactor, failure: failure)
         })
       } catch {
         failure(error)
@@ -73,7 +73,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         networkProvider.execute(request, success: { _ in
           success()
         }, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: deleteFactor, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
         })
       } catch {
         failure(error)
@@ -92,7 +92,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
           .setParameters(updateFactorBody(updateFactorDataPayload: updateFactorDataPayload))
           .build()
         networkProvider.execute(request, success: success, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: updateFactor, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: updateFactor, failure: failure)
         })
       } catch {
         failure(error)

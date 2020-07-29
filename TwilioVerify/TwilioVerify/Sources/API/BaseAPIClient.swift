@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal class BaseAPIClient {
+class BaseAPIClient {
   
   private let dateProvider: DateProvider
   
@@ -16,23 +16,22 @@ internal class BaseAPIClient {
     self.dateProvider = dateProvider
   }
   
-  func validateFailureResponse(error: Error, retryBlock: (Int) -> (), retries: Int, failure: @escaping FailureBlock) {
+  func validateFailureResponse(withError error: Error, retries: Int, retryBlock: (Int) -> (), failure: @escaping FailureBlock) {
     guard retries > 0, let networkError = error as? NetworkError,
-      case .unsuccessStatusCode = networkError,
+      case .failureStatusCode = networkError,
       networkError.failureResponse?.responseCode == Constants.unauthorized,
       let date = networkError.failureResponse?.headers[Constants.dateHeaderKey] as? String else {
         failure(error)
         return
     }
-    syncTime(date: date)
+    syncTime(date)
     retryBlock(retries - 1)
   }
 }
 
 private extension BaseAPIClient {
-  
-  private func syncTime(date: String) {
-    dateProvider.syncTime(date: date)
+  func syncTime(_ date: String) {
+    dateProvider.syncTime(date)
   }
 }
 

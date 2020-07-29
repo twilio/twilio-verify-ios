@@ -38,14 +38,14 @@ class DateProviderTests: XCTestCase {
   func testSyncTime_withValidDate_shouldStoreTimeCorrection() {
     userDefaults.keyName = DateAdapter.Constants.timeCorrectionKey
     let date = "Tue, 21 Jul 2020 17:07:32 GMT"
-    dateProvider.syncTime(date: date)
+    dateProvider.syncTime(date)
     XCTAssertNotNil(userDefaults.intValue)
   }
   
   func testSyncTime_withInvalidDate_shouldNotStoreTimeCorrection() {
     userDefaults.keyName = DateAdapter.Constants.timeCorrectionKey
     let date = "invalidDate"
-    dateProvider.syncTime(date: date)
+    dateProvider.syncTime(date)
     XCTAssertNil(userDefaults.intValue)
   }
 }

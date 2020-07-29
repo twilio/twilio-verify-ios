@@ -37,7 +37,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           .setHTTPMethod(.get)
           .build()
         networkProvider.execute(request, success: success, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: getChallenge, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: getChallenge, failure: failure)
         })
       } catch {
         failure(error)
@@ -63,7 +63,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           .setParameters(parameters)
           .build()
         networkProvider.execute(request, success: success, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: getAllChallenges, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: getAllChallenges, failure: failure)
         })
       } catch {
         failure(error)
@@ -86,7 +86,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           .setParameters(updateChallengeBody(authPayload: authPayload))
           .build()
         networkProvider.execute(request, success: success, failure: { error in
-          self.validateFailureResponse(error: error, retryBlock: updateChallenge, retries: retries, failure: failure)
+          self.validateFailureResponse(withError: error, retries: retries, retryBlock: updateChallenge, failure: failure)
         })
       } catch {
         failure(error)
