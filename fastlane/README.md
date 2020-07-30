@@ -12,7 +12,7 @@ Install _fastlane_ using
 ```
 [sudo] gem install fastlane -NV
 ```
-or alternatively using `brew cask install fastlane`
+or alternatively using `brew install fastlane`
 
 # Available Actions
 ## iOS
@@ -20,7 +20,12 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane ios test
 ```
-TwilioSecurity unit tests
+Runs the different test plans [TwilioVerify | TwilioSecurity | Integration]
+### ios build_universal_framework
+```
+fastlane ios build_universal_framework
+```
+
 
 ----
 

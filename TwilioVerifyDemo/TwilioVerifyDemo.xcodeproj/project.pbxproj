@@ -32,8 +32,6 @@
 		F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41A24A56E6B008430B6 /* FactorListPresenter.swift */; };
 		F2CFC41E24A575FA008430B6 /* FactorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CFC41C24A575FA008430B6 /* FactorTableViewCell.swift */; };
 		F2CFC41F24A575FA008430B6 /* FactorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2CFC41D24A575FA008430B6 /* FactorTableViewCell.xib */; };
-		F2DBF5CB24903879007FEDAC /* TwilioSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */; };
-		F2DBF5CC24903879007FEDAC /* TwilioSecurity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2DBF5CA24903879007FEDAC /* TwilioSecurity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +51,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2DBF5CC24903879007FEDAC /* TwilioSecurity.framework in Embed Frameworks */,
 				F2AA37E7246F325800B9388F /* TwilioVerify.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -100,7 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2DBF5CB24903879007FEDAC /* TwilioSecurity.framework in Frameworks */,
 				F2AA37E6246F325800B9388F /* TwilioVerify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

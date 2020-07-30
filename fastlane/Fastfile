@@ -19,10 +19,11 @@ coverage_directory = '/coverage'
 default_platform(:ios)
 
 platform :ios do
-  desc "TwilioSecurity unit tests"
+  desc "Runs the tests"
   lane :test do |options|
     scan(
-      scheme: options[:scheme],
+      scheme: "TwilioVerify",
+      testplan: options[:test_plan],
       workspace: "TwilioVerify.xcworkspace",
       device: "iPhone 11",
       reset_simulator: true,
@@ -30,15 +31,26 @@ platform :ios do
       suppress_xcode_output: true,
       output_types: 'junit,html',
       output_files: 'junit.xml, report.html',
-      output_directory: output_directory + options[:scheme]
+      output_directory: output_directory + options[:test_plan]
     )
     slather(
-      output_directory: output_directory + options[:scheme] + coverage_directory,
-      scheme: options[:scheme],
+      output_directory: output_directory + options[:test_plan] + coverage_directory,
+      scheme: "TwilioVerify",
       workspace: "TwilioVerify.xcworkspace",
       proj: "TwilioVerify.xcodeproj",
       html: true,
       verbose: false
+    )
+  end
+
+  lane :build_universal_framework do
+    build_app(
+      silent: true,
+      clean: false,
+      scheme: "TwilioVerifySDK",
+      workspace: "TwilioVerify.xcworkspace",
+      skip_codesigning: true,
+      skip_archive: true
     )
   end
 end
