@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -69,9 +69,12 @@
                             <constraint firstItem="DTf-rj-Xpc" firstAttribute="centerX" secondItem="IIO-J6-K4C" secondAttribute="centerX" id="zzO-BU-Rny"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Factor" largeTitleDisplayMode="always" id="G21-zq-fJN"/>
+                    <navigationItem key="navigationItem" title="Create Factor" largeTitleDisplayMode="always" id="G21-zq-fJN">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="stop" id="jM7-ZR-nYX"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="accessTokenURLTextField" destination="asf-Kj-V6U" id="fQU-Kb-YwS"/>
+                        <outlet property="closeButton" destination="jM7-ZR-nYX" id="m9x-Y5-gsa"/>
                         <outlet property="createButton" destination="IIO-J6-K4C" id="hXR-x0-4iD"/>
                         <outlet property="identityTextField" destination="nnP-ip-qbB" id="7Du-K0-DUZ"/>
                         <outlet property="loader" destination="DTf-rj-Xpc" id="jMP-Tt-mhG"/>

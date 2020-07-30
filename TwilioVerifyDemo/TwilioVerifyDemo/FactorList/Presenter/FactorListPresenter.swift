@@ -56,7 +56,12 @@ extension FactorListPresenter: FactorListPresentable {
       strongSelf.view?.reloadData()
     }) { [weak self] error in
       guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.localizedDescription)
+      let errorMessage = """
+                        \(error.localizedDescription)
+                        \(error.code)
+                        \(error.originalError.localizedDescription)
+                        """
+      strongSelf.view?.showAlert(withMessage: errorMessage)
     }
   }
   
@@ -76,7 +81,7 @@ extension FactorListPresenter: FactorListPresentable {
       guard let strongSelf = self else { return }
       strongSelf.factors.insert(factor, at: index)
       strongSelf.view?.reloadData()
-      strongSelf.view?.showAlert(withMessage: error.localizedDescription)
+      strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
     }
   }
 }
@@ -99,7 +104,7 @@ private extension FactorListPresenter {
         guard let strongSelf = self else { return }
         strongSelf.twilioVerify.updateFactor(withPayload: payload, success: { _ in
         }) { error in
-          print(error.localizedDescription)
+          print(error.originalError.localizedDescription)
         }
       }
     }

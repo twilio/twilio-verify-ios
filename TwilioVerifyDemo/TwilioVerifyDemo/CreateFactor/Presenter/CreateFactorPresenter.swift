@@ -46,7 +46,7 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       strongSelf.createFactor(response, success: { factor in
         strongSelf.verify(factor, success: { factor in
           strongSelf.view?.stopLoader()
-          strongSelf.view?.dismiss()
+          strongSelf.view?.dismissView()
         }) { error in
           guard let strongSelf = self else { return }
           DispatchQueue.main.async {
@@ -55,8 +55,13 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         }
       }) { error in
         guard let strongSelf = self else { return }
+        let errorMessage = """
+        \(error.localizedDescription)
+        \(error.code)
+        \(error.originalError.localizedDescription)
+        """
         DispatchQueue.main.async {
-          strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+          strongSelf.view?.showAlert(withMessage: errorMessage)
         }
       }
     }) {[weak self] error in
