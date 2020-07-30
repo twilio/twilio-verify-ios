@@ -40,7 +40,8 @@ class URLRequestBuilder {
   }
   
   func build() throws -> URLRequest {
-    guard let url = URL(string: url) else {
+    guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+      let url = URL(string: encodedUrl) else {
       throw NetworkError.invalidURL
     }
     var urlRequest = URLRequest(url: url)

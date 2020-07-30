@@ -94,22 +94,6 @@ class ChallengeAPIClientTests: XCTestCase {
     XCTAssertEqual(apiError, expectedError)
   }
   
-  func testGetChallenge_withInvalidURL_shouldFail() {
-    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let failureExpectation = expectation(description: "Wait for failure response")
-    let sid = "sid"
-    var apiError: NetworkError?
-    challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: { response in
-      XCTFail()
-      failureExpectation.fulfill()
-    }) { error in
-      apiError = error as? NetworkError
-      failureExpectation.fulfill()
-    }
-    wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual(apiError?.errorDescription, NetworkError.invalidURL.errorDescription)
-  }
-  
   func testGetChallenge_withValidData_shouldMatchExpectedParams() {
     let sid = "sid"
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengeURL)"
@@ -216,31 +200,6 @@ class ChallengeAPIClientTests: XCTestCase {
     }
     wait(for: [failureExpectation], timeout: 5)
     XCTAssertEqual(apiError, expectedError)
-  }
-  
-  func testUpdateChallenge_withInvalidURL_shouldFail() {
-    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let failureExpectation = expectation(description: "Wait for failure response")
-    let challenge = FactorChallenge(
-      sid: Constants.challengeSid,
-      challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
-      factorSid: Constants.factorSid,
-      status: .pending,
-      createdAt: Date(),
-      updatedAt: Date(),
-      expirationDate: Date(),
-      factor: Constants.factor)
-    var apiError: NetworkError?
-    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
-      XCTFail()
-      failureExpectation.fulfill()
-    }) { error in
-      apiError = error as? NetworkError
-      failureExpectation.fulfill()
-    }
-    wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual(apiError?.errorDescription, NetworkError.invalidURL.errorDescription)
   }
   
   func testUpdateChallenge_withNilFactor_shouldFail() {
@@ -350,23 +309,6 @@ class ChallengeAPIClientTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
     XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
-  }
-  
-  func testGetAll_withInvalidURL_shouldFail() {
-    challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let expectation = self.expectation(description: "testGetAll_withInvalidURL_shouldFail")
-    var error: NetworkError!
-    
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { _ in
-      XCTFail()
-      expectation.fulfill()
-    }) { failureReason in
-      error = failureReason as? NetworkError
-      expectation.fulfill()
-    }
-    
-    waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(error.errorDescription, NetworkError.invalidURL.errorDescription)
   }
   
   func testGetAll_withValidParametersWithoutStatusAndPageToken_shouldMatchExpectedParams() {
