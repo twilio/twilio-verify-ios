@@ -58,22 +58,6 @@ class FactorAPIClientTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
   }
   
-  func testCreateFactor_withInvalidURL_shouldFail() {
-    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let failureExpectation = expectation(description: "Wait for failure response")
-    let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
-                                                  serviceSid: Constants.serviceSid, identity: Constants.identity,
-                                                  config: [:], binding: [:], accessToken: Constants.accessToken)
-    factorAPIClient.create(withPayload: createFactorPayload, success: { response in
-      XCTFail()
-      failureExpectation.fulfill()
-    }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
-      failureExpectation.fulfill()
-    }
-    wait(for: [failureExpectation], timeout: 5)
-  }
-  
   func testCreateFactor_withValidData_shouldMatchExpectedParams() {
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.createFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.serviceSid)
@@ -167,19 +151,6 @@ class FactorAPIClientTests: XCTestCase {
       failureExpectation.fulfill()
     }) { error in
       XCTAssertEqual(error as! TestError, expectedError)
-      failureExpectation.fulfill()
-    }
-    wait(for: [failureExpectation], timeout: 5)
-  }
-  
-  func testVerifyFactor_withInvalidURL_shouldFail() {
-    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let failureExpectation = expectation(description: "Wait for failure response")
-    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { response in
-      XCTFail()
-      failureExpectation.fulfill()
-    }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
@@ -288,22 +259,6 @@ class FactorAPIClientTests: XCTestCase {
                    "Error should be \(TestError.operationFailed) but was \(error!)")
   }
   
-  func testDeleteFactor_withInvalidURL_shouldFail() {
-    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let expectation = self.expectation(description: "testDeleteFactor_withInvalidURL_shouldFail")
-    var error: Error!
-    factorAPIClient.delete(Constants.factor, success: {
-      expectation.fulfill()
-      XCTFail()
-    }) { failure in
-      error = failure
-      expectation.fulfill()
-    }
-    waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription,
-                   "Error should be \(NetworkError.invalidURL) but was \(error!)")
-  }
-  
   func testUpdateFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
@@ -361,19 +316,6 @@ class FactorAPIClientTests: XCTestCase {
       failureExpectation.fulfill()
     }) { error in
       XCTAssertEqual(error as! TestError, expectedError)
-      failureExpectation.fulfill()
-    }
-    wait(for: [failureExpectation], timeout: 5)
-  }
-  
-  func testUpdateFactor_withInvalidURL_shouldFail() {
-    factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: "%")
-    let failureExpectation = expectation(description: "Wait for failure response")
-    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
-      XCTFail()
-      failureExpectation.fulfill()
-    }) { error in
-      XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidURL.errorDescription)
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)

@@ -127,7 +127,7 @@ class URLRequestBuilderTests: XCTestCase {
     XCTAssertEqual(String(decoding: request.httpBody!, as: UTF8.self), "", "Body should be empty")
   }
   
-  func testRequestBody_withoutParameters_shouldBeAppendedToURL() {
+  func testRequestBody_withParameters_shouldBeAppendedToURL() {
     let key1 = Constants.key1
     let value1 = "^&\(Constants.value1)"
     let key2 = Constants.key2
@@ -144,6 +144,30 @@ class URLRequestBuilderTests: XCTestCase {
     XCTAssertNil(request.httpBody, "Body should be nil")
     XCTAssertEqual(request.url?.absoluteString, expectedURL,
                    "URL should be \(expectedURL) but was \(String(describing: request.url?.absoluteString))")
+  }
+  
+  func testCreateURLRequestBuilder_withAppendedParametersToURL_shouldEncodeURL() {
+    let key1 = "<.>\(Constants.key1)"
+    let value1 = "^&\(Constants.value1)"
+    let key2 = Constants.key2
+    let value2 = "+_\(Constants.value2)"
+    let query = "\(key1)=\(value1)&\(key2)=\(value2)"
+    let url = "%?\(query)"
+    let expectedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    let httpMethod = HTTPMethod.get
+    var request: URLRequest!
+    XCTAssertNoThrow(request = try URLRequestBuilder(withURL: url, requestHelper: requestHelper).setHTTPMethod(httpMethod).build(),
+                     "Initializing URLRequestBuilder should not throw")
+    XCTAssertEqual(request.httpMethod, httpMethod.value,
+                   "HTTP method should be \(httpMethod.value) but was \(request.httpMethod!))")
+    XCTAssertNil(request.httpBody, "Body should be nil")
+    XCTAssertEqual(request.url?.absoluteString, expectedURL,
+                   "URL should be \(expectedURL) but was \(request.url!.absoluteString))")
+  }
+  
+  func testCreateURLRequestBuilder_withInvalidURL_shouldThrowInvalidURL() {
+    XCTAssertThrowsError(try URLRequestBuilder(withURL: "", requestHelper: requestHelper).build(),
+                     "Initializing URLRequestBuilder should throw")
   }
 }
 
