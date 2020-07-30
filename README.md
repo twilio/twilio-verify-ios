@@ -62,7 +62,7 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 * Clone the repo
 * Change the Bundle Identifier to something unique so Apple’s push notification server can direct pushes to this app
 * [Enable push notifications](https://help.apple.com/xcode/mac/current/#/devdfd3d04a1)
-* Get the Enrollment JWE generation URL from your backend [(Running the Sample backend)](#SampleBackend). You will use it for creating a factor
+* Get the Access token generation URL from your backend [(Running the Sample backend)](#SampleBackend). You will use it for creating a factor
 * Run the `TwilioVerifyDemo` project using `Release` as build configuration
 
 <a name='SampleBackend'></a>
@@ -78,14 +78,14 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 
 ### Adding a factor
 * Press Create factor in the factor list (click on the +, top right)
-* Enter the entity identity to use. This value should be an UUID that identifies the user to prevent PII information use
-* Enter the enrollment URL (Enrollment JWE generation URL, including the path, e.g. https://yourapp.ngrok.io/enroll)
+* Enter the identity to use. This value should be an UUID that identifies the user to prevent PII information use
+* Enter the Access token URL (Access token generation URL, including the path, e.g. https://yourapp.ngrok.io/accessToken)
 * Press Create factor
 * Copy the factor Sid
 
 ### Sending a challenge
 * Go to Create Push Challenge page (/challenge path in your sample backend)
-* Enter the entity `identity` you used in factor creation
+* Enter the `identity` you used in factor creation
 * Enter the `Factor Sid` you added
 * Enter a `message`. You will see the message in the push notification and in the challenge view
 * Enter details to the challenge. You will see them in the challenge view. You can add more details using the `Add more Details` button
