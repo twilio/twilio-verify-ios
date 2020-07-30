@@ -37,20 +37,12 @@ None
 
 ### Add library
 
-#### CocoaPods
-
-To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-pod 'TwilioVerify'
-```
-
 #### Carthage
 
 To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-binary <url_to_binary>
+github "twilio/twilio-verify-ios"
 ```
 
 ### Register Your App with APNs

@@ -10,9 +10,6 @@ commands:
     steps:
       - configure_secrets
       - configure_xcode_signing
-      - run:
-          name: Swift Version
-          command: swift --version
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
