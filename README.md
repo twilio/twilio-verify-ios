@@ -52,7 +52,7 @@ If you want to receive challenges as push notifications, you should register You
 
 ## Usage
 
-See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push) for a step-by-step guide to using this SDK in a basic Verify Push implementation.
+See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push-ios) for a step-by-step guide to using this SDK in a basic Verify Push implementation.
 
 <a name='SampleApp'></a>
 
