@@ -61,7 +61,7 @@ class AccessTokensAPIClient: AccessTokensAPI {
         failure(error)
         return
       }
-      guard let _ = response else {
+      guard let responseX = response else {
         failure(NetworkError.invalidResponse)
         return
       }

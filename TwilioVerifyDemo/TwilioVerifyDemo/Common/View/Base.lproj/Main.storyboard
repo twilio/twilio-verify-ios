@@ -559,10 +559,17 @@
                             <constraint firstAttribute="trailing" secondItem="NgZ-U6-46K" secondAttribute="trailing" constant="16" id="vEj-VU-dyC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Challenge" id="hlG-K9-4o3"/>
+                    <navigationItem key="navigationItem" title="Challenge" id="hlG-K9-4o3">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="DSg-o6-lu7">
+                            <connections>
+                                <action selector="closeButton:" destination="8Ki-Pd-enk" id="bEl-ck-p9s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="approveButton" destination="TOh-Oy-5ox" id="ien-xy-GgX"/>
                         <outlet property="buttonsContainer" destination="dLz-Ku-Q4G" id="qwm-cq-YFI"/>
+                        <outlet property="closeButton" destination="DSg-o6-lu7" id="Hog-YO-o7f"/>
                         <outlet property="denyButton" destination="haj-jL-X8S" id="f5P-5e-oCw"/>
                         <outlet property="detailsHeightConstraint" destination="l1u-Dr-oEi" id="Ns7-LE-eng"/>
                         <outlet property="detailsTextView" destination="RYq-cr-Xhn" id="wyx-G1-v5r"/>
@@ -574,6 +581,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2aB-n1-U5Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="8Ki-Pd-enk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2812" y="226"/>
         </scene>
