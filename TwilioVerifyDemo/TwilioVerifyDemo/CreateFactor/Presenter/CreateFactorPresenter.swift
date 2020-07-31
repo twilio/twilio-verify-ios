@@ -50,18 +50,13 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         }) { error in
           guard let strongSelf = self else { return }
           DispatchQueue.main.async {
-            strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+            strongSelf.view?.showAlert(withMessage: error.errorMessage)
           }
         }
       }) { error in
         guard let strongSelf = self else { return }
-        let errorMessage = """
-        \(error.localizedDescription)
-        \(error.code)
-        \(error.originalError.localizedDescription)
-        """
         DispatchQueue.main.async {
-          strongSelf.view?.showAlert(withMessage: errorMessage)
+          strongSelf.view?.showAlert(withMessage: error.errorMessage)
         }
       }
     }) {[weak self] error in

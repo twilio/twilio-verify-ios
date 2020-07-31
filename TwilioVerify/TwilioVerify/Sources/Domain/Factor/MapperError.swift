@@ -15,7 +15,7 @@ enum MapperError: LocalizedError {
 }
 
 extension MapperError {
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
       case .invalidDate:
         return "Invalid date format"

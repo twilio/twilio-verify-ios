@@ -79,6 +79,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       challengeSid: challengeSid,
       factorSid: factorSid
     )
+    challengeView.shouldShowButtonToDismissView = true
     
     window?.rootViewController?.present(challengeNavigation, animated: true, completion: nil)
   }

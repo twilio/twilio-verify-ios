@@ -17,7 +17,7 @@ enum NetworkError: LocalizedError {
 }
 
 extension NetworkError {
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
       case .invalidURL:
         return "Invalid URL"
@@ -31,7 +31,7 @@ extension NetworkError {
         return "Failure status scode"
     }
   }
-  
+
   var errorResponse: Data? {
     switch self {
       case .invalidResponse(let errorResponse):

@@ -27,8 +27,8 @@ class ChallengeDetailViewController: UIViewController {
   @IBOutlet private weak var approveButton: UIButton!
   @IBOutlet private weak var buttonsContainer: UIView!
   
-  
   var presenter: ChallengeDetailPresentable!
+  var shouldShowButtonToDismissView = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -73,6 +73,9 @@ extension ChallengeDetailViewController: ChallengeDetailView {
 
 private extension ChallengeDetailViewController {
   func setupUI() {
+    if shouldShowButtonToDismissView {
+      navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(dismiss(animated:completion:)))
+    }
     denyButton.layer.cornerRadius = 8
     approveButton.layer.cornerRadius = 8
     buttonsContainer.isHidden = true

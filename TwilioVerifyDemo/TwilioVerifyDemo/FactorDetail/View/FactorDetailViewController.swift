@@ -40,6 +40,7 @@ class FactorDetailViewController: UIViewController {
       return
     }
     let challenge = presenter.challenge(at: index)
+    
     challengeDetailView.presenter = ChallengeDetailPresenter(withView: challengeDetailView, challengeSid: challenge.sid, factorSid: presenter.factor.sid)
   }
 }
