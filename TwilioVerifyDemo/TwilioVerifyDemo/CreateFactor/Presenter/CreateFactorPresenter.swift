@@ -43,7 +43,8 @@ extension CreateFactorPresenter: CreateFactorPresentable {
     saveAccessTokenURL(url)
     accessTokensAPI.accessTokens(at: url, identity: identity, success: { [weak self] response in
       guard let strongSelf = self else { return }
-      strongSelf.createFactor(response, success: { factor in
+      let factorName = "\(identity)'s Factor"
+      strongSelf.createFactor(response, withFactorName: factorName, success: { factor in
         strongSelf.verify(factor, success: { factor in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
@@ -91,9 +92,9 @@ private extension CreateFactorPresenter {
     return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String ?? String()
   }
   
-  func createFactor(_ accessToken: AccessTokenResponse, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(_ accessToken: AccessTokenResponse, withFactorName factorName: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     let payload = PushFactorPayload(
-      friendlyName: "\(accessToken.identity)'s Factor",
+      friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
       identity: accessToken.identity,
       pushToken: pushToken(),
