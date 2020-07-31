@@ -1560,7 +1560,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerify;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1593,7 +1593,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerify;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1687,7 +1687,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F216C2B724C9057900AFC3A1 /* Debug */,
-				F216C2B824C9057900AFC3A1 /* Dev */,
 				F216C2B924C9057900AFC3A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
