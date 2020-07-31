@@ -31,10 +31,10 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
   
-  public var errorDescription: String {
+  public var errorDescription: String? {
     switch self {
       case .networkError:
-        return "Error while calling API"
+        return "Error while calling the API"
       case .mapperError:
         return "Error while mapping an entity"
       case .storageError:
@@ -73,7 +73,7 @@ public enum TwilioVerifyError: LocalizedError {
 enum InputError: LocalizedError {
   case invalidInput
   
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
       case .invalidInput:
         return "Invalid input"
@@ -84,7 +84,7 @@ enum InputError: LocalizedError {
 enum StorageError: LocalizedError {
   case error(String)
   
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
     case .error(let description):
         return description
@@ -95,7 +95,7 @@ enum StorageError: LocalizedError {
 enum JwtSignerError: LocalizedError {
   case invalidFormat
   
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
       case .invalidFormat:
         return "Invalid ECDSA signature format"

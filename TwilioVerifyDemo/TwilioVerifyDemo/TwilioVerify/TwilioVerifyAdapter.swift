@@ -115,3 +115,13 @@ extension TwilioVerifyAdapter: TwilioVerify {
     }
   }
 }
+
+extension TwilioVerifyError {
+  var errorMessage: String {
+    """
+    \(localizedDescription)
+    Code: \(code)
+    \(originalError.localizedDescription)
+    """
+  }
+}

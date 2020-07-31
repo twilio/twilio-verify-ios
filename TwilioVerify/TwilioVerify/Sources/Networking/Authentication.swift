@@ -16,7 +16,7 @@ enum AuthenticationError: LocalizedError {
   case invalidFactor
   case invalidKeyPair
   
-  var errorDescription: String {
+  var errorDescription: String? {
     switch self {
       case .invalidFactor:
         return "Not supported factor for JWT generation"

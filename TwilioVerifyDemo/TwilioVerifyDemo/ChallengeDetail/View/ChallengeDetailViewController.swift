@@ -26,9 +26,10 @@ class ChallengeDetailViewController: UIViewController {
   @IBOutlet private weak var denyButton: UIButton!
   @IBOutlet private weak var approveButton: UIButton!
   @IBOutlet private weak var buttonsContainer: UIView!
-  
-  
+  @IBOutlet private weak var closeButton: UIBarButtonItem!
+
   var presenter: ChallengeDetailPresentable!
+  var shouldShowButtonToDismissView = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -73,9 +74,19 @@ extension ChallengeDetailViewController: ChallengeDetailView {
 
 private extension ChallengeDetailViewController {
   func setupUI() {
+    closeButton.target = self
+    closeButton.action = #selector(dismissView)
     denyButton.layer.cornerRadius = 8
     approveButton.layer.cornerRadius = 8
     buttonsContainer.isHidden = true
+  }
+  
+  @objc func dismissView() {
+    if shouldShowButtonToDismissView {
+      dismiss(animated: true, completion: nil)
+    } else {
+      navigationController?.popViewController(animated: true)
+    }
   }
 }
 

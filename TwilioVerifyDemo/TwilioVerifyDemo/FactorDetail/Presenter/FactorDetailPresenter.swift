@@ -60,7 +60,7 @@ private extension FactorDetailPresenter {
       strongSelf.challenges = list.challenges
     }) { [weak self] error in
       guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.localizedDescription)
+      strongSelf.view?.showAlert(withMessage: error.errorMessage)
     }
   }
 }

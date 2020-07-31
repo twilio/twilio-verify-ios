@@ -12,7 +12,7 @@ import TwilioVerify
 protocol CreateFactorView: class {
   func showAlert(withMessage message: String)
   func stopLoader()
-  func dismiss()
+  func dismissView()
 }
 
 class CreateFactorViewController: UIViewController {
@@ -20,7 +20,8 @@ class CreateFactorViewController: UIViewController {
   @IBOutlet private weak var identityTextField: UITextField!
   @IBOutlet private weak var accessTokenURLTextField: UITextField!
   @IBOutlet private weak var createButton: UIButton!
-  @IBOutlet weak var loader: UIActivityIndicatorView!
+  @IBOutlet private weak var closeButton: UIBarButtonItem!
+  @IBOutlet private weak var loader: UIActivityIndicatorView!
   
   private var presenter: CreateFactorPresentable!
   
@@ -55,7 +56,8 @@ extension CreateFactorViewController: CreateFactorView {
     loader.stopAnimating()
   }
   
-  func dismiss() {
+  @objc
+  func dismissView() {
     if #available(iOS 13.0, *), let presentationController = presentationController {
       navigationController?.presentationController?.delegate?.presentationControllerDidDismiss?(presentationController)
     }
@@ -70,6 +72,8 @@ private extension CreateFactorViewController {
   }
   
   func setupUI() {
+    closeButton.target = self
+    closeButton.action = #selector(dismissView)
     identityTextField.addBottomBorder()
     accessTokenURLTextField.addBottomBorder()
     createButton.layer.cornerRadius = 8

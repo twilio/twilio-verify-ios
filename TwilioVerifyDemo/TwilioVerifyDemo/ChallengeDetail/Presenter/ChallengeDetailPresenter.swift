@@ -47,7 +47,7 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
       strongSelf.challenge = challenge
     }) { [weak self] error in
       guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+      strongSelf.view?.showAlert(withMessage: error.errorMessage)
     }
   }
   
@@ -62,7 +62,7 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
       strongSelf.fetchChallengeDetails()
     }) { [weak self] error in
       guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+      strongSelf.view?.showAlert(withMessage: error.errorMessage)
     }
   }
 }

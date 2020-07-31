@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -69,9 +69,12 @@
                             <constraint firstItem="DTf-rj-Xpc" firstAttribute="centerX" secondItem="IIO-J6-K4C" secondAttribute="centerX" id="zzO-BU-Rny"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Factor" largeTitleDisplayMode="always" id="G21-zq-fJN"/>
+                    <navigationItem key="navigationItem" title="Create Factor" largeTitleDisplayMode="always" id="G21-zq-fJN">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="stop" id="jM7-ZR-nYX"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="accessTokenURLTextField" destination="asf-Kj-V6U" id="fQU-Kb-YwS"/>
+                        <outlet property="closeButton" destination="jM7-ZR-nYX" id="m9x-Y5-gsa"/>
                         <outlet property="createButton" destination="IIO-J6-K4C" id="hXR-x0-4iD"/>
                         <outlet property="identityTextField" destination="nnP-ip-qbB" id="7Du-K0-DUZ"/>
                         <outlet property="loader" destination="DTf-rj-Xpc" id="jMP-Tt-mhG"/>
@@ -167,8 +170,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNV-my-64g">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="AOe-kC-D0s">
-                                                <rect key="frame" x="55.5" y="0.0" width="35.5" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="AOe-kC-D0s">
+                                                <rect key="frame" x="55.5" y="0.0" width="0.0" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -224,8 +227,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vwc-hL-aZY">
                                         <rect key="frame" x="0.0" y="40" width="382" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV" userLabel="Identity Label">
-                                                <rect key="frame" x="71" y="0.0" width="35.5" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV" userLabel="Identity Label">
+                                                <rect key="frame" x="71" y="0.0" width="0.0" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -253,8 +256,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2tj-Rt-JMe">
                                         <rect key="frame" x="0.0" y="60" width="382" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cpM-pe-GdU">
-                                                <rect key="frame" x="61.5" y="0.0" width="35.5" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cpM-pe-GdU">
+                                                <rect key="frame" x="61.5" y="0.0" width="0.0" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -556,10 +559,17 @@
                             <constraint firstAttribute="trailing" secondItem="NgZ-U6-46K" secondAttribute="trailing" constant="16" id="vEj-VU-dyC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Challenge" id="hlG-K9-4o3"/>
+                    <navigationItem key="navigationItem" title="Challenge" id="hlG-K9-4o3">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="DSg-o6-lu7">
+                            <connections>
+                                <action selector="closeButton:" destination="8Ki-Pd-enk" id="bEl-ck-p9s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="approveButton" destination="TOh-Oy-5ox" id="ien-xy-GgX"/>
                         <outlet property="buttonsContainer" destination="dLz-Ku-Q4G" id="qwm-cq-YFI"/>
+                        <outlet property="closeButton" destination="DSg-o6-lu7" id="Hog-YO-o7f"/>
                         <outlet property="denyButton" destination="haj-jL-X8S" id="f5P-5e-oCw"/>
                         <outlet property="detailsHeightConstraint" destination="l1u-Dr-oEi" id="Ns7-LE-eng"/>
                         <outlet property="detailsTextView" destination="RYq-cr-Xhn" id="wyx-G1-v5r"/>
@@ -571,6 +581,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2aB-n1-U5Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="8Ki-Pd-enk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2812" y="226"/>
         </scene>

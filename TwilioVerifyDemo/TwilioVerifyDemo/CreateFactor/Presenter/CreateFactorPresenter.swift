@@ -46,17 +46,17 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       strongSelf.createFactor(response, success: { factor in
         strongSelf.verify(factor, success: { factor in
           strongSelf.view?.stopLoader()
-          strongSelf.view?.dismiss()
+          strongSelf.view?.dismissView()
         }) { error in
           guard let strongSelf = self else { return }
           DispatchQueue.main.async {
-            strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+            strongSelf.view?.showAlert(withMessage: error.errorMessage)
           }
         }
       }) { error in
         guard let strongSelf = self else { return }
         DispatchQueue.main.async {
-          strongSelf.view?.showAlert(withMessage: error.originalError.localizedDescription)
+          strongSelf.view?.showAlert(withMessage: error.errorMessage)
         }
       }
     }) {[weak self] error in
