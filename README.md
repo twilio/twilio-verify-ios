@@ -79,7 +79,7 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 ### Adding a factor
 * Press Create factor in the factor list (click on the +, top right)
 * Enter the identity to use. This value should be an UUID that identifies the user to prevent PII information use
-* Enter the Access token URL (Access token generation URL, including the path, e.g. https://yourapp.ngrok.io/accessToken)
+* Enter the Access token URL (Access token generation URL, including the path, e.g. https://yourapp.ngrok.io/accessTokens)
 * Press Create factor
 * Copy the factor Sid
 
