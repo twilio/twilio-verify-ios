@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TwilioVerify Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/TwilioVerify" class="dashAnchor"></a>
+    <a title="TwilioVerify Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (0% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TwilioVerify Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/KeyManager.html">KeyManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SecureStorage.html">SecureStorage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/KeyManagerProtocol.html">KeyManagerProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SecureStorageProvider.html">SecureStorageProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Signer.html">Signer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SignerTemplate.html">SignerTemplate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Template.html">Template</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ECP256SignerTemplate.html">ECP256SignerTemplate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12TwilioVerify21ChallengeSuccessBlocka">ChallengeSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12TwilioVerify22FactorListSuccessBlocka">FactorListSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TwilioVerify</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TwilioVerify</span></code></pre>
+
+                </div>
+              </div>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP12createFactor11withPayload7success7failureyAA0dF0_p_yAA0D0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/createFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP12createFactor11withPayload7success7failureyAA0dF0_p_yAA0D0_pcyAA0aB5ErrorOctF">createFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createFactor</span><span class="p">(</span>
+  <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FactorPayload.html">FactorPayload</a></span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP12verifyFactor11withPayload7success7failureyAA0bdF0_p_yAA0D0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/verifyFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP12verifyFactor11withPayload7success7failureyAA0bdF0_p_yAA0D0_pcyAA0aB5ErrorOctF">verifyFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">verifyFactor</span><span class="p">(</span>
+  <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a></span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP12updateFactor11withPayload7success7failureyAA06UpdatedF0_p_yAA0D0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/updateFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP12updateFactor11withPayload7success7failureyAA06UpdatedF0_p_yAA0D0_pcyAA0aB5ErrorOctF">updateFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateFactor</span><span class="p">(</span>
+  <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a></span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP13getAllFactors7success7failureyySayAA6Factor_pGc_yAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getAllFactors(success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP13getAllFactors7success7failureyySayAA6Factor_pGc_yAA0aB5ErrorOctF">getAllFactors(success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllFactors</span><span class="p">(</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify22FactorListSuccessBlocka">FactorListSuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP12deleteFactor7withSid7success7failureySS_yycyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/deleteFactor(withSid:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP12deleteFactor7withSid7success7failureySS_yycyAA0aB5ErrorOctF">deleteFactor(withSid:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteFactor</span><span class="p">(</span>
+  <span class="n">withSid</span> <span class="nv">sid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP12getChallenge12challengeSid06factorF07success7failureySS_SSyAA0D0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getChallenge(challengeSid:factorSid:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP12getChallenge12challengeSid06factorF07success7failureySS_SSyAA0D0_pcyAA0aB5ErrorOctF">getChallenge(challengeSid:<wbr>factorSid:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getChallenge</span><span class="p">(</span>
+  <span class="nv">challengeSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="nv">factorSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify21ChallengeSuccessBlocka">ChallengeSuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP15updateChallenge11withPayload7success7failureyAA06UpdatedF0_p_yycyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/updateChallenge(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP15updateChallenge11withPayload7success7failureyAA06UpdatedF0_p_yycyAA0aB5ErrorOctF">updateChallenge(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateChallenge</span><span class="p">(</span>
+  <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a></span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a></span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerifyAAP16getAllChallenges11withPayload7success7failureyAA013ChallengeListG0V_yAA0jK0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getAllChallenges(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerifyAAP16getAllChallenges11withPayload7success7failureyAA013ChallengeListG0V_yAA0jK0_pcyAA0aB5ErrorOctF">getAllChallenges(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllChallenges</span><span class="p">(</span>
+  <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a></span><span class="p">,</span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Protocols/ChallengeList.html">ChallengeList</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(),</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-08-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
