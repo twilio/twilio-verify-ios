@@ -8,6 +8,7 @@
 
 import Foundation
 
+///:nodoc:
 public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String) throws
   func get(_ key: String) throws -> Data
@@ -15,6 +16,7 @@ public protocol SecureStorageProvider {
   func getAll() throws -> [Data]
 }
 
+///:nodoc:
 public class SecureStorage {
   
   private let keychain: KeychainProtocol

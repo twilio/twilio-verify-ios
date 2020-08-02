@@ -86,14 +86,35 @@
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 77,
+      "line": 17,
+      "symbol": "KeyManager",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
+      "line": 22,
+      "symbol": "KeyManager.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
+      "line": 75,
+      "symbol": "KeyManager",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
+      "line": 76,
       "symbol": "KeyManager.signer(withTemplate:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 95,
+      "line": 94,
       "symbol": "KeyManager.deleteKey(withAlias:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
