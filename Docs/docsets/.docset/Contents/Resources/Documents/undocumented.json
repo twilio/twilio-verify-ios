@@ -86,35 +86,14 @@
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 17,
-      "symbol": "KeyManager",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 22,
-      "symbol": "KeyManager.init()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 75,
-      "symbol": "KeyManager",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 76,
+      "line": 77,
       "symbol": "KeyManager.signer(withTemplate:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
-      "line": 94,
+      "line": 95,
       "symbol": "KeyManager.deleteKey(withAlias:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -149,119 +128,84 @@
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 11,
-      "symbol": "FactorSuccessBlock",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 12,
-      "symbol": "TwilioVerifyErrorBlock",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 13,
-      "symbol": "ChallengeSuccessBlock",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 14,
-      "symbol": "FactorListSuccessBlock",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 15,
-      "symbol": "EmptySuccessBlock",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 17,
+      "line": 22,
       "symbol": "TwilioVerify",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 18,
+      "line": 23,
       "symbol": "TwilioVerify.createFactor(withPayload:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 24,
+      "line": 29,
       "symbol": "TwilioVerify.verifyFactor(withPayload:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 30,
+      "line": 35,
       "symbol": "TwilioVerify.updateFactor(withPayload:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 36,
+      "line": 41,
       "symbol": "TwilioVerify.getAllFactors(success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 41,
+      "line": 46,
       "symbol": "TwilioVerify.deleteFactor(withSid:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 47,
+      "line": 52,
       "symbol": "TwilioVerify.getChallenge(challengeSid:factorSid:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 54,
+      "line": 59,
       "symbol": "TwilioVerify.updateChallenge(withPayload:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 60,
+      "line": 65,
       "symbol": "TwilioVerify.getAllChallenges(withPayload:success:failure:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 67,
+      "line": 72,
       "symbol": "TwilioVerifyBuilder",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 75,
+      "line": 80,
       "symbol": "TwilioVerifyBuilder.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/savila/Documents/Twilio/Authy/twilio-verify-ios/TwilioVerify/TwilioVerify/Sources/Domain/Manager/TwilioVerify.swift",
-      "line": 96,
+      "line": 101,
       "symbol": "TwilioVerifyBuilder.build()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

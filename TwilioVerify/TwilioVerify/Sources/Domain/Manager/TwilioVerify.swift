@@ -8,10 +8,15 @@
 
 import Foundation
 
+///:nodoc:
 public typealias FactorSuccessBlock = (Factor) -> ()
+///:nodoc:
 public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
+///:nodoc:
 public typealias ChallengeSuccessBlock = (Challenge) -> ()
+///:nodoc:
 public typealias FactorListSuccessBlock = ([Factor]) -> ()
+///:nodoc:
 public typealias EmptySuccessBlock = () -> ()
 
 public protocol TwilioVerify {

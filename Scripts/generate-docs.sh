@@ -1,3 +1,5 @@
 #!/bin/bash
 
-jazzy --output Docs/
+jazzy \
+  --output Docs/ \
+  --theme apple

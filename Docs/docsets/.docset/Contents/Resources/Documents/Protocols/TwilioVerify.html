@@ -17,7 +17,7 @@
     <a title="TwilioVerify Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (2% documented)</p>
+        <p><a href="../index.html"> Docs</a> (3% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -82,15 +82,6 @@
                 <a href="../Protocols/Metadata.html">Metadata</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/Signer.html">Signer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/SignerTemplate.html">SignerTemplate</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/Template.html">Template</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
               </li>
               <li class="nav-group-task">
@@ -127,26 +118,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Typealiases.html">Type Aliases</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12TwilioVerify21ChallengeSuccessBlocka">ChallengeSuccessBlock</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12TwilioVerify22FactorListSuccessBlocka">FactorListSuccessBlock</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a>
               </li>
             </ul>
           </li>
@@ -191,8 +162,8 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createFactor</span><span class="p">(</span>
   <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FactorPayload.html">FactorPayload</a></span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -222,8 +193,8 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">verifyFactor</span><span class="p">(</span>
   <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a></span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -253,8 +224,8 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateFactor</span><span class="p">(</span>
   <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a></span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify18FactorSuccessBlocka">FactorSuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -283,8 +254,8 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllFactors</span><span class="p">(</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify22FactorListSuccessBlocka">FactorListSuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorListSuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -314,8 +285,8 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteFactor</span><span class="p">(</span>
   <span class="n">withSid</span> <span class="nv">sid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">EmptySuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -346,8 +317,8 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getChallenge</span><span class="p">(</span>
   <span class="nv">challengeSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
   <span class="nv">factorSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify21ChallengeSuccessBlocka">ChallengeSuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">ChallengeSuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -377,8 +348,8 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateChallenge</span><span class="p">(</span>
   <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a></span><span class="p">,</span>
-  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify17EmptySuccessBlocka">EmptySuccessBlock</a></span><span class="p">,</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">EmptySuccessBlock</span><span class="p">,</span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -409,7 +380,7 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllChallenges</span><span class="p">(</span>
   <span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a></span><span class="p">,</span>
   <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Protocols/ChallengeList.html">ChallengeList</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(),</span>
-  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:12TwilioVerify0aB10ErrorBlocka">TwilioVerifyErrorBlock</a></span>
+  <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span>
 <span class="p">)</span></code></pre>
 
                         </div>
