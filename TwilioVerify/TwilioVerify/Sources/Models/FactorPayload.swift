@@ -10,7 +10,7 @@ import Foundation
 
 ///Describes the information required to create a **Factor**
 public protocol FactorPayload {
-  ///Friendly name of the factor, you can use this for display purposes
+  ///Friendly name of the factor, can be used for display purposes
   var friendlyName: String { get }
   /// Service id
   var serviceSid: String { get }
@@ -40,7 +40,7 @@ public struct PushFactorPayload: FactorPayload {
   /**
   Creates a **PushFactorPayload** with the given parameters
   - Parameters:
-    - friendlyName: Friendly name of the factor, you can use this for display purposes
+    - friendlyName: Friendly name of the factor, can be used for display purposes
     - serviceSid: Service id
     - identity: Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
                 because the systems that will process this attribute assume it is not directly identifying information.
