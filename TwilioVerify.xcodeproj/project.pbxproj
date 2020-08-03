@@ -305,6 +305,7 @@
 		F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerSecurityMock.swift; sourceTree = "<group>"; };
 		F20CB44B24773C180061A2D8 /* ECSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSignerTests.swift; sourceTree = "<group>"; };
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
+		F22A1B8124D8BA3E0054E256 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		F236CEBA24CF4E2E002EBD50 /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F239EC0024D07CD000141A00 /* get_challenge_pending_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_challenge_pending_valid_response.json; sourceTree = "<group>"; };
@@ -1011,6 +1012,7 @@
 			isa = PBXGroup;
 			children = (
 				F2CFC42624A5A233008430B6 /* Config.xcconfig */,
+				F22A1B8124D8BA3E0054E256 /* Version.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1560,7 +1562,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerify;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1593,7 +1594,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerify;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
