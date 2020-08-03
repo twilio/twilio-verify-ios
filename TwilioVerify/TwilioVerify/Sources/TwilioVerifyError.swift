@@ -8,16 +8,37 @@
 
 import Foundation
 
+/**
+ Error types returned by the TwilioVerify SDK. It encompasess different types of errors
+ that have their own associated reasons and codes.
+ 
+ - **NetworkError:** An error occurred while calling the API.
+ - **MapperError:** An error occurred while mapping an entity.
+ - **StorageError:** An error occurred while storing/loading an entity.
+ - **InputError:** An error occurred while loading input.
+ - **KeyStorageError:** An error occurred while storing/loading keypairs.
+ - **InitializationError:** An error occurred while initializing a class.
+ - **AuthenticationTokenError:** An error occurred while generating a token.
+ */
 public enum TwilioVerifyError: LocalizedError {
   
+  ///An error occurred while calling the API.
   case networkError(error: NSError)
+  ///An error occurred while mapping an entity.
   case mapperError(error: NSError)
+  ///An error occurred while storing/loading an entity.
   case storageError(error: NSError)
+  ///An error occurred while loading input.
   case inputError(error: NSError)
+  ///An error occurred while storing/loading keypairs.
   case keyStorageError(error: NSError)
+  ///An error occurred while initializing a class.
   case initializationError(error: NSError)
+  ///An error occurred while generating a token.
   case authenticationTokenError(error: NSError)
   
+  
+  ///Associated reason of the error
   public var originalError: NSError {
     switch self {
       case .networkError(let error),
@@ -31,6 +52,7 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
   
+  ///Brief description of the error, indicates at which layer the error ocurred
   public var errorDescription: String? {
     switch self {
       case .networkError:
@@ -50,6 +72,16 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
 
+  /**
+   Error code of the associated error
+   - **NetworkError:** 68001
+   - **MapperError:** 68002
+   - **StorageError:** 68003
+   - **InputError:** 68004
+   - **KeyStorageError:** 68005
+   - **InitializationError:** 68006
+   - **AuthenticationTokenError:** 68007
+   */
   public var code: Int {
     switch self {
       case .networkError:

@@ -8,6 +8,7 @@
 
 import Foundation
 
+///Describes the information required to update a **Challenge**
 public protocol UpdateChallengePayload {
   var factorSid: String { get }
   var challengeSid: String { get }

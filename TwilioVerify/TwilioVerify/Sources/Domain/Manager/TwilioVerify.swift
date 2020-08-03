@@ -19,36 +19,80 @@ public typealias FactorListSuccessBlock = ([Factor]) -> ()
 ///:nodoc:
 public typealias EmptySuccessBlock = () -> ()
 
+///Describes the available operations to proccess Factors and Challenges
 public protocol TwilioVerify {
+  
+  /**
+   Creates a **Factor** from a **FactorPayload**
+   - Parameters:
+     - payload: Describes the information needed to create a factor
+     - success: Closure to be called when the operation succeeds, returns the created Factor
+     - failure: Closure to be called when the operation fails with the cause of failure
+   */
   func createFactor(
     withPayload payload: FactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
+  /**
+  Verifies a **Factor** from a **VerifyFactorPayload**
+  - Parameters:
+    - payload: Describes the information needed to verify a factor
+    - success: Closure to be called when the operation succeeds, returns the verified Factor
+    - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func verifyFactor(
     withPayload payload: VerifyFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  /**
+  Updates a **Factor** from a **FactorPayload**
+  - Parameters:
+    - payload: Describes the information needed to update a factor
+    - success: Closure to be called when the operation succeeds, returns the updated Factor
+    - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func updateFactor(
     withPayload payload: UpdateFactorPayload,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  /**
+  Gets all **Factors** created by the app
+  - Parameters:
+    - success: Closure to be called when the operation succeeds, returns an array of Factors
+    - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func getAllFactors(
     success: @escaping FactorListSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  /**
+  Deletes a **Factor** with the given **id**
+  - Parameters:
+    - sid: Id of the **Factor** to be deleted
+    - success: Closure to be called when the operation succeeds
+    - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func deleteFactor(
     withSid sid: String,
     success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
+  /**
+  Gets a **Challenge** with the given challenge id and factor id
+  - Parameters:
+    - challengeSid: Id of the Challenge requested
+    - factorSid: id of the Factor to which the Challenge corresponds
+    - success: Closure to be called when the operation succeeds, returns the requested Challenge
+    - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func getChallenge(
     challengeSid: String,
     factorSid: String,
@@ -56,12 +100,27 @@ public protocol TwilioVerify {
     failure: @escaping TwilioVerifyErrorBlock
   )
 
+  /**
+  Updates a **Challenge** from a **UpdateChallengePayload**
+  - Parameters:
+     - payload: Describes the information needed to update a challenge
+     - success: Closure to be called when the operation succeeds
+     - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func updateChallenge(
     withPayload payload: UpdateChallengePayload,
     success: @escaping EmptySuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
   
+  /**
+  Gets all **Challenges** associated to a **Factor** with the given **ChallengeListPayload**
+  - Parameters:
+     - payload: Describes the information needed to fetch all the **Challenges**
+     - success: Closure to be called when the operation succeeds, returns a ChallengeList
+                which contains the Challenges and the metadata associated to the request
+     - failure: Closure to be called when the operation fails with the cause of failure
+  */
   func getAllChallenges(
     withPayload payload: ChallengeListPayload,
     success: @escaping (ChallengeList) -> (),
@@ -69,6 +128,8 @@ public protocol TwilioVerify {
   )
 }
 
+/// Builder class that builds an instance of TwilioVerifyManager, which handles all the operations
+/// regarding Factors and Challenges
 public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
@@ -77,6 +138,7 @@ public class TwilioVerifyBuilder {
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
   
+  ///Creates a new instance of TwilioVerifyBuilder
   public init() {
     keyStorage = KeyStorageAdapter()
     networkProvider = NetworkAdapter()
@@ -98,6 +160,7 @@ public class TwilioVerifyBuilder {
     return self
   }
   
+  ///Buids an instance of TwilioVerifyManager
   public func build() -> TwilioVerify {
     let factorFacade = FactorFacade.Builder()
       .setNetworkProvider(networkProvider)

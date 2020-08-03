@@ -19,12 +19,17 @@ public protocol Factor {
   var createdAt: Date { get }
 }
 
+///Describes the verification status of a factor
 public enum FactorStatus: String, Codable {
+  ///The factor is verified and is ready to recevie challenges
   case verified
+  ///The factor is not yet verified and can't receive challenges
   case unverified
 }
 
+///Describes the types a factor can have
 public enum FactorType: String, Codable {
+  ///Push type
   case push
 }
 
