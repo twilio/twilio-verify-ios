@@ -14,9 +14,7 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Install Gems
-          command: |
-                  bundle config set path 'vendor/bundle'
-                  bundle check || bundle install
+          command: bundle check || bundle install
       - save_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
