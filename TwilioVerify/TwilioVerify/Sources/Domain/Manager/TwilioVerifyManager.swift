@@ -99,7 +99,7 @@ extension TwilioVerifyManager: TwilioVerify {
   }
   
   /**
-   Gets all **Challenges** associated to a **Factor** with the given **ChallengeListPayload**
+   Gets all Challenges associated to a **Factor** with the given **ChallengeListPayload**
    - Parameters:
       - payload: Describes the information needed to fetch all the **Challenges**
       - success: Closure to be called when the operation succeeds, returns a ChallengeList which contains the Challenges and the metadata associated to the request
