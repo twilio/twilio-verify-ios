@@ -76,7 +76,7 @@ extension TwilioVerifyManager: TwilioVerify {
   }
   
   /**
-  Gets a **Challenge** with the given challenge Sid and factor Sid
+  Gets a **Challenge** with the given challenge sid and factor Sid
   - Parameters:
     - challengeSid: Sid of the Challenge requested
     - factorSid: Sid of the Factor to which the Challenge corresponds

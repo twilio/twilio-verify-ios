@@ -86,7 +86,7 @@ public protocol TwilioVerify {
   )
   
   /**
-  Gets a **Challenge** with the given challenge id and factor id
+  Gets a **Challenge** with the given Challenge sid and Factor sid
   - Parameters:
     - challengeSid: Sid of the Challenge requested
     - factorSid: Sid of the Factor to which the Challenge corresponds
