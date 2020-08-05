@@ -117,7 +117,9 @@ commands:
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
-          command: ./Scripts/build-app-sizer.sh
+          command: |
+                  bundle info filesize
+                  ./Scripts/build-app-sizer.sh
 
 jobs:
   TwilioVerify Complete Suite of Tests:
