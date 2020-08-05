@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (94% documented)</p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+          Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='twilio-verify-ios' class='heading'>Twilio Verify iOS</h1>
+<h2 id='table-of-contents' class='heading'>Table of Contents</h2>
+
+<ul>
+<li><a href="#About">About</a></li>
+<li><a href="#Dependencies">Dependencies</a></li>
+<li><a href="#Requirements">Requirements</a></li>
+<li><a href="#Installation">Installation</a></li>
+<li><a href="#Usage">Usage</a></li>
+<li><a href="#SampleApp">Running the Sample app</a></li>
+<li><a href="#SampleBackend">Running the sample backend</a></li>
+<li><a href="#UsingSampleApp">Using the sample app</a></li>
+<li><a href="#Errors">Errors</a></li>
+</ul>
+
+<p><a name='About'></a></p>
+<h2 id='about' class='heading'>About</h2>
+
+<p>Twilio Verify Push SDK helps you verify users by adding a low-friction, secure, cost-effective, &ldquo;push verification&rdquo; factor into your own mobile application. This fully managed API service allows you to seamlessly verify users in-app via a secure channel, without the risks, hassles or costs of One-Time Passcodes (OTPs).
+This project provides an SDK to implement Verify Push for your iOS app.</p>
+
+<p><a name='Dependencies'></a></p>
+<h2 id='dependencies' class='heading'>Dependencies</h2>
+
+<p>None</p>
+
+<p><a name='Requirements'></a></p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>iOS 11+</li>
+<li>Swift 5.2</li>
+<li>Xcode 11.x</li>
+</ul>
+
+<p><a name='Installation'></a></p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='add-library' class='heading'>Add library</h3>
+<h4 id='carthage' class='heading'>Carthage</h4>
+
+<p>To integrate TwilioVerify into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+<pre class="highlight plaintext"><code>github "twilio/twilio-verify-ios"
+</code></pre>
+<h3 id='register-your-app-with-apns' class='heading'>Register Your App with APNs</h3>
+
+<p>If you want to receive challenges as push notifications, you should register Your App with APNs. More info <a href="https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns">here</a></p>
+
+<p><a name='Usage'></a></p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>See <a href="https://www.twilio.com/docs/verify/quickstarts/push-ios">Verify Push Quickstart</a> for a step-by-step guide to using this SDK in a basic Verify Push implementation.</p>
+
+<p><a name='SampleApp'></a></p>
+<h2 id='running-the-sample-app' class='heading'>Running the Sample app</h2>
+<h3 id='to-run-the-sample-app' class='heading'>To run the Sample App:</h3>
+
+<ul>
+<li>Clone the repo</li>
+<li>Change the Bundle Identifier to something unique so Apple’s push notification server can direct pushes to this app</li>
+<li><a href="https://help.apple.com/xcode/mac/current/#/devdfd3d04a1">Enable push notifications</a></li>
+<li>Get the Access token generation URL from your backend <a href="#SampleBackend">(Running the Sample backend)</a>. You will use it for creating a factor</li>
+<li>Run the <code>TwilioVerifyDemo</code> project using <code>Release</code> as build configuration</li>
+</ul>
+
+<p><a name='SampleBackend'></a></p>
+<h2 id='running-the-sample-backend' class='heading'>Running the Sample backend</h2>
+
+<ul>
+<li>Clone this repo: <a href="https://github.com/twilio/verify-push-sample-backend">https://github.com/twilio/verify-push-sample-backend</a></li>
+<li>Run the steps in the <a href="https://github.com/twilio/verify-push-sample-backend/blob/master/README.md">README file</a></li>
+</ul>
+
+<p><a name='UsingSampleApp'></a></p>
+<h2 id='using-the-sample-app' class='heading'>Using the sample app</h2>
+<h3 id='adding-a-factor' class='heading'>Adding a factor</h3>
+
+<ul>
+<li>Press Create factor in the factor list (click on the +, top right)</li>
+<li>Enter the identity to use. This value should be an UUID that identifies the user to prevent PII information use</li>
+<li>Enter the Access token URL (Access token generation URL, including the path, e.g. <a href="https://yourapp.ngrok.io/accessTokens">https://yourapp.ngrok.io/accessTokens</a>)</li>
+<li>Press Create factor</li>
+<li>Copy the factor Sid</li>
+</ul>
+<h3 id='sending-a-challenge' class='heading'>Sending a challenge</h3>
+
+<ul>
+<li>Go to Create Push Challenge page (/challenge path in your sample backend)</li>
+<li>Enter the <code>identity</code> you used in factor creation</li>
+<li>Enter the <code>Factor Sid</code> you added</li>
+<li>Enter a <code>message</code>. You will see the message in the push notification and in the challenge view</li>
+<li>Enter details to the challenge. You will see them in the challenge view. You can add more details using the <code>Add more Details</code> button</li>
+<li>Press <code>Create challenge</code> button</li>
+<li>You will receive a push notification showing the challenge message in your device.</li>
+<li>The app will show the challenge info below the factor information, in a <code><a href="Protocols/Challenge.html">Challenge</a></code> section</li>
+<li>Approve or deny the challenge</li>
+<li>After the challenge is updated, you will see the challenge status in the backend&rsquo;s <code>Create Push Challenge</code> view</li>
+</ul>
+
+<p><a name='Errors'></a></p>
+<h2 id='errors' class='heading'>Errors</h2>
+
+<table><thead>
+<tr>
+<th>Types</th>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Network</td>
+<td>68001</td>
+<td>Exception while calling the API</td>
+</tr>
+<tr>
+<td>Mapping</td>
+<td>68002</td>
+<td>Exception while mapping an entity</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>68003</td>
+<td>Exception while storing/loading an entity</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>68004</td>
+<td>Exception while loading input</td>
+</tr>
+<tr>
+<td>Key Storage</td>
+<td>68005</td>
+<td>Exception while storing/loading key pairs</td>
+</tr>
+<tr>
+<td>Initialization</td>
+<td>68006</td>
+<td>Exception while initializing an object</td>
+</tr>
+<tr>
+<td>Authentication Token</td>
+<td>68007</td>
+<td>Exception while generating token</td>
+</tr>
+</tbody></table>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-08-05)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
