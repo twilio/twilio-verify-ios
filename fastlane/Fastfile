@@ -34,6 +34,7 @@ platform :ios do
       output_directory: output_directory + options[:test_plan]
     )
     slather(
+      use_bundle_exec: true,
       output_directory: output_directory + options[:test_plan] + coverage_directory,
       scheme: "TwilioVerify",
       workspace: "TwilioVerify.xcworkspace",
