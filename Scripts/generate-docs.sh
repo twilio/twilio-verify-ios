@@ -6,3 +6,6 @@ version=${marketing_version[@]: -1}
 jazzy \
   --output docs/$version/ \
   --theme apple
+
+cd docs
+ln -nsf "$version" latest 

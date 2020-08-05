@@ -10,7 +10,7 @@ import Foundation
 
 ///Describes the information required to fetch a **ChallengeList**
 public struct ChallengeListPayload {
-  ///Id of the factor to which the Challenge is related
+  ///Sid of the factor to which the Challenge is related
   public let factorSid: String
   ///Number of Challenges to be returned by the service
   public let pageSize: Int
@@ -22,7 +22,7 @@ public struct ChallengeListPayload {
   /**
   Creates a **ChallengeListPayload** with the given parameters
   - Parameters:
-    - factorSid: Id of the factor to which the Challenge is related
+    - factorSid: Sid of the factor to which the Challenge is related
     - pageSize: Number of Challenges to be returned by the service
     - status: Status to filter the Challenges, if nothing is sent, Challenges of all status will be
               returned

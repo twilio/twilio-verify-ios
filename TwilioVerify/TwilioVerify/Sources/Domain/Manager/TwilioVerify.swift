@@ -49,7 +49,7 @@ public protocol TwilioVerify {
   )
 
   /**
-  Updates a **Factor** from a **FactorPayload**
+  Updates a **Factor** from a **UpdateFactorPayload**
   - Parameters:
     - payload: Describes the information needed to update a factor
     - success: Closure to be called when the operation succeeds, returns the updated Factor
@@ -73,9 +73,9 @@ public protocol TwilioVerify {
   )
 
   /**
-  Deletes a **Factor** with the given **id**
+  Deletes a **Factor** with the given **Sid**
   - Parameters:
-    - sid: Id of the **Factor** to be deleted
+    - sid: Sid of the **Factor** to be deleted
     - success: Closure to be called when the operation succeeds
     - failure: Closure to be called when the operation fails with the cause of failure
   */
@@ -88,8 +88,8 @@ public protocol TwilioVerify {
   /**
   Gets a **Challenge** with the given challenge id and factor id
   - Parameters:
-    - challengeSid: Id of the Challenge requested
-    - factorSid: id of the Factor to which the Challenge corresponds
+    - challengeSid: Sid of the Challenge requested
+    - factorSid: Sid of the Factor to which the Challenge corresponds
     - success: Closure to be called when the operation succeeds, returns the requested Challenge
     - failure: Closure to be called when the operation fails with the cause of failure
   */
