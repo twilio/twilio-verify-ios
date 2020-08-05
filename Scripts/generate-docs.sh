@@ -1,5 +1,5 @@
 #!/bin/bash
 
 jazzy \
-  --output Docs/ \
+  --output docs/ \
   --theme apple
