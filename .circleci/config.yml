@@ -150,9 +150,9 @@ workflows:
       - Build TwilioVerify:
           requires:
             - TwilioVerify Complete Suite of Tests
-      # - Size report:
-      #     requires:
-      #       - Build TwilioVerify
+      - Size report:
+          requires:
+            - Build TwilioVerify
 
       
       
