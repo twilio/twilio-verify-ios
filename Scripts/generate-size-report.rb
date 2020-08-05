@@ -113,7 +113,7 @@ def create_markdown_snippet(info)
     f.puts "------------ | --------------- | -----------------"
 
     info.sort.map do |key,value|
-      f.puts "#{key} | #{value['compressed_app_size']} | #{value['uncompressed_framework_size']}"
+      f.puts "#{key} | #{value['compressed_framework_size']} | #{value['uncompressed_framework_size']}"
     end
   end
 end
