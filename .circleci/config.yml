@@ -117,7 +117,7 @@ commands:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
-            path: "./temp/TwilioVerify Size Impact Report.txt"
+            path: "./temp"
 
 jobs:
   TwilioVerify Complete Suite of Tests:
