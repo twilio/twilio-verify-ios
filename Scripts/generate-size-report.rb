@@ -38,7 +38,7 @@ def create_markdown_snippet(info)
     puts info.map
 
     info.sort.map do |key,value|
-      f.puts "#{key}      |     #{value['compressed_app_size']}    | #{value['uncompressed_framework_size']}"
+      f.puts "#{key}          |     #{value['compressed_app_size']}    | #{value['uncompressed_framework_size']}"
     end
   end
 end
@@ -55,6 +55,7 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
 
   for variant in app_thinning_plist['variants']
+    puts "variant"
     variant_name = variant[0]
     variant_properties = variant[1]
     variant_architecture = 'arm64'
