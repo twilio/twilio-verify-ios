@@ -33,6 +33,10 @@ def create_markdown_snippet(info)
     f.puts "Architecture | Compressed Size | Uncompressed Size"
     f.puts "------------ | --------------- | -----------------"
 
+    puts info
+    puts info.sort
+    puts info.map
+
     info.sort.map do |key,value|
       f.puts "#{key}      |     #{value['compressed_app_size']}    | #{value['uncompressed_framework_size']}"
     end
@@ -60,14 +64,7 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     uncompressed_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
     uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
 
-    puts compressed_app_size
-    puts uncompressed_app_size
-    puts uncompressed_framework_size
-    puts uncompressed_app_without_framework_size
-
     info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_app_size), 'uncompressed_framework_size' => format_bytes(uncompressed_framework_size) }
-
-    puts info
 
     f.puts "Variant: #{variant_name}"
     f.puts " - Architecture: #{variant_architecture}"
