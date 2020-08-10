@@ -10,7 +10,7 @@ import Foundation
 
 ///Describes the information required to create a **Factor**.
 public protocol FactorPayload {
-  ///Friendly name of the factor, can be used for display purposes.
+  ///A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
   var friendlyName: String { get }
   ///The unique SID identifier of the Service.
   var serviceSid: String { get }

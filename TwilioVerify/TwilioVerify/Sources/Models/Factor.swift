@@ -14,7 +14,7 @@ public protocol Factor {
   var status: FactorStatus { get set }
   ///The unique SID identifier of the Factor.
   var sid: String { get }
-  ///Friendly name of the Factor, can be used for display purposes.
+  ///A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
   var friendlyName: String { get }
   ///The unique SID of the Account that created the Service resource.
   var accountSid: String { get }

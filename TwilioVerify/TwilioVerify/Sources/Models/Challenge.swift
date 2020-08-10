@@ -10,17 +10,17 @@ import Foundation
 
 ///Describes the information of a **Challenge**
 public protocol Challenge {
-  ///Id of the Challange
+  ///The unique SID identifier of the Challenge
   var sid: String { get }
   ///Details of the Challenge
   var challengeDetails: ChallengeDetails { get }
   ///Hidden details of the Challenge
   var hiddenDetails: String { get }
-  ///Id of the factor to which the Challenge is related
+  ///Sid of the factor to which the Challenge is related
   var factorSid: String { get }
   ///Status of the Challenge
   var status: ChallengeStatus { get }
-  ///Indicates the creation date of the Chalenge
+  ///Indicates the creation date of the Challenge
   var createdAt: Date { get }
   ///Indicates the last date the Challenge was updated
   var updatedAt: Date { get }
