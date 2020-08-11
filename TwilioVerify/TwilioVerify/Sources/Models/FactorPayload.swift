@@ -23,7 +23,7 @@ public protocol FactorPayload {
 
 ///Describes the information required to create a **Factor** which type is **Push**.
 public struct PushFactorPayload: FactorPayload {
-  ///Friendly name of the factor, you can use this for display purposes.
+  ///A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
   public let friendlyName: String
   ///The unique SID identifier of the Service.
   public let serviceSid: String
@@ -40,7 +40,7 @@ public struct PushFactorPayload: FactorPayload {
   /**
   Creates a **PushFactorPayload** with the given parameters.
   - Parameters:
-    - friendlyName: Friendly name of the factor, can be used for display purposes.
+    - friendlyName: A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
     - serviceSid: The unique SID identifier of the Service.
     - identity: Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
                 because the systems that will process this attribute assume it is not directly identifying information.
