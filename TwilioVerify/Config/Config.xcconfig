@@ -9,4 +9,6 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
+#include "Version.xcconfig"
+
 BASE_URL = verify.twilio.com/v2/
