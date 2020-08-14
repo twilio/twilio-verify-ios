@@ -1,5 +1,7 @@
 # Twilio Verify iOS
 
+[![CircleCI](https://circleci.com/gh/twilio/twilio-verify-ios.svg?style=shield&circle-token=278ebe32d8aac19f79d4f3b56edf2950d76f4d4c)](https://circleci.com/gh/twilio/twilio-verify-ios)
+
 ## Table of Contents
 
 * [About](#About)
