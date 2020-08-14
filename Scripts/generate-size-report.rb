@@ -55,7 +55,6 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
   app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
 
   for variant in app_thinning_plist['variants']
-    puts "variant"
     variant_name = variant[0]
     variant_properties = variant[1]
     variant_architecture = 'arm64'
@@ -74,6 +73,7 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     f.puts " - Compressed download application size: #{format_bytes(compressed_app_size)}"
     f.puts " - Uncompressed application size: #{format_bytes(uncompressed_app_size)}"
     f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
+    f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
     f.puts " - Uncompressed application size without #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
     f.puts ""
   end
