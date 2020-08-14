@@ -41,9 +41,9 @@ xcodebuild \
   -exportOptionsPlist ${EXPORT_OPTIONS_PLIST}
 
 # Generate the sizing report
-cd ${IPA_DIR}
+cd ${IPA_DIR}/Apps
 ls
-zipinfo -l "${IPA_DIR}/AppSizer.ipa" | sort -nr -k 6
+zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6
 ./Scripts/env.rb ./Scripts/generate-size-report.rb
 
 # Cat the output for visibility
