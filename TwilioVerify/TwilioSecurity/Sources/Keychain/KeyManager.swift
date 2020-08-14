@@ -8,11 +8,13 @@
 
 import Foundation
 
+///:nodoc:
 public protocol KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate) throws -> Signer
   func deleteKey(withAlias alias: String) throws
 }
 
+///:nodoc:
 public class KeyManager {
   
   private let keychain: KeychainProtocol

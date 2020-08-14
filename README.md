@@ -72,6 +72,8 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 ## Running the Sample backend
 
 * Clone this repo: https://github.com/twilio/verify-push-sample-backend
+* Configure a [Notify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-or-select-a-notify-service) for the sample app, using the same APNs configuration
+* Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-a-verify-service), using the Notify service for the sample app
 * Run the steps in the [README file](https://github.com/twilio/verify-push-sample-backend/blob/master/README.md)
 
 <a name='UsingSampleApp'></a>

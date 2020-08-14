@@ -8,6 +8,7 @@
 
 import Foundation
 
+///:nodoc:
 public struct ECP256SignerTemplate {
   public var alias: String
   public var shouldExist: Bool
