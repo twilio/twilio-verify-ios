@@ -57,7 +57,6 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     `zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6 > file`
     lines = File.readlines("file")
     str = lines[3]
-    f.puts str
     terms = str.split(' ')
     uncompressed_framework_size = terms[3]
     compressed_framework_size = terms[5]
