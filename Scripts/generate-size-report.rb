@@ -66,7 +66,8 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
 
     info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_framework_size), 'uncompressed_framework_size' => format_bytes(uncompressed_framework_size) }
-
+    `zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6 > file`
+    lines = File.readlines("file")
     f.puts "Variant: #{variant_name}"
     f.puts " - Architecture: #{variant_architecture}"
     f.puts " - Devices supported: #{format_variants(variant_properties)}"
@@ -75,7 +76,7 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     # f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
     # f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
     # f.puts " - Uncompressed application size without #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
-    lines = File.readlines(`zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6`)
+    
     f.puts lines[3]
     f.puts ""
     
