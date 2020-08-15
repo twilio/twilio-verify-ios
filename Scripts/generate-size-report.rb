@@ -68,14 +68,15 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_framework_size), 'uncompressed_framework_size' => format_bytes(uncompressed_framework_size) }
 
     f.puts "Variant: #{variant_name}"
-    # f.puts " - Architecture: #{variant_architecture}"
-    # f.puts " - Devices supported: #{format_variants(variant_properties)}"
+    f.puts " - Architecture: #{variant_architecture}"
+    f.puts " - Devices supported: #{format_variants(variant_properties)}"
     # f.puts " - Compressed download application size: #{format_bytes(compressed_app_size)}"
     # f.puts " - Uncompressed application size: #{format_bytes(uncompressed_app_size)}"
     # f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
     # f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
     # f.puts " - Uncompressed application size without #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
-    f.puts `zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6`[3]
+    lines = File.readlines(`zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6`)
+    f.puts lines[3]
     f.puts ""
     
   end
