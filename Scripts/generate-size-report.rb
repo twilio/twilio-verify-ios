@@ -76,8 +76,13 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     # f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
     # f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
     # f.puts " - Uncompressed application size without #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
+    str = lines[3]
+    f.puts str
     
-    f.puts lines[3]
+    str.split(' ').each do|c|
+      puts c
+      f.puts c
+    end
     f.puts ""
     
   end
