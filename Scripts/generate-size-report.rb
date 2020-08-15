@@ -32,13 +32,8 @@ def create_markdown_snippet(info)
   File.open("#{SIZE_REPORT_DIR}/SizeImpact.md", 'w') do |f|
     f.puts "Architecture | Compressed Size | Uncompressed Size"
     f.puts "------------ | --------------- | -----------------"
-
-    puts info
-    puts info.sort
-    puts info.map
-
     info.sort.map do |key,value|
-      f.puts "#{key}        |       #{value['compressed_app_size']}    | #{value['uncompressed_framework_size']}"
+      f.puts "#{key}        |       #{value['compressed_framework_size']}    | #{value['uncompressed_framework_size']}"
     end
   end
 end
@@ -59,34 +54,23 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
     variant_properties = variant[1]
     variant_architecture = 'arm64'
 
-    compressed_app_size = `stat -f %z "#{IPA_DIR}/#{variant_name}"`.strip
-    compressed_framework_size =  `stat -f %z "#{IPA_DIR}/#{variant_name} | grep "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'"`.strip
-    uncompressed_app_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-    uncompressed_app_without_framework_size = `unzip -l "#{IPA_DIR}/#{variant_name}" | grep -- "-201" | grep -v "Frameworks/#{FRAMEWORK_NAME}" | cut -c1-9 | awk '{s+=$0}END{print s}'`.strip
-
-    info[variant_architecture] = {'compressed_app_size' => format_bytes(compressed_framework_size), 'uncompressed_framework_size' => format_bytes(uncompressed_framework_size) }
     `zipinfo -l "${IPA_DIR}/Apps/AppSizer.ipa" | sort -nr -k 6 > file`
     lines = File.readlines("file")
+    str = lines[3]
+    f.puts str
+    terms = str.split(' ')
+    uncompressed_framework_size = terms[3]
+    compressed_framework_size = terms[5]
+
+    info[variant_architecture] = {'compressed_framework_size' => format_bytes(compressed_framework_size), 'uncompressed_framework_size' => format_bytes(uncompressed_framework_size) }
+    
     f.puts "Variant: #{variant_name}"
     f.puts " - Architecture: #{variant_architecture}"
     f.puts " - Devices supported: #{format_variants(variant_properties)}"
-    # f.puts " - Compressed download application size: #{format_bytes(compressed_app_size)}"
-    # f.puts " - Uncompressed application size: #{format_bytes(uncompressed_app_size)}"
-    # f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
-    # f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
-    # f.puts " - Uncompressed application size without #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_app_without_framework_size)}"
-    str = lines[3]
-    f.puts str
-    
-    str.split(' ').each do|c|
-      puts c
-      f.puts c
-    end
+    f.puts " - Uncompressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(uncompressed_framework_size)}"
+    f.puts " - Compressed size of #{FRAMEWORK_NAME} framework: #{format_bytes(compressed_framework_size)}"
     f.puts ""
-    
   end
-
 end
 
 create_markdown_snippet(info)
