@@ -38,6 +38,9 @@ else
   export USE_DEBUG_LIBS=0
 fi
 
+VERSION_PATH=($(head -n 1 TwilioVerify/Config/Version.xcconfig))
+export BASE_VERSION=${VERSION_PATH[@]: -1}
+
 # Output locations
 export TEMP_DIR="${BASE_DIR}/temp"
 export SECRETS_DIR="${TEMP_DIR}/secrets"

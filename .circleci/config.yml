@@ -14,7 +14,7 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Install Gems
-          command: bundle check || bundle install --path vendor/bundle
+          command: bundle check || bundle install
       - save_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
@@ -116,6 +116,8 @@ commands:
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
+      - store_artifacts:
+            path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
 
 jobs:
   TwilioVerify Complete Suite of Tests:
@@ -148,9 +150,9 @@ workflows:
       - Build TwilioVerify:
           requires:
             - TwilioVerify Complete Suite of Tests
-      # - Size report:
-      #     requires:
-      #       - Build TwilioVerify
+      - Size report:
+          requires:
+            - Build TwilioVerify
 
       
       
