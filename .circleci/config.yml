@@ -98,8 +98,6 @@ commands:
     steps:
       - checkout
       - setup
-      - bump_version:
-          change_type: patch
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
