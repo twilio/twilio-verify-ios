@@ -99,7 +99,6 @@ func commitChanges(forChangeType type: ChangeType) {
   shell(Constants.Git.Actions.commit, 
         Constants.Git.Actions.commitMessage,
         commitMessage)
-  shell("push", "origin", "savila/ACCSEC-18513")
 }
 
 func versionFilePathURL() -> URL {
