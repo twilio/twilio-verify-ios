@@ -67,10 +67,13 @@ commands:
           command: ./Scripts/configure-provisioning-profiles.sh
   
   bump_version:
+    parameters:
+      change_type:
+        type: string
     steps:
       - run:
           name: "Bumping version"
-          command: ./Scripts/bump-version.swift
+          command: ./Scripts/bump-version.swift <<parameters.change_type>>
 
   test:
     parameters:
@@ -95,7 +98,8 @@ commands:
     steps:
       - checkout
       - setup
-      - bump_version
+      - bump_version:
+          change_type: patch
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
