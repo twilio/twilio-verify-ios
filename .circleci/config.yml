@@ -65,6 +65,16 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
+  
+  bump_version:
+    parameters:
+      change_type:
+        type: string
+    steps:
+      - run:
+          name: "Bumping version"
+          command: ./Scripts/bump-version.swift <<parameters.change_type>>
+
   test:
     parameters:
       test_plan:
@@ -87,7 +97,7 @@ commands:
         type: string
     steps:
       - checkout
-      - setup 
+      - setup
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
