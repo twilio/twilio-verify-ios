@@ -126,6 +126,47 @@ class SecureStorageTests: XCTestCase {
       )
     }
   }
+  
+  func testClear_itemsExist_shouldClearKeychain() {
+    let expectedData2 = "data2".data(using: .utf8)!
+    let valueData2 = [kSecValueData as String: expectedData2]
+    keychain.keys = [[valueData2] as AnyObject]
+    keychain.deleteItemStatus = errSecSuccess
+    XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
+    XCTAssertTrue(keychain.callOrder.contains(.deleteItem), "Delete should be called")
+  }
+  
+  func testClear_noItems_shouldNotClearKeychain() {
+    keychain.error = NSError(domain: "No items", code: Int(errSecItemNotFound), userInfo: nil)
+    XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
+    XCTAssertFalse(keychain.callOrder.contains(.deleteItem), "Delete should not be called")
+  }
+  
+  func testClear_itemsExistAndDeleteStatusError_shouldThrowError() {
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    let expectedData2 = "data2".data(using: .utf8)!
+    let valueData2 = [kSecValueData as String: expectedData2]
+    keychain.keys = [[valueData2] as AnyObject]
+    keychain.deleteItemStatus = errSecItemNotFound
+    XCTAssertThrowsError(try storage.clear(), "Clear should throw") { error in
+      let thrownError = error as NSError
+      XCTAssertEqual(
+        thrownError.code,
+        Int(errSecItemNotFound),
+        "Error code should be \(errSecItemNotFound), but was \(thrownError.code)"
+      )
+      XCTAssertEqual(
+        thrownError.domain,
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
+      )
+      XCTAssertEqual(
+        thrownError.localizedDescription,
+        expectedLocalizedDescription,
+        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+      )
+    }
+  }
 }
 
 private extension SecureStorageTests {

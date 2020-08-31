@@ -14,6 +14,7 @@ public protocol SecureStorageProvider {
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll() throws -> [Data]
+  func clear() throws
 }
 
 ///:nodoc:
@@ -65,6 +66,9 @@ extension SecureStorage: SecureStorageProvider {
       }.compactMap { $0 }
       return objectsData
     } catch {
+      if (error as NSError).code == Int(errSecItemNotFound) {
+        return []
+      }
       throw error
     }
   }
@@ -75,6 +79,17 @@ extension SecureStorage: SecureStorageProvider {
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
       throw error
+    }
+  }
+  
+  public func clear() throws {
+    if try getAll().count > 0 {
+      let query = keychainQuery.deleteItems()
+      let status = keychain.deleteItem(withQuery: query)
+      guard status == errSecSuccess else {
+        let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+        throw error
+      }
     }
   }
 }

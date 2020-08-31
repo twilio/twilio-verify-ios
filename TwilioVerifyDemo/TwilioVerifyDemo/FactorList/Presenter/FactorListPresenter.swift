@@ -25,11 +25,15 @@ class FactorListPresenter {
   private let twilioVerify: TwilioVerify
   private var factors: [Factor]
   
-  init(withView view: FactorListView,
-       twilioVerify: TwilioVerify = TwilioVerifyAdapter()) {
-    self.view = view
-    self.twilioVerify = twilioVerify
-    self.factors = [Factor]()
+  init?(withView view: FactorListView) {
+    do {
+      self.view = view
+      self.twilioVerify = try TwilioVerifyAdapter()
+      self.factors = [Factor]()
+    } catch {
+      print("Unexpected error: \(error).")
+      return nil
+    }
   }
 }
 

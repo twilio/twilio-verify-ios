@@ -23,7 +23,7 @@ class CreateFactorViewController: UIViewController {
   @IBOutlet private weak var closeButton: UIBarButtonItem!
   @IBOutlet private weak var loader: UIActivityIndicatorView!
   
-  private var presenter: CreateFactorPresentable!
+  private var presenter: CreateFactorPresentable?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,14 +33,14 @@ class CreateFactorViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    accessTokenURLTextField.text = presenter.accessTokenURL()
+    accessTokenURLTextField.text = presenter?.accessTokenURL()
   }
   
   @IBAction func createFactor() {
     let identity = identityTextField.text
     let url = accessTokenURLTextField.text
     loader.startAnimating()
-    presenter.create(withIdentity: identity, accessTokenURL: url)
+    presenter?.create(withIdentity: identity, accessTokenURL: url)
   }
 }
 

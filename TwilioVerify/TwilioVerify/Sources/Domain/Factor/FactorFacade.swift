@@ -85,6 +85,7 @@ extension FactorFacade {
     private var keyStorage: KeyStorage!
     private var url: String!
     private var authentication: Authentication!
+    private var clearStorageOnReinstall: Bool = true
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider
@@ -106,10 +107,16 @@ extension FactorFacade {
       return self
     }
     
-    func build() -> FactorFacadeProtocol {
+    func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
+      self.clearStorageOnReinstall = clearStorageOnReinstall
+      return self
+    }
+    
+    func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
       let secureStorage = SecureStorage()
-      let storage = Storage(secureStorage: secureStorage)
+      let factorMigrations = FactorMigrations()
+      let storage = try Storage(secureStorage: secureStorage, migrations: factorMigrations.migrations(), clearStorageOnReinstall: clearStorageOnReinstall)
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
       return FactorFacade(factory: factory, repository: repository)

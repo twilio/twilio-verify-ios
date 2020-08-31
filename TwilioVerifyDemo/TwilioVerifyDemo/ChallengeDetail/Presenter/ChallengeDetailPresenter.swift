@@ -28,15 +28,19 @@ class ChallengeDetailPresenter {
   private let challengeSid: String
   private let factorSid: String
   
-  init(withView view: ChallengeDetailView,
-       twilioVerify: TwilioVerify = TwilioVerifyAdapter(),
+  init?(withView view: ChallengeDetailView,
        challengeSid: String = String(),
        factorSid: String = String()) {
-    self.view = view
-    self.twilioVerify = twilioVerify
-    self.challengeSid = challengeSid
-    self.factorSid = factorSid
-    fetchChallengeDetails()
+    do {
+      self.view = view
+      self.twilioVerify = try TwilioVerifyAdapter()
+      self.challengeSid = challengeSid
+      self.factorSid = factorSid
+      fetchChallengeDetails()
+    } catch {
+      print("Unexpected error: \(error).")
+      return nil
+    }
   }
 }
 

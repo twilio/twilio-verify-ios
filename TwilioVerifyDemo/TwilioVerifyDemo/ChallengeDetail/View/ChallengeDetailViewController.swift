@@ -28,7 +28,7 @@ class ChallengeDetailViewController: UIViewController {
   @IBOutlet private weak var buttonsContainer: UIView!
   @IBOutlet private weak var closeButton: UIBarButtonItem!
 
-  var presenter: ChallengeDetailPresentable!
+  var presenter: ChallengeDetailPresentable?
   var shouldShowButtonToDismissView = false
   
   override func viewDidLoad() {
@@ -44,24 +44,24 @@ class ChallengeDetailViewController: UIViewController {
   }
   
   @IBAction func updateChallenge(_ sender: UIButton) {
-    presenter.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
+    presenter?.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
   }
 }
 
 extension ChallengeDetailViewController: ChallengeDetailView {
   func updateView() {
-    messageLabel.text = presenter.challenge.challengeDetails.message
-    statusLabel.text = presenter.challenge.status.rawValue
-    sidLabel.text = presenter.challenge.sid
+    messageLabel.text = presenter?.challenge.challengeDetails.message
+    statusLabel.text = presenter?.challenge.status.rawValue
+    sidLabel.text = presenter?.challenge.sid
     var detailText = String()
-    presenter.challenge.challengeDetails.fields.forEach {
+    presenter?.challenge.challengeDetails.fields.forEach {
       detailText.append("\($0.label): \($0.value)\n")
     }
     detailsTextView.text = detailText
     detailsHeightConstraint.constant = detailsTextView.contentSize.height
-    expirationDateLabel.text = presenter.challenge.expirationDate.verifyStringFormat()
-    updatedDateLabel.text = presenter.challenge.updatedAt.verifyStringFormat()
-    buttonsContainer.isHidden = !(presenter.challenge.status == .pending)
+    expirationDateLabel.text = presenter?.challenge.expirationDate.verifyStringFormat()
+    updatedDateLabel.text = presenter?.challenge.updatedAt.verifyStringFormat()
+    buttonsContainer.isHidden = !(presenter?.challenge.status == .pending)
     detailsTextView.layoutSubviews()
   }
   

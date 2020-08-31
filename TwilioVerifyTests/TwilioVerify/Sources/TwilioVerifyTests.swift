@@ -17,7 +17,7 @@ class TwilioVerifyTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     networkProvider = NetworkProviderMock()
-    twilioVerify = TwilioVerifyBuilder().setURL("https://twilio.com").setNetworkProvider(networkProvider).build()
+    twilioVerify = try! TwilioVerifyBuilder().setURL("https://twilio.com").setNetworkProvider(networkProvider).build()
   }
   
   func testCreateFactor_shouldSucceed() {
