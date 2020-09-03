@@ -60,22 +60,15 @@ platform :ios do
   lane :release do
     title = 'iOS Verify Push Release'
     tag_prefix = '*'
-    scheme = 'TwilioVerify'
-    next unless verify(title: title, tag_prefix: tag_prefix, scheme: scheme)
-    # TODO: missing part generate api docs and release to bintray
+    next unless verify(title: title, tag_prefix: tag_prefix)
+    incrementVersion()
+    # TODO: missing part generate api docs and release to carthage/cocoapods
     post_release()
   end
 
   desc "Verify next release"
   lane :verify do |options|
-    #ensure_git_status_clean
-    if !is_ci? then
-      UI.message("#{options[:title]} deploy was triggered on local machine")
-      #clean(scheme: options[:scheme])
-    else
-      UI.message("#{options[:title]} deploy was triggered on CircleCI")
-    end
-
+    ensure_git_status_clean
     # Check if there is any change since last version
     is_releaseable = analyze_commits(
       match: options[:tag_prefix]
@@ -84,6 +77,15 @@ platform :ios do
       UI.important("Skip deploying #{options[:title]}. No changes since last one!")
     end
     is_releaseable
+  end
+
+  desc "Increment version"
+  lane :incrementVersion do |options|
+    next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
+    ensure_git_status_clean
+    # Increment version in Verify module
+    UI.message("Updating TwilioVerify/Config/Version.xcconfig")
+    sh("./../Scripts/bump-version.swift #{next_version}")
   end
 
   desc "Generates release tag, release notes and updates CHANGELOG.md"
@@ -107,7 +109,7 @@ platform :ios do
     )
     UI.message("Updating CHANGELOG.md")
     sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
-    git_commit(path: ['./CHANGELOG.md'], message: "skip: Version bump to #{next_version} [skip ci]")
+    git_commit(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md'], message: "Version bump to #{next_version} [skip ci]")
     push_to_git_remote
   end
 

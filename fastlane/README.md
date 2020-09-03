@@ -36,6 +36,11 @@ Release a new production version
 fastlane ios verify
 ```
 Verify next release
+### ios incrementVersion
+```
+fastlane ios incrementVersion
+```
+Increment version
 ### ios post_release
 ```
 fastlane ios post_release
