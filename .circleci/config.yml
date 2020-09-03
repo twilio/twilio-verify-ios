@@ -165,13 +165,14 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
-      - Release SDK:
-          requires:
-            - Size report
-          filters:
-            branches:
-              only:
-                - sfierro/ACCSEC-18826-Changelog
+      # Uncomment this part when all the steps to release a new version are done      
+      # - Release SDK:
+      #     requires:
+      #       - Size report
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
 
       
       
