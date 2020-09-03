@@ -62,7 +62,6 @@ platform :ios do
     tag_prefix = '*'
     scheme = 'TwilioVerify'
     next unless verify(title: title, tag_prefix: tag_prefix, scheme: scheme)
-    incrementVersion()
     # TODO: missing part generate api docs and release to bintray
     post_release()
   end
