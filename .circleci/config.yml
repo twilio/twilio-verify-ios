@@ -79,12 +79,15 @@ commands:
     parameters:
       test_plan:
         type: string
+      ftl_devices:
+        type: string
+        default: single
     steps:
       - checkout
       - setup
       - run:
           name: Test
-          command: bundle exec fastlane test test_plan:<< parameters.test_plan >>
+          command: bundle exec fastlane test test_plan:<< parameters.test_plan >> ftl_devices:<< parameters.ftl_devices >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
@@ -135,17 +138,33 @@ jobs:
     steps:
       - test:
           test_plan: CompleteSuite
+
+  TwilioVerify Integration Tests Single Device:
+    executor: macos_executor
+    steps:
+      - test:
+          test_plan: IntegrationSuite
+
+  TwilioVerify Integration Tests All Devices:
+    executor: macos_executor
+    steps:
+      - test:
+          test_plan: IntegrationSuite
+          ftl_devices: all
+
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
     steps:
       - test:
           scheme: TwilioVerifyDemo
+
   Build TwilioVerify:
     executor: macos_executor
     steps:
       - build_framework:
           scheme: TwilioVerifySDK
           artifact: TwilioVerify
+          
   Size report:
     executor: macos_executor
     steps:
@@ -155,14 +174,16 @@ workflows:
   build_and_test:
     jobs:
       - TwilioVerify Complete Suite of Tests
-      # TODO: Enable this job when the target have tests otherwise the job will fail
-      #- TwilioVerifyDemo Unit Tests
+      - TwilioVerify Integration Tests Single Device
+      - TwilioVerify Integration Tests All Devices:
+          requires:
+            - TwilioVerify Integration Tests Single Device
       - Build TwilioVerify:
           requires:
             - TwilioVerify Complete Suite of Tests
+            - TwilioVerify Integration Tests All Devices
       - Size report:
           requires:
             - Build TwilioVerify
-
-      
-      
+      # TODO: Enable this job when the target have tests otherwise the job will fail
+      #- TwilioVerifyDemo Unit Tests
