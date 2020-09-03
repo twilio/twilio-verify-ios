@@ -65,15 +65,11 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
-  
-  bump_version:
-    parameters:
-      change_type:
-        type: string
+  release:
     steps:
       - run:
-          name: "Bumping version"
-          command: ./Scripts/bump-version.swift <<parameters.change_type>>
+          name: "Release SDK"
+          command: bundle exec fastlane release
 
   test:
     parameters:
@@ -150,6 +146,10 @@ jobs:
     executor: macos_executor
     steps:
       - build_app_sizer
+  Release SDK:
+    executor: macos_executor
+    steps:
+      - release
      
 workflows:
   build_and_test:
@@ -163,6 +163,13 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
+      - Release SDK:
+          requires:
+            - Size report
+          filters:
+            branches:
+              only:
+                - sfierro/ACCSEC-18826-Changelog
 
       
       
