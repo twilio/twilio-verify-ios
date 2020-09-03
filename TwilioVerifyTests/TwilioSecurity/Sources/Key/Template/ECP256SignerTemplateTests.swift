@@ -12,7 +12,7 @@ import XCTest
 class ECP256SignerTemplateTests: XCTestCase {
 
   private var keychain: KeychainMock!
-  private var signer: ECP256SignerTemplate!
+  private var signer: SignerTemplate!
   private let shouldExist = false
   
   override func setUpWithError() throws {
