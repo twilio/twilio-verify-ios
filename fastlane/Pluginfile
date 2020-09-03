@@ -2,4 +2,4 @@
 #
 # Ensure this file is checked in to source control!
 
-gem 'fastlane-plugin-firebase_test_lab', git: 'https://github.com/fastlane/fastlane-plugin-firebase_test_lab'
+gem 'fastlane-plugin-firebase_test_lab', git: 'https://github.com/sanarroya/fastlane-plugin-firebase_test_lab'

@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/fastlane/fastlane-plugin-firebase_test_lab
-  revision: c4f0bfd3b8efb6ce32fae4124adba90d1ccd0a31
+  remote: https://github.com/sanarroya/fastlane-plugin-firebase_test_lab
+  revision: 00394ae9df59a863f02036ad9ea2370295272611
   specs:
     fastlane-plugin-firebase_test_lab (1.0.7)
       faraday
