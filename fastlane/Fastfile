@@ -60,7 +60,8 @@ platform :ios do
   lane :release do
     title = 'iOS Verify Push Release'
     tag_prefix = '*'
-    next unless verify(title: title, tag_prefix: tag_prefix)
+    scheme = 'TwilioVerify'
+    next unless verify(title: title, tag_prefix: tag_prefix, scheme: scheme)
     incrementVersion()
     # TODO: missing part generate api docs and release to bintray
     post_release()
@@ -68,10 +69,10 @@ platform :ios do
 
   desc "Verify next release"
   lane :verify do |options|
-    ensure_git_status_clean
+    #ensure_git_status_clean
     if !is_ci? then
       UI.message("#{options[:title]} deploy was triggered on local machine")
-      clean(scheme: scheme)
+      #clean(scheme: options[:scheme])
     else
       UI.message("#{options[:title]} deploy was triggered on CircleCI")
     end
