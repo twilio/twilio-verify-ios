@@ -78,12 +78,7 @@ platform :ios do
 
     # Check if there is any change since last version
     is_releaseable = analyze_commits(
-      match: options[:tag_prefix],
-      releases: {
-        fix: 'patch',
-        feat: 'minor',
-        'BREAKING CHANGE': 'major'
-      }
+      match: options[:tag_prefix]
     )
     unless is_releaseable
       UI.important("Skip deploying #{options[:title]}. No changes since last one!")
