@@ -67,6 +67,8 @@ commands:
           command: ./Scripts/configure-provisioning-profiles.sh
   release:
     steps:
+      - checkout
+      - setup
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
