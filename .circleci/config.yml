@@ -109,6 +109,7 @@ commands:
       - run:
           name: Integration Tests
           command: bundle exec fastlane integration_tests test_plan:<< parameters.test_plan >> ftl_devices:<< parameters.ftl_devices >>
+      - store_scan_artifacts
 
   build_framework:
     parameters:
@@ -192,7 +193,9 @@ workflows:
   build_and_test:
     jobs:
       - TwilioVerify Complete Suite of Tests
-      - TwilioVerify Integration Tests Single Device
+      - TwilioVerify Integration Tests Single Device:
+          requires:
+            - TwilioVerify Complete Suite of Tests
       - TwilioVerify Integration Tests All Devices:
           requires:
             - TwilioVerify Integration Tests Single Device

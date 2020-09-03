@@ -1,0 +1,16 @@
+{
+  "identity": "factorIdentity",
+  "factor_type": "push",
+  "service_sid": "VA08fb7b6e4bdbc53bda0f55296dui72s",
+  "status": "verified",
+  "config": {
+    "credential_sid": "credentialSid"
+  },
+  "entity_sid": "entitySid",
+  "account_sid": "accountSid",
+  "url": "https://twilio.com",
+  "date_created": "2020-07-16T20:46:34Z",
+  "sid": "factorSid",
+  "date_updated": "2020-07-16T20:46:34Z",
+  "friendly_name": "friendlyName",
+}
