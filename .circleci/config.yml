@@ -7,6 +7,10 @@ executors:
 
 commands:
   setup:
+    parameters:
+      cache_gems:
+        default: true
+        type: boolean
     steps:
       - configure_secrets
       - configure_xcode_signing
@@ -20,7 +24,21 @@ commands:
           paths:
             - vendor/bundle
             - /
-  
+
+  install_brew_dependencies:
+    steps:
+      - restore_cache:
+          key: brew-deps-{{ checksum "brew-dependencies" }}
+      - run:
+          name: Install SwiftLint
+          command: |
+              brew install swiftlint
+              brew link --overwrite swiftlint 2>/dev/null
+      - save_cache:
+          key: brew-deps-{{ checksum "brew-dependencies" }}
+          paths:
+            - /usr/local/Cellar/swiftlint
+
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
     steps:
@@ -94,6 +112,7 @@ commands:
     steps:
       - checkout
       - setup
+      - install_brew_dependencies
       - run:
           name: Lint
           command: bundle exec fastlane lint
@@ -128,7 +147,8 @@ commands:
     steps:
       - checkout
       - use_system_ruby
-      - setup
+      - setup:
+          cache_gems: false
       - attach_workspace:
           at: ~/Desktop
       - run:
