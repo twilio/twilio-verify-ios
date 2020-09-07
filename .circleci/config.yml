@@ -113,7 +113,7 @@ commands:
           name: Lint
           command: bundle exec fastlane lint
       - store_artifacts:
-          path: './fastlane/Test Output/report.html'
+          path: 'report.html'
 
   build_framework:
     parameters:

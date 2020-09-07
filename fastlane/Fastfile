@@ -59,7 +59,7 @@ platform :ios do
   lane :lint do
     swiftlint(
       config_file: './.swiftlint.yml',
-      output_file: output_directory + 'report.html',
+      output_file: 'report.html',
       reporter: 'html',
       raise_if_swiftlint_error: true
     )
