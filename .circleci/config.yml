@@ -20,8 +20,10 @@ commands:
           name: Install Gems
           command: |
             if [ <<parameters.cache_gems>> ]; then
+              echo "cache"
               bundle check || bundle install --path vendor/bundle
             else
+              echo "no cache"
               bundle check || bundle install
             fi
       - save_cache:
