@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable type_body_length
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -29,7 +30,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
-    }) { failure in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -48,12 +49,12 @@ class TwilioVerifyManagerTests: XCTestCase {
                    "Factor createdAt should be \(Constants.expectedFactor.createdAt) but was \(factorResponse.createdAt)")
   }
   
-  func testCreateFactor_withErrorResponse_shouldFail(){
+  func testCreateFactor_withErrorResponse_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     factorFacade.error = expectedError
     var error: TwilioVerifyError!
-    twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { factor in
+    twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failure in
@@ -72,7 +73,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
-    }) { failure in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -97,7 +98,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     factorFacade.error = expectedError
     var error: TwilioVerifyError!
-    twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
+    twilioVerify.verifyFactor(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failure in

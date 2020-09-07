@@ -66,7 +66,7 @@ extension KeychainMock: KeychainProtocol {
     return operationResult
   }
   
-  func generateKeyPair(withParameters parameters: [String : Any]) throws -> KeyPair {
+  func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair {
     if let error = generateKeyPairError {
       throw error
     }

@@ -26,6 +26,11 @@ Runs the tests
 fastlane ios build_universal_framework
 ```
 
+### ios lint
+```
+fastlane ios lint
+```
+
 
 ----
 

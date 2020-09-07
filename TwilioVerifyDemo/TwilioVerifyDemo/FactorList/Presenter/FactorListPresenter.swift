@@ -35,7 +35,7 @@ class FactorListPresenter {
 
 extension FactorListPresenter: FactorListPresentable {
   func registerForPushNotifications() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
       guard granted else {
         return
       }

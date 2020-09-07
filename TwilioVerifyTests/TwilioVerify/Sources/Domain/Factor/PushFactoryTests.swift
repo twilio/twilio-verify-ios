@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast type_body_length file_length
 class PushFactoryTests: XCTestCase {
 
   var repository: FactorRepositoryMock!

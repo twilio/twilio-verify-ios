@@ -9,13 +9,14 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class GetChallengeTests: BaseFactorTests {
 
   func testGetChallenge_withValidAPIResponse_shouldSucceed() {
     guard let pathString = Bundle(for: type(of: self)).path(forResource: Constants.pendingChallengesValidResponse, ofType: Constants.json),
       let jsonString = try? String(contentsOfFile: pathString, encoding: .utf8),
       let jsonData = jsonString.data(using: .utf8),
-      let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any] else {
+      let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
         fatalError("get_challenge_pending_valid_response.json not found")
     }
     let expectation = self.expectation(description: "testGetChallenge_withValidAPIResponse_shouldSucceed")

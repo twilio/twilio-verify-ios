@@ -20,7 +20,7 @@ class ChallengeRepository {
   private let challengeMapper: ChallengeMapperProtocol
   private let challengeListMapper: ChallengeListMapperProtocol
   
-  init(apiClient: ChallengeAPIClientProtocol, challengeMapper: ChallengeMapperProtocol = ChallengeMapper(), challengeListMapper: ChallengeListMapperProtocol = ChallengeListMapper()){
+  init(apiClient: ChallengeAPIClientProtocol, challengeMapper: ChallengeMapperProtocol = ChallengeMapper(), challengeListMapper: ChallengeListMapperProtocol = ChallengeListMapper()) {
     self.apiClient = apiClient
     self.challengeMapper = challengeMapper
     self.challengeListMapper = challengeListMapper
@@ -51,7 +51,7 @@ extension ChallengeRepository: ChallengeProvider {
       failure(InputError.invalidInput)
       return
     }
-    apiClient.update(factorChallenge, withAuthPayload: payload, success: { [weak self] response in
+    apiClient.update(factorChallenge, withAuthPayload: payload, success: { [weak self] _ in
       guard let strongSelf = self else { return }
       strongSelf.get(withSid: factorChallenge.sid, withFactor: factor, success: success, failure: failure)
     }, failure: failure)

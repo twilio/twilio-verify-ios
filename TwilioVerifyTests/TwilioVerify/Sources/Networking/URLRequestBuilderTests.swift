@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class URLRequestBuilderTests: XCTestCase {
   
   private var authorization: BasicAuthorization!
@@ -74,7 +75,10 @@ class URLRequestBuilderTests: XCTestCase {
     let key2 = Constants.key2
     let value2 = Constants.value2
     let parameters = [Parameter.init(name: key1, value: value1), Parameter.init(name: key2, value: value2)]
-    let expectedBody = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
+    let expectedBody = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                       "=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                       "&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                       "=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
     let httpMethod = HTTPMethod.post
     var request: URLRequest!
     XCTAssertNoThrow(request = try URLRequestBuilder(withURL: Constants.url,
@@ -133,7 +137,10 @@ class URLRequestBuilderTests: XCTestCase {
     let key2 = Constants.key2
     let value2 = Constants.value2
     let parameters = [Parameter.init(name: key1, value: value1), Parameter.init(name: key2, value: value2)]
-    let expectedQuery = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
+    let expectedQuery = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                        "=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                        "&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                        "=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
     let expectedURL = "\(Constants.url)?\(expectedQuery)"
     let httpMethod = HTTPMethod.get
     var request: URLRequest!

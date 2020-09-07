@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+
 class ECSignerTests: XCTestCase {
 
   var keyPair: KeyPair!
@@ -38,8 +39,9 @@ class ECSignerTests: XCTestCase {
     let expectedSignature = "signature".data(using: .utf8)!
     keychain.operationResult =  expectedSignature
     XCTAssertNoThrow(try signer.sign(data), "Sign should not throw")
-    let signature = try! signer.sign(data)
-    XCTAssertEqual(signature, expectedSignature, "Signature should be \(expectedSignature) but was \(signature)")
+    var signature: Data!
+    XCTAssertNoThrow(signature = try signer.sign(data), "Sign should not throw")
+    XCTAssertEqual(signature, expectedSignature, "Signature should be \(expectedSignature) but was \(signature!)")
   }
   
   func testVerify_withKeychainError_shouldReturnFalse() {
@@ -77,7 +79,7 @@ class ECSignerTests: XCTestCase {
 
 private extension ECSignerTests {
   func representation(for data: Data) -> Data {
-    let x9_62HeaderECHeader = [UInt8]([
+    let x962HeaderECHeader = [UInt8]([
     /* sequence          */ 0x30, 0x59,
     /* |-> sequence      */ 0x30, 0x13,
     /* |---> ecPublicKey */ 0x06, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01, // http://oid-info.com/get/1.2.840.10045.2.1 (ANSI X9.62 public key type)
@@ -85,7 +87,7 @@ private extension ECSignerTests {
     /* |-> bit headers   */ 0x07, 0x03, 0x42, 0x00])
 
     var result = Data()
-    result.append(Data(x9_62HeaderECHeader))
+    result.append(Data(x962HeaderECHeader))
     result.append(data)
     return result
   }

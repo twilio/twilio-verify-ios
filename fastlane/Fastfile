@@ -55,4 +55,13 @@ platform :ios do
       skip_archive: true
     )
   end
+
+  lane :lint do
+    swiftlint(
+      config_file: './.swiftlint.yml',
+      output_file: output_directory + 'lint result.xml',
+      reporter: 'junit',
+      raise_if_swiftlint_error: true
+    )
+  end
 end

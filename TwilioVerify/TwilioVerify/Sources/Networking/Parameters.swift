@@ -12,7 +12,7 @@ struct Parameters {
   private var parameters: [Parameter] = []
   
   mutating func addAll(_ parameters: [Parameter]) {
-    parameters.forEach{ add($0)}
+    parameters.forEach { add($0) }
   }
   
   private mutating func add(_ parameter: Parameter) {

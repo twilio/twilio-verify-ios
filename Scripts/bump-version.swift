@@ -1,4 +1,5 @@
 #!/usr/bin/swift
+// swiftlint:disable nesting
 
 import Foundation
 

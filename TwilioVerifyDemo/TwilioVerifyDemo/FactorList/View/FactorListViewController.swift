@@ -17,7 +17,6 @@ class FactorListViewController: UIViewController {
 
   @IBOutlet private weak var tableView: UITableView!
   
-  
   private var presenter: FactorListPresentable!
   
   override func viewDidLoad() {
@@ -49,14 +48,14 @@ class FactorListViewController: UIViewController {
   }
 }
 
-//MARK: - UIAdaptivePresentationControllerDelegate
+// MARK: - UIAdaptivePresentationControllerDelegate
 extension FactorListViewController: UIAdaptivePresentationControllerDelegate {
   func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
     viewWillAppear(true)
   }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension FactorListViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     1
@@ -76,7 +75,7 @@ extension FactorListViewController: UITableViewDataSource {
   }
 }
 
-//MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 extension FactorListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     performSegue(withIdentifier: Constants.factorDetailSegueId, sender: indexPath.row)

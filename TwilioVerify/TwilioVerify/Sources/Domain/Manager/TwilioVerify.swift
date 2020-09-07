@@ -185,4 +185,3 @@ private extension TwilioVerifyBuilder {
     static let httpsPrefix = "https://"
   }
 }
-

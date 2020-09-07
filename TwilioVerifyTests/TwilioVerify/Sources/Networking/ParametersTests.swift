@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class ParametersTests: XCTestCase {
 
   func testParameters_asString_shouldReturnExpectedEncodedParameters() {
@@ -17,7 +18,10 @@ class ParametersTests: XCTestCase {
     let key2 = Contants.key2
     let value2 = 12345
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
-    let expectedStringParameters = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
+    let expectedStringParameters = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                                   "=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                                   "&\(key2.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                                   "=\(String(value2).addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
     
     var parameters = Parameters()
     parameters.addAll(expectedParameters)
@@ -69,7 +73,6 @@ class ParametersTests: XCTestCase {
     value2 = 54321
     parameters.addAll([Parameter(name: key1, value: value2)])
     
-    
     XCTAssertNoThrow(data = try parameters.asData(), "Parameters as data should not throw")
     XCTAssertNoThrow(body = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])
     XCTAssertEqual(body[key1] as! Int, value2,
@@ -84,11 +87,13 @@ class ParametersTests: XCTestCase {
     let key2 = Contants.key2
     let value2 = ["123", "321", "456"]
     let expectedParameters = [Parameter(name: key1, value: value1), Parameter(name: key2, value: value2)]
+    var expectedStringParameters = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")" +
+                                   "=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
     
-    var expectedStringParameters = "\(key1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")=\(value1.addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? "")"
-    value2.forEach{value in
-      expectedStringParameters += "&\(key2)[]=\(value)".addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? ""
+    value2.forEach {
+      expectedStringParameters += "&\(key2)[]=\($0)".addingPercentEncoding(withAllowedCharacters: .customURLQueryAllowed) ?? ""
     }
+    
     var parameters = Parameters()
     parameters.addAll(expectedParameters)
     

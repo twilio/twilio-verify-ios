@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable type_body_length
 class ChallengeFacadeTests: XCTestCase {
   
   var pushChallengeProcessor: PushChallengeProcessorMock!

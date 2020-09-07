@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable type_body_length file_length
 class PushChallengeProcessorTests: XCTestCase {
   
   var challengeProvider: ChallengeProviderMock!
@@ -445,13 +446,13 @@ class PushChallengeProcessorTests: XCTestCase {
     jwtGenerator.jwt = Constants.jwt
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       expectation.fulfill()
-    }) { failureReason in
+    }) { _ in
       XCTFail()
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(jwtGenerator.header, [:], "Header should be empty but was \(jwtGenerator.header!)")
-    XCTAssertEqual(NSDictionary(dictionary: jwtGenerator.payload), NSDictionary(dictionary:Constants.expectedPayload),
+    XCTAssertEqual(NSDictionary(dictionary: jwtGenerator.payload), NSDictionary(dictionary: Constants.expectedPayload),
                    "Payload should be \(Constants.expectedPayload) but was \(jwtGenerator.payload!)")
   }
 }
@@ -476,7 +477,7 @@ private extension PushChallengeProcessorTests {
       fields: [Detail(label: "label", value: "value")], date: Date())
     static let response = ["sid": sid, "factorSid": factorSid]
     static let signatureFields = Array(response.keys)
-    static let expectedPayload = response.merging([PushChallengeProcessor.Constants.status: status.rawValue]){ $1 }
+    static let expectedPayload = response.merging([PushChallengeProcessor.Constants.status: status.rawValue]) { $1 }
     static let jwt = "jwt"
     static func generateFactorChallenge(withStatus status: ChallengeStatus = .pending) -> FactorChallenge {
       FactorChallenge(
