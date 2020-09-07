@@ -97,6 +97,17 @@ commands:
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
+  
+  lint:
+    steps:
+      - checkout
+      - setup
+      - run:
+          name: Lint
+          command: bundle exec fastlane lint
+      - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
 
   build_framework:
     parameters:
@@ -140,6 +151,10 @@ commands:
             path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
 
 jobs:
+  Lint:
+    executor: macos_executor
+    steps:
+      - lint
   TwilioVerify Complete Suite of Tests:
     executor: macos_executor
     steps:
@@ -164,6 +179,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
+      - Lint
       - TwilioVerify Complete Suite of Tests
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
