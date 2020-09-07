@@ -108,9 +108,14 @@ commands:
       - install_brew_dependencies
       - run:
           name: Lint
-          command: bundle exec fastlane lint
-      - store_artifacts:
-          path: 'report.html'
+          command: |
+            mkdir 'fastlane/Test Output'
+            bundle exec fastlane lint
+      # - store_artifacts:
+      #     path: 'report.html'
+      - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
 
   build_framework:
     parameters:
