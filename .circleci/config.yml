@@ -19,19 +19,16 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-            - /
 
   install_brew_dependencies:
     steps:
       - restore_cache:
-          key: brew-deps-{{ checksum "brew-dependencies" }}
+          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
       - run:
           name: Install SwiftLint
-          command: |
-              brew install swiftlint
-              brew link --overwrite swiftlint 2>/dev/null
+          command: ./Scripts/install-brew-dependencies.sh
       - save_cache:
-          key: brew-deps-{{ checksum "brew-dependencies" }}
+          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
           paths:
             - /usr/local/Cellar/swiftlint
 
@@ -194,6 +191,3 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
-
-      
-      
