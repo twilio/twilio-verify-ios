@@ -71,7 +71,7 @@ extension Storage: StorageProvider {
   }
 }
 
-extension Storage {
+private extension Storage {
   func checkMigrations(migrations: [Migration], clearStorageOnReinstall: Bool) throws {
     var currentVersion = userDefaults.integer(forKey: Constants.currentVersionKey)
     guard currentVersion < version else {
