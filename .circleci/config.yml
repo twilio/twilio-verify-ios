@@ -107,9 +107,8 @@ commands:
       - run:
           name: Lint
           command: bundle exec fastlane lint
-      - store_scan_artifacts
-      - store_test_output
-      - store_scan_results
+      - store_artifacts:
+          path: './fastlane/Test Output/lint.html'
 
   build_framework:
     parameters:
