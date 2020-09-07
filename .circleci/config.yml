@@ -7,10 +7,6 @@ executors:
 
 commands:
   setup:
-    parameters:
-      cache_gems:
-        default: true
-        type: boolean
     steps:
       - configure_secrets
       - configure_xcode_signing
@@ -116,8 +112,11 @@ commands:
       - run:
           name: Lint
           command: bundle exec fastlane lint
-      - store_artifacts:
-          path: './fastlane/Test Output/lint.html'
+      # - store_artifacts:
+      #     path: './fastlane/Test Output/lint.html'
+      - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
 
   build_framework:
     parameters:
@@ -147,8 +146,7 @@ commands:
     steps:
       - checkout
       - use_system_ruby
-      - setup:
-          cache_gems: false
+      - setup
       - attach_workspace:
           at: ~/Desktop
       - run:
