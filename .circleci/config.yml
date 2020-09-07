@@ -18,18 +18,12 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Install Gems
-          command: |
-            if [ <<parameters.cache_gems>> ]; then
-              echo "cache"
-              bundle check || bundle install --path vendor/bundle
-            else
-              echo "no cache"
-              bundle check || bundle install
-            fi
+          command: bundle check || bundle install
       - save_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+            - /
   
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
@@ -149,7 +143,7 @@ commands:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
-            path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+          path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
 
 jobs:
   Lint:
