@@ -19,7 +19,7 @@ commands:
       - run:
           name: Install Gems
           command: |
-            if [!<<parameters.cache_gems>>] then
+            if [<<parameters.cache_gems>>]; then
               bundle check || bundle install --path vendor/bundle
             else
               bundle check || bundle install
