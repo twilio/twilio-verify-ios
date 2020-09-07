@@ -7,10 +7,6 @@ executors:
 
 commands:
   setup:
-    parameters:
-      cache_gems:
-        default: true
-        type: boolean
     steps:
       - configure_secrets
       - configure_xcode_signing
@@ -132,8 +128,7 @@ commands:
     steps:
       - checkout
       - use_system_ruby
-      - setup:
-          cache_gems: false
+      - setup
       - attach_workspace:
           at: ~/Desktop
       - run:
