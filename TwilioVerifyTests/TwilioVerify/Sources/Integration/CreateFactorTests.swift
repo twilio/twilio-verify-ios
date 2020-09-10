@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast
+// swiftlint:disable force_cast force_try
 class CreateFactorTests: XCTestCase {
 
   func testCreateFactor_withValidAPIResponse_shouldReturnFactor() {

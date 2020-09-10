@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_try
 class DeleteFactorTests: BaseFactorTests {
   
   func testDeleteFactor_withFactorStored_shouldSucceed() {

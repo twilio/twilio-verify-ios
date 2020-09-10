@@ -166,7 +166,12 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  ///Buids an instance of TwilioVerifyManager
+  /**
+    Buids an instance of TwilioVerifyManager
+   
+    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
+    - Returns: An instance of `TwilioVerify`.
+    */
   public func build() throws -> TwilioVerify {
     do {
       let factorFacade = try FactorFacade.Builder()
@@ -196,4 +201,3 @@ private extension TwilioVerifyBuilder {
     static let httpsPrefix = "https://"
   }
 }
-

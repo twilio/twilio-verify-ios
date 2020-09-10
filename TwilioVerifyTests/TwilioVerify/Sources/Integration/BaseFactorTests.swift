@@ -28,6 +28,7 @@ class BaseFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: "https://twilio.com")!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
+    // swiftlint:disable:next force_try
     let twilioVerify = try! TwilioVerifyBuilder().setURL("https://twilio.com").setNetworkProvider(networkProvider).build()
     let accessToken = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz

@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_try
 class UpdateChallengeTests: BaseFactorTests {
   
   func testUpdateChallenge_withValidAPIResponse_shouldSucceed() {
