@@ -60,7 +60,7 @@ class Keychain: KeychainProtocol {
     return representation as Data
   }
   
-  func generateKeyPair(withParameters parameters: [String : Any]) throws -> KeyPair {
+  func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair {
     var publicKey, privateKey: SecKey?
     let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
     guard status == errSecSuccess else {
@@ -91,4 +91,3 @@ class Keychain: KeychainProtocol {
     return SecItemDelete(query as CFDictionary)
   }
 }
-

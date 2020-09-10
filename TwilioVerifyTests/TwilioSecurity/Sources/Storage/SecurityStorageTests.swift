@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class SecurityStorageTests: XCTestCase {
 
   var keychain: KeychainMock!

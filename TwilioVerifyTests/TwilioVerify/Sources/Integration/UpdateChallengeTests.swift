@@ -16,7 +16,7 @@ class UpdateChallengeTests: BaseFactorTests {
     guard let pathPendingChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.pendingChallengesValidResponse, ofType: Constants.json),
       let jsonPendingChallengesString = try? String(contentsOfFile: pathPendingChallengesString, encoding: .utf8),
       let jsonPendingChallengesData = jsonPendingChallengesString.data(using: .utf8),
-      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String:Any] else {
+      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String: Any] else {
         fatalError("get_challenge_pending_valid_response.json not found")
     }
     guard let pathApprovedChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.approvedChallengesValidResponse, ofType: Constants.json),
@@ -46,7 +46,7 @@ class UpdateChallengeTests: BaseFactorTests {
     guard let pathPendingChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.pendingChallengesValidResponse, ofType: Constants.json),
       let jsonPendingChallengesString = try? String(contentsOfFile: pathPendingChallengesString, encoding: .utf8),
       let jsonPendingChallengesData = jsonPendingChallengesString.data(using: .utf8),
-      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String:Any] else {
+      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String: Any] else {
         fatalError("get_challenge_pending_valid_response.json not found")
     }
     guard let pathApprovedChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.approvedChallengesValidResponse, ofType: Constants.json),
@@ -55,8 +55,18 @@ class UpdateChallengeTests: BaseFactorTests {
         fatalError("get_challenge_approved_valid_response.json not found")
     }
     let headers = jsonPendingChallengesDictionary.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let urlSuccessResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: [ChallengeRepository.Constants.signatureFieldsHeader: headers])
-    let urlErrorResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: [ChallengeRepository.Constants.signatureFieldsHeader: headers])
+    let urlSuccessResponse = HTTPURLResponse(
+      url: URL(string: Constants.url)!,
+      statusCode: 200,
+      httpVersion: "",
+      headerFields: [ChallengeRepository.Constants.signatureFieldsHeader: headers]
+    )
+    let urlErrorResponse = HTTPURLResponse(
+      url: URL(string: Constants.url)!,
+      statusCode: 400,
+      httpVersion: "",
+      headerFields: [ChallengeRepository.Constants.signatureFieldsHeader: headers]
+    )
     let urlSessionTasks = [URLSessionDataTaskMock(data: jsonPendingChallengesData, httpURLResponse: urlSuccessResponse, requestError: nil),
                            URLSessionDataTaskMock(data: "".data(using: .utf8), httpURLResponse: urlSuccessResponse, requestError: nil),
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlErrorResponse, requestError: nil)]
@@ -83,7 +93,7 @@ class UpdateChallengeTests: BaseFactorTests {
     guard let pathPendingChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.pendingChallengesValidResponse, ofType: Constants.json),
       let jsonPendingChallengesString = try? String(contentsOfFile: pathPendingChallengesString, encoding: .utf8),
       let jsonPendingChallengesData = jsonPendingChallengesString.data(using: .utf8),
-      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String:Any] else {
+      let jsonPendingChallengesDictionary = try? JSONSerialization.jsonObject(with: jsonPendingChallengesData, options: []) as? [String: Any] else {
         fatalError("get_challenge_pending_valid_response.json not found")
     }
     guard let pathApprovedChallengesString = Bundle(for: type(of: self)).path(forResource: Constants.invalidResponse, ofType: Constants.json),

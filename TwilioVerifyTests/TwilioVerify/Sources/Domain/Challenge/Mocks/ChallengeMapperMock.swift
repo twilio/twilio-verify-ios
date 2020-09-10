@@ -24,8 +24,7 @@ extension ChallengeMapperMock: ChallengeMapperProtocol {
     }
     callsToMap += 1
     if let expectedData = expectedData, expectedData == data,
-      let factorChallenge = factorChallenge, expectedSignatureFieldsHeader == signatureFieldsHeader 
-    {
+       let factorChallenge = factorChallenge, expectedSignatureFieldsHeader == signatureFieldsHeader {
       return factorChallenge
     }
     fatalError("Expected params not set")

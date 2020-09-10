@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast type_body_length file_length
 class FactorFacadeTests: XCTestCase {
 
   var factory: PushFactoryMock!
@@ -83,7 +84,7 @@ class FactorFacadeTests: XCTestCase {
     }
     
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertTrue(factor is PushFactor,  "Factor should be a PushFactor")
+    XCTAssertTrue(factor is PushFactor, "Factor should be a PushFactor")
     let pushFactor = factor as! PushFactor
     XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
                    "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")
@@ -157,7 +158,7 @@ class FactorFacadeTests: XCTestCase {
     }
     
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertTrue(factor is PushFactor,  "Factor should be a PushFactor")
+    XCTAssertTrue(factor is PushFactor, "Factor should be a PushFactor")
     let pushFactor = factor as! PushFactor
     XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
                    "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")
@@ -187,7 +188,7 @@ class FactorFacadeTests: XCTestCase {
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertTrue(factor is PushFactor,  "Factor should be a PushFactor")
+    XCTAssertTrue(factor is PushFactor, "Factor should be a PushFactor")
     let pushFactor = factor as! PushFactor
     XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
                    "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")
@@ -283,7 +284,7 @@ class FactorFacadeTests: XCTestCase {
     }
     
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertTrue(factor is PushFactor,  "Factor should be a PushFactor")
+    XCTAssertTrue(factor is PushFactor, "Factor should be a PushFactor")
     let pushFactor = factor as! PushFactor
     XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
                    "Factor Sid should be \(Constants.factor.sid) but was \(pushFactor.sid)")

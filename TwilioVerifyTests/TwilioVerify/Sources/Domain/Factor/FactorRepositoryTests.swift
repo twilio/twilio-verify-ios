@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable type_body_length file_length force_try force_cast
 class FactorRepositoryTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClientMock!
@@ -45,7 +46,7 @@ class FactorRepositoryTests: XCTestCase {
     factorRepository.create(withPayload: factorPayload, success: { factor in
       factorResponse = factor as? PushFactor
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -58,7 +59,9 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factorResponse?.friendlyName, factor.friendlyName, "Factor friendlyName should be \(factor.friendlyName) but was \(factorResponse!.friendlyName)")
     XCTAssertEqual(factorResponse?.serviceSid, factor.serviceSid, "Factor serviceSid should be \(factor.serviceSid) but was \(factorResponse!.serviceSid)")
     XCTAssertEqual(factorResponse?.status, factor.status, "Factor status should be \(factor.status) but was \(factorResponse!.status)")
-    XCTAssertEqual((factorResponse as! PushFactor).config.credentialSid, factor.config.credentialSid, "Factor credentialSid should be \(factor.config.credentialSid) but was \((factorResponse as! PushFactor).config.credentialSid)")
+    XCTAssertEqual((factorResponse as! PushFactor).config.credentialSid,
+                   factor.config.credentialSid,
+                   "Factor credentialSid should be \(factor.config.credentialSid) but was \((factorResponse as! PushFactor).config.credentialSid)")
   }
 
   func testCreateFactor_withInvalidResponse_shouldFail() {
@@ -72,7 +75,7 @@ class FactorRepositoryTests: XCTestCase {
       accessToken: Constants.accessToken)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
-    factorRepository.create(withPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -96,7 +99,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.fromAPIError = expectedError
-    factorRepository.create(withPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -124,7 +127,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorGetting = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -152,7 +155,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorSaving = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -195,7 +198,7 @@ class FactorRepositoryTests: XCTestCase {
     factorRepository.verify(factor, payload: payload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -209,7 +212,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
     var error: Error!
-    factorRepository.verify(Constants.generateFactor(), payload: "", success: { factor in
+    factorRepository.verify(Constants.generateFactor(), payload: "", success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -230,7 +233,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.statusData = responseData
     factorMapper.expectedStatusData = responseData
     var error: Error!
-    factorRepository.verify(factor, payload: payload, success: { factor in
+    factorRepository.verify(factor, payload: payload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -239,7 +242,7 @@ class FactorRepositoryTests: XCTestCase {
     }
     wait(for: [failureExpectation], timeout: 5)
     XCTAssertEqual((error as! MapperError).errorDescription, MapperError.invalidArgument.errorDescription,
-                   "Error description should be \(MapperError.invalidArgument.errorDescription) but was \((error as! MapperError).errorDescription)")
+                   "Error description should be \(MapperError.invalidArgument.errorDescription!) but was \((error as! MapperError).errorDescription!)")
   }
   
   func testUpdateFactor_withValidResponse_shouldSuceed() {

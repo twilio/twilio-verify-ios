@@ -18,10 +18,9 @@ struct PushFactor: Factor, Codable {
   let type: FactorType = .push
   let createdAt: Date
   let config: Config
-  var keyPairAlias: String? = nil
+  var keyPairAlias: String?
 }
 
 struct Config: Codable {
   let credentialSid: String
 }
-

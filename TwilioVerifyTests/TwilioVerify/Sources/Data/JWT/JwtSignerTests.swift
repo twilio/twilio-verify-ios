@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class JwtSignerTests: XCTestCase {
 
   var keyStorage: KeyStorageMock!
@@ -36,7 +37,7 @@ class JwtSignerTests: XCTestCase {
     XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
                      "Signer template should not throw")
     var bytes = [UInt8](repeating: 0, count: 1)
-    let _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+    _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
     keyStorage.signResult = Data(bytes)
     XCTAssertThrowsError(try jwtSigner.sign(message: Constants.message,
                                             withSignerTemplate: signerTemplate), "Sign should not throw") { error in

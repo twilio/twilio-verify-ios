@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast force_try function_body_length
 class TwilioVerifyTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -181,7 +182,7 @@ class TwilioVerifyTests: XCTestCase {
   func testGetAllChallenges_shouldSucceed() {
     createFactor()
     let expectation = self.expectation(description: "testGetAllChallenges_shouldSucceed")
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -208,16 +209,16 @@ class TwilioVerifyTests: XCTestCase {
     let metadata = [Constants.pageSizeKey: Constants.expectedPageSize,
                     Constants.pageKey: Constants.expectedPage,
                     Constants.nextPageKey: Constants.expectedNextPage,
-                    Constants.previousPageKey: Constants.expectedPreviousPage] as [String : Any]
+                    Constants.previousPageKey: Constants.expectedPreviousPage] as [String: Any]
     let expectedResponse = [Constants.challengesKey: challenges,
-                            Constants.metadataKey: metadata] as [String : Any]
+                            Constants.metadataKey: metadata] as [String: Any]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
     networkProvider.response = Response(data: data, headers: [:])
     var challengeList: ChallengeList!
     twilioVerify.getAllChallenges(withPayload: Constants.challengeListPayload, success: { response in
       challengeList = response
       expectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       expectation.fulfill()
     }
@@ -346,7 +347,7 @@ private extension TwilioVerifyTests {
       factorSid: expectedFactorSid,
       challengeSid: expectedSidValue,
       status: .approved)
-    static let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    static let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                           Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                                 [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                           Constants.dateKey: Constants.expectedDateValue]

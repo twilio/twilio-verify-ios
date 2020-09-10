@@ -19,7 +19,19 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-  
+
+  install_brew_dependencies:
+    steps:
+      - restore_cache:
+          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
+      - run:
+          name: Install SwiftLint
+          command: ./Scripts/install-brew-dependencies.sh
+      - save_cache:
+          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
+          paths:
+            - /usr/local/Cellar/swiftlint
+
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
     steps:
@@ -93,6 +105,17 @@ commands:
       - store_test_output
       - store_scan_results
   
+  lint:
+    steps:
+      - checkout
+      - setup
+      - install_brew_dependencies
+      - run:
+          name: Lint
+          command: bundle exec fastlane lint
+      - store_artifacts:
+          path: 'report.html'
+  
   integration_tests:
     parameters:
       test_plan:
@@ -147,22 +170,26 @@ commands:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
-            path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+          path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
 
 jobs:
-  TwilioVerify Complete Suite of Tests:
+  Lint:
+    executor: macos_executor
+    steps:
+      - lint
+  Unit Tests:
     executor: macos_executor
     steps:
       - unit_tests:
           test_plan: CompleteSuite
 
-  TwilioVerify Integration Tests Single Device:
+  Integration Tests Single Device:
     executor: macos_executor
     steps:
       - integration_tests:
           test_plan: IntegrationSuite
 
-  TwilioVerify Integration Tests All Devices:
+  Integration Tests All Devices:
     executor: macos_executor
     steps:
       - integration_tests:
@@ -194,17 +221,19 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - TwilioVerify Complete Suite of Tests
-      - TwilioVerify Integration Tests Single Device:
+      - Lint
+      - Unit Tests
+      - Integration Tests Single Device:
           requires:
-            - TwilioVerify Complete Suite of Tests
-      - TwilioVerify Integration Tests All Devices:
+            - Lint
+            - Unit Tests
+      - Integration Tests All Devices:
           requires:
-            - TwilioVerify Integration Tests Single Device
+            - Integration Tests Single Device
       - Build TwilioVerify:
           requires:
-            - TwilioVerify Complete Suite of Tests
-            - TwilioVerify Integration Tests All Devices
+            - Integration Tests Single Device
+            - Unit Tests
       - Size report:
           requires:
             - Build TwilioVerify

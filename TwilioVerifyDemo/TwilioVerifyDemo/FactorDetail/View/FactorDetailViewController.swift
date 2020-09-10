@@ -45,7 +45,7 @@ class FactorDetailViewController: UIViewController {
   }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension FactorDetailViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     1
@@ -65,7 +65,7 @@ extension FactorDetailViewController: UITableViewDataSource {
   }
 }
 
-//MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 extension FactorDetailViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     performSegue(withIdentifier: Constants.challengeDetailSegueId, sender: indexPath.row)

@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast type_body_length
 class KeychainTests: XCTestCase {
   
   var keychain: KeychainProtocol!

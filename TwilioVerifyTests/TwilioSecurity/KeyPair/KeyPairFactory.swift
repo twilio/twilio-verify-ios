@@ -9,6 +9,7 @@
 import Foundation
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 struct KeyPairFactory {
   static func createKeyPair() throws -> KeyPair {
     var publicKeySec, privateKeySec: SecKey!
@@ -21,7 +22,7 @@ struct KeyPairFactory {
   }
   
   static func keyPairParameters() -> [String: Any] {
-    return Constants.pairAttributes as! [String: Any]
+    Constants.pairAttributes as! [String: Any]
   }
 }
 
@@ -31,7 +32,7 @@ private extension KeyPairFactory {
     static let publicTag = "public"
     static let privateTag = "private"
     static let privateAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.privateTag] as [String: Any]
-    static let publicAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.publicTag] as [String : Any]
+    static let publicAttributes = [kSecAttrApplicationTag: Constants.applicationTag + Constants.publicTag] as [String: Any]
     static let pairAttributes = [kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
                                  kSecAttrKeySizeInBits: 256,
                                  kSecPublicKeyAttrs: publicAttributes,

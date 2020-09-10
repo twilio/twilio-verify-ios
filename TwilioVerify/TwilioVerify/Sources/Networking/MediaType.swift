@@ -15,7 +15,7 @@ enum MediaType {
 
 extension MediaType {
   var value: String {
-    switch self{
+    switch self {
       case .urlEncoded:
         return "application/x-www-form-urlencoded"
       case .json:

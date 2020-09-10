@@ -52,6 +52,7 @@ public class KeyManager {
   func key(withQuery query: Query) throws -> SecKey {
     do {
       let key = try keychain.copyItemMatching(query: query)
+      // swiftlint:disable:next force_cast
       return key as! SecKey
     } catch {
       throw error

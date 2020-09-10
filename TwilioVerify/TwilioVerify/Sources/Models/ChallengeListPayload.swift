@@ -15,9 +15,9 @@ public struct ChallengeListPayload {
   ///Number of Challenges to be returned by the service
   public let pageSize: Int
   ///Status to filter the Challenges, if nothing is sent, Challenges of all status will be returned
-  public var status: ChallengeStatus? = nil
+  public var status: ChallengeStatus?
   ///Token used to retrieve the next page in the pagination arrangement
-  public var pageToken: String? = nil
+  public var pageToken: String?
   
   /**
   Creates a **ChallengeListPayload** with the given parameters
