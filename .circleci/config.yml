@@ -88,9 +88,7 @@ commands:
     steps:
       - run:
           name: Danger
-          command: |
-            DANGER_GITHUB_API_TOKEN=$GH_TOKEN
-            bundle exec danger --verbose
+          command: bundle exec danger --verbose
 
   unit_tests:
     parameters:
