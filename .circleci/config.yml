@@ -98,17 +98,6 @@ commands:
       - store_test_output
       - store_scan_results
   
-  lint:
-    steps:
-      - checkout
-      - setup
-      - install_brew_dependencies
-      - run:
-          name: Lint
-          command: bundle exec fastlane lint
-      - store_artifacts:
-          path: 'report.html'
-  
   integration_tests:
     parameters:
       test_plan:
@@ -174,11 +163,7 @@ commands:
           command: bundle exec fastlane release
 
 jobs:
-  Lint:
-    executor: macos_executor
-    steps:
-      - lint
-  Unit Tests:
+  Unit Tests and Lint:
     executor: macos_executor
     steps:
       - unit_tests:
@@ -222,19 +207,17 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Lint
-      - Unit Tests
+      - Unit Tests and Lint
       - Integration Tests Single Device:
           requires:
-            - Lint
-            - Unit Tests
+            - Unit Tests and Lint
       - Integration Tests All Devices:
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
           requires:
             - Integration Tests Single Device
-            - Unit Tests
+            - Unit Tests and Lint
       - Size report:
           requires:
             - Build TwilioVerify

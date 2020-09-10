@@ -68,15 +68,6 @@ platform :ios do
     )
   end
 
-  lane :lint do
-    swiftlint(
-      config_file: './.swiftlint.yml',
-      output_file: 'report.html',
-      reporter: 'html',
-      raise_if_swiftlint_error: true
-    )
-  end
-
   desc "Release a new production version"
   lane :release do
     title = 'iOS Verify Push Release'

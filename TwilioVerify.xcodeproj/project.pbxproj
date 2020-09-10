@@ -156,7 +156,6 @@
 		F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */; };
 		F2C552C12493EBAB006F6CDF /* PushFactoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */; };
 		F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552C22493F3D2006F6CDF /* FakeFactorPayload.swift */; };
-		F2C603CA250AE10900A19C1C /* New.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C603C9250AE10900A19C1C /* New.swift */; };
 		F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F32492C76A00922FBA /* PushFactory.swift */; };
 		F2E6C9F62492DD1F00922FBA /* PushFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */; };
 		F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */; };
@@ -346,7 +345,6 @@
 		F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeTests.swift; sourceTree = "<group>"; };
 		F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryMock.swift; sourceTree = "<group>"; };
 		F2C552C22493F3D2006F6CDF /* FakeFactorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFactorPayload.swift; sourceTree = "<group>"; };
-		F2C603C9250AE10900A19C1C /* New.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New.swift; sourceTree = "<group>"; };
 		F2CFC42624A5A233008430B6 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F2E6C9F32492C76A00922FBA /* PushFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactory.swift; sourceTree = "<group>"; };
 		F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryTests.swift; sourceTree = "<group>"; };
@@ -485,7 +483,6 @@
 				20A08845249019BC00701CCC /* FactorRepository.swift */,
 				F2E6C9F32492C76A00922FBA /* PushFactory.swift */,
 				F2C552BC2493E34A006F6CDF /* FactorFacade.swift */,
-				F2C603C9250AE10900A19C1C /* New.swift */,
 			);
 			path = Factor;
 			sourceTree = "<group>";
@@ -1285,7 +1282,6 @@
 				20C710C8248AA23600B0F448 /* FactorMapper.swift in Sources */,
 				F27A33FD24CF8B5E00A8053D /* SecureStorage.swift in Sources */,
 				F0261C6224A56D27007881E9 /* PushChallengeProcessor.swift in Sources */,
-				F2C603CA250AE10900A19C1C /* New.swift in Sources */,
 				2093573024870DA7008FDBCC /* FactorDataPayload.swift in Sources */,
 				F27A340324CF8B6600A8053D /* Keychain.swift in Sources */,
 				2086795F24ABA26200D1F0B9 /* ChallengeFacade.swift in Sources */,
