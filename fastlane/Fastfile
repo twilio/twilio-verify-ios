@@ -36,7 +36,7 @@ platform :ios do
     #   html: true,
     #   verbose: false
     # )
-    danger_tests id:'Unit Tests'
+    danger_tests id:'UnitTests'
   end
 
   desc 'Runs integration tests'
