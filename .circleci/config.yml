@@ -177,19 +177,19 @@ jobs:
     executor: macos_executor
     steps:
       - lint
-  TwilioVerify Complete Suite of Tests:
+  Unit Tests:
     executor: macos_executor
     steps:
       - unit_tests:
           test_plan: CompleteSuite
 
-  TwilioVerify Integration Tests Single Device:
+  Integration Tests Single Device:
     executor: macos_executor
     steps:
       - integration_tests:
           test_plan: IntegrationSuite
 
-  TwilioVerify Integration Tests All Devices:
+  Integration Tests All Devices:
     executor: macos_executor
     steps:
       - integration_tests:
@@ -222,17 +222,17 @@ workflows:
   build_and_test:
     jobs:
       - Lint
-      - TwilioVerify Complete Suite of Tests
-      - TwilioVerify Integration Tests Single Device:
+      - Unit Tests
+      - Integration Tests Single Device:
           requires:
-            - TwilioVerify Complete Suite of Tests
-      - TwilioVerify Integration Tests All Devices:
+            - Unit Tests
+      - Integration Tests All Devices:
           requires:
-            - TwilioVerify Integration Tests Single Device
+            - Integration Tests Single Device
       - Build TwilioVerify:
           requires:
-            - TwilioVerify Integration Tests Single Device
-            - TwilioVerify Complete Suite of Tests
+            - Integration Tests Single Device
+            - Unit Tests
       - Size report:
           requires:
             - Build TwilioVerify
