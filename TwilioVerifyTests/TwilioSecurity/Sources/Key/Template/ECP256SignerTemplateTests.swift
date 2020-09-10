@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class ECP256SignerTemplateTests: XCTestCase {
 
   private var keychain: KeychainMock!

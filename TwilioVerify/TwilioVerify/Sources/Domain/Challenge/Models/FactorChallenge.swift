@@ -17,8 +17,8 @@ struct FactorChallenge: Challenge {
   let createdAt: Date
   let updatedAt: Date
   let expirationDate: Date
-  var factor: Factor? = nil
+  var factor: Factor?
   // Original values to generate signature
-  var signatureFields: [String]? = nil
-  var response: [String: Any]? = nil
+  var signatureFields: [String]?
+  var response: [String: Any]?
 }

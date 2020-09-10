@@ -37,7 +37,6 @@ public enum TwilioVerifyError: LocalizedError {
   ///An error occurred while generating a token.
   case authenticationTokenError(error: NSError)
   
-  
   ///Associated reason of the error
   public var originalError: NSError {
     switch self {
@@ -67,7 +66,7 @@ public enum TwilioVerifyError: LocalizedError {
         return "Error while storing/loading key pairs"
       case .initializationError:
         return "Error while initializing"
-    case .authenticationTokenError:
+      case .authenticationTokenError:
         return "Error while generating token"
     }
   }
@@ -96,7 +95,7 @@ public enum TwilioVerifyError: LocalizedError {
         return 68005
       case .initializationError:
         return 68006
-    case .authenticationTokenError:
+      case .authenticationTokenError:
         return 68007
     }
   }
@@ -118,7 +117,7 @@ enum StorageError: LocalizedError {
   
   var errorDescription: String? {
     switch self {
-    case .error(let description):
+      case .error(let description):
         return description
     }
   }

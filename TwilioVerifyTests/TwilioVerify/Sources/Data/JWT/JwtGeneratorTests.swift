@@ -37,8 +37,8 @@ class JwtGeneratorTests: XCTestCase {
     let decodedPayload = Data(base64Encoded: encodedPayload)!
     let signature = Data(base64Encoded: encodedSignature)!
     XCTAssertEqual(signature, Constants.data)
-    XCTAssertEqual(header, try JSONSerialization.jsonObject(with: decodedHeader, options: []) as? [String:String])
-    XCTAssertEqual(payload, try JSONSerialization.jsonObject(with: decodedPayload, options: []) as? [String:String])
+    XCTAssertEqual(header, try JSONSerialization.jsonObject(with: decodedHeader, options: []) as? [String: String])
+    XCTAssertEqual(payload, try JSONSerialization.jsonObject(with: decodedPayload, options: []) as? [String: String])
   }
 }
 

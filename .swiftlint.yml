@@ -1,0 +1,29 @@
+disabled_rules:
+  - trailing_whitespace
+  - multiple_closures_with_trailing_closure
+  - xctfail_message
+  - void_return
+
+opt_in_rules:
+  - unneeded_parentheses_in_closure_argument
+
+# Rule Config
+line_length: 195
+identifier_name:
+  min_length: 1
+  max_length:
+    warning: 40
+    error: 60
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 80
+    error: 100
+
+switch_case_alignment:
+  indented_cases: true
+
+function_parameter_count:
+  warning: 7
+  error: 9

@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class NetworkAdapterTests: XCTestCase {
   
   func testRequest_withSuccessResponseCode_shouldReturnExpectedResponse() {
@@ -27,7 +28,7 @@ class NetworkAdapterTests: XCTestCase {
                        "Header should be \($0.value) but was \(response.headers[$0.key] as! String)")
       }
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -44,7 +45,7 @@ class NetworkAdapterTests: XCTestCase {
     let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
     var error: Error!
-    networkProvider.execute(urlRequest, success: { response in
+    networkProvider.execute(urlRequest, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failure in
@@ -71,7 +72,7 @@ class NetworkAdapterTests: XCTestCase {
     let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
     
-    networkProvider.execute(urlRequest, success: { response in
+    networkProvider.execute(urlRequest, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -80,7 +81,6 @@ class NetworkAdapterTests: XCTestCase {
     }
     wait(for: [failureExpectation], timeout: 5)
   }
-  
   
   func testRequest_withErrorResponse_shouldReturnError() {
     let failureExpectation = expectation(description: "Wait for failure response")
@@ -91,12 +91,12 @@ class NetworkAdapterTests: XCTestCase {
     let networkProvider = NetworkAdapter(withSession: session)
     let urlRequest = URLRequest(url: URL(string: Constants.url)!)
     
-    networkProvider.execute(urlRequest, success: { response in
+    networkProvider.execute(urlRequest, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
       XCTAssertEqual((error as! NetworkError).errorDescription, NetworkError.invalidResponse(errorResponse: expectedDataResponse).errorDescription)
-      XCTAssertEqual((error as! NetworkError).errorResponse,  expectedDataResponse)
+      XCTAssertEqual((error as! NetworkError).errorResponse, expectedDataResponse)
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)

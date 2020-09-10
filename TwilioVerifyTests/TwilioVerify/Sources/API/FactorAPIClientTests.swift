@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast force_try type_body_length
 class FactorAPIClientTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClient!
@@ -34,7 +35,7 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient.create(withPayload: createFactorPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -48,7 +49,7 @@ class FactorAPIClientTests: XCTestCase {
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken)
-    factorAPIClient.create(withPayload: createFactorPayload, success: { response in
+    factorAPIClient.create(withPayload: createFactorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -102,7 +103,7 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -134,19 +135,20 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
       XCTFail()
       expectation.fulfill()
-    }) { failure in
+    }) { _ in
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testVerifyFactor_withError_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
-    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { response in
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -239,7 +241,8 @@ class FactorAPIClientTests: XCTestCase {
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testDeleteFactor_withFailureResponse_shouldFail() {
@@ -266,7 +269,7 @@ class FactorAPIClientTests: XCTestCase {
     factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -303,7 +306,8 @@ class FactorAPIClientTests: XCTestCase {
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testUpdateFactor_withError_shouldFail() {
@@ -311,7 +315,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     
-    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
+    factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -364,7 +368,13 @@ extension FactorAPIClientTests {
     static let pushTokenKey = "notification_token"
     static let pushToken = "pushToken"
     static let config = [pushTokenKey: pushToken]
-    static let updateFactorDataPayload = UpdateFactorDataPayload(friendlyName: friendlyName, type: factorType, serviceSid: serviceSid, identity: identity, config: config, factorSid: factorSid)
+    static let updateFactorDataPayload = UpdateFactorDataPayload(
+      friendlyName: friendlyName,
+      type: factorType,
+      serviceSid: serviceSid,
+      identity: identity,
+      config: config,
+      factorSid: factorSid)
     static let baseURL = "https://twilio.com/"
     static let factor = PushFactor(
       sid: Constants.factorSid,

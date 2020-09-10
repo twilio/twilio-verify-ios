@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast force_try
 class FactorMapperTests: XCTestCase {
   
   private var mapper: FactorMapper!

@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast force_try
 class ChallengeRepositoryTests: XCTestCase {
 
   private var challengeAPIClient: ChallengeAPIClientMock!
@@ -243,4 +244,3 @@ private extension ChallengeRepositoryTests {
       factor: factor)
   }
 }
-

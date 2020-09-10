@@ -40,6 +40,7 @@ extension SecurityStorage: SecurityStorageProvider {
     let query = keychainQuery.getData(withKey: key)
     do {
       let result = try keychain.copyItemMatching(query: query)
+      // swiftlint:disable:next force_cast
       return result as! Data
     } catch {
       throw error

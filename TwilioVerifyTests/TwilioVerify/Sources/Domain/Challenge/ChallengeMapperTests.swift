@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast force_try type_body_length file_length function_body_length
 class ChallengeMapperTests: XCTestCase {
   
   private var mapper: ChallengeMapper!
@@ -19,7 +20,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponse_shouldReturnChallenge() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -67,7 +68,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseWithoutFields_shouldReturnChallenge() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.dateKey: Constants.expectedDateValue]
     let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
     let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
@@ -111,7 +112,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseWithoutDetailsDate_shouldReturnChallenge() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]]]
     let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
@@ -157,7 +158,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseAndApprovedStatus_shouldReturnChallenge() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -203,7 +204,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponseWithPendingStatusAndNoSignatureFields_shouldReturnChallenge() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -247,7 +248,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withResponseWithoutSid_shouldThrow() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -265,11 +266,11 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.errorDescription, TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription,
-                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription) but was \(error.errorDescription)")
+                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription!) but was \(error.errorDescription!)")
   }
   
   func testFromAPI_withResponseWithoutDetails_shouldThrow() {
@@ -286,15 +287,15 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.errorDescription, TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription,
-                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription) but was \(error.errorDescription)")
+                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription!) but was \(error.errorDescription!)")
   }
   
   func testFromAPI_withResponseWithoutDetailsMessage_shouldThrow() {
-    let details: [String : Any] = [Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
+    let details: [String: Any] = [Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
     let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
@@ -312,15 +313,15 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.errorDescription, TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription,
-                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription) but was \(error.errorDescription)")
+                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription!) but was \(error.errorDescription!)")
   }
   
   func testFromAPI_withInvalidCreatedDate_shouldThrow() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -339,7 +340,7 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.originalError as! MapperError, MapperError.invalidDate,
@@ -347,7 +348,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withInvalidUpdatedDate_shouldThrow() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -366,7 +367,7 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.originalError as! MapperError, MapperError.invalidDate,
@@ -374,7 +375,7 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withInvalidExpirationDate_shouldThrow() {
-    let details: [String : Any] = [Constants.messageKey: Constants.expectedMessage,
+    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
                                    Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
                                                          [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
                                    Constants.dateKey: Constants.expectedDateValue]
@@ -393,7 +394,7 @@ class ChallengeMapperTests: XCTestCase {
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
     let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
-    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),"Mapping from API should throw") { failure in
+    XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
     XCTAssertEqual(error.originalError as! MapperError, MapperError.invalidDate,

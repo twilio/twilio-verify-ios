@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast type_body_length file_length
 class ChallengeAPIClientTests: XCTestCase {
   
   private var challengeAPIClient: ChallengeAPIClient!
@@ -34,7 +35,7 @@ class ChallengeAPIClientTests: XCTestCase {
     challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: { response in
       apiResponse = response
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -74,7 +75,8 @@ class ChallengeAPIClientTests: XCTestCase {
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testGetChallenge_withError_shouldFail() {
@@ -83,7 +85,7 @@ class ChallengeAPIClientTests: XCTestCase {
     networkProvider.error = expectedError
     let sid = "sid"
     var apiError: TestError?
-    challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: { response in
+    challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -135,7 +137,7 @@ class ChallengeAPIClientTests: XCTestCase {
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
       apiResponse = response
       successExpectation.fulfill()
-    }) { error in
+    }) { _ in
       XCTFail()
       successExpectation.fulfill()
     }
@@ -173,7 +175,8 @@ class ChallengeAPIClientTests: XCTestCase {
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testUpdateChallenge_withError_shouldFail() {
@@ -191,7 +194,7 @@ class ChallengeAPIClientTests: XCTestCase {
       expirationDate: Date(),
       factor: Constants.factor)
     var apiError: TestError?
-    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -214,7 +217,7 @@ class ChallengeAPIClientTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date())
     var error: InputError!
-    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
+    challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -308,7 +311,8 @@ class ChallengeAPIClientTests: XCTestCase {
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
-    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1, "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+    XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
+                   "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
   }
   
   func testGetAll_withValidParametersWithoutStatusAndPageToken_shouldMatchExpectedParams() {

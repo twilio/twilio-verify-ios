@@ -44,6 +44,7 @@ extension AuthenticationProvider: Authentication {
     do {
       switch factor {
         case is PushFactor:
+          // swiftlint:disable:next force_cast
           return try generateJWT(factor as! PushFactor)
         default:
           throw AuthenticationError.invalidFactor

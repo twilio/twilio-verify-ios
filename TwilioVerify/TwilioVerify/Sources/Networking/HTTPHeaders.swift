@@ -12,7 +12,7 @@ struct HTTPHeaders {
   private var headers: [HTTPHeader] = []
   
   mutating func addAll(_ headers: [HTTPHeader]) {
-    headers.forEach{ add($0) }
+    headers.forEach { add($0) }
   }
   
   private mutating func add(_ header: HTTPHeader) {

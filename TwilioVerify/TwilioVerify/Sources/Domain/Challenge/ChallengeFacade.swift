@@ -33,29 +33,32 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
       guard let strongSelf = self else { return }
       switch factor {
         case is PushFactor:
+          // swiftlint:disable:next force_cast
           strongSelf.pushChallengeProcessor.getChallenge(withSid: sid, withFactor: factor as! PushFactor, success: success, failure: failure)
         default:
           failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
       }
     }, failure: failure)
   }
-  
+
   func update(withPayload updateChallengePayload: UpdateChallengePayload, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     factorFacade.get(withSid: updateChallengePayload.factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
       switch factor {
         case is PushFactor:
+          // swiftlint:disable:next force_cast
           strongSelf.updatePushChallenge(updateChallengePayload: updateChallengePayload, factor: factor as! PushFactor, success: success, failure: failure)
         default:
           failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
       }
     }, failure: failure)
   }
-  
+
   func getAll(withPayload challengeListPayload: ChallengeListPayload, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
     factorFacade.get(withSid: challengeListPayload.factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
-      strongSelf.repository.getAll(for: factor, status: challengeListPayload.status, pageSize: challengeListPayload.pageSize, pageToken: challengeListPayload.pageToken, success: success) { error in
+      strongSelf.repository.getAll(for: factor, status: challengeListPayload.status,
+                                   pageSize: challengeListPayload.pageSize, pageToken: challengeListPayload.pageToken, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error as NSError))
       }
     }, failure: failure)

@@ -31,6 +31,10 @@ fastlane ios integration_tests
 fastlane ios build_universal_framework
 ```
 
+### ios lint
+```
+fastlane ios lint
+```
 ### ios release
 ```
 fastlane ios release
@@ -51,6 +55,7 @@ Increment version
 fastlane ios post_release
 ```
 Generates release tag, release notes and updates CHANGELOG.md
+
 
 ----
 

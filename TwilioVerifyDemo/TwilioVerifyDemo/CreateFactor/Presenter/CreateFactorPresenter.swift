@@ -45,7 +45,7 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       guard let strongSelf = self else { return }
       let factorName = "\(identity)'s Factor"
       strongSelf.createFactor(response, withFactorName: factorName, success: { factor in
-        strongSelf.verify(factor, success: { factor in
+        strongSelf.verify(factor, success: { _ in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
         }) { error in
@@ -108,4 +108,3 @@ private extension CreateFactorPresenter {
     twilioVerify.verifyFactor(withPayload: payload, success: success, failure: failure)
   }
 }
-

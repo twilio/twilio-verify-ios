@@ -16,7 +16,7 @@ class ChallengeListMapper {
   
   private let challengeMapper: ChallengeMapperProtocol
   
-  init(challengeMapper: ChallengeMapperProtocol = ChallengeMapper()){
+  init(challengeMapper: ChallengeMapperProtocol = ChallengeMapper()) {
     self.challengeMapper = challengeMapper
   }
 }

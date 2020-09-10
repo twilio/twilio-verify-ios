@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class KeyStorageAdapterTests: XCTestCase {
 
   var signer: SignerMock!

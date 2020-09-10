@@ -61,7 +61,7 @@ class AccessTokensAPI: AccessTokens {
         failure(error)
         return
       }
-      guard let _ = response else {
+      guard response != nil else {
         failure(NetworkError.invalidResponse)
         return
       }

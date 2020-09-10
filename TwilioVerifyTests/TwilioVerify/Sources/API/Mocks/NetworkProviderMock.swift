@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_cast
 class NetworkProviderMock: NetworkProvider {
   var response: Response?
   var responses: [Any]?
