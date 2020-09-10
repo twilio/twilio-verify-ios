@@ -2,4 +2,6 @@
 #
 # Ensure this file is checked in to source control!
 
+gem 'fastlane-plugin-semantic_convention_release'
+
 gem 'fastlane-plugin-firebase_test_lab', git: 'https://github.com/sanarroya/fastlane-plugin-firebase_test_lab'

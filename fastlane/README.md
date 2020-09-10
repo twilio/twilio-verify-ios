@@ -31,6 +31,26 @@ fastlane ios integration_tests
 fastlane ios build_universal_framework
 ```
 
+### ios release
+```
+fastlane ios release
+```
+Release a new production version
+### ios verify
+```
+fastlane ios verify
+```
+Verify next release
+### ios incrementVersion
+```
+fastlane ios incrementVersion
+```
+Increment version
+### ios post_release
+```
+fastlane ios post_release
+```
+Generates release tag, release notes and updates CHANGELOG.md
 
 ----
 

@@ -65,21 +65,19 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
-  
   configure_google_service_account:
     steps:
       - run:
           name: Configure Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
 
-  bump_version:
-    parameters:
-      change_type:
-        type: string
+  release:
     steps:
+      - checkout
+      - setup
       - run:
-          name: "Bumping version"
-          command: ./Scripts/bump-version.swift <<parameters.change_type>>
+          name: "Release SDK"
+          command: bundle exec fastlane release
 
   unit_tests:
     parameters:
@@ -188,6 +186,10 @@ jobs:
     executor: macos_executor
     steps:
       - build_app_sizer
+  Release SDK:
+    executor: macos_executor
+    steps:
+      - release
      
 workflows:
   build_and_test:
@@ -208,3 +210,11 @@ workflows:
             - Build TwilioVerify
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
+      # Uncomment this part when all the steps to release a new version are done      
+      # - Release SDK:
+      #     requires:
+      #       - Size report
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
