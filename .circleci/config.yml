@@ -84,12 +84,6 @@ commands:
           name: Configure Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
 
-  danger:
-    steps:
-      - run:
-          name: Danger
-          command: bundle exec danger --verbose
-
   unit_tests:
     parameters:
       test_plan:
@@ -189,7 +183,6 @@ jobs:
     steps:
       - unit_tests:
           test_plan: CompleteSuite
-      - danger
 
   Integration Tests Single Device:
     executor: macos_executor

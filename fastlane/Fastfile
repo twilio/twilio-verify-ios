@@ -26,16 +26,17 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    slather(
-      circleci: true,
-      use_bundle_exec: true,
-      output_directory: output_directory + test_plan + coverage_directory,
-      scheme: "TwilioVerify",
-      workspace: "TwilioVerify.xcworkspace",
-      proj: "TwilioVerify.xcodeproj",
-      html: true,
-      verbose: false
-    )      
+    # slather(
+    #   circleci: true,
+    #   use_bundle_exec: true,
+    #   output_directory: output_directory + test_plan + coverage_directory,
+    #   scheme: "TwilioVerify",
+    #   workspace: "TwilioVerify.xcworkspace",
+    #   proj: "TwilioVerify.xcodeproj",
+    #   html: true,
+    #   verbose: false
+    # )
+    danger id:'Unit Tests'
   end
 
   desc 'Runs integration tests'
@@ -141,6 +142,17 @@ platform :ios do
     sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
     git_commit(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md'], message: "Version bump to #{next_version} [skip ci]")
     push_to_git_remote
+  end
+
+  lane :danger do |options|
+    danger(
+      danger_id: options[:id],
+      dangerfile: 'DangerFile',
+      github_api_token: ENV["GH_TOKEN"],
+      remove_previous_comments: true,
+      fail_on_errors: true,
+      verbose: true
+    )
   end
 
 end

@@ -5,9 +5,11 @@ warn("Big PR") if git.lines_of_code > 500
 # Slater config
 slather.configure('TwilioVerify.xcodeproj', 'TwilioVerify', options: {
   workspace: 'TwilioVerify.xcworkspace',
-  output_directory: "coverage",
+  output_directory:  './fastlane/Test Output/CompleteSuite/coverage',
   ci_service: :circleci,
   coverage_service: :terminal,
+  html: true,
+  use_bundle_exec: true
 })
 
 slather.notify_if_coverage_is_less_than(minimum_coverage: 80)
