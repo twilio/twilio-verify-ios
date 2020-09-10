@@ -9,9 +9,9 @@
 import XCTest
 @testable import TwilioVerify
 
-internal class BaseFactorTests: XCTestCase {
+class BaseFactorTests: XCTestCase {
   
-  var factor: PushFactor?
+  var factor: Factor!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
