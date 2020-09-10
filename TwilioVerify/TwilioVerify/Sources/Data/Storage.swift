@@ -21,15 +21,15 @@ struct Entry {
   let value: Data
 }
 
-/**
-Implements this protocol to perform a migration from startVersion to endVersion. Take into account that migrations could
-be performed for newer versions when reinstalling (when clearStorageOnReinstall is false), so validate that the data needs the migration.
- 
- - Returns:returns an array of data that needs to be migrated, adding/removing fields, etc. Empty to skip the migration.
-*/
 protocol Migration {
   var startVersion: Int { get }
   var endVersion: Int { get }
+  /**
+   Perform a migration from startVersion to endVersion. Take into account that migrations could be performed for newer versions
+   when reinstalling (when clearStorageOnReinstall is false), so validate that the data needs the migration.
+   
+   - Returns:returns an array of data that needs to be migrated, adding/removing fields, etc. Empty to skip the migration.
+  */
   func migrate(data: [Data]) -> [Entry]
 }
 
