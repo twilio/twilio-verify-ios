@@ -23,14 +23,13 @@ struct Entry {
 
 /**
 Implements this protocol to perform a migration from startVersion to endVersion. Take into account that migrations could
-be performed for newer versions when reintalling (when clearStorageOnReinstall is false), so validate that the data needs the migration.
+be performed for newer versions when reinstalling (when clearStorageOnReinstall is false), so validate that the data needs the migration.
  
  - Returns:returns an array of data that needs to be migrated, adding/removing fields, etc. Empty to skip the migration.
 */
 protocol Migration {
   var startVersion: Int { get }
   var endVersion: Int { get }
-  
   func migrate(data: [Data]) -> [Entry]
 }
 
@@ -45,7 +44,7 @@ class Storage {
        clearStorageOnReinstall: Bool = true) throws {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
-    try checkMigrations(migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall)
+    try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }
 }
 
@@ -72,7 +71,7 @@ extension Storage: StorageProvider {
 }
 
 private extension Storage {
-  func checkMigrations(migrations: [Migration], clearStorageOnReinstall: Bool) throws {
+  func checkMigrations(_ migrations: [Migration], clearStorageOnReinstall: Bool) throws {
     var currentVersion = userDefaults.integer(forKey: Constants.currentVersionKey)
     guard currentVersion < version else {
       return
@@ -86,7 +85,7 @@ private extension Storage {
       if migration.startVersion < currentVersion {
         continue
       }
-      try applyMigration(migration: migration)
+      try applyMigration(migration)
       currentVersion = migration.endVersion
       if currentVersion == version {
         break
@@ -94,7 +93,7 @@ private extension Storage {
     }
   }
   
-  func applyMigration(migration: Migration) throws {
+  func applyMigration(_ migration: Migration) throws {
     let migrationResult = migration.migrate(data: try getAll())
     for result in migrationResult {
       try save(result.value, withKey: result.key)

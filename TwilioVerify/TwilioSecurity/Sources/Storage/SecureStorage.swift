@@ -83,7 +83,7 @@ extension SecureStorage: SecureStorageProvider {
   }
   
   public func clear() throws {
-    if try getAll().count > 0 {
+    if try !getAll().isEmpty {
       let query = keychainQuery.deleteItems()
       let status = keychain.deleteItem(withQuery: query)
       guard status == errSecSuccess else {

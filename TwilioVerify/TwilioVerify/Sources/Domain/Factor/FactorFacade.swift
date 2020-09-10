@@ -85,7 +85,7 @@ extension FactorFacade {
     private var keyStorage: KeyStorage!
     private var url: String!
     private var authentication: Authentication!
-    private var clearStorageOnReinstall: Bool = true
+    private var clearStorageOnReinstall = true
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider

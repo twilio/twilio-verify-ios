@@ -143,7 +143,7 @@ class StorageTests: XCTestCase {
     let migrationToV0 = MigrationMock(startVersion: -1, endVersion: 0)
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationToV0, migrationV0ToV1]
-    migration(startVersion: migrationToV0.startVersion, endVersion: migrationV0ToV1.endVersion, migrations: migrations)
+    initStorage(withMigrations: migrations, withStartVersion: migrationToV0.startVersion, withEndVersion: migrationV0ToV1.endVersion)
     XCTAssertEqual(
       migrationToV0.callsToMigrate,
       expectedCallsToMethod,
@@ -163,7 +163,7 @@ class StorageTests: XCTestCase {
     let migrationToV0 = MigrationMock(startVersion: -1, endVersion: 0)
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationToV0, migrationV0ToV1]
-    migration(startVersion: migrationV0ToV1.startVersion, endVersion: migrationV0ToV1.endVersion, migrations: migrations)
+    initStorage(withMigrations: migrations, withStartVersion: migrationV0ToV1.startVersion, withEndVersion: migrationV0ToV1.endVersion)
     XCTAssertEqual(
       migrationV0ToV1.callsToMigrate,
       expectedCallsToMethod,
@@ -182,7 +182,7 @@ class StorageTests: XCTestCase {
     secureStorage.objectsData = expectedData
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationV0ToV1]
-    migration(startVersion: Storage.Constants.version, endVersion: Storage.Constants.version, migrations: migrations)
+    initStorage(withMigrations: migrations, withStartVersion: Storage.Constants.version, withEndVersion: Storage.Constants.version)
     XCTAssertEqual(
       migrationV0ToV1.callsToMigrate,
       expectedCallsToMethod,
@@ -196,7 +196,7 @@ class StorageTests: XCTestCase {
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     migrationV0ToV1.migrateData = migrate
     let migrations = [migrationV0ToV1]
-    migration(startVersion: migrationV0ToV1.startVersion, endVersion: migrationV0ToV1.endVersion, migrations: migrations)
+    initStorage(withMigrations: migrations, withStartVersion: migrationV0ToV1.startVersion, withEndVersion: migrationV0ToV1.endVersion)
     XCTAssertEqual(
       secureStorage.callsToSave,
       expectedData.count,
@@ -204,7 +204,7 @@ class StorageTests: XCTestCase {
     )
   }
   
-  func migration(startVersion: Int, endVersion: Int, migrations: [Migration]) {
+  func initStorage(withMigrations migrations: [Migration], withStartVersion startVersion: Int, withEndVersion endVersion: Int) {
     let userDefaults: UserDefaults = .standard
     userDefaults.set(startVersion, forKey: Storage.Constants.currentVersionKey)
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: false)
@@ -225,22 +225,5 @@ private extension StorageTests {
   struct Constants {
     static let key = "key"
     static let data = "data".data(using: .utf8)!
-  }
-  
-  class MigrationMock: Migration {
-    var startVersion: Int
-    var endVersion: Int
-    private(set) var callsToMigrate = 0
-    var migrateData: (() -> [Entry])!
-    
-    init(startVersion: Int, endVersion: Int) {
-      self.startVersion = startVersion
-      self.endVersion = endVersion
-    }
-    
-    func migrate(data: [Data]) -> [Entry] {
-      callsToMigrate += 1
-      return migrateData?() ?? []
-    }
   }
 }

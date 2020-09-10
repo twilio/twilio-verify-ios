@@ -8,8 +8,8 @@
 
 import Foundation
 
-class FactorMigrations {
+struct FactorMigrations {
   func migrations() -> [Migration] {
-    return []
+    []
   }
 }

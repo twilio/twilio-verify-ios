@@ -137,7 +137,7 @@ public class TwilioVerifyBuilder {
   private var baseURL: String!
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
-  private var clearStorageOnReinstall: Bool = true
+  private var clearStorageOnReinstall = true
   
   ///Creates a new instance of TwilioVerifyBuilder
   public init() {
