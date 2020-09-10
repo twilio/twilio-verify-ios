@@ -36,7 +36,7 @@ platform :ios do
     #   html: true,
     #   verbose: false
     # )
-    danger id:'Unit Tests'
+    danger_tests id:'Unit Tests'
   end
 
   desc 'Runs integration tests'
@@ -144,7 +144,7 @@ platform :ios do
     push_to_git_remote
   end
 
-  lane :danger do |options|
+  lane :danger_tests do |options|
     danger(
       danger_id: options[:id],
       dangerfile: 'DangerFile',
