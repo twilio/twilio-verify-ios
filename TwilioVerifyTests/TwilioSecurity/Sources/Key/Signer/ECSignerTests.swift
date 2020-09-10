@@ -9,7 +9,6 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast
 class ECSignerTests: XCTestCase {
 
   var keyPair: KeyPair!
