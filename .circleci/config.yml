@@ -225,6 +225,7 @@ workflows:
       - Unit Tests
       - Integration Tests Single Device:
           requires:
+            - Lint
             - Unit Tests
       - Integration Tests All Devices:
           requires:
