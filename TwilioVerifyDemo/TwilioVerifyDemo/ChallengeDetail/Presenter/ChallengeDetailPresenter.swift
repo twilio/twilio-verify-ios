@@ -28,9 +28,7 @@ class ChallengeDetailPresenter {
   private let challengeSid: String
   private let factorSid: String
   
-  init?(withView view: ChallengeDetailView,
-       challengeSid: String = String(),
-       factorSid: String = String()) {
+  init?(withView view: ChallengeDetailView, challengeSid: String = String(), factorSid: String = String()) {
     do {
       self.view = view
       self.twilioVerify = try TwilioVerifyAdapter()

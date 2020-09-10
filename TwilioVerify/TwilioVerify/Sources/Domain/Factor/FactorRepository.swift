@@ -24,7 +24,7 @@ class FactorRepository {
   private let storage: StorageProvider
   private let factorMapper: FactorMapperProtocol
   
-  init(apiClient: FactorAPIClientProtocol, storage: StorageProvider, factorMapper: FactorMapperProtocol = FactorMapper()){
+  init(apiClient: FactorAPIClientProtocol, storage: StorageProvider, factorMapper: FactorMapperProtocol = FactorMapper()) {
     self.apiClient = apiClient
     self.storage = storage
     self.factorMapper = factorMapper

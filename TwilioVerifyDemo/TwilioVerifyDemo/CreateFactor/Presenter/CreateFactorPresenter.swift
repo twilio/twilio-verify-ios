@@ -21,8 +21,7 @@ class CreateFactorPresenter {
   private let twilioVerify: TwilioVerify
   private let accessTokensAPI: AccessTokensAPI
   
-  init?(withView view: CreateFactorView,
-       accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
+  init?(withView view: CreateFactorView, accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
     do {
       self.view = view
       self.twilioVerify = try TwilioVerifyAdapter()

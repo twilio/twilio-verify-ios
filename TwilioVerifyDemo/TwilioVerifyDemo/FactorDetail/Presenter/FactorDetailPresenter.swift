@@ -27,8 +27,7 @@ class FactorDetailPresenter {
     }
   }
   
-  init?(withView view: FactorDetailView?,
-       factor: Factor) {
+  init?(withView view: FactorDetailView?, factor: Factor) {
     do {
       self.view = view
       self.twilioVerify = try TwilioVerifyAdapter()
