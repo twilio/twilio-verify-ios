@@ -20,18 +20,6 @@ commands:
           paths:
             - vendor/bundle
 
-  install_brew_dependencies:
-    steps:
-      - restore_cache:
-          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
-      - run:
-          name: Install SwiftLint
-          command: ./Scripts/install-brew-dependencies.sh
-      - save_cache:
-          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
-          paths:
-            - /usr/local/Cellar/swiftlint
-
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
     steps:
