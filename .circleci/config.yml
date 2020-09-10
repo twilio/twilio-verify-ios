@@ -3,7 +3,7 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "11.5.0"
+      xcode: "11.6.0"
 
 commands:
   setup:
@@ -65,17 +65,21 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
-  
-  bump_version:
-    parameters:
-      change_type:
-        type: string
+  configure_google_service_account:
     steps:
       - run:
-          name: "Bumping version"
-          command: ./Scripts/bump-version.swift <<parameters.change_type>>
+          name: Configure Google Service Account
+          command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
 
-  test:
+  release:
+    steps:
+      - checkout
+      - setup
+      - run:
+          name: "Release SDK"
+          command: bundle exec fastlane release
+
+  unit_tests:
     parameters:
       test_plan:
         type: string
@@ -83,11 +87,27 @@ commands:
       - checkout
       - setup
       - run:
-          name: Test
-          command: bundle exec fastlane test test_plan:<< parameters.test_plan >>
+          name: Unit Tests
+          command: bundle exec fastlane unit_tests test_plan:<< parameters.test_plan >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
+  
+  integration_tests:
+    parameters:
+      test_plan:
+        type: string
+      ftl_devices:
+        type: string
+        default: single
+    steps:
+      - checkout
+      - setup
+      - configure_google_service_account
+      - run:
+          name: Integration Tests
+          command: bundle exec fastlane integration_tests test_plan:<< parameters.test_plan >> ftl_devices:<< parameters.ftl_devices >>
+      - store_scan_artifacts
 
   build_framework:
     parameters:
@@ -133,36 +153,68 @@ jobs:
   TwilioVerify Complete Suite of Tests:
     executor: macos_executor
     steps:
-      - test:
+      - unit_tests:
           test_plan: CompleteSuite
+
+  TwilioVerify Integration Tests Single Device:
+    executor: macos_executor
+    steps:
+      - integration_tests:
+          test_plan: IntegrationSuite
+
+  TwilioVerify Integration Tests All Devices:
+    executor: macos_executor
+    steps:
+      - integration_tests:
+          test_plan: IntegrationSuite
+          ftl_devices: all
+
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
     steps:
       - test:
           scheme: TwilioVerifyDemo
+
   Build TwilioVerify:
     executor: macos_executor
     steps:
       - build_framework:
           scheme: TwilioVerifySDK
           artifact: TwilioVerify
+
   Size report:
     executor: macos_executor
     steps:
       - build_app_sizer
+  Release SDK:
+    executor: macos_executor
+    steps:
+      - release
      
 workflows:
   build_and_test:
     jobs:
       - TwilioVerify Complete Suite of Tests
-      # TODO: Enable this job when the target have tests otherwise the job will fail
-      #- TwilioVerifyDemo Unit Tests
+      - TwilioVerify Integration Tests Single Device:
+          requires:
+            - TwilioVerify Complete Suite of Tests
+      - TwilioVerify Integration Tests All Devices:
+          requires:
+            - TwilioVerify Integration Tests Single Device
       - Build TwilioVerify:
           requires:
             - TwilioVerify Complete Suite of Tests
+            - TwilioVerify Integration Tests All Devices
       - Size report:
           requires:
             - Build TwilioVerify
-
-      
-      
+      # TODO: Enable this job when the target have tests otherwise the job will fail
+      #- TwilioVerifyDemo Unit Tests
+      # Uncomment this part when all the steps to release a new version are done      
+      # - Release SDK:
+      #     requires:
+      #       - Size report
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main

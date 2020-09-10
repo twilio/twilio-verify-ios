@@ -1,29 +1,22 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 output_directory = './fastlane/Test Output/'
 coverage_directory = '/coverage'
+complete_suite = 'CompleteSuite'
+single_ftl_device = [{ios_model_id: 'iphone11pro', ios_version_id: '13.3'}]
+all_ftl_devices = [
+  {ios_model_id: 'iphone11', ios_version_id: '13.6'},
+  {ios_model_id: 'iphonexs', ios_version_id: '12.3'},
+  {ios_model_id: 'iphone8', ios_version_id: '11.4'}
+]
 
 default_platform(:ios)
 
 platform :ios do
-  desc "Runs the tests"
-  lane :test do |options|
+  desc "Runs unit tests"
+  lane :unit_tests do |options|
+    test_plan = options[:test_plan]
     scan(
       scheme: "TwilioVerify",
-      testplan: options[:test_plan],
+      testplan: test_plan,
       workspace: "TwilioVerify.xcworkspace",
       device: "iPhone 11",
       reset_simulator: true,
@@ -31,20 +24,48 @@ platform :ios do
       suppress_xcode_output: true,
       output_types: 'junit,html',
       output_files: 'junit.xml, report.html',
-      output_directory: output_directory + options[:test_plan]
+      output_directory: output_directory + test_plan
     )
     slather(
       circleci: true,
       use_bundle_exec: true,
-      output_directory: output_directory + options[:test_plan] + coverage_directory,
+      output_directory: output_directory + test_plan + coverage_directory,
       scheme: "TwilioVerify",
       workspace: "TwilioVerify.xcworkspace",
       proj: "TwilioVerify.xcodeproj",
       html: true,
       verbose: false
+    )      
+  end
+
+  desc 'Runs integration tests'
+  lane :integration_tests do |options|
+    test_plan = options[:test_plan]
+    ftl_devices = single_ftl_device
+    
+    if options[:ftl_devices] == 'all'
+      ftl_devices = all_ftl_devices
+    end
+
+    scan(
+      scheme: 'TwilioVerify',
+      testplan: test_plan,
+      clean: true,
+      suppress_xcode_output: true,
+      skip_detect_devices: true,
+      build_for_testing: true,
+      sdk: 'iphoneos',
+      should_zip_build_products: true
+    )
+    firebase_test_lab_ios_xctest(
+      oauth_key_file_path: 'gcloud-service-key.json',
+      gcp_project: 'twilio-firebase-266721',
+      timeout_sec: 300,
+      devices: ftl_devices
     )
   end
 
+  desc 'Builds universal framework for release'
   lane :build_universal_framework do
     build_app(
       silent: true,
@@ -55,4 +76,62 @@ platform :ios do
       skip_archive: true
     )
   end
+
+  desc "Release a new production version"
+  lane :release do
+    title = 'iOS Verify Push Release'
+    tag_prefix = '*'
+    next unless verify(title: title, tag_prefix: tag_prefix)
+    incrementVersion()
+    # TODO: missing part generate api docs and release to carthage/cocoapods
+    post_release()
+  end
+
+  desc "Verify next release"
+  lane :verify do |options|
+    ensure_git_status_clean
+    # Check if there is any change since last version
+    is_releaseable = analyze_commits(
+      match: options[:tag_prefix]
+    )
+    unless is_releaseable
+      UI.important("Skip deploying #{options[:title]}. No changes since last one!")
+    end
+    is_releaseable
+  end
+
+  desc "Increment version"
+  lane :incrementVersion do |options|
+    next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
+    ensure_git_status_clean
+    # Increment version in Verify module
+    UI.message("Updating TwilioVerify/Config/Version.xcconfig")
+    sh("./../Scripts/bump-version.swift #{next_version}")
+  end
+
+  desc "Generates release tag, release notes and updates CHANGELOG.md"
+  lane :post_release do
+    next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
+    notes = conventional_changelog(
+      format: 'markdown', 
+      commit_url: 'https://github.com/twilio/twilio-verify-ios/commit')
+    tag = next_version
+    UI.important(notes)
+    add_git_tag(tag: tag)
+    push_git_tags(tag: tag)
+
+    set_github_release(
+      repository_name: "twilio/twilio-verify-ios",
+      api_token: ENV["GH_TOKEN"],
+      name: tag,
+      tag_name: tag,
+      description: notes,
+      commitish: "main"
+    )
+    UI.message("Updating CHANGELOG.md")
+    sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
+    git_commit(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md'], message: "Version bump to #{next_version} [skip ci]")
+    push_to_git_remote
+  end
+
 end
