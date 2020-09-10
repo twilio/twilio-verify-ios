@@ -26,16 +26,6 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    # slather(
-    #   circleci: true,
-    #   use_bundle_exec: true,
-    #   output_directory: output_directory + test_plan + coverage_directory,
-    #   scheme: "TwilioVerify",
-    #   workspace: "TwilioVerify.xcworkspace",
-    #   proj: "TwilioVerify.xcodeproj",
-    #   html: true,
-    #   verbose: false
-    # )
     danger_tests id:'UnitTests'
   end
 
