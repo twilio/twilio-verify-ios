@@ -231,6 +231,7 @@ workflows:
             - TwilioVerify Integration Tests Single Device
       - Build TwilioVerify:
           requires:
+            - TwilioVerify Integration Tests Single Device
             - TwilioVerify Complete Suite of Tests
       - Size report:
           requires:
