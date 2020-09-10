@@ -77,19 +77,20 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
+
   configure_google_service_account:
     steps:
       - run:
           name: Configure Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
 
-  release:
+  danger:
     steps:
-      - checkout
-      - setup
       - run:
-          name: "Release SDK"
-          command: bundle exec fastlane release
+          name: Danger
+          command: |
+            DANGER_GITHUB_API_TOKEN=$GH_TOKEN
+            bundle exec danger --verbose
 
   unit_tests:
     parameters:
@@ -171,6 +172,14 @@ commands:
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+  
+  release:
+    steps:
+      - checkout
+      - setup
+      - run:
+          name: "Release SDK"
+          command: bundle exec fastlane release
 
 jobs:
   Lint:
@@ -182,6 +191,7 @@ jobs:
     steps:
       - unit_tests:
           test_plan: CompleteSuite
+      - danger
 
   Integration Tests Single Device:
     executor: macos_executor
