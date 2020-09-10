@@ -16,11 +16,16 @@ or alternatively using `brew install fastlane`
 
 # Available Actions
 ## iOS
-### ios test
+### ios unit_tests
 ```
-fastlane ios test
+fastlane ios unit_tests
 ```
-Runs the tests
+Runs unit tests
+### ios integration_tests
+```
+fastlane ios integration_tests
+```
+
 ### ios build_universal_framework
 ```
 fastlane ios build_universal_framework
@@ -30,6 +35,26 @@ fastlane ios build_universal_framework
 ```
 fastlane ios lint
 ```
+### ios release
+```
+fastlane ios release
+```
+Release a new production version
+### ios verify
+```
+fastlane ios verify
+```
+Verify next release
+### ios incrementVersion
+```
+fastlane ios incrementVersion
+```
+Increment version
+### ios post_release
+```
+fastlane ios post_release
+```
+Generates release tag, release notes and updates CHANGELOG.md
 
 
 ----

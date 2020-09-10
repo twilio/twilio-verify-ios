@@ -43,6 +43,9 @@
             reference = "container:TwilioVerifyTests/Plans/CompleteSuite.xctestplan"
             default = "YES">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:TwilioVerifyTests/Plans/IntegrationSuite.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference

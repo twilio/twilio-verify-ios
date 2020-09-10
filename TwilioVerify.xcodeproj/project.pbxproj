@@ -322,6 +322,7 @@
 		F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1224D07CD900141A00 /* CreateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllChallengesTests.swift; sourceTree = "<group>"; };
+		F25A239B2500662100176805 /* IntegrationSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationSuite.xctestplan; sourceTree = "<group>"; };
 		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
 		F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
@@ -545,7 +546,6 @@
 				20C710C9248AAB0100B0F448 /* Domain */,
 				20E3BB1F248984B300BC90DE /* API */,
 				2060CFFC248574B4001DD494 /* Networking */,
-				2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -824,6 +824,7 @@
 				F239EC0E24D07CD800141A00 /* DeleteFactorTests.swift */,
 				F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */,
 				F239EC1024D07CD900141A00 /* GetChallengeTests.swift */,
+				2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */,
 				F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */,
 				F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */,
 				F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */,
@@ -848,6 +849,7 @@
 			isa = PBXGroup;
 			children = (
 				F2C2706724CF922C007FDCF6 /* CompleteSuite.xctestplan */,
+				F25A239B2500662100176805 /* IntegrationSuite.xctestplan */,
 			);
 			path = Plans;
 			sourceTree = "<group>";
@@ -1667,15 +1669,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = HostApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.HostApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TwiilioVerifyHostApp;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1685,15 +1689,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9EVH78F4V4;
 				INFOPLIST_FILE = HostApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.HostApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = TwiilioVerifyHostApp;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
