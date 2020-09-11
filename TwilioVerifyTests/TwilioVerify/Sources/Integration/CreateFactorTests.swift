@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast
+// swiftlint:disable force_cast force_try
 class CreateFactorTests: XCTestCase {
 
   func testCreateFactor_withValidAPIResponse_shouldReturnFactor() {
@@ -23,7 +23,7 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     var factor: Factor!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { response in
       factor = response
@@ -62,7 +62,7 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in
@@ -89,7 +89,7 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in

@@ -9,6 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
+// swiftlint:disable force_try
 class UpdateChallengeTests: BaseFactorTests {
   
   func testUpdateChallenge_withValidAPIResponse_shouldSucceed() {
@@ -31,7 +32,7 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
       expectation.fulfill()
     }) { _ in
@@ -72,7 +73,7 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlErrorResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
@@ -108,7 +109,7 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {

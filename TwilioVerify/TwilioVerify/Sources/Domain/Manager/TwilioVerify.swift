@@ -137,6 +137,7 @@ public class TwilioVerifyBuilder {
   private var baseURL: String!
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
+  private var clearStorageOnReinstall = true
   
   ///Creates a new instance of TwilioVerifyBuilder
   public init() {
@@ -155,27 +156,42 @@ public class TwilioVerifyBuilder {
     return self
   }
   
+  func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
+    self.clearStorageOnReinstall = clearStorageOnReinstall
+    return self
+  }
+  
   func setURL(_ url: String) -> Self {
     self.baseURL = url
     return self
   }
   
-  ///Buids an instance of TwilioVerifyManager
-  public func build() -> TwilioVerify {
-    let factorFacade = FactorFacade.Builder()
-      .setNetworkProvider(networkProvider)
-      .setKeyStorage(keyStorage)
-      .setURL(baseURL)
-      .setAuthentication(authentication)
-      .build()
-    let challengeFacade = ChallengeFacade.Builder()
-      .setNetworkProvider(networkProvider)
-      .setJWTGenerator(jwtGenerator)
-      .setURL(baseURL)
-      .setAuthentication(authentication)
-      .setFactorFacade(factorFacade)
-      .build()
-    return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
+  /**
+    Buids an instance of TwilioVerifyManager
+   
+    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
+    - Returns: An instance of `TwilioVerify`.
+    */
+  public func build() throws -> TwilioVerify {
+    do {
+      let factorFacade = try FactorFacade.Builder()
+        .setNetworkProvider(networkProvider)
+        .setKeyStorage(keyStorage)
+        .setURL(baseURL)
+        .setAuthentication(authentication)
+        .setClearStorageOnReinstall(clearStorageOnReinstall)
+        .build()
+      let challengeFacade = ChallengeFacade.Builder()
+        .setNetworkProvider(networkProvider)
+        .setJWTGenerator(jwtGenerator)
+        .setURL(baseURL)
+        .setAuthentication(authentication)
+        .setFactorFacade(factorFacade)
+        .build()
+      return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
+    } catch {
+      throw TwilioVerifyError.initializationError(error: error as NSError)
+    }
   }
 }
 

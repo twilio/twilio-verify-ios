@@ -17,6 +17,7 @@ class SecureStorageMock {
   private(set) var callsToGet = 0
   private(set) var callsToRemoveValue = 0
   private(set) var callsToGetAll = 0
+  private(set) var callsToClear = 0
 }
 
 extension SecureStorageMock: SecureStorageProvider {
@@ -45,6 +46,13 @@ extension SecureStorageMock: SecureStorageProvider {
   
   func removeValue(for key: String) throws {
     callsToRemoveValue += 1
+    if let error = error {
+      throw error
+    }
+  }
+  
+  func clear() throws {
+    callsToClear += 1
     if let error = error {
       throw error
     }
