@@ -25,16 +25,17 @@ Runs unit tests
 ```
 fastlane ios integration_tests
 ```
-
+Runs integration tests
 ### ios build_universal_framework
 ```
 fastlane ios build_universal_framework
 ```
-
+Builds universal framework for release
 ### ios lint
 ```
 fastlane ios lint
 ```
+
 ### ios release
 ```
 fastlane ios release
@@ -55,7 +56,6 @@ Increment version
 fastlane ios post_release
 ```
 Generates release tag, release notes and updates CHANGELOG.md
-
 
 ----
 

@@ -92,7 +92,8 @@ platform :ios do
     tag_prefix = '*'
     next unless verify(title: title, tag_prefix: tag_prefix)
     incrementVersion()
-    # TODO: missing part generate api docs and release to carthage/cocoapods
+    public_api_docs()
+    # TODO: Release to carthage/cocoapods
     post_release()
   end
 
@@ -118,6 +119,13 @@ platform :ios do
     sh("./../Scripts/bump-version.swift #{next_version}")
   end
 
+  desc 'Generates Public API Documentation'
+  lane :public_api_docs do
+    next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
+    UI.message("Generating API docs for version #{next_version}")
+    sh('./../Scripts/generate-docs.sh')
+  end
+
   desc "Generates release tag, release notes and updates CHANGELOG.md"
   lane :post_release do
     next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
@@ -139,7 +147,8 @@ platform :ios do
     )
     UI.message("Updating CHANGELOG.md")
     sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
-    git_commit(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md'], message: "Version bump to #{next_version} [skip ci]")
+    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', "./docs/#{next_version}", "./docs/latest"])
+    sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
   end
 
