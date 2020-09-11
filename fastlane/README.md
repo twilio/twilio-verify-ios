@@ -51,6 +51,11 @@ Verify next release
 fastlane ios incrementVersion
 ```
 Increment version
+### ios public_api_docs
+```
+fastlane ios public_api_docs
+```
+Generates Public API Documentation
 ### ios post_release
 ```
 fastlane ios post_release
