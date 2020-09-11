@@ -21,6 +21,10 @@ class StorageProviderMock {
 }
 
 extension StorageProviderMock: StorageProvider {
+  var version: Int {
+    1
+  }
+  
   func save(_ data: Data, withKey key: String) throws {
     if let error = errorSaving, key == expectedSid {
       throw error

@@ -21,12 +21,15 @@ class CreateFactorPresenter {
   private let twilioVerify: TwilioVerify
   private let accessTokensAPI: AccessTokensAPI
   
-  init(withView view: CreateFactorView,
-       twilioVerify: TwilioVerify = TwilioVerifyAdapter(),
-       accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
-    self.view = view
-    self.twilioVerify = twilioVerify
-    self.accessTokensAPI = accessTokensAPI
+  init?(withView view: CreateFactorView, accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
+    do {
+      self.view = view
+      self.twilioVerify = try TwilioVerifyAdapter()
+      self.accessTokensAPI = accessTokensAPI
+    } catch {
+      print("Unexpected error: \(error).")
+      return nil
+    }
   }
 }
 

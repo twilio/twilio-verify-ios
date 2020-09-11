@@ -27,14 +27,17 @@ class FactorDetailPresenter {
     }
   }
   
-  init(withView view: FactorDetailView?,
-       twilioVerify: TwilioVerify = TwilioVerifyAdapter(),
-       factor: Factor) {
-    self.view = view
-    self.twilioVerify = twilioVerify
-    self.factor = factor
-    self.challenges = []
-    fetchChallenges()
+  init?(withView view: FactorDetailView?, factor: Factor) {
+    do {
+      self.view = view
+      self.twilioVerify = try TwilioVerifyAdapter()
+      self.factor = factor
+      self.challenges = []
+      fetchChallenges()
+    } catch {
+      print("Unexpected error: \(error).")
+      return nil
+    }
   }
 }
 

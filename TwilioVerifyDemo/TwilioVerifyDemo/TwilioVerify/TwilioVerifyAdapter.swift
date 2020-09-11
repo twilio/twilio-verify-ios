@@ -13,8 +13,8 @@ class TwilioVerifyAdapter {
   
   private var twilioVerify: TwilioVerify
   
-  init() {
-    twilioVerify = TwilioVerifyBuilder().build()
+  init() throws {
+    twilioVerify = try TwilioVerifyBuilder().build()
   }
 }
 

@@ -17,7 +17,7 @@ class FactorListViewController: UIViewController {
 
   @IBOutlet private weak var tableView: UITableView!
   
-  private var presenter: FactorListPresentable!
+  private var presenter: FactorListPresentable?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,8 +27,8 @@ class FactorListViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    presenter.registerForPushNotifications()
-    presenter.getFactors()
+    presenter?.registerForPushNotifications()
+    presenter?.getFactors()
   }
   
   @IBAction func createFactor() {
@@ -44,7 +44,10 @@ class FactorListViewController: UIViewController {
           let index = sender as? Int else {
       return
     }
-    factorDetailView.presenter = FactorDetailPresenter(withView: factorDetailView, factor: presenter.factor(at: index))
+    guard let factor = presenter?.factor(at: index) else {
+      return
+    }
+    factorDetailView.presenter = FactorDetailPresenter(withView: factorDetailView, factor: factor)
   }
 }
 
@@ -62,14 +65,16 @@ extension FactorListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    presenter.numberOfItems()
+    presenter?.numberOfItems() ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: FactorTableViewCell.reuseIdentifier, for: indexPath) as? FactorTableViewCell else {
       return UITableViewCell()
     }
-    let factor = presenter.factor(at: indexPath.row)
+    guard let factor = presenter?.factor(at: indexPath.row) else {
+      return UITableViewCell()
+    }
     cell.configure(with: factor)
     return cell
   }
@@ -83,7 +88,7 @@ extension FactorListViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteActoun = UIContextualAction(style: .destructive, title: Constants.delete) { (_, _, handler: @escaping (Bool) -> Void) in
-      self.presenter.delete(at: indexPath.row)
+      self.presenter?.delete(at: indexPath.row)
       handler(true)
     }
     return UISwipeActionsConfiguration(actions: [deleteActoun])

@@ -113,6 +113,15 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertEqual(label, Constants.alias)
     XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
+  
+  func testDeleteItems_shouldReturnValidQuery() {
+    let query = keychainQuery.deleteItems()
+    let keyClass = query[kSecClass as String] as! CFString
+    let access = query[kSecAttrAccessible as String] as! CFString
+    
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+  }
 }
 
 private extension KeychainQueryTests {
