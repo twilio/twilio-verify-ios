@@ -11,12 +11,12 @@ import XCTest
 
 // swiftlint:disable type_body_length file_length force_try force_cast
 class FactorRepositoryTests: XCTestCase {
-  
+
   private var factorAPIClient: FactorAPIClientMock!
   private var storage: StorageProviderMock!
   private var factorMapper: FactorMapperMock!
   private var factorRepository: FactorRepository!
-  
+
   override func setUpWithError() throws {
     try super.setUpWithError()
     factorAPIClient = FactorAPIClientMock()
@@ -24,7 +24,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper = FactorMapperMock()
     factorRepository = FactorRepository(apiClient: factorAPIClient, storage: storage, factorMapper: factorMapper)
   }
-  
+
   func testCreateFactor_withValidResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let factorPayload = CreateFactorPayload(
@@ -244,7 +244,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual((error as! MapperError).errorDescription, MapperError.invalidArgument.errorDescription,
                    "Error description should be \(MapperError.invalidArgument.errorDescription!) but was \((error as! MapperError).errorDescription!)")
   }
-  
+
   func testUpdateFactor_withValidResponse_shouldSuceed() {
     let expectation = self.expectation(description: "testUpdateFactor_withValidResponse_shouldSuceed")
     let payload = Constants.updateFactorPayload
@@ -267,7 +267,7 @@ class FactorRepositoryTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(factor.sid, expectedFactor.sid, "Factor should be \(expectedFactor) but was \(factor!)")
   }
-  
+
   func testUpdateFactor_withInvalidResponse_shouldFail() {
     let expectation = self.expectation(description: "testUpdateFactor_withInvalidResponse_shouldFail")
     let payload = Constants.updateFactorPayload
@@ -288,7 +288,7 @@ class FactorRepositoryTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
   }
-  
+
   func testUpdateFactor_withErrorInMapper_shouldFail() {
     let expectation = self.expectation(description: "testUpdateFactor_withErrorInMapper_shouldFail")
     let payload = Constants.updateFactorPayload
@@ -312,7 +312,7 @@ class FactorRepositoryTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual((error as! MapperError).errorDescription, expectedError.errorDescription)
   }
-  
+
   func testUpdateFactor_withErrorInStorage_shouldFail() {
     let expectation = self.expectation(description: "testUpdateFactor_withErrorInStorage_shouldFail")
     let payload = Constants.updateFactorPayload
@@ -445,7 +445,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual((error as! TestError), TestError.operationFailed,
                    "Error should be \(TestError.operationFailed) but was \(error!)")
   }
-  
+
   func testGetAllFactors_withFactorsStored_shouldSucced() {
     let expectation = self.expectation(description: "testGetAllFactors_withFactorsStored_shouldSucced")
     let factor1ExpectedSid = "sid123"
@@ -470,7 +470,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factors.first?.sid, factor1ExpectedSid, "Factor at first position should be \(factor1) but was \(factors.first!)")
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
-  
+
   func testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors() {
     let expectation = self.expectation(description: "testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors")
     let factor1ExpectedSid = "sid123"
@@ -497,7 +497,7 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(factors.first?.sid, factor1ExpectedSid, "Factor at first position should be \(factor1) but was \(factors.first!)")
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
-  
+
   func testGetAllFactors_withStorageError_shouldFail() {
     let expectation = self.expectation(description: "testGetAllFactors_withStorageError_shouldFail")
     let expectedError = TestError.operationFailed

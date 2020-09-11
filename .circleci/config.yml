@@ -20,18 +20,6 @@ commands:
           paths:
             - vendor/bundle
 
-  install_brew_dependencies:
-    steps:
-      - restore_cache:
-          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
-      - run:
-          name: Install SwiftLint
-          command: ./Scripts/install-brew-dependencies.sh
-      - save_cache:
-          key: brew-deps-{{ checksum "./Scripts/install-brew-dependencies.sh" }}
-          paths:
-            - /usr/local/Cellar/swiftlint
-
   use_system_ruby:
     description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
     steps:
@@ -77,19 +65,12 @@ commands:
       - run:
           name: "Install provisioning profiles"
           command: ./Scripts/configure-provisioning-profiles.sh
+
   configure_google_service_account:
     steps:
       - run:
           name: Configure Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
-
-  release:
-    steps:
-      - checkout
-      - setup
-      - run:
-          name: "Release SDK"
-          command: bundle exec fastlane release
 
   unit_tests:
     parameters:
@@ -104,17 +85,6 @@ commands:
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
-  
-  lint:
-    steps:
-      - checkout
-      - setup
-      - install_brew_dependencies
-      - run:
-          name: Lint
-          command: bundle exec fastlane lint
-      - store_artifacts:
-          path: 'report.html'
   
   integration_tests:
     parameters:
@@ -171,13 +141,17 @@ commands:
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+  
+  release:
+    steps:
+      - checkout
+      - setup
+      - run:
+          name: "Release SDK"
+          command: bundle exec fastlane release
 
 jobs:
-  Lint:
-    executor: macos_executor
-    steps:
-      - lint
-  Unit Tests:
+  Unit Tests and Lint:
     executor: macos_executor
     steps:
       - unit_tests:
@@ -221,19 +195,17 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Lint
-      - Unit Tests
+      - Unit Tests and Lint
       - Integration Tests Single Device:
           requires:
-            - Lint
-            - Unit Tests
+            - Unit Tests and Lint
       - Integration Tests All Devices:
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
           requires:
             - Integration Tests Single Device
-            - Unit Tests
+            - Unit Tests and Lint
       - Size report:
           requires:
             - Build TwilioVerify
