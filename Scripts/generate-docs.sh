@@ -7,5 +7,5 @@ jazzy \
   --output docs/$version/ \
   --theme apple
 
-cd docs
+cd '../docs'
 ln -nsf "$version" latest 
