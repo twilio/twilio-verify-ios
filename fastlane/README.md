@@ -31,11 +31,6 @@ Runs integration tests
 fastlane ios build_universal_framework
 ```
 Builds universal framework for release
-### ios lint
-```
-fastlane ios lint
-```
-
 ### ios release
 ```
 fastlane ios release
@@ -61,6 +56,11 @@ Generates Public API Documentation
 fastlane ios post_release
 ```
 Generates release tag, release notes and updates CHANGELOG.md
+### ios danger_tests
+```
+fastlane ios danger_tests
+```
+
 
 ----
 
