@@ -25,16 +25,12 @@ Runs unit tests
 ```
 fastlane ios integration_tests
 ```
-
+Runs integration tests
 ### ios build_universal_framework
 ```
 fastlane ios build_universal_framework
 ```
-
-### ios lint
-```
-fastlane ios lint
-```
+Builds universal framework for release
 ### ios release
 ```
 fastlane ios release
@@ -50,11 +46,20 @@ Verify next release
 fastlane ios incrementVersion
 ```
 Increment version
+### ios public_api_docs
+```
+fastlane ios public_api_docs
+```
+Generates Public API Documentation
 ### ios post_release
 ```
 fastlane ios post_release
 ```
 Generates release tag, release notes and updates CHANGELOG.md
+### ios danger_tests
+```
+fastlane ios danger_tests
+```
 
 
 ----

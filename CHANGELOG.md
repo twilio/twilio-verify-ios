@@ -1,3 +1,11 @@
+# 0.0.4
+
+### Features
+- Storage migration
+
+### Documentation
+- `TwilioVerifyBuilder.build()` could throw an exception
+
 # 0.0.3
 
 ### Documentation
