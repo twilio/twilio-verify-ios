@@ -11,12 +11,15 @@
 * [About](#About)
 * [Dependencies](#Dependencies)
 * [Requirements](#Requirements)
+* [Documentation](#Documentation)
 * [Installation](#Installation)
 * [Usage](#Usage)
 * [Running the Sample app](#SampleApp)
 * [Running the sample backend](#SampleBackend)
 * [Using the sample app](#UsingSampleApp)
 * [Errors](#Errors)
+* [Update factor's push token](#UpdatePushToken)
+* [Delete a factor](#DeleteFactor)
 
 <a name='About'></a>
 
@@ -36,6 +39,11 @@ None
 * iOS 11+
 * Swift 5.2
 * Xcode 11.x
+
+<a name='Documentation'></a>
+
+## Documentation
+[SDK API docs](https://twilio.github.io/twilio-verify-ios/latest/)
 
 <a name='Installation'></a>
 
@@ -115,3 +123,30 @@ Input | 68004 | Exception while loading input
 Key Storage | 68005 | Exception while storing/loading key pairs
 Initialization | 68006 | Exception while initializing an object
 Authentication Token | 68007 | Exception while generating token
+
+<a name='UpdatePushToken'></a>
+
+## Update factor's push token
+You can update the factor's push token in case it changed, calling the `TwilioVerify.updateFactor` method:
+```
+let updateFactorPayload = UpdatePushFactorPayload(sid: factorSid, pushToken: newPushToken)
+twilioVerify.updateFactor(withPayload: payload, success: { factor in
+  // Success
+}) { error in
+  // Error
+}
+```
+
+See [FactorListPresenter](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/FactorList/Presenter/FactorListPresenter.swift#L90) in the sample app. You should update the push token for all factors.
+
+<a name='DeleteFactor'></a>
+
+## Delete a factor
+You can delete a factor calling the `TwilioVerify.deleteFactor` method:
+```
+twilioVerify.deleteFactor(withSid: factorSid, success: {
+  // Success
+}) { error in
+  // Error
+}
+```
