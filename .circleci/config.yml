@@ -156,6 +156,11 @@ commands:
       - attach_workspace:
           at: ~/Desktop
       - run:
+          name: "Copy Frameworks"
+          command: |
+            cp -a ~/Desktop/. ./
+            ls
+      - run:
           name: "Release SDK"
           command: bundle exec fastlane release
 

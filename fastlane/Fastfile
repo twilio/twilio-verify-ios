@@ -126,7 +126,7 @@ platform :ios do
       tag_name: tag,
       description: notes,
       commitish: "main",
-      upload_assets: '~/Desktop/TwilioVerify.framework.zip'
+      upload_assets: './TwilioVerify.framework.zip'
     )
     UI.message("Updating CHANGELOG.md")
     sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
