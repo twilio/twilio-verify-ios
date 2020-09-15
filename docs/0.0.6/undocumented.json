@@ -1,0 +1,61 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
+      "line": 78,
+      "symbol": "KeyManager.signer(withTemplate:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Keychain/KeyManager.swift",
+      "line": 96,
+      "symbol": "KeyManager.deleteKey(withAlias:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Storage/SecureStorage.swift",
+      "line": 38,
+      "symbol": "SecureStorage.save(_:withKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Storage/SecureStorage.swift",
+      "line": 47,
+      "symbol": "SecureStorage.get(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Storage/SecureStorage.swift",
+      "line": 58,
+      "symbol": "SecureStorage.getAll()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Storage/SecureStorage.swift",
+      "line": 77,
+      "symbol": "SecureStorage.removeValue(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioSecurity/Sources/Storage/SecureStorage.swift",
+      "line": 86,
+      "symbol": "SecureStorage.clear()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/distiller/project/TwilioVerify/TwilioVerify/Sources/Models/UpdateChallengePayload.swift",
+      "line": 26,
+      "symbol": "UpdatePushChallengePayload.status",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/distiller/project"
+}

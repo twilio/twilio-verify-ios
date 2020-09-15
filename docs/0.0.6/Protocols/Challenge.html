@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Challenge Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/Challenge" class="dashAnchor"></a>
+    <a title="Challenge Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (93% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Challenge Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Challenge</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Challenge</span></code></pre>
+
+                </div>
+              </div>
+            <p>Describes the information of a <strong>Challenge</strong></p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP3sidSSvp"></a>
+                    <a name="//apple_ref/swift/Property/sid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP3sidSSvp">sid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unique SID identifier of the Challenge</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sid</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP16challengeDetailsAA0cE0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/challengeDetails" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP16challengeDetailsAA0cE0Vvp">challengeDetails</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Details of the Challenge</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">challengeDetails</span><span class="p">:</span> <span class="kt"><a href="../Structs/ChallengeDetails.html">ChallengeDetails</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP13hiddenDetailsSSvp"></a>
+                    <a name="//apple_ref/swift/Property/hiddenDetails" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP13hiddenDetailsSSvp">hiddenDetails</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hidden details of the Challenge</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hiddenDetails</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP9factorSidSSvp"></a>
+                    <a name="//apple_ref/swift/Property/factorSid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP9factorSidSSvp">factorSid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sid of the factor to which the Challenge is related</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">factorSid</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP6statusAA0C6StatusOvp"></a>
+                    <a name="//apple_ref/swift/Property/status" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP6statusAA0C6StatusOvp">status</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Status of the Challenge</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Enums/ChallengeStatus.html">ChallengeStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP9createdAt10Foundation4DateVvp"></a>
+                    <a name="//apple_ref/swift/Property/createdAt" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP9createdAt10Foundation4DateVvp">createdAt</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates the creation date of the Challenge</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP9updatedAt10Foundation4DateVvp"></a>
+                    <a name="//apple_ref/swift/Property/updatedAt" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP9updatedAt10Foundation4DateVvp">updatedAt</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates the last date the Challenge was updated</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify9ChallengeP14expirationDate10Foundation0E0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/expirationDate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify9ChallengeP14expirationDate10Foundation0E0Vvp">expirationDate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates the date in which the Challenge expires</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
