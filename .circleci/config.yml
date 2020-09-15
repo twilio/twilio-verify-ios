@@ -135,7 +135,10 @@ commands:
           at: ~/Desktop
       - run:
           name: "Copy Frameworks"
-          command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
+          command: |
+            cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
+            cd ~/Desktop
+            ls
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
