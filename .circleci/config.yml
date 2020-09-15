@@ -122,9 +122,9 @@ commands:
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
       - persist_to_workspace:
-          root: ~/Desktop
+          root: /tmp/build
           paths:
-            - "**/*"
+            - ~/Desktop
       - run:
           name: "Frameworks"
           command: |
@@ -137,12 +137,12 @@ commands:
       - use_system_ruby
       - setup
       - attach_workspace:
-          at: ~/Desktop
+          at: /tmp/build
       - run:
           name: "Copy Frameworks"
           command: |
-            cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-            cd ~/Desktop
+            cp -a /tmp/build/. ./AppSizer/AppSizer/Frameworks
+            cd /tmp/build
             ls
       - run:
           name: "Build AppSizer App"
@@ -150,20 +150,20 @@ commands:
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
       - persist_to_workspace:
-          root: ~/Desktop
+          root: /tmp/build
           paths:
-            -  '**/*'
+            -  ~/Desktop
   
   release:
     steps:
       - checkout
       - setup
       - attach_workspace:
-          at: ~/Desktop
+          at: /tmp/build
       - run:
           name: "Copy Frameworks"
           command: |
-            cp -a ~/Desktop/. ./
+            cp -a /tmp/build/. ./
             ls
       - run:
           name: "Release SDK"
