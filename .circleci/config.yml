@@ -146,6 +146,8 @@ commands:
     steps:
       - checkout
       - setup
+      - attach_workspace:
+          at: ~/Desktop
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
@@ -212,9 +214,9 @@ workflows:
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      
-      # - Release SDK:
-      #     requires:
-      #       - Size report
+      - Release SDK:
+          requires:
+            - Size report
       #     filters:
       #       branches:
       #         only:
