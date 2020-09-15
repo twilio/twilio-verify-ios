@@ -125,6 +125,11 @@ commands:
           root: ~/Desktop
           paths:
             - "**/*"
+      - run:
+          name: "Frameworks"
+          command: |
+            cd ~/Desktop
+            ls
 
   build_app_sizer:
     steps:
