@@ -141,6 +141,10 @@ commands:
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+      - persist_to_workspace:
+          root: ~/Desktop
+          paths:
+            -  '**/*'
   
   release:
     steps:
@@ -197,17 +201,17 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Unit Tests and Lint
-      - Integration Tests Single Device:
-          requires:
-            - Unit Tests and Lint
-      - Integration Tests All Devices:
-          requires:
-            - Integration Tests Single Device
-      - Build TwilioVerify:
-          requires:
-            - Integration Tests Single Device
-            - Unit Tests and Lint
+      # - Unit Tests and Lint
+      # - Integration Tests Single Device:
+      #     requires:
+      #       - Unit Tests and Lint
+      # - Integration Tests All Devices:
+      #     requires:
+      #       - Integration Tests Single Device
+      - Build TwilioVerify
+          # requires:
+          #   - Integration Tests Single Device
+          #   - Unit Tests and Lint
       - Size report:
           requires:
             - Build TwilioVerify
