@@ -158,6 +158,7 @@ commands:
           name: "Check"
           command: |
               cd ~/Desktop
+              pwd
               ls
       - run:
           name: "Release SDK"
