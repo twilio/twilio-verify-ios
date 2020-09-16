@@ -125,12 +125,6 @@ commands:
           root: ~/Desktop
           paths:
             - "**/*"
-      - run:
-          name: "Copy Frameworks"
-          command: |
-            cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-            cd ~/Desktop
-            ls
 
   build_app_sizer:
     steps:
