@@ -74,6 +74,7 @@ platform :ios do
     tag_prefix = '*'
     next unless verify(title: title, tag_prefix: tag_prefix)
     incrementVersion()
+    build_universal_framework()
     public_api_docs()
     # TODO: Release to carthage/cocoapods
     post_release()

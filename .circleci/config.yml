@@ -151,15 +151,6 @@ commands:
     steps:
       - checkout
       - setup
-      - build_framework:
-          scheme: TwilioVerifySDK
-          artifact: TwilioVerify
-      - run:
-          name: "Check"
-          command: |
-              cd ~/Desktop
-              pwd
-              ls
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
