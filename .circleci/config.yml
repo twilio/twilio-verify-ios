@@ -137,8 +137,6 @@ commands:
           name: "Copy Frameworks"
           command: |
             cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-            cd ~/Desktop
-            ls
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
@@ -156,6 +154,11 @@ commands:
       - build_framework:
           scheme: TwilioVerifySDK
           artifact: TwilioVerify
+      - run:
+          name: "Check"
+          command: |
+              cd ~/Desktop
+              ls
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
