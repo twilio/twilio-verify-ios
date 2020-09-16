@@ -167,6 +167,7 @@ commands:
             cd ~/Desktop
             ls
             zip -r TwilioVerify.framework.zip TwilioVerify.framework
+            pwd
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
