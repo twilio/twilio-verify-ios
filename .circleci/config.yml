@@ -165,8 +165,8 @@ commands:
           name: "Copy Frameworks"
           command: |
             cd ~/Desktop
-            ls
             zip -r TwilioVerify.framework.zip TwilioVerify.framework
+            ls
             pwd
       - run:
           name: "Release SDK"
