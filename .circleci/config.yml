@@ -159,15 +159,9 @@ commands:
     steps:
       - checkout
       - setup
-      - attach_workspace:
-          at: ~/Desktop
-      - run:
-          name: "Copy Frameworks"
-          command: |
-            cd ~/Desktop
-            zip -r TwilioVerify.framework.zip TwilioVerify.framework
-            ls
-            pwd
+      - build_framework:
+          scheme: TwilioVerifySDK
+          artifact: TwilioVerify
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
@@ -224,19 +218,19 @@ workflows:
       # - Integration Tests All Devices:
       #     requires:
       #       - Integration Tests Single Device
-      - Build TwilioVerify
+      # - Build TwilioVerify
           # requires:
           #   - Integration Tests Single Device
           #   - Unit Tests and Lint
-      - Size report:
-          requires:
-            - Build TwilioVerify
+      # - Size report:
+      #     requires:
+      #       - Build TwilioVerify
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      
-      - Release SDK:
-          requires:
-            - Size report
+      - Release SDK
+          # requires:
+          #   - Size report
       #     filters:
       #       branches:
       #         only:
