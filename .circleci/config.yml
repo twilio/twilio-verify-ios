@@ -135,17 +135,12 @@ commands:
           at: ~/Desktop
       - run:
           name: "Copy Frameworks"
-          command: |
-            cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
+          command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
-      - persist_to_workspace:
-          root: ~/Desktop
-          paths:
-            -  '**/*'
   
   release:
     steps:
