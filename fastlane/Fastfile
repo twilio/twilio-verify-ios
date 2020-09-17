@@ -75,7 +75,7 @@ platform :ios do
     next unless verify(title: title, tag_prefix: tag_prefix)
     incrementVersion()
     build_universal_framework()
-    sh('cd ../Desktop')
+    sh('cd ~/Desktop')
     sh('zip -r TwilioVerify.framework.zip TwilioVerify.framework')
     public_api_docs()
     # TODO: Release to cocoapods
