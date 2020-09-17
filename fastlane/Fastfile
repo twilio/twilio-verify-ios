@@ -78,7 +78,7 @@ platform :ios do
     sh('cd ~/Desktop')
     sh('pwd')
     sh('ls')
-    sh('zip -r TwilioVerify.framework.zip TwilioVerify.framework')
+    sh('zip', '-r', 'TwilioVerify.framework.zip', 'TwilioVerify.framework')
     public_api_docs()
     # TODO: Release to cocoapods
     post_release()
