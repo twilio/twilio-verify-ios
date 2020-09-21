@@ -110,20 +110,16 @@ private extension FactorAPIClient {
   }
   
   func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
-    guard let bindingData = try? JSONEncoder().encode(createFactorPayload.binding),
-      let bindingString = String(data: bindingData, encoding: .utf8)  else {
-        throw NetworkError.invalidData
-    }
+    var body = [Parameter(name: Constants.friendlyNameKey, value: createFactorPayload.friendlyName),
+                Parameter(name: Constants.factorTypeKey, value: createFactorPayload.type.rawValue)]
+    body.append(contentsOf: createFactorPayload.binding.map { binding in
+      Parameter(name: "\(Constants.bindingKey).\(binding.key)", value: binding.value)
+    })
+    body.append(contentsOf: createFactorPayload.config.map { config in
+      Parameter(name: "\(Constants.configKey).\(config.key)", value: config.value)
+    })
     
-    guard let configData = try? JSONEncoder().encode(createFactorPayload.config),
-      let configString = String(data: configData, encoding: .utf8) else {
-        throw NetworkError.invalidData
-    }
-    
-    return [Parameter(name: Constants.friendlyNameKey, value: createFactorPayload.friendlyName),
-            Parameter(name: Constants.factorTypeKey, value: createFactorPayload.type.rawValue),
-            Parameter(name: Constants.bindingKey, value: bindingString),
-            Parameter(name: Constants.configKey, value: configString)]
+    return body
   }
   
   func verifyURL(for factor: Factor) -> String {
