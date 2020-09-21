@@ -148,12 +148,11 @@ private extension FactorAPIClient {
   }
   
   func updateFactorBody(updateFactorDataPayload: UpdateFactorDataPayload) throws -> [Parameter] {
-    guard let configData = try? JSONEncoder().encode(updateFactorDataPayload.config),
-      let configString = String(data: configData, encoding: .utf8) else {
-        throw NetworkError.invalidData
-    }
-    return [Parameter(name: Constants.friendlyNameKey, value: updateFactorDataPayload.friendlyName),
-            Parameter(name: Constants.configKey, value: configString)]
+    var body = [Parameter(name: Constants.friendlyNameKey, value: updateFactorDataPayload.friendlyName)]
+    body.append(contentsOf: updateFactorDataPayload.config.map { config in
+      Parameter(name: "\(Constants.configKey).\(config.key)", value: config.value)
+    })
+    return body
   }
 }
 
