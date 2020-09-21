@@ -74,8 +74,10 @@ platform :ios do
     tag_prefix = '*'
     next unless verify(title: title, tag_prefix: tag_prefix)
     incrementVersion()
+    build_universal_framework()
+    sh('zip -r ~/Desktop/TwilioVerify.framework.zip ~/Desktop/TwilioVerify.framework')
     public_api_docs()
-    # TODO: Release to carthage/cocoapods
+    # TODO: Release to cocoapods
     post_release()
   end
 
@@ -125,7 +127,8 @@ platform :ios do
       name: tag,
       tag_name: tag,
       description: notes,
-      commitish: "main"
+      commitish: "main",
+      upload_assets: '../Desktop/TwilioVerify.framework.zip'
     )
     UI.message("Updating CHANGELOG.md")
     sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
