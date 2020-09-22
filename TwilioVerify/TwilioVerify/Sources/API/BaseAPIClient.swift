@@ -39,6 +39,7 @@ extension BaseAPIClient {
   struct Constants {
     static let retryTimes = 1
     static let unauthorized = 401
+    static let notFound = 404
     static let dateHeaderKey = "Date"
   }
 }

@@ -73,7 +73,23 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         networkProvider.execute(request, success: { _ in
           success()
         }, failure: { error in
-          self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+          guard let networkError = error as? NetworkError,
+            case .failureStatusCode = networkError else {
+              self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+              return
+          }
+          switch networkError.failureResponse?.responseCode {
+            case BaseAPIClient.Constants.notFound:
+              success()
+            case BaseAPIClient.Constants.unauthorized:
+              if retries == 0 {
+                success()
+              } else {
+                self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+              }
+            default:
+              self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+          }
         })
       } catch {
         failure(error)
