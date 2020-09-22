@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast force_try type_body_length
+// swiftlint:disable force_cast type_body_length
 class FactorAPIClientTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClient!
