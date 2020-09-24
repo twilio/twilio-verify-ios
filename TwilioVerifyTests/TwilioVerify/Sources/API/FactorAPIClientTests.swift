@@ -64,14 +64,16 @@ class FactorAPIClientTests: XCTestCase {
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.identity)
     let binding = ["public_key": "12345"]
-    let bindingString = String(data: try! JSONEncoder().encode(binding), encoding: .utf8)
     let config = ["sdk_version": "1.0.0", "app_id": "TwilioVerify",
                   "notification_platform": "apn", "notification_token": "pushToken"]
-    let configString = String(data: try! JSONEncoder().encode(config), encoding: .utf8)
-    let expectedParams = [Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
-                          Parameter(name: FactorAPIClient.Constants.factorTypeKey, value: Constants.factorType.rawValue),
-                          Parameter(name: FactorAPIClient.Constants.bindingKey, value: bindingString!),
-                          Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)]
+    var expectedParams = [Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
+                          Parameter(name: FactorAPIClient.Constants.factorTypeKey, value: Constants.factorType.rawValue)]
+    expectedParams.append(contentsOf: binding.map { bindingPair in
+      Parameter(name: "\(FactorAPIClient.Constants.bindingKey).\(bindingPair.key)", value: bindingPair.value)
+    })
+    expectedParams.append(contentsOf: config.map { configPair in
+      Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
+    })
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,

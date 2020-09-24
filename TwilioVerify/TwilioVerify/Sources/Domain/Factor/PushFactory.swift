@@ -153,13 +153,13 @@ extension PushFactory: PushFactoryProtocol {
 
 private extension PushFactory {
   struct Constants {
-    static let publicKey = "public_key"
+    static let publicKey = "PublicKey"
     static let pushType = "apn"
-    static let sdkVersionKey = "sdk_version"
-    static let appIdKey = "app_id"
-    static let notificationPlatformKey = "notification_platform"
-    static let notificationTokenKey = "notification_token"
-    static let algKey = "alg"
+    static let sdkVersionKey = "SdkVersion"
+    static let appIdKey = "AppId"
+    static let notificationPlatformKey = "NotificationPlatform"
+    static let notificationTokenKey = "NotificationToken"
+    static let algKey = "Alg"
     static let defaulAlg = "ES256"
     static let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
   }
