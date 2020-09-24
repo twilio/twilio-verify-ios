@@ -27,6 +27,21 @@ class DeleteFactorTests: BaseFactorTests {
     waitForExpectations(timeout: 3, handler: nil)
   }
   
+  func testDeleteFactor_withNoExistingFactor_shouldSucceed() {
+    let expectation = self.expectation(description: "testDeleteFactor_withNoExistingFactor_shouldSucceed")
+    let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 401, httpVersion: "", headerFields: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
+    let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
+    let networkProvider = NetworkAdapter(withSession: urlSession)
+    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    twilioVerify.deleteFactor(withSid: factor!.sid, success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+  }
+  
   func testDeleteFactor_withFactorNotStored_shouldFail() {
     let expectation = self.expectation(description: "testDeleteFactor_withFactorNotStored_shouldFail")
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)

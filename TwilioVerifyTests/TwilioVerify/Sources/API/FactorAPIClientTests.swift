@@ -229,20 +229,36 @@ class FactorAPIClientTests: XCTestCase {
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
   }
   
-  func testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
-    let expectation = self.expectation(description: "testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+  func testDeleteFactor_withUnathorizedResponseCode_shouldRetryOnlyAnotherTimeAndCallSuccess() {
+    let expectation = self.expectation(description: "testDeleteFactor_withUnathorizedResponseCode_shouldRetryOnlyAnotherTimeAndCallSuccess")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     factorAPIClient.delete(Constants.factor, success: {
-      XCTFail()
       expectation.fulfill()
     }) { _ in
+      XCTFail()
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
     XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
                    "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+  }
+  
+  func testDeleteFactor_withNotFoundResponseCode_shouldCallSuccess() {
+    let expectation = self.expectation(description: "testDeleteFactor_withNotFoundResponseCode_shouldCallSuccess")
+    let failureResponse = FailureResponse(responseCode: 404,
+                                          errorData: "error".data(using: .utf8)!,
+                                          headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
+    let expectedError = NetworkError.failureStatusCode(failureResponse: failureResponse)
+    networkProvider.error = expectedError
+    factorAPIClient.delete(Constants.factor, success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
   }
   
   func testDeleteFactor_withFailureResponse_shouldFail() {
