@@ -9,7 +9,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast force_try type_body_length
+// swiftlint:disable force_cast type_body_length
 class FactorAPIClientTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClient!
@@ -344,10 +344,11 @@ class FactorAPIClientTests: XCTestCase {
   }
   
   func testUpdateFactor_withValidData_shouldMatchExpectedParams() {
-    let configString = String(data: try! JSONEncoder().encode(Constants.config), encoding: .utf8)
     var expectedParams = Parameters()
-    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
-                           Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)])
+    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName)])
+    expectedParams.addAll(Constants.config.map { configPair in
+      Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
+    })
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.updateFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
