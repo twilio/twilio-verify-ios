@@ -36,6 +36,9 @@ def create_markdown_snippet(info)
       f.puts "#{key}        |       #{value['compressed_framework_size']}    | #{value['uncompressed_framework_size']}"
     end
   end
+  `cp "#{SIZE_REPORT_DIR}/SizeImpact.md" ~/Desktop`
+  `cd ~/Desktop`
+  `ls`
 end
 
 FileUtils.rm_rf(SIZE_REPORT_DIR)
@@ -73,6 +76,3 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
 end
 
 create_markdown_snippet(info)
-`cp "#{SIZE_REPORT_DIR}/SizeImpact.md" ~/Desktop`
-`cd ~/Desktop`
-`ls`
