@@ -131,7 +131,7 @@ platform :ios do
       upload_assets: '../Desktop/TwilioVerify.framework.zip'
     )
     UI.message("Updating CHANGELOG.md")
-    sdk_size = sh("cat ../Desktop/SizeReport.txt")
+    sdk_size = sh("cat ../Desktop/SizeReport.md")
     changelog = "#{notes}\\n\\n#{sdk_size}"
     sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
     git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', "./docs/#{next_version}", "./docs/latest"])
