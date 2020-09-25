@@ -1,11 +1,14 @@
 // Thanks for contributing to Twilio Verify. Please consider this template for your PR, and remove these comments when you're ready:
 
-// Title format: [Ticket Number] - Brief description
+// Title format: [Ticket Number/Issue Number] - Brief description
 // Assignee: Please assign yourself to this PR
 // Labels: Please add proper labels accordingly (task, bug, housekeeping, etc)
 
 ## Jira Tickets
 - [ACCSEC-](https://issues.corp.twilio.com/browse/ACCSEC-)
+
+## Github Issue
+- [Verify-iOS-#](https://github.com/sanarroya/iOS-Blogs/issues/#)
 
 ## Description
 - Please add a detailed description of your contribution. Include associated PRs or dependencies. If you're opening an integration PR, please add proper checklist of remaining items and tag this PR with a "DO NOT MERGE YET"
