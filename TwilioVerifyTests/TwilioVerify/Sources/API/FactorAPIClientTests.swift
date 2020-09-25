@@ -2,14 +2,15 @@
 //  FactorAPIClientTests.swift
 //  TwilioVerifyTests
 //
-//  Created by Sergio Fierro on 6/4/20.
 //  Copyright © 2020 Twilio. All rights reserved.
+//  This file is licensed under the Apache License 2.0.
+//  License text available at https://github.com/twilio/twilio-verify-ios/blob/main/LICENSE
 //
 
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast type_body_length
+// swiftlint:disable force_cast type_body_length file_length
 class FactorAPIClientTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClient!
