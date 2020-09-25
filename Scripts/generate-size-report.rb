@@ -37,8 +37,6 @@ def create_markdown_snippet(info)
     end
   end
   `cp "#{SIZE_REPORT_DIR}/SizeImpact.md" ~/Desktop`
-  `cd ~/Desktop`
-  `ls`
 end
 
 FileUtils.rm_rf(SIZE_REPORT_DIR)
