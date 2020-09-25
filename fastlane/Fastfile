@@ -130,7 +130,8 @@ platform :ios do
     #   commitish: "main",
     #   upload_assets: '../Desktop/TwilioVerify.framework.zip'
     # )
-    sh('cd ../Desktop')
+    sh('cd ~/Desktop')
+    sh('pwd')
     sh('ls')
     UI.message("Updating CHANGELOG.md")
     sdk_size = sh("cat ../Desktop/SizeReport.md")
