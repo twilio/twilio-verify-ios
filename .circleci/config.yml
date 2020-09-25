@@ -146,11 +146,17 @@ commands:
             ls
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
+      - persist_to_workspace:
+          root: ~/Desktop
+          paths:
+            - "**/*"
   
   release:
     steps:
       - checkout
       - setup
+      - attach_workspace:
+          at: ~/Desktop
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
