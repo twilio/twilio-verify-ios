@@ -73,3 +73,6 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
 end
 
 create_markdown_snippet(info)
+`cp "#{SIZE_REPORT_DIR}/SizeImpact.md" ~/Desktop`
+`cd ~/Desktop`
+`ls`

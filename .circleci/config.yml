@@ -195,17 +195,17 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Unit Tests and Lint
-      - Integration Tests Single Device:
-          requires:
-            - Unit Tests and Lint
-      - Integration Tests All Devices:
-          requires:
-            - Integration Tests Single Device
-      - Build TwilioVerify:
-          requires:
-            - Integration Tests Single Device
-            - Unit Tests and Lint
+      # - Unit Tests and Lint
+      # - Integration Tests Single Device:
+      #     requires:
+      #       - Unit Tests and Lint
+      # - Integration Tests All Devices:
+      #     requires:
+      #       - Integration Tests Single Device
+      - Build TwilioVerify
+          # requires:
+          #   - Integration Tests Single Device
+          #   - Unit Tests and Lint
       - Size report:
           requires:
             - Build TwilioVerify
@@ -215,7 +215,7 @@ workflows:
       # - Release SDK:
       #     requires:
       #       - Size report
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
