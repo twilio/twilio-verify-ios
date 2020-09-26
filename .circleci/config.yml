@@ -139,11 +139,6 @@ commands:
       - run:
           name: "Build AppSizer App"
           command: ./Scripts/build-app-sizer.sh
-      - run:
-          name: "Check MD"
-          command: |
-            cd ~/Desktop
-            ls
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
       - persist_to_workspace:
@@ -157,6 +152,12 @@ commands:
       - setup
       - attach_workspace:
           at: ~/Desktop
+      - run:
+          name: "Check MD"
+          command: |
+            cd ~/Desktop
+            ls
+            pwd
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
