@@ -135,7 +135,7 @@ platform :ios do
     sh('cd ~/Desktop')
     sh('pwd')
     sh('ls')
-    sdk_size = sh("cat ~/Desktop/SizeImpact.md")
+    sdk_size = sh("cat ./temp/SizeReport/SizeImpact.md")
     changelog = "#{notes}\\n\\n#{sdk_size}"
     sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
     git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', "./docs/#{next_version}", "./docs/latest"])

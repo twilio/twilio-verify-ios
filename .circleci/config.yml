@@ -142,7 +142,7 @@ commands:
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
       - persist_to_workspace:
-          root: ~/Desktop
+          root: ./temp/SizeReport/
           paths:
             - "**/*"
   
@@ -151,11 +151,11 @@ commands:
       - checkout
       - setup
       - attach_workspace:
-          at: ~/Desktop
+          at: ./temp/SizeReport/
       - run:
           name: "Check MD"
           command: |
-            cd ~/Desktop
+            cd ./temp/SizeReport/
             ls
             pwd
       - run:
