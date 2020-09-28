@@ -131,8 +131,14 @@ commands:
       - checkout
       - use_system_ruby
       - setup
-      - attach_workspace:
-          at: ~/Desktop
+      - run:
+          name: "Build Universal Framework"
+          command: bundle exec fastlane build_universal_framework
+      - run:
+          name: "Zip Framework"
+          command: |
+                  cd ~/Desktop
+                  zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
@@ -214,13 +220,13 @@ workflows:
       # - Integration Tests All Devices:
       #     requires:
       #       - Integration Tests Single Device
-      - Build TwilioVerify
+      # - Build TwilioVerify
           # requires:
           #   - Integration Tests Single Device
           #   - Unit Tests and Lint
-      - Size report:
-          requires:
-            - Build TwilioVerify
+      - Size report
+          # requires:
+            # - Build TwilioVerify
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      
