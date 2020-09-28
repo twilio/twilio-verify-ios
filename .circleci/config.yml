@@ -138,7 +138,7 @@ commands:
           name: "Zip Framework"
           command: |
                   cd ~/Desktop
-                  zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
+                  zip -r TwilioVerify.framework.zip TwilioVerify.framework
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
