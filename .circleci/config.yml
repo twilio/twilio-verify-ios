@@ -138,7 +138,6 @@ commands:
       - run:
           name: "Check MD"
           command: |
-            cp ./temp/SizeReport/SizeImpact.md ~/Desktop
             cd ~/Desktop
             ls
             pwd
