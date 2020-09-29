@@ -131,6 +131,8 @@ commands:
       - checkout
       - use_system_ruby
       - setup
+      - attach_workspace:
+          at: ~/Desktop
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
