@@ -124,8 +124,8 @@ commands:
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - ~/Desktop/TwilioVerify.framework
-            - ~/Desktop/TwilioVerify.framework.zip
+            - TwilioVerify.framework
+            - TwilioVerify.framework.zip
 
   build_app_sizer:
     steps:
