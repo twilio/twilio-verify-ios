@@ -349,7 +349,6 @@
 		F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeTests.swift; sourceTree = "<group>"; };
 		F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryMock.swift; sourceTree = "<group>"; };
 		F2C552C22493F3D2006F6CDF /* FakeFactorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFactorPayload.swift; sourceTree = "<group>"; };
-		F2CFC42624A5A233008430B6 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F2E6C9F32492C76A00922FBA /* PushFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactory.swift; sourceTree = "<group>"; };
 		F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryTests.swift; sourceTree = "<group>"; };
 		F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorageMock.swift; sourceTree = "<group>"; };
@@ -1019,7 +1018,6 @@
 		F2CFC42324A5A1F2008430B6 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				F2CFC42624A5A233008430B6 /* Config.xcconfig */,
 				F22A1B8124D8BA3E0054E256 /* Version.xcconfig */,
 			);
 			path = Config;
@@ -1452,7 +1450,7 @@
 		};
 		F2AA378A246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2CFC42624A5A233008430B6 /* Config.xcconfig */;
+			baseConfigurationReference = F22A1B8124D8BA3E0054E256 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1515,7 +1513,7 @@
 		};
 		F2AA378B246F30BF00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2CFC42624A5A233008430B6 /* Config.xcconfig */;
+			baseConfigurationReference = F22A1B8124D8BA3E0054E256 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1572,7 +1570,6 @@
 		};
 		F2AA378D246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2CFC42624A5A233008430B6 /* Config.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1604,7 +1601,6 @@
 		};
 		F2AA378E246F30BF00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2CFC42624A5A233008430B6 /* Config.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
