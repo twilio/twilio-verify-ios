@@ -13,18 +13,16 @@
 
 <!-- Description: Please add a detailed description of your contribution. Include associated PRs or dependencies. If you're opening an integration PR, please add proper checklist of remaining items and tag this PR with a "DO NOT MERGE YET" -->
 ## Description
+- 
+
+<!-- Commit message: This repository uses a commit message convention https://docs.google.com/document/d/19ed9FHIAlJwlGzf3xacgE15MVfTwx8n9G2QeYyCr-5E/edit?usp=drive_web&ouid=116864038767072405931 set the commit message to be used when merging this PR e.g. docs: add architecture diagrams [ACCSEC-99999] -->
+## Commit message
+-  
 
 <!-- Screenshot: When possible add a screenshot or gif showing your changes if not you can remove this section -->
 ## Screenshot
 
-## Version Control
-- [ ] This is a patch
-  _Please increase version patch number in Framework target_
-- [ ] This is a minor change (non breaking, backwards compatible, enhancement) 
-  _Please increase version minor number in Framework target_
-- [ ] This is a major change (breaking changes) 
-  _Please increase version major number in Framework target_
-
+<!-- Testing: Please check all that apply -->
 ## Testing
 - [ ] Added unit tests
 - [ ] Ran unit tests successfully
