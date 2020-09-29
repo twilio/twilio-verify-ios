@@ -124,7 +124,8 @@ commands:
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - "**/*"
+            - ~/Desktop/TwilioVerify.framework
+            - ~/Desktop/TwilioVerify.framework.zip
 
   build_app_sizer:
     steps:
@@ -134,6 +135,13 @@ commands:
       - run:
           name: "Build Universal Framework"
           command: bundle exec fastlane build_universal_framework
+      - run:
+          name: "Check MD"
+          command: |
+            cp ./temp/SizeReport/SizeImpact.md ~/Desktop
+            cd ~/Desktop
+            ls
+            pwd
       - run:
           name: "Zip Framework"
           command: |
@@ -157,7 +165,7 @@ commands:
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - "**/*"
+            - ~/Desktop/SizeImpact.md
   
   release:
     steps:
