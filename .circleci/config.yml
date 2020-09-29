@@ -165,7 +165,7 @@ commands:
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - ~/Desktop/SizeImpact.md
+            - SizeImpact.md
   
   release:
     steps:
