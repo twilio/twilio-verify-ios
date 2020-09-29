@@ -103,7 +103,7 @@ platform :ios do
     UI.message("Updating TwilioVerify/Config/Version.xcconfig")
     sh("./../Scripts/bump-version.swift #{next_version}")
     version_bump_podspec(
-      path: "./../TwilioVerify.podspec",
+      path: "./TwilioVerify.podspec",
       version_number: "#{next_version}"
     )
   end
