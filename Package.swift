@@ -9,7 +9,7 @@ let package = Package(
   products: [
     .library(
       name: "TwilioVerify",
-      targets: ["TwilioVerify"]),
+      targets: ["TwilioVerify"])
   ],
   dependencies: [],
   targets: [
@@ -22,6 +22,6 @@ let package = Package(
       name: "TwilioVerifyTests",
       dependencies: ["TwilioVerify"],
       path: "TwilioVerifyTests"
-    ),
+    )
   ]
 )
