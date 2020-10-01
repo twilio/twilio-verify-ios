@@ -61,6 +61,11 @@ Generates release tag, release notes and updates CHANGELOG.md
 fastlane ios danger_tests
 ```
 
+### ios build_swift_package
+```
+fastlane ios build_swift_package
+```
+
 
 ----
 

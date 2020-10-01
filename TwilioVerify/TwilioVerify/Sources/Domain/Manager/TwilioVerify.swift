@@ -156,10 +156,7 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
-    guard let baseURL = Bundle(for: TwilioVerifyBuilder.self).object(forInfoDictionaryKey: Constants.baseURLKey) as? String else {
-        return
-    }
-    self.baseURL = Constants.httpsPrefix + baseURL
+    self.baseURL = Constants.baseURL
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -208,7 +205,6 @@ public class TwilioVerifyBuilder {
 
 private extension TwilioVerifyBuilder {
   struct Constants {
-    static let baseURLKey = "BaseURL"
-    static let httpsPrefix = "https://"
+    static let baseURL = "https://verify.twilio.com/v2/"
   }
 }
