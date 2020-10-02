@@ -34,7 +34,12 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     var factor: Factor!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { response in
       factor = response
@@ -73,7 +78,12 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in
@@ -100,7 +110,12 @@ class CreateFactorTests: XCTestCase {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: jsonData, httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in

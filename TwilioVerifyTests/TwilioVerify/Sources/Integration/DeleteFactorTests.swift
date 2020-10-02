@@ -28,7 +28,12 @@ class DeleteFactorTests: BaseFactorTests {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       expectation.fulfill()
     }) { _ in
@@ -43,7 +48,12 @@ class DeleteFactorTests: BaseFactorTests {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 401, httpVersion: "", headerFields: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       expectation.fulfill()
     }) { _ in
@@ -58,7 +68,12 @@ class DeleteFactorTests: BaseFactorTests {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 200, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: "anotherSid", success: {
@@ -79,7 +94,12 @@ class DeleteFactorTests: BaseFactorTests {
     let urlResponse = HTTPURLResponse(url: URL(string: Constants.url)!, statusCode: 400, httpVersion: "", headerFields: nil)
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .setLogLevel(.off)
+                            .build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
