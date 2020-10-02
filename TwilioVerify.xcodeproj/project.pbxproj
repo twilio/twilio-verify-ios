@@ -152,6 +152,9 @@
 		F27A340B24CF8B7800A8053D /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340924CF8B7800A8053D /* Template.swift */; };
 		F27A340C24CF8B7800A8053D /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */; };
 		F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */; };
+		F293890D25269E3E0070394D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293890C25269E3E0070394D /* Logger.swift */; };
+		F29389112526BF7C0070394D /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389102526BF7C0070394D /* LoggerTests.swift */; };
+		F29389132526C0220070394D /* LoggerServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389122526C0220070394D /* LoggerServiceMock.swift */; };
 		F2AA3782246F30BF00B9388F /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerify.framework */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerify.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BC2493E34A006F6CDF /* FactorFacade.swift */; };
@@ -339,6 +342,9 @@
 		F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorageTests.swift; sourceTree = "<group>"; };
 		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
 		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
+		F293890C25269E3E0070394D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		F29389102526BF7C0070394D /* LoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoggerTests.swift; path = Mocks/LoggerTests.swift; sourceTree = "<group>"; };
+		F29389122526C0220070394D /* LoggerServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerServiceMock.swift; sourceTree = "<group>"; };
 		F2AA3778246F30BE00B9388F /* TwilioVerify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TwilioVerify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AA377B246F30BE00B9388F /* TwilioVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioVerify.h; sourceTree = "<group>"; };
 		F2AA377C246F30BE00B9388F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -544,6 +550,7 @@
 		20B8A3EB2485581D003F69EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F293890E2526BF5C0070394D /* Logger */,
 				F239EBFE24D07C9500141A00 /* Integration */,
 				F05A319C2493E26C0098F49C /* Models */,
 				F207BBB324901E5300688E5C /* Data */,
@@ -948,6 +955,31 @@
 			path = Signer;
 			sourceTree = "<group>";
 		};
+		F293890B25269E260070394D /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				F293890C25269E3E0070394D /* Logger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		F293890E2526BF5C0070394D /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				F293890F2526BF620070394D /* Mocks */,
+				F29389102526BF7C0070394D /* LoggerTests.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		F293890F2526BF620070394D /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				F29389122526C0220070394D /* LoggerServiceMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		F2AA376E246F30BE00B9388F = {
 			isa = PBXGroup;
 			children = (
@@ -1003,6 +1035,7 @@
 		F2AA37EA246F3CD500B9388F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F293890B25269E260070394D /* Logger */,
 				F2AA377B246F30BE00B9388F /* TwilioVerify.h */,
 				F207BBAE249000C000688E5C /* Data */,
 				20E3BB1A24896BCA00BC90DE /* API */,
@@ -1281,6 +1314,7 @@
 				20E3BB1E24896C3000BC90DE /* Authentication.swift in Sources */,
 				2093573224871168008FDBCC /* PushFactor.swift in Sources */,
 				20A92FD02481B98A00A9E8E7 /* BasicAuthorization.swift in Sources */,
+				F293890D25269E3E0070394D /* Logger.swift in Sources */,
 				F07B6F522492CA4400948FB1 /* JwtSigner.swift in Sources */,
 				2093573E24871827008FDBCC /* Metadata.swift in Sources */,
 				F20353DC249C1EBF0067DA73 /* TwilioVerify.swift in Sources */,
@@ -1314,6 +1348,7 @@
 				F239EC1724D07CD900141A00 /* UpdateChallengeTests.swift in Sources */,
 				F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */,
 				F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */,
+				F29389112526BF7C0070394D /* LoggerTests.swift in Sources */,
 				F27A33EE24CF898D00A8053D /* KeychainTests.swift in Sources */,
 				F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */,
 				F207BBB524901E8D00688E5C /* StorageTests.swift in Sources */,
@@ -1346,6 +1381,7 @@
 				F239EC1424D07CD900141A00 /* BaseFactorTests.swift in Sources */,
 				2017297C24D0A43F0029493D /* UserDefaultsMock.swift in Sources */,
 				F0261C6424A56D3D007881E9 /* PushChallengeProcessorTests.swift in Sources */,
+				F29389132526C0220070394D /* LoggerServiceMock.swift in Sources */,
 				204227AB24A53F6000CD001B /* ChallengeListMapperMock.swift in Sources */,
 				F239EC1524D07CD900141A00 /* VerifyFactorTests.swift in Sources */,
 				F239EC1924D07CD900141A00 /* UpdateFactorTests.swift in Sources */,
