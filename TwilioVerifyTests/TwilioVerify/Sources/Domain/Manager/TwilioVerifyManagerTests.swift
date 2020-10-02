@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
