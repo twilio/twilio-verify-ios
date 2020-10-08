@@ -137,7 +137,7 @@ platform :ios do
     )
 
     UI.message("Updating CHANGELOG.md")
-    sdk_size = "sh("cat ~/Desktop/SizeImpact.md")"
+    sdk_size = sh("cat ~/Desktop/SizeImpact.md")
     changelog = "#{notes}\\n\\n#{sdk_size}"
     sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
     UI.message("Updating README.md")
