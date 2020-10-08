@@ -73,7 +73,7 @@ platform :ios do
     title = 'iOS Verify Push Release'
     tag_prefix = '*'
     next unless verify(title: title, tag_prefix: tag_prefix)
-    incrementVersion()
+    increment_version()
     build_universal_framework()
     sh('zip -r ~/Desktop/TwilioVerify.framework.zip ~/Desktop/TwilioVerify.framework')
     public_api_docs()
@@ -96,7 +96,7 @@ platform :ios do
   end
 
   desc "Increment version"
-  lane :incrementVersion do |options|
+  lane :increment_version do |options|
     next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
     ensure_git_status_clean
     # Increment version in Verify module
@@ -140,7 +140,10 @@ platform :ios do
     sdk_size = sh("cat ~/Desktop/SizeImpact.md")
     changelog = "#{notes}\\n\\n#{sdk_size}"
     sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
-    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
+    UI.message("Updating README.md")
+    last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
+    sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
+    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     pod_push(path: "./../TwilioVerify.podspec")
