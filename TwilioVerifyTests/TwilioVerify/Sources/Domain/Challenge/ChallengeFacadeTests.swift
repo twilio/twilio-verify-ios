@@ -296,7 +296,7 @@ private extension ChallengeFacadeTests {
     static let expectedChallenge = FactorChallenge(
       sid: challengeSid,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key": "value"],
       factorSid: factorSid,
       status: .pending,
       createdAt: Date(),

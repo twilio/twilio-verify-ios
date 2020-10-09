@@ -246,7 +246,7 @@ private extension ChallengeRepositoryTests {
     FactorChallenge(
       sid: "challengeSid123",
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key": "value"],
       factorSid: factor?.sid ?? "12345",
       status: status,
       createdAt: Date(),

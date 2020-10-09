@@ -31,251 +31,263 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withValidResponse_shouldReturnChallenge() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var challenge: FactorChallenge!
     XCTAssertNoThrow(challenge = try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),
                      "Mapping from API should not throw")
-    XCTAssertEqual(challenge.sid, expectedChallengeResponse[Constants.sidKey],
-                   "Sid should be \(expectedChallengeResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, expectedChallengeResponse[Constants.factorSidKey],
-                   "FactorSid should be \(expectedChallengeResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
-                   "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, Constants.expectedStatus.rawValue,
+                   "Status should be \(Constants.expectedStatus.rawValue) but was \(challenge.status.rawValue)")
     XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
                    "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
-    XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
-                   "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
-    XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,
-                   "Detail fields count should be \((details[Constants.fieldsKey] as! [[String: String]]).count) but was \(challenge.challengeDetails.fields.count)")
-    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(details[Constants.dateKey]! as! String),
-                   "Detail date should be \(DateFormatter().RFC3339(details[Constants.dateKey]! as! String)!) but was \(challenge.challengeDetails.date!)")
-    XCTAssertEqual(challenge.hiddenDetails, hiddenDetailsString,
-                   "Hidden details should be \(hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.fields.count, fields.count,
+                   "Detail fields count should be \(fields.count) but was \(challenge.challengeDetails.fields.count)")
+    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
+                   "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
+    XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
+                   "Hidden details should be \(hiddenDetails ) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
                    "Signature fields should be \(expectedSignatureFieldsHeader) but was \(challenge.signatureFields!.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator))")
   }
   
   func testFromAPI_withValidResponseWithoutFields_shouldReturnChallenge() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: [],
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var challenge: FactorChallenge!
     XCTAssertNoThrow(challenge = try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),
                      "Mapping from API should not throw")
-    XCTAssertEqual(challenge.sid, expectedChallengeResponse[Constants.sidKey],
-                   "Sid should be \(expectedChallengeResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, expectedChallengeResponse[Constants.factorSidKey],
-                   "FactorSid should be \(expectedChallengeResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
-                   "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, Constants.expectedStatus.rawValue,
+                   "Status should be \(Constants.expectedStatus.rawValue) but was \(challenge.status.rawValue)")
     XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
                    "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
-    XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
-                   "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
     XCTAssertTrue(challenge.challengeDetails.fields.isEmpty, "Detail fields should be empty")
-    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(details[Constants.dateKey]! as! String),
-                   "Detail date should be \(DateFormatter().RFC3339(details[Constants.dateKey]! as! String)!) but was \(challenge.challengeDetails.date!)")
-    XCTAssertEqual(challenge.hiddenDetails, hiddenDetailsString,
-                   "Hidden details should be \(hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
+                   "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
+    XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
                    "Signature fields should be \(expectedSignatureFieldsHeader) but was \(challenge.signatureFields!.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator))")
   }
   
   func testFromAPI_withValidResponseWithoutDetailsDate_shouldReturnChallenge() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]]]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: nil)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var challenge: FactorChallenge!
     XCTAssertNoThrow(challenge = try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),
                      "Mapping from API should not throw")
-    XCTAssertEqual(challenge.sid, expectedChallengeResponse[Constants.sidKey],
-                   "Sid should be \(expectedChallengeResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, expectedChallengeResponse[Constants.factorSidKey],
-                   "FactorSid should be \(expectedChallengeResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
-                   "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, Constants.expectedStatus.rawValue,
+                   "Status should be \(Constants.expectedStatus.rawValue) but was \(challenge.status.rawValue)")
     XCTAssertEqual(challenge.response?.keys.count, expectedChallengeResponse.keys.count,
                    "Response should be \(expectedChallengeResponse) but was \(challenge.response!)")
-    XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
-                   "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
-    XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,
-                   "Detail fields count should be \((details[Constants.fieldsKey] as! [[String: String]]).count) but was \(challenge.challengeDetails.fields.count)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.fields.count, fields.count,
+                   "Detail fields count should be \(fields.count) but was \(challenge.challengeDetails.fields.count)")
     XCTAssertNil(challenge.challengeDetails.date, "Details date should be nil")
-    XCTAssertEqual(challenge.hiddenDetails, hiddenDetailsString,
-                   "Hidden details should be \(hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
                    "Signature fields should be \(expectedSignatureFieldsHeader) but was \(challenge.signatureFields!.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator))")
   }
   
   func testFromAPI_withValidResponseAndApprovedStatus_shouldReturnChallenge() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.approved.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: ChallengeStatus.approved,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var challenge: FactorChallenge!
     XCTAssertNoThrow(challenge = try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader),
                      "Mapping from API should not throw")
-    XCTAssertEqual(challenge.sid, expectedChallengeResponse[Constants.sidKey],
-                   "Sid should be \(expectedChallengeResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, expectedChallengeResponse[Constants.factorSidKey],
-                   "FactorSid should be \(expectedChallengeResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
-                   "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, ChallengeStatus.approved.rawValue,
+                   "Status should be \(ChallengeStatus.approved.rawValue) but was \(challenge.status.rawValue)")
     XCTAssertNil(challenge.response, "Response should be nil")
-    XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
-                   "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
-    XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,
-                   "Detail fields count should be \((details[Constants.fieldsKey] as! [[String: String]]).count) but was \(challenge.challengeDetails.fields.count)")
-    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(details[Constants.dateKey]! as! String),
-                   "Detail date should be \(DateFormatter().RFC3339(details[Constants.dateKey]! as! String)!) but was \(challenge.challengeDetails.date!)")
-    XCTAssertEqual(challenge.hiddenDetails, hiddenDetailsString,
-                   "Hidden details should be \(hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.fields.count, fields.count,
+                   "Detail fields count should be \(fields.count) but was \(challenge.challengeDetails.fields.count)")
+    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
+                   "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
+    XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertNil(challenge.signatureFields, "Signature fields should be nil")
   }
   
   func testFromAPI_withValidResponseWithPendingStatusAndNoSignatureFields_shouldReturnChallenge() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
     var challenge: FactorChallenge!
     XCTAssertNoThrow(challenge = try mapper.fromAPI(withData: challengeData), "Mapping from API should not throw")
-    XCTAssertEqual(challenge.sid, expectedChallengeResponse[Constants.sidKey],
-                   "Sid should be \(expectedChallengeResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, expectedChallengeResponse[Constants.factorSidKey],
-                   "FactorSid should be \(expectedChallengeResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, expectedChallengeResponse[Constants.statusKey],
-                   "Status should be \(expectedChallengeResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, Constants.expectedStatus.rawValue,
+                   "Status should be \(Constants.expectedStatus.rawValue) but was \(challenge.status.rawValue)")
     XCTAssertNil(challenge.response, "Response should be nil")
-    XCTAssertEqual(challenge.challengeDetails.message, details[Constants.messageKey] as! String,
-                   "Detail message should be \(details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
-    XCTAssertEqual(challenge.challengeDetails.fields.count, (details[Constants.fieldsKey] as! [[String: String]]).count,
-                   "Detail fields count should be \((details[Constants.fieldsKey] as! [[String: String]]).count) but was \(challenge.challengeDetails.fields.count)")
-    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(details[Constants.dateKey]! as! String),
-                   "Detail date should be \(DateFormatter().RFC3339(details[Constants.dateKey]! as! String)!) but was \(challenge.challengeDetails.date!)")
-    XCTAssertEqual(challenge.hiddenDetails, hiddenDetailsString,
-                   "Hidden details should be \(hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(expectedChallengeResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.fields.count, fields.count,
+                   "Detail fields count should be \(fields.count) but was \(challenge.challengeDetails.fields.count)")
+    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
+                   "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
+    XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertNil(challenge.signatureFields, "Signature fields should be nil")
   }
   
   func testFromAPI_withResponseWithoutSid_shouldThrow() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    var challengeData = try! JSONEncoder().encode(challengeDTO)
+    var expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
+    expectedChallengeResponse.remove(at: expectedChallengeResponse.index(forKey: expectedChallengeResponse.first { _, value in
+      return (value as? String) == Constants.expectedSidValue
+      }!.key)!)
+    challengeData = try! JSONSerialization.data(withJSONObject: expectedChallengeResponse, options: [])
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -285,18 +297,25 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withResponseWithoutDetails_shouldThrow() {
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: [],
+      date: nil)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    var challengeData = try! JSONEncoder().encode(challengeDTO)
+    var expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
+    expectedChallengeResponse.remove(at: expectedChallengeResponse.index(forKey: ChallengeDTO.CodingKeys.details.rawValue)!)
+    challengeData = try! JSONSerialization.data(withJSONObject: expectedChallengeResponse, options: [])
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -306,23 +325,31 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withResponseWithoutDetailsMessage_shouldThrow() {
-    let details: [String: Any] = [Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+    Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: nil)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    var challengeData = try! JSONEncoder().encode(challengeDTO)
+    var expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
+    var expectedDetails = try! JSONSerialization.jsonObject(with: try! JSONEncoder().encode(detailsDTO), options: []) as! [String: Any]
+    expectedDetails.remove(at: expectedDetails.index(forKey: expectedDetails.first { _, value in
+      return (value as? String) == Constants.expectedMessage
+    }!.key)!)
+    expectedChallengeResponse[ChallengeDTO.CodingKeys.details.rawValue] = expectedDetails
+    challengeData = try! JSONSerialization.data(withJSONObject: expectedChallengeResponse, options: [])
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -332,24 +359,25 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withInvalidCreatedDate_shouldThrow() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: "19-02-2020",
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: "19-02-2020",
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -359,24 +387,25 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withInvalidUpdatedDate_shouldThrow() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: "19-02-2020",
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: Constants.expectedExpirationDate]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: "19-02-2020")
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -386,24 +415,25 @@ class ChallengeMapperTests: XCTestCase {
   }
   
   func testFromAPI_withInvalidExpirationDate_shouldThrow() {
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallengeResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                     Constants.factorSidKey: Constants.expectedFactorSid,
-                                     Constants.createdDateKey: Constants.expectedCreatedDate,
-                                     Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                     Constants.statusKey: ChallengeStatus.pending.rawValue,
-                                     Constants.detailsKey: detailsString,
-                                     Constants.hiddenDetailsKey: hiddenDetailsString,
-                                     Constants.expirationDateKey: "19-02-2020"]
-    
+    let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedStatus,
+      expirationDate: "19-02-2020",
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    let challengeData = try! JSONEncoder().encode(challengeDTO)
+    let expectedChallengeResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     let expectedSignatureFieldsHeader = expectedChallengeResponse.keys.map { String($0) }.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator)
-    let challengeData = try! JSONEncoder().encode(expectedChallengeResponse)
     var error: TwilioVerifyError!
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeData, signatureFieldsHeader: expectedSignatureFieldsHeader), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
@@ -415,20 +445,8 @@ class ChallengeMapperTests: XCTestCase {
 
 private extension ChallengeMapperTests {
   struct Constants {
-    static let sidKey = "sid"
-    static let factorSidKey = "factor_sid"
-    static let createdDateKey = "date_created"
-    static let updatedDateKey = "date_updated"
-    static let statusKey = "status"
-    static let detailsKey = "details"
-    static let hiddenDetailsKey = "hidden_details"
-    static let expirationDateKey = "expiration_date"
-    static let messageKey = "message"
-    static let fieldsKey = "fields"
-    static let labelKey = "label"
-    static let valueKey = "value"
-    static let dateKey = "date"
     static let expectedSidValue = "sid123"
+    static let expectedStatus = ChallengeStatus.pending
     static let expectedFactorSid = "factorSid123"
     static let expectedCreatedDate = "2020-06-05T15:57:47Z"
     static let expectedUpdatedDate = "2020-07-08T15:57:47Z"
@@ -439,5 +457,6 @@ private extension ChallengeMapperTests {
     static let expectedLabel2 = "Label2"
     static let expectedValue1 = "Value1"
     static let expectedValue2 = "Value2"
+    static let expectedKey1 = "Key1"
   }
 }

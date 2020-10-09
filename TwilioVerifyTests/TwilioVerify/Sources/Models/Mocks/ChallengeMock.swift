@@ -24,7 +24,7 @@ struct ChallengeMock: Challenge {
   var sid: String
   var factorSid: String
   var challengeDetails: ChallengeDetails
-  var hiddenDetails: String
+  var hiddenDetails: [String: String]?
   var status: ChallengeStatus
   var createdAt: Date
   var updatedAt: Date

@@ -4,7 +4,7 @@
   "date_created":"2020-02-19T16:39:57-08:00",
   "date_updated":"2020-02-21T18:39:57-08:00",
   "status":"pending",
-  "details":"{\"message\":\"message123\",\"fields\":[{\"label\":\"label123\",\"value\":\"value123\"}],\"date\":\"2020-02-19T16:39:57-08:00\"}",
-  "hidden_details":"{\"key1\":\"value1\"}",
+  "details":{"message":"message123","fields":[{"label":"label123","value":"value123"}],"date":"2020-02-19T16:39:57-08:00"},
+  "hidden_details":{"key1":"value1"},
   "expiration_date":"2020-02-27T08:50:57-08:00"
 }

@@ -22,7 +22,7 @@ import Foundation
 struct FactorChallenge: Challenge {
   let sid: String
   let challengeDetails: ChallengeDetails
-  let hiddenDetails: String
+  let hiddenDetails: [String: String]?
   let factorSid: String
   let status: ChallengeStatus
   let createdAt: Date
