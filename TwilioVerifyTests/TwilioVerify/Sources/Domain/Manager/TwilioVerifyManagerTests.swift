@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -376,7 +376,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge = FactorChallenge(
       sid: challengeSid,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key1": "value1"],
       factorSid: factorSid,
       status: .pending,
       createdAt: Date(),
@@ -386,7 +386,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge2 = FactorChallenge(
       sid: challengeSid2,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key2": "value2"],
       factorSid: factorSid,
       status: .approved,
       createdAt: Date(),

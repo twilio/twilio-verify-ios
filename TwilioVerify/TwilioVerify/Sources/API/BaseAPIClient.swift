@@ -31,7 +31,7 @@ class BaseAPIClient {
     guard retries > 0, let networkError = error as? NetworkError,
       case .failureStatusCode = networkError,
       networkError.failureResponse?.responseCode == Constants.unauthorized,
-      let date = networkError.failureResponse?.headers[Constants.dateHeaderKey] as? String else {
+      let date = networkError.failureResponse?.headers.first(where: { ($0.key as? String)?.compare(Constants.dateHeaderKey, options: .caseInsensitive) == .orderedSame })?.value as? String else {
         failure(error)
         return
     }

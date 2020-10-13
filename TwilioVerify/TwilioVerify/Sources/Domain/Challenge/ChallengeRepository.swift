@@ -44,7 +44,9 @@ extension ChallengeRepository: ChallengeProvider {
       guard let strongSelf = self else { return }
       do {
         var challenge = try strongSelf.challengeMapper.fromAPI(withData: response.data,
-                                                               signatureFieldsHeader: response.headers[Constants.signatureFieldsHeader] as? String)
+                                                               signatureFieldsHeader: response.headers.first {
+                                                                ($0.key as? String)?.compare(Constants.signatureFieldsHeader, options: .caseInsensitive) == .orderedSame
+                                                               }?.value as? String)
         if challenge.factorSid != factor.sid {
           failure(InputError.invalidInput)
           return
