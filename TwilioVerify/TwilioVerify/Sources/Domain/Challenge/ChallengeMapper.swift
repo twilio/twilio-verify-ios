@@ -2,8 +2,19 @@
 //  ChallengeMapper.swift
 //  TwilioVerify
 //
-//  Created by Sergio Fierro on 6/24/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
@@ -44,8 +55,7 @@ class ChallengeMapper: ChallengeMapperProtocol {
         throw MapperError.invalidDate
     }
       
-    let detailsDTO = try JSONDecoder().decode(ChallengeDetailsDTO.self, from: challengeDTO.details.data(using: .utf8)!)
-    let details = ChallengeDetails(message: detailsDTO.message, fields: detailsDTO.fields ?? [], date: DateFormatter().RFC3339(detailsDTO.date ?? String()))
+    let details = ChallengeDetails(message: challengeDTO.details.message, fields: challengeDTO.details.fields ?? [], date: DateFormatter().RFC3339(challengeDTO.details.date ?? String()))
     let factorChallenge = FactorChallenge(
       sid: challengeDTO.sid,
       challengeDetails: details,

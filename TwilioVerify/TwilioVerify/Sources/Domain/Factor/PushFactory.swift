@@ -2,8 +2,19 @@
 //  PushFactory.swift
 //  TwilioVerify
 //
-//  Created by Santiago Avila on 6/11/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
@@ -153,13 +164,14 @@ extension PushFactory: PushFactoryProtocol {
 
 private extension PushFactory {
   struct Constants {
-    static let publicKey = "public_key"
+    static let publicKey = "PublicKey"
     static let pushType = "apn"
-    static let sdkVersionKey = "sdk_version"
-    static let appIdKey = "app_id"
-    static let notificationPlatformKey = "notification_platform"
-    static let notificationTokenKey = "notification_token"
-    static let algKey = "alg"
+    static let sdkVersionKey = "SdkVersion"
+    static let appIdKey = "AppId"
+    static let bundleShortVersionString = "CFBundleShortVersionString"
+    static let notificationPlatformKey = "NotificationPlatform"
+    static let notificationTokenKey = "NotificationToken"
+    static let algKey = "Alg"
     static let defaulAlg = "ES256"
     static let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
   }
@@ -181,7 +193,7 @@ private extension PushFactory {
   }
   
   func config(withToken token: String) -> [String: String] {
-    [Constants.sdkVersionKey: String(TwilioVerifyVersionNumber),
+    [Constants.sdkVersionKey: Bundle(for: PushFactory.self).infoDictionary?[Constants.bundleShortVersionString] as? String ?? String(),
      Constants.appIdKey: Bundle.main.bundleIdentifier ?? "",
      Constants.notificationPlatformKey: Constants.pushType,
      Constants.notificationTokenKey: token]

@@ -41,9 +41,9 @@ Release a new production version
 fastlane ios verify
 ```
 Verify next release
-### ios incrementVersion
+### ios increment_version
 ```
-fastlane ios incrementVersion
+fastlane ios increment_version
 ```
 Increment version
 ### ios public_api_docs
@@ -59,6 +59,11 @@ Generates release tag, release notes and updates CHANGELOG.md
 ### ios danger_tests
 ```
 fastlane ios danger_tests
+```
+
+### ios build_swift_package
+```
+fastlane ios build_swift_package
 ```
 
 

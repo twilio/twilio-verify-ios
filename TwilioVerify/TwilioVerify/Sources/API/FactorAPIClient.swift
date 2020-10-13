@@ -2,8 +2,19 @@
 //  FactorAPIClient.swift
 //  TwilioVerify
 //
-//  Created by Sergio Fierro on 6/4/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
@@ -73,7 +84,23 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         networkProvider.execute(request, success: { _ in
           success()
         }, failure: { error in
-          self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+          guard let networkError = error as? NetworkError,
+            case .failureStatusCode = networkError else {
+              self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+              return
+          }
+          switch networkError.failureResponse?.responseCode {
+            case BaseAPIClient.Constants.notFound:
+              success()
+            case BaseAPIClient.Constants.unauthorized:
+              if retries == 0 {
+                success()
+              } else {
+                self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+              }
+            default:
+              self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
+          }
         })
       } catch {
         failure(error)
@@ -110,20 +137,16 @@ private extension FactorAPIClient {
   }
   
   func createFactorBody(createFactorPayload: CreateFactorPayload) throws -> [Parameter] {
-    guard let bindingData = try? JSONEncoder().encode(createFactorPayload.binding),
-      let bindingString = String(data: bindingData, encoding: .utf8)  else {
-        throw NetworkError.invalidData
-    }
+    var body = [Parameter(name: Constants.friendlyNameKey, value: createFactorPayload.friendlyName),
+                Parameter(name: Constants.factorTypeKey, value: createFactorPayload.type.rawValue)]
+    body.append(contentsOf: createFactorPayload.binding.map { binding in
+      Parameter(name: "\(Constants.bindingKey).\(binding.key)", value: binding.value)
+    })
+    body.append(contentsOf: createFactorPayload.config.map { config in
+      Parameter(name: "\(Constants.configKey).\(config.key)", value: config.value)
+    })
     
-    guard let configData = try? JSONEncoder().encode(createFactorPayload.config),
-      let configString = String(data: configData, encoding: .utf8) else {
-        throw NetworkError.invalidData
-    }
-    
-    return [Parameter(name: Constants.friendlyNameKey, value: createFactorPayload.friendlyName),
-            Parameter(name: Constants.factorTypeKey, value: createFactorPayload.type.rawValue),
-            Parameter(name: Constants.bindingKey, value: bindingString),
-            Parameter(name: Constants.configKey, value: configString)]
+    return body
   }
   
   func verifyURL(for factor: Factor) -> String {
@@ -152,12 +175,11 @@ private extension FactorAPIClient {
   }
   
   func updateFactorBody(updateFactorDataPayload: UpdateFactorDataPayload) throws -> [Parameter] {
-    guard let configData = try? JSONEncoder().encode(updateFactorDataPayload.config),
-      let configString = String(data: configData, encoding: .utf8) else {
-        throw NetworkError.invalidData
-    }
-    return [Parameter(name: Constants.friendlyNameKey, value: updateFactorDataPayload.friendlyName),
-            Parameter(name: Constants.configKey, value: configString)]
+    var body = [Parameter(name: Constants.friendlyNameKey, value: updateFactorDataPayload.friendlyName)]
+    body.append(contentsOf: updateFactorDataPayload.config.map { config in
+      Parameter(name: "\(Constants.configKey).\(config.key)", value: config.value)
+    })
+    return body
   }
 }
 

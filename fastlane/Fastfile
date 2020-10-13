@@ -73,11 +73,12 @@ platform :ios do
     title = 'iOS Verify Push Release'
     tag_prefix = '*'
     next unless verify(title: title, tag_prefix: tag_prefix)
-    incrementVersion()
+    increment_version()
     build_universal_framework()
     sh('zip -r ~/Desktop/TwilioVerify.framework.zip ~/Desktop/TwilioVerify.framework')
     public_api_docs()
-    # TODO: Release to cocoapods
+    build_swift_package()
+    pod_lib_lint(verbose: true)
     post_release()
   end
 
@@ -95,12 +96,16 @@ platform :ios do
   end
 
   desc "Increment version"
-  lane :incrementVersion do |options|
+  lane :increment_version do |options|
     next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
     ensure_git_status_clean
     # Increment version in Verify module
     UI.message("Updating TwilioVerify/Config/Version.xcconfig")
     sh("./../Scripts/bump-version.swift #{next_version}")
+    version_bump_podspec(
+      path: "./TwilioVerify.podspec",
+      version_number: "#{next_version}"
+    )
   end
 
   desc 'Generates Public API Documentation'
@@ -130,11 +135,18 @@ platform :ios do
       commitish: "main",
       upload_assets: '../Desktop/TwilioVerify.framework.zip'
     )
+
     UI.message("Updating CHANGELOG.md")
-    sh("echo '#{notes}\\n' | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
-    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', "./docs/#{next_version}", "./docs/latest"])
+    sdk_size = sh("cat ~/Desktop/SizeImpact.md")
+    changelog = "#{notes}\\n\\n#{sdk_size}"
+    sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
+    UI.message("Updating README.md")
+    last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
+    sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
+    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
+    pod_push(path: "./../TwilioVerify.podspec")
   end
 
   lane :danger_tests do |options|
@@ -146,6 +158,10 @@ platform :ios do
       fail_on_errors: true,
       verbose: true
     )
+  end
+
+  lane :build_swift_package do
+    sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
   end
 
 end

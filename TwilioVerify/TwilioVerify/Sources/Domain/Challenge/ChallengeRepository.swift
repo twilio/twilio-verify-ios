@@ -2,8 +2,19 @@
 //  ChallengeRepository.swift
 //  TwilioVerify
 //
-//  Created by Sergio Fierro on 6/25/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
@@ -33,7 +44,9 @@ extension ChallengeRepository: ChallengeProvider {
       guard let strongSelf = self else { return }
       do {
         var challenge = try strongSelf.challengeMapper.fromAPI(withData: response.data,
-                                                               signatureFieldsHeader: response.headers[Constants.signatureFieldsHeader] as? String)
+                                                               signatureFieldsHeader: response.headers.first {
+                                                                ($0.key as? String)?.compare(Constants.signatureFieldsHeader, options: .caseInsensitive) == .orderedSame
+                                                               }?.value as? String)
         if challenge.factorSid != factor.sid {
           failure(InputError.invalidInput)
           return

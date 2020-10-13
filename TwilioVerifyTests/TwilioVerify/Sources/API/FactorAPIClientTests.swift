@@ -2,14 +2,25 @@
 //  FactorAPIClientTests.swift
 //  TwilioVerifyTests
 //
-//  Created by Sergio Fierro on 6/4/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast force_try type_body_length
+// swiftlint:disable force_cast type_body_length file_length
 class FactorAPIClientTests: XCTestCase {
   
   private var factorAPIClient: FactorAPIClient!
@@ -64,14 +75,16 @@ class FactorAPIClientTests: XCTestCase {
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.identity)
     let binding = ["public_key": "12345"]
-    let bindingString = String(data: try! JSONEncoder().encode(binding), encoding: .utf8)
     let config = ["sdk_version": "1.0.0", "app_id": "TwilioVerify",
                   "notification_platform": "apn", "notification_token": "pushToken"]
-    let configString = String(data: try! JSONEncoder().encode(config), encoding: .utf8)
-    let expectedParams = [Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
-                          Parameter(name: FactorAPIClient.Constants.factorTypeKey, value: Constants.factorType.rawValue),
-                          Parameter(name: FactorAPIClient.Constants.bindingKey, value: bindingString!),
-                          Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)]
+    var expectedParams = [Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
+                          Parameter(name: FactorAPIClient.Constants.factorTypeKey, value: Constants.factorType.rawValue)]
+    expectedParams.append(contentsOf: binding.map { bindingPair in
+      Parameter(name: "\(FactorAPIClient.Constants.bindingKey).\(bindingPair.key)", value: bindingPair.value)
+    })
+    expectedParams.append(contentsOf: config.map { configPair in
+      Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
+    })
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
@@ -229,20 +242,36 @@ class FactorAPIClientTests: XCTestCase {
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
   }
   
-  func testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime() {
-    let expectation = self.expectation(description: "testDeleteFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
+  func testDeleteFactor_withUnathorizedResponseCode_shouldRetryOnlyAnotherTimeAndCallSuccess() {
+    let expectation = self.expectation(description: "testDeleteFactor_withUnathorizedResponseCode_shouldRetryOnlyAnotherTimeAndCallSuccess")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
     factorAPIClient.delete(Constants.factor, success: {
-      XCTFail()
       expectation.fulfill()
     }) { _ in
+      XCTFail()
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertTrue(dateProvider.syncTimeCalled, "Sync time should be called")
     XCTAssertEqual(networkProvider.callsToExecute, BaseAPIClient.Constants.retryTimes + 1,
                    "Execute should be called \(BaseAPIClient.Constants.retryTimes + 1) times but was called \(networkProvider.callsToExecute) times")
+  }
+  
+  func testDeleteFactor_withNotFoundResponseCode_shouldCallSuccess() {
+    let expectation = self.expectation(description: "testDeleteFactor_withNotFoundResponseCode_shouldCallSuccess")
+    let failureResponse = FailureResponse(responseCode: 404,
+                                          errorData: "error".data(using: .utf8)!,
+                                          headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
+    let expectedError = NetworkError.failureStatusCode(failureResponse: failureResponse)
+    networkProvider.error = expectedError
+    factorAPIClient.delete(Constants.factor, success: {
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
   }
   
   func testDeleteFactor_withFailureResponse_shouldFail() {
@@ -326,10 +355,11 @@ class FactorAPIClientTests: XCTestCase {
   }
   
   func testUpdateFactor_withValidData_shouldMatchExpectedParams() {
-    let configString = String(data: try! JSONEncoder().encode(Constants.config), encoding: .utf8)
     var expectedParams = Parameters()
-    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName),
-                           Parameter(name: FactorAPIClient.Constants.configKey, value: configString!)])
+    expectedParams.addAll([Parameter(name: FactorAPIClient.Constants.friendlyNameKey, value: Constants.friendlyName)])
+    expectedParams.addAll(Constants.config.map { configPair in
+      Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
+    })
     let expectedURL = "\(Constants.baseURL)\(FactorAPIClient.Constants.updateFactorURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)

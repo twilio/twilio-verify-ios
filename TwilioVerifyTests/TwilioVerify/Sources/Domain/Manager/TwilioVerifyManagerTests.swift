@@ -2,14 +2,25 @@
 //  TwilioVerifyManagerTests.swift
 //  TwilioVerifyTests
 //
-//  Created by Sergio Fierro on 6/23/20.
-//  Copyright © 2020 Twilio. All rights reserved.
+//  Copyright © 2020 Twilio.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -365,7 +376,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge = FactorChallenge(
       sid: challengeSid,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key1": "value1"],
       factorSid: factorSid,
       status: .pending,
       createdAt: Date(),
@@ -375,7 +386,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge2 = FactorChallenge(
       sid: challengeSid2,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key2": "value2"],
       factorSid: factorSid,
       status: .approved,
       createdAt: Date(),
