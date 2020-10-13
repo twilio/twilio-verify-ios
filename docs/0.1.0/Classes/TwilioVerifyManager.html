@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TwilioVerifyManager Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/TwilioVerifyManager" class="dashAnchor"></a>
+    <a title="TwilioVerifyManager Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">TwilioVerify 0.1.0 Docs</a> (93% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">TwilioVerify Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TwilioVerifyManager Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TwilioVerifyManager</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">TwilioVerifyManager</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TwilioVerifyManager</span><span class="p">:</span> <span class="kt"><a href="../Protocols/TwilioVerify.html">TwilioVerify</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Handles the available operations to proccess Factors and Challenges</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC12createFactor11withPayload7success7failureyAA0eG0_p_yAA0E0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/createFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC12createFactor11withPayload7success7failureyAA0eG0_p_yAA0E0_pcyAA0aB5ErrorOctF">createFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <strong>Factor</strong> from a <strong>FactorPayload</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createFactor</span><span class="p">(</span><span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FactorPayload.html">FactorPayload</a></span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>payload</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Describes the information needed to create a factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns the created Factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC12verifyFactor11withPayload7success7failureyAA0beG0_p_yAA0E0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/verifyFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC12verifyFactor11withPayload7success7failureyAA0beG0_p_yAA0E0_pcyAA0aB5ErrorOctF">verifyFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Verifies a <strong>Factor</strong> from a <strong>VerifyFactorPayload</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">verifyFactor</span><span class="p">(</span><span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a></span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>payload</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Describes the information needed to verify a factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns the verified Factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC12updateFactor11withPayload7success7failureyAA06UpdateeG0_p_yAA0E0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/updateFactor(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC12updateFactor11withPayload7success7failureyAA06UpdateeG0_p_yAA0E0_pcyAA0aB5ErrorOctF">updateFactor(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates a <strong>Factor</strong> from a <strong>UpdateFactorPayload</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">updateFactor</span><span class="p">(</span><span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a></span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorSuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>payload</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Describes the information needed to update a factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns the updated Factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC13getAllFactors7success7failureyySayAA6Factor_pGc_yAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getAllFactors(success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC13getAllFactors7success7failureyySayAA6Factor_pGc_yAA0aB5ErrorOctF">getAllFactors(success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets all <strong>Factors</strong> created by the app</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getAllFactors</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">FactorListSuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns an array of Factors</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC12deleteFactor7withSid7success7failureySS_yycyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/deleteFactor(withSid:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC12deleteFactor7withSid7success7failureySS_yycyAA0aB5ErrorOctF">deleteFactor(withSid:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes a <strong>Factor</strong> with the given <strong>Sid</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteFactor</span><span class="p">(</span><span class="n">withSid</span> <span class="nv">sid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">EmptySuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Sid of the <strong>Factor</strong> to be deleted</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC12getChallenge12challengeSid06factorG07success7failureySS_SSyAA0E0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getChallenge(challengeSid:factorSid:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC12getChallenge12challengeSid06factorG07success7failureySS_SSyAA0E0_pcyAA0aB5ErrorOctF">getChallenge(challengeSid:<wbr>factorSid:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets a <strong>Challenge</strong> with the given challenge sid and factor Sid</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getChallenge</span><span class="p">(</span><span class="nv">challengeSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">factorSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">ChallengeSuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>challengeSid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Sid of the Challenge requested</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>factorSid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Sid of the Factor to which the Challenge corresponds</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns the requested Challenge</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC15updateChallenge11withPayload7success7failureyAA06UpdateeG0_p_yycyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/updateChallenge(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC15updateChallenge11withPayload7success7failureyAA06UpdateeG0_p_yycyAA0aB5ErrorOctF">updateChallenge(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates a <strong>Challenge</strong> from a <strong>UpdateChallengePayload</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">updateChallenge</span><span class="p">(</span><span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a></span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">EmptySuccessBlock</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>payload</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Describes the information needed to update a challenge</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12TwilioVerify0aB7ManagerC16getAllChallenges11withPayload7success7failureyAA013ChallengeListH0V_yAA0kL0_pcyAA0aB5ErrorOctF"></a>
+                    <a name="//apple_ref/swift/Method/getAllChallenges(withPayload:success:failure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12TwilioVerify0aB7ManagerC16getAllChallenges11withPayload7success7failureyAA013ChallengeListH0V_yAA0kL0_pcyAA0aB5ErrorOctF">getAllChallenges(withPayload:<wbr>success:<wbr>failure:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets all Challenges associated to a <strong>Factor</strong> with the given <strong>ChallengeListPayload</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getAllChallenges</span><span class="p">(</span><span class="n">withPayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a></span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Protocols/ChallengeList.html">ChallengeList</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(),</span> <span class="nv">failure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">TwilioVerifyErrorBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>payload</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Describes the information needed to fetch all the <strong>Challenges</strong></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation succeeds, returns a ChallengeList which contains the Challenges and the metadata associated to the request</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure to be called when the operation fails with the cause of failure</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="https://github.com/twilio/twilio-verify-ios" target="_blank" rel="external">Twilio</a>. All rights reserved. (Last updated: 2020-10-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
