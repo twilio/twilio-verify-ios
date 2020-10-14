@@ -157,7 +157,7 @@ commands:
           at: ~/Desktop
       - run:
           name: "Release SDK"
-          command: bundle exec fastlane publish_pod
+          command: bundle exec fastlane release
 
 jobs:
   Unit Tests and Lint:
@@ -196,7 +196,6 @@ jobs:
     executor: macos_executor
     steps:
       - build_app_sizer
-
   Release SDK:
     executor: macos_executor
     steps:
@@ -205,27 +204,27 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      # - Unit Tests and Lint
-      # - Integration Tests Single Device:
-      #     requires:
-      #       - Unit Tests and Lint
-      # - Integration Tests All Devices:
-      #     requires:
-      #       - Integration Tests Single Device
-      # - Build TwilioVerify:
-      #     requires:
-      #       - Integration Tests Single Device
-      #       - Unit Tests and Lint
-      # - Size report:
-      #     requires:
-      #       - Build TwilioVerify
-      - Release SDK
-          # requires:
-          #   - Size report
-          # filters:
-          #   branches:
-          #     only:
-          #       - main
+      - Unit Tests and Lint
+      - Integration Tests Single Device:
+          requires:
+            - Unit Tests and Lint
+      - Integration Tests All Devices:
+          requires:
+            - Integration Tests Single Device
+      - Build TwilioVerify:
+          requires:
+            - Integration Tests Single Device
+            - Unit Tests and Lint
+      - Size report:
+          requires:
+            - Build TwilioVerify
+      - Release SDK:
+          requires:
+            - Size report
+          filters:
+            branches:
+              only:
+                - main
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      

@@ -66,12 +66,6 @@ fastlane ios danger_tests
 fastlane ios build_swift_package
 ```
 
-### ios publish_pod
-```
-fastlane ios publish_pod
-```
-
-
 ----
 
 This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
