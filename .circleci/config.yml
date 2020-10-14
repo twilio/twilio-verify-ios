@@ -157,7 +157,7 @@ commands:
           at: ~/Desktop
       - run:
           name: "Release SDK"
-          command: bundle exec fastlane pod_push
+          command: bundle exec fastlane publish_pod
 
 jobs:
   Unit Tests and Lint:
@@ -196,7 +196,7 @@ jobs:
     executor: macos_executor
     steps:
       - build_app_sizer
-      
+
   Release SDK:
     executor: macos_executor
     steps:
