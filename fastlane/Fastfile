@@ -146,7 +146,7 @@ platform :ios do
     git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
-    pod_push(path: "./../TwilioVerify.podspec")
+    pod_push(path: "./TwilioVerify.podspec")
   end
 
   lane :danger_tests do |options|
@@ -164,4 +164,7 @@ platform :ios do
     sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
   end
 
+  lane :publish_pod do
+    pod_push(path: "./TwilioVerify.podspec", verbose: true)
+  end
 end

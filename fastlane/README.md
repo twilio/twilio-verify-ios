@@ -66,6 +66,11 @@ fastlane ios danger_tests
 fastlane ios build_swift_package
 ```
 
+### ios publish_pod
+```
+fastlane ios publish_pod
+```
+
 
 ----
 
