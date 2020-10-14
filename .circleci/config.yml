@@ -196,6 +196,7 @@ jobs:
     executor: macos_executor
     steps:
       - build_app_sizer
+      
   Release SDK:
     executor: macos_executor
     steps:
