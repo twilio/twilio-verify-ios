@@ -5,7 +5,8 @@ single_ftl_device = [{ios_model_id: 'iphone11pro', ios_version_id: '13.3'}]
 all_ftl_devices = [
   {ios_model_id: 'iphone11', ios_version_id: '13.6'},
   {ios_model_id: 'iphonexs', ios_version_id: '12.3'},
-  {ios_model_id: 'iphone8', ios_version_id: '11.4'}
+  {ios_model_id: 'iphone8', ios_version_id: '11.4'},
+  {ios_model_id: 'iphone6s', ios_version_id: '10.3'}
 ]
 
 default_platform(:ios)

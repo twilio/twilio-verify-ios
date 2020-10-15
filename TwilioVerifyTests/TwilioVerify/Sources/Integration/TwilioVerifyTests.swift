@@ -115,7 +115,7 @@ class TwilioVerifyTests: XCTestCase {
     XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
                    "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
     XCTAssertEqual(challenge.hiddenDetails, Constants.hiddenDetails,
-                   "Hidden details should be \(Constants.hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(Constants.hiddenDetails) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
   }
