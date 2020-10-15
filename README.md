@@ -58,7 +58,7 @@ None
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> 0.0.4'
+pod 'TwilioVerify', '~> 0.1.0'
 ```
 
 ### Carthage
@@ -66,7 +66,7 @@ pod 'TwilioVerify', '~> 0.0.4'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "twilio/twilio-verify-ios" -> 0.0.4
+github "twilio/twilio-verify-ios" -> 0.1.0
 ```
 
 ### Swift Package Manager
@@ -77,7 +77,7 @@ Once you have your Swift package set up, adding TwilioVerify as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "0.0.4"))
+    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "0.1.0"))
 ]
 ```
 
@@ -107,8 +107,8 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 ## Running the Sample backend
 
 * Clone this repo: https://github.com/twilio/verify-push-sample-backend
-* Configure a [Notify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-or-select-a-notify-service) for the sample app, using the same APNs configuration
-* Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-a-verify-service), using the Notify service for the sample app
+* Configure a [Push Credential](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-push-credential) for the sample app, using the same APNs configuration
+* Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-verify-service-and-add-the-push-credential), using the Push Credential for the sample app
 * Run the steps in the [README file](https://github.com/twilio/verify-push-sample-backend/blob/master/README.md)
 
 <a name='UsingSampleApp'></a>
