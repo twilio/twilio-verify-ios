@@ -208,7 +208,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(challenge.sid, Constants.expectedChallenge.sid,
                    "Challenge sid should be \(Constants.expectedChallenge.sid) but was \(challenge.sid)")
     XCTAssertEqual(challenge.hiddenDetails, Constants.expectedChallenge.hiddenDetails,
-                   "Challenge hiddenDetails should be \(Constants.expectedChallenge.hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Challenge hiddenDetails should be \(Constants.expectedChallenge.hiddenDetails!) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.factorSid, Constants.expectedChallenge.factorSid,
                    "Challenge factorSid should be \(Constants.expectedChallenge.factorSid) but was \(challenge.factorSid)")
     XCTAssertEqual(challenge.status, Constants.expectedChallenge.status,

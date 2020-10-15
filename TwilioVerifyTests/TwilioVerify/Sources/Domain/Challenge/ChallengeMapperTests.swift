@@ -72,7 +72,7 @@ class ChallengeMapperTests: XCTestCase {
     XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
                    "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
     XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
-                   "Hidden details should be \(hiddenDetails ) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(hiddenDetails ) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
@@ -118,7 +118,7 @@ class ChallengeMapperTests: XCTestCase {
     XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
                    "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
     XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
-                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
@@ -166,7 +166,7 @@ class ChallengeMapperTests: XCTestCase {
                    "Detail fields count should be \(fields.count) but was \(challenge.challengeDetails.fields.count)")
     XCTAssertNil(challenge.challengeDetails.date, "Details date should be nil")
     XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
-                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertEqual(challenge.signatureFields?.joined(separator: ChallengeMapper.Constants.signatureFieldsHeaderSeparator), expectedSignatureFieldsHeader,
@@ -214,7 +214,7 @@ class ChallengeMapperTests: XCTestCase {
     XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
                    "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
     XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
-                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertNil(challenge.signatureFields, "Signature fields should be nil")
@@ -258,7 +258,7 @@ class ChallengeMapperTests: XCTestCase {
     XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
                    "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
     XCTAssertEqual(challenge.hiddenDetails, hiddenDetails,
-                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Hidden details should be \(hiddenDetails) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
                    "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
     XCTAssertNil(challenge.signatureFields, "Signature fields should be nil")
