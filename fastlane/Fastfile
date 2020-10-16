@@ -123,6 +123,18 @@ platform :ios do
       commit_url: 'https://github.com/twilio/twilio-verify-ios/commit')
     tag = next_version
     UI.important(notes)
+
+    UI.message("Updating CHANGELOG.md")
+    sdk_size = sh("cat ~/Desktop/SizeImpact.md")
+    changelog = "#{notes}\\n\\n#{sdk_size}"
+    sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
+    UI.message("Updating README.md")
+    last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
+    sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
+    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
+    sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
+    push_to_git_remote
+    
     add_git_tag(tag: tag)
     push_git_tags(tag: tag)
 
@@ -135,17 +147,7 @@ platform :ios do
       commitish: "main",
       upload_assets: '../Desktop/TwilioVerify.framework.zip'
     )
-
-    UI.message("Updating CHANGELOG.md")
-    sdk_size = sh("cat ~/Desktop/SizeImpact.md")
-    changelog = "#{notes}\\n\\n#{sdk_size}"
-    sh("echo \"#{changelog}\\n\" | cat - ../CHANGELOG.md > temp && mv temp ../CHANGELOG.md")
-    UI.message("Updating README.md")
-    last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
-    sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
-    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
-    sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
-    push_to_git_remote
+    
     pod_push(path: "./TwilioVerify.podspec", verbose: true)
   end
 
