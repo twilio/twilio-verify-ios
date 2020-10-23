@@ -1,3 +1,13 @@
+# 0.1.1 (2020-10-15)
+
+### Bug fixes
+- Added support for iOS 10 ([9549956](https://github.com/twilio/twilio-verify-ios/commit/95499567b5e5af68160dd78a2f720cece1b40a84))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
 # 0.1.0 (2020-10-13)
 
 ### Features
