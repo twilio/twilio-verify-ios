@@ -95,12 +95,10 @@ extension FactorListViewController: UITableViewDelegate {
     performSegue(withIdentifier: Constants.factorDetailSegueId, sender: indexPath.row)
   }
   
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteActoun = UIContextualAction(style: .destructive, title: Constants.delete) { (_, _, handler: @escaping (Bool) -> Void) in
-      self.presenter?.delete(at: indexPath.row)
-      handler(true)
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      presenter?.delete(at: indexPath.row)
     }
-    return UISwipeActionsConfiguration(actions: [deleteActoun])
   }
 }
 
