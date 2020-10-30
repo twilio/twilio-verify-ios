@@ -84,7 +84,8 @@ public protocol TwilioVerify {
   )
 
   /**
-  Deletes a **Factor** with the given **Sid**
+  Deletes a **Factor** with the given **sid**. This method calls **Verify Push API** to delete
+  the factor and will remove the factor from local storage if the API call succeeds.
   - Parameters:
     - sid: Sid of the **Factor** to be deleted
     - success: Closure to be called when the operation succeeds

@@ -60,4 +60,8 @@ extension PushFactoryMock: PushFactoryProtocol {
     }
     success()
   }
+  
+  func deleteAllFactors() {
+    
+  }
 }

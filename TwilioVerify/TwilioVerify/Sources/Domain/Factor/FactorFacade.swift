@@ -79,7 +79,10 @@ extension FactorFacade: FactorFacadeProtocol {
   }
   
   func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
-    repository.getAll(success: success) { error in
+    do {
+      let factors = try repository.getAll()
+      success(factors)
+    } catch {
       failure(TwilioVerifyError.storageError(error: error as NSError))
     }
   }

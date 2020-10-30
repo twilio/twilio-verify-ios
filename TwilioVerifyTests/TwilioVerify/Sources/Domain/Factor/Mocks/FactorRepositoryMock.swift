@@ -64,12 +64,11 @@ extension FactorRepositoryMock: FactorProvider {
     success(factor)
   }
   
-  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock) {
+  func getAll() throws -> [Factor] {
     if let error = error {
-      failure(error)
-      return
+     throw error
     }
-    success(factors)
+    return factors
   }
   
   func get(withSid sid: String) throws -> Factor {
