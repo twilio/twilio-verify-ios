@@ -24,9 +24,11 @@ protocol FactorProvider {
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
+  func delete(_ factor: Factor) throws
   func getAll() throws -> [Factor]
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
+  func clearLocalStorage() throws
 }
 
 class FactorRepository {
@@ -89,12 +91,16 @@ extension FactorRepository: FactorProvider {
     apiClient.delete(factor, success: { [weak self] in
       guard let strongSelf = self else { return }
       do {
-        try strongSelf.storage.removeValue(for: factor.sid)
+        try strongSelf.delete(factor)
         success()
       } catch {
         failure(error)
       }
     }, failure: failure)
+  }
+  
+  func delete(_ factor: Factor) throws {
+    try storage.removeValue(for: factor.sid)
   }
   
   func getAll() throws -> [Factor] {
@@ -112,5 +118,9 @@ extension FactorRepository: FactorProvider {
   func get(withSid sid: String) throws -> Factor {
     let factorData = try storage.get(sid)
     return try factorMapper.fromStorage(withData: factorData)
+  }
+  
+  func clearLocalStorage() throws {
+    try storage.clear()
   }
 }

@@ -26,6 +26,7 @@ protocol FactorFacadeProtocol {
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func clearLocalStorage() throws
 }
 
 class FactorFacade {
@@ -89,6 +90,14 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     factory.deleteFactor(withSid: sid, success: success, failure: failure)
+  }
+  
+  func clearLocalStorage() throws {
+    do {
+      try factory.deleteAllFactors()
+    } catch {
+      try repository.clearLocalStorage()
+    }
   }
 }
 

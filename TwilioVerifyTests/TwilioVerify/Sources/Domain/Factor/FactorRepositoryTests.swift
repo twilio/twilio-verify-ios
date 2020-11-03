@@ -504,6 +504,17 @@ class FactorRepositoryTests: XCTestCase {
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
   }
+  
+  func testClearLocalStorage_withError_shouldThrowError() {
+    storage.errorClearing = TestError.operationFailed
+    XCTAssertThrowsError(try factorRepository.clearLocalStorage(), "Clear should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testClearLocalStorage_withoutErrors_shouldClearSecureStorage() {
+    XCTAssertNoThrow(try factorRepository.clearLocalStorage(), "Clear should not throw")
+  }
 }
 
 private extension FactorRepositoryTests {

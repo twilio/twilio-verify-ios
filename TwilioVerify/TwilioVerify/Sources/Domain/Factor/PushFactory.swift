@@ -25,7 +25,7 @@ protocol PushFactoryProtocol {
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
   func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func deleteAllFactors()
+  func deleteAllFactors() throws
 }
 
 class PushFactory {
@@ -162,8 +162,16 @@ extension PushFactory: PushFactoryProtocol {
     }
   }
   
-  func deleteAllFactors() {
-    
+  func deleteAllFactors() throws {
+    guard let factors = try? repository.getAll() as? [PushFactor] else {
+      throw TwilioVerifyError.storageError(error: StorageError.error("Factors not found") as NSError)
+    }
+    try factors.forEach {
+      try repository.delete($0)
+      if let keyPairAlias = $0.keyPairAlias {
+        try keyStorage.deleteKey(withAlias: keyPairAlias)
+      }
+    }
   }
 }
 

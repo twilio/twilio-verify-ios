@@ -216,6 +216,24 @@ class StorageTests: XCTestCase {
     )
   }
   
+  func testClear_withError_shouldThrowError() {
+    secureStorage.error = TestError.operationFailed
+    XCTAssertThrowsError(try storage.clear(), "Clear should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testClear_withoutErrors_shouldClearSecureStorage() {
+    XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
+  }
+}
+
+private extension StorageTests {
+  struct Constants {
+    static let key = "key"
+    static let data = "data".data(using: .utf8)!
+  }
+  
   func initStorage(withMigrations migrations: [Migration], withStartVersion startVersion: Int, withEndVersion endVersion: Int) {
     let userDefaults: UserDefaults = .standard
     userDefaults.set(startVersion, forKey: Storage.Constants.currentVersionKey)
@@ -230,12 +248,5 @@ class StorageTests: XCTestCase {
   
   func migrate() -> [Entry] {
     [Entry(key: Constants.key, value: "new data".data(using: .utf8)!)]
-  }
-}
-
-private extension StorageTests {
-  struct Constants {
-    static let key = "key"
-    static let data = "data".data(using: .utf8)!
   }
 }

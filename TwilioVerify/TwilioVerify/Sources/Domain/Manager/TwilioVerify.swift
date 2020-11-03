@@ -73,7 +73,7 @@ public protocol TwilioVerify {
   )
 
   /**
-  Gets all **Factors** created by the app
+  Gets all **Factors** created by the app, this method will return the factors in local storage.
   - Parameters:
     - success: Closure to be called when the operation succeeds, returns an array of Factors
     - failure: Closure to be called when the operation fails with the cause of failure
@@ -138,6 +138,14 @@ public protocol TwilioVerify {
     success: @escaping (ChallengeList) -> (),
     failure: @escaping TwilioVerifyErrorBlock
   )
+  
+  /**
+   Clears local storage, it will delete factors and key pairs in this device.
+   ## Important Note ##
+   Calling this method will not delete factors in **Verify Push API**, so you need to delete
+   them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+   */
+  func clearLocalStorage()
 }
 
 /// Builder class that builds an instance of TwilioVerifyManager, which handles all the operations

@@ -119,4 +119,16 @@ extension TwilioVerifyManager: TwilioVerify {
   public func getAllChallenges(withPayload payload: ChallengeListPayload, success: @escaping (ChallengeList) -> (), failure: @escaping TwilioVerifyErrorBlock) {
     challengeFacade.getAll(withPayload: payload, success: success, failure: failure)
   }
+  
+  /**
+   Clears local storage, it will delete factors and key pairs in this device.
+   ## Important Note ##
+   Calling this method will not delete factors in **Verify Push API**, so you need to delete
+   them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+   */
+  public func clearLocalStorage() {
+    do {
+      try factorFacade.clearLocalStorage()
+    } catch {}
+  }
 }

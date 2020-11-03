@@ -28,6 +28,7 @@ class FactorRepositoryMock {
   var deleteError: Error?
   var factor: Factor!
   var factors: [Factor]!
+  private(set) var callsToClearStorage = 0
 }
 
 extension FactorRepositoryMock: FactorProvider {
@@ -54,6 +55,12 @@ extension FactorRepositoryMock: FactorProvider {
       return
     }
     success()
+  }
+  
+  func delete(_ factor: Factor) throws {
+    if let error = deleteError {
+     throw error
+    }
   }
   
   func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
@@ -83,5 +90,12 @@ extension FactorRepositoryMock: FactorProvider {
       throw error
     }
     return factor
+  }
+  
+  func clearLocalStorage() throws {
+    callsToClearStorage += 1
+    if let error = error {
+      throw error
+    }
   }
 }

@@ -73,4 +73,8 @@ extension FactorFacadeMock: FactorFacadeProtocol {
     }
     success()
   }
+  
+  func clearLocalStorage() {
+    
+  }
 }

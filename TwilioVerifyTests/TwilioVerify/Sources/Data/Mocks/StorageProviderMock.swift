@@ -29,6 +29,7 @@ class StorageProviderMock {
   var errorGettingAll: Error?
   var errorRemoving: Error?
   var removedKey: String?
+  var errorClearing: Error?
 }
 
 extension StorageProviderMock: StorageProvider {
@@ -67,5 +68,11 @@ extension StorageProviderMock: StorageProvider {
       throw error
     }
     removedKey = key
+  }
+  
+  func clear() throws {
+    if let error = errorClearing {
+      throw error
+    }
   }
 }
