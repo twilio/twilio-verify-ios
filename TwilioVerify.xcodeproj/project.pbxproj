@@ -128,11 +128,11 @@
 		F239EC1424D07CD900141A00 /* BaseFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0C24D07CD800141A00 /* BaseFactorTests.swift */; };
 		F239EC1524D07CD900141A00 /* VerifyFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */; };
 		F239EC1624D07CD900141A00 /* DeleteFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0E24D07CD800141A00 /* DeleteFactorTests.swift */; };
-		F239EC1724D07CD900141A00 /* UpdateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */; };
 		F239EC1824D07CD900141A00 /* GetChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1024D07CD900141A00 /* GetChallengeTests.swift */; };
 		F239EC1924D07CD900141A00 /* UpdateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */; };
 		F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1224D07CD900141A00 /* CreateFactorTests.swift */; };
 		F239EC1B24D07CD900141A00 /* GetAllChallengesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */; };
+		F24FA15C25521A030040036C /* ClearLocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FA15B25521A030040036C /* ClearLocalStorageTests.swift */; };
 		F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F27A33E524CF898700A8053D /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
 		F27A33E624CF898700A8053D /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
@@ -321,11 +321,11 @@
 		F239EC0C24D07CD800141A00 /* BaseFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFactorTests.swift; sourceTree = "<group>"; };
 		F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyFactorTests.swift; sourceTree = "<group>"; };
 		F239EC0E24D07CD800141A00 /* DeleteFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteFactorTests.swift; sourceTree = "<group>"; };
-		F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChallengeTests.swift; sourceTree = "<group>"; };
 		F239EC1024D07CD900141A00 /* GetChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetChallengeTests.swift; sourceTree = "<group>"; };
 		F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1224D07CD900141A00 /* CreateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllChallengesTests.swift; sourceTree = "<group>"; };
+		F24FA15B25521A030040036C /* ClearLocalStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearLocalStorageTests.swift; sourceTree = "<group>"; };
 		F25A239B2500662100176805 /* IntegrationSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationSuite.xctestplan; sourceTree = "<group>"; };
 		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
@@ -830,9 +830,9 @@
 				F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */,
 				F239EC1024D07CD900141A00 /* GetChallengeTests.swift */,
 				2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */,
-				F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */,
 				F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */,
 				F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */,
+				F24FA15B25521A030040036C /* ClearLocalStorageTests.swift */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -1311,7 +1311,6 @@
 				2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */,
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */,
-				F239EC1724D07CD900141A00 /* UpdateChallengeTests.swift in Sources */,
 				F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */,
 				F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */,
 				F27A33EE24CF898D00A8053D /* KeychainTests.swift in Sources */,
@@ -1356,6 +1355,7 @@
 				2086796524ABD5F300D1F0B9 /* PushChallengeProcessorMock.swift in Sources */,
 				F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */,
 				20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */,
+				F24FA15C25521A030040036C /* ClearLocalStorageTests.swift in Sources */,
 				204227A624A53D2B00CD001B /* ChallengeAPIClientMock.swift in Sources */,
 				20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */,
 				F207BBBC249032CC00688E5C /* KeyManagerMock.swift in Sources */,

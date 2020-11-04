@@ -141,11 +141,12 @@ public protocol TwilioVerify {
   
   /**
    Clears local storage, it will delete factors and key pairs in this device.
+   - throws: An error, if there is an error clearing the local storage.
    ## Important Note ##
    Calling this method will not delete factors in **Verify Push API**, so you need to delete
    them from your backend to prevent invalid/deleted factors when getting factors for an identity.
    */
-  func clearLocalStorage()
+  func clearLocalStorage() throws
 }
 
 /// Builder class that builds an instance of TwilioVerifyManager, which handles all the operations

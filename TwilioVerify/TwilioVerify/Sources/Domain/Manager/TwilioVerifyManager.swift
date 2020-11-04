@@ -121,14 +121,13 @@ extension TwilioVerifyManager: TwilioVerify {
   }
   
   /**
-   Clears local storage, it will delete factors and key pairs in this device.
-   ## Important Note ##
-   Calling this method will not delete factors in **Verify Push API**, so you need to delete
-   them from your backend to prevent invalid/deleted factors when getting factors for an identity.
-   */
-  public func clearLocalStorage() {
-    do {
-      try factorFacade.clearLocalStorage()
-    } catch {}
+  Clears local storage, it will delete factors and key pairs in this device.
+  - throws: An error, if there is an error clearing the local storage.
+  ## Important Note ##
+  Calling this method will not delete factors in **Verify Push API**, so you need to delete
+  them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+  */
+  public func clearLocalStorage() throws {
+    try factorFacade.clearLocalStorage()
   }
 }
