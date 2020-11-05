@@ -590,11 +590,9 @@ class PushFactoryTests: XCTestCase {
   
   func testDeleteAllFactors_withErrorGettingFactors_shouldThrow() {
     repository.factors = [Constants.factor]
-    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Factors not found") as NSError)
     repository.error = TestError.operationFailed
     XCTAssertThrowsError(try factory.deleteAllFactors(), "Delete all factors should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).localizedDescription,
-                     expectedError.localizedDescription)
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
     }
   }
   
