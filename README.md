@@ -180,6 +180,13 @@ twilioVerify.deleteFactor(withSid: factorSid, success: {
 ## Clear local storage
 You can clear the local storage calling the `TwilioVerify.clearLocalStorage` method:
 ```swift
-twilioVerify.clearLocalStorage()
+do {
+  try twilioVerify.clearLocalStorage()
+} catch {
+  // Handle error
+}
 ```
-Note: Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+### Important Notes
+
+- Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+- Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.
