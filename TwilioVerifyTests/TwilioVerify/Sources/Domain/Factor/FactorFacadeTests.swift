@@ -380,35 +380,6 @@ class FactorFacadeTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
-  
-  func testClearLocalStorage_withErrorDeletingFactors_shouldCallRepositoryClearLocalStorage() {
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
-    let expectedCallsToClearLocalStorage = 1
-    factory.error = expectedError
-    XCTAssertNoThrow(try facade.clearLocalStorage(), "Clear local storage not should throw")
-    XCTAssertEqual(repository.callsToClearStorage, expectedCallsToClearLocalStorage)
-  }
-  
-  func testClearLocalStorage_withErrorDeletintFactorsAndErrorClearingStorage_shouldThrow() {
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
-    let expectedCallsToClearLocalStorage = 1
-    factory.error = expectedError
-    repository.error = expectedError
-    XCTAssertThrowsError(try facade.clearLocalStorage(), "Clear should throw") { error in
-      let error = error as! TwilioVerifyError
-      XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
-                     "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-      XCTAssertEqual(error.originalError, expectedError.originalError,
-                     "Original error should be \(expectedError.originalError) but was \(error.originalError)")
-      XCTAssertEqual(repository.callsToClearStorage, expectedCallsToClearLocalStorage)
-    }
-  }
-  
-  func testClearLocalStorage_withoutErrorDeletingFactors_shouldNotCallRepositoryClearLocalStorage() {
-    let expectedCallsToClearLocalStorage = 0
-    XCTAssertNoThrow(try facade.clearLocalStorage(), "Clear local storage not should throw")
-    XCTAssertEqual(repository.callsToClearStorage, expectedCallsToClearLocalStorage)
-  }
 }
 
 private extension FactorFacadeTests {

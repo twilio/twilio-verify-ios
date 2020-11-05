@@ -24,7 +24,6 @@
 * [Errors](#Errors)
 * [Update factor's push token](#UpdatePushToken)
 * [Delete a factor](#DeleteFactor)
-* [Clear local storage](#ClearLocalStorage)
 
 <a name='About'></a>
 
@@ -152,7 +151,7 @@ Authentication Token | 68007 | Exception while generating token
 
 ## Update factor's push token
 You can update the factor's push token in case it changed, calling the `TwilioVerify.updateFactor` method:
-```swift
+```
 let updateFactorPayload = UpdatePushFactorPayload(sid: factorSid, pushToken: newPushToken)
 twilioVerify.updateFactor(withPayload: payload, success: { factor in
   // Success
@@ -167,26 +166,10 @@ See [FactorListPresenter](https://github.com/twilio/twilio-verify-ios/blob/main/
 
 ## Delete a factor
 You can delete a factor calling the `TwilioVerify.deleteFactor` method:
-```swift
+```
 twilioVerify.deleteFactor(withSid: factorSid, success: {
   // Success
 }) { error in
   // Error
 }
 ```
-
-<a name='ClearLocalStorage'></a>
-
-## Clear local storage
-You can clear the local storage calling the `TwilioVerify.clearLocalStorage` method:
-```swift
-do {
-  try twilioVerify.clearLocalStorage()
-} catch {
-  // Handle error
-}
-```
-### Important Notes
-
-- Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
-- Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.
