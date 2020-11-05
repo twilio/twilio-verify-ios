@@ -123,6 +123,10 @@ extension TwilioVerifyAdapter: TwilioVerify {
       }
     }
   }
+  
+  func clearLocalStorage() throws {
+    try twilioVerify.clearLocalStorage()
+  }
 }
 
 extension TwilioVerifyError {
