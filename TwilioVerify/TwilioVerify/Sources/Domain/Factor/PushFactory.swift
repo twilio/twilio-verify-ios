@@ -163,12 +163,10 @@ extension PushFactory: PushFactoryProtocol {
   }
   
   func deleteAllFactors() throws {
-    guard let factors = try? repository.getAll() as? [PushFactor] else {
-      throw TwilioVerifyError.storageError(error: StorageError.error("Factors not found") as NSError)
-    }
+   let factors = try repository.getAll()
     try factors.forEach {
       try repository.delete($0)
-      if let keyPairAlias = $0.keyPairAlias {
+      if let factor = $0 as? PushFactor, let keyPairAlias = factor.keyPairAlias {
         try keyStorage.deleteKey(withAlias: keyPairAlias)
       }
     }
