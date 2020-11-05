@@ -24,9 +24,11 @@ protocol FactorProvider {
   func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
-  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock)
+  func delete(_ factor: Factor) throws
+  func getAll() throws -> [Factor]
   func get(withSid sid: String) throws -> Factor
   func save(_ factor: Factor) throws -> Factor
+  func clearLocalStorage() throws
 }
 
 class FactorRepository {
@@ -89,7 +91,7 @@ extension FactorRepository: FactorProvider {
     apiClient.delete(factor, success: { [weak self] in
       guard let strongSelf = self else { return }
       do {
-        try strongSelf.storage.removeValue(for: factor.sid)
+        try strongSelf.delete(factor)
         success()
       } catch {
         failure(error)
@@ -97,15 +99,15 @@ extension FactorRepository: FactorProvider {
     }, failure: failure)
   }
   
-  func getAll(success: @escaping FactorListSuccessBlock, failure: @escaping FailureBlock) {
-    do {
-      let factors = try storage.getAll().compactMap {
-        try? factorMapper.fromStorage(withData: $0)
-      }
-      success(factors)
-    } catch {
-      failure(error)
+  func delete(_ factor: Factor) throws {
+    try storage.removeValue(for: factor.sid)
+  }
+  
+  func getAll() throws -> [Factor] {
+    let factors = try storage.getAll().compactMap {
+      try? factorMapper.fromStorage(withData: $0)
     }
+    return factors
   }
   
   func save(_ factor: Factor) throws -> Factor {
@@ -116,5 +118,9 @@ extension FactorRepository: FactorProvider {
   func get(withSid sid: String) throws -> Factor {
     let factorData = try storage.get(sid)
     return try factorMapper.fromStorage(withData: factorData)
+  }
+  
+  func clearLocalStorage() throws {
+    try storage.clear()
   }
 }

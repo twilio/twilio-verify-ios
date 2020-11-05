@@ -458,7 +458,6 @@ class FactorRepositoryTests: XCTestCase {
   }
 
   func testGetAllFactors_withFactorsStored_shouldSucced() {
-    let expectation = self.expectation(description: "testGetAllFactors_withFactorsStored_shouldSucced")
     let factor1ExpectedSid = "sid123"
     let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
     let factor2ExpectedSid = "sid000"
@@ -469,21 +468,13 @@ class FactorRepositoryTests: XCTestCase {
     storage.factorsData = expectedDataList
     factorMapper.expectedDataList = expectedDataList
     var factors: [Factor]!
-    factorRepository.getAll(success: { result in
-      factors = result
-      expectation.fulfill()
-    }) { _ in
-      XCTFail()
-      expectation.fulfill()
-    }
-    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertNoThrow(factors = try factorRepository.getAll())
     XCTAssertEqual(factors.count, expectedDataList.count, "Factors count should be \(expectedDataList.count) but were \(factors.count)")
     XCTAssertEqual(factors.first?.sid, factor1ExpectedSid, "Factor at first position should be \(factor1) but was \(factors.first!)")
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
 
   func testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors() {
-    let expectation = self.expectation(description: "testGetAllFactors_withSomeInvalidDataStored_shouldReturnOnlyFactors")
     let factor1ExpectedSid = "sid123"
     let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
     let factor2ExpectedSid = "sid000"
@@ -496,35 +487,33 @@ class FactorRepositoryTests: XCTestCase {
     storage.factorsData = expectedDataList
     factorMapper.expectedDataList = expectedDataList
     var factors: [Factor]!
-    factorRepository.getAll(success: { result in
-      factors = result
-      expectation.fulfill()
-    }) { _ in
-      XCTFail()
-      expectation.fulfill()
-    }
-    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertNoThrow(factors = try factorRepository.getAll())
     XCTAssertEqual(factors.count, factorList.count, "Factors count should be \(factorList.count) but were \(factors.count)")
     XCTAssertEqual(factors.first?.sid, factor1ExpectedSid, "Factor at first position should be \(factor1) but was \(factors.first!)")
     XCTAssertEqual(factors.last?.sid, factor2ExpectedSid, "Factor at last position should be \(factor2) but was \(factors.last!)")
   }
 
   func testGetAllFactors_withStorageError_shouldFail() {
-    let expectation = self.expectation(description: "testGetAllFactors_withStorageError_shouldFail")
     let expectedError = TestError.operationFailed
     storage.errorGettingAll = expectedError
     var error: Error!
-    factorRepository.getAll(success: { _ in
-      XCTFail()
-      expectation.fulfill()
-    }) { failure in
-      error = failure
-      expectation.fulfill()
+    XCTAssertThrowsError(try factorRepository.getAll()) { operationResult in
+      error = operationResult
     }
-    waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual((error as! TestError), expectedError)
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+  }
+  
+  func testClearLocalStorage_withError_shouldThrowError() {
+    storage.errorClearing = TestError.operationFailed
+    XCTAssertThrowsError(try factorRepository.clearLocalStorage(), "Clear should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testClearLocalStorage_withoutErrors_shouldClearSecureStorage() {
+    XCTAssertNoThrow(try factorRepository.clearLocalStorage(), "Clear should not throw")
   }
 }
 
