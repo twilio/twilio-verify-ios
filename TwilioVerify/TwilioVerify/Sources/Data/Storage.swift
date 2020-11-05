@@ -25,7 +25,6 @@ protocol StorageProvider {
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll() throws -> [Data]
-  func clear() throws
 }
 
 struct Entry {
@@ -80,10 +79,6 @@ extension Storage: StorageProvider {
   func removeValue(for key: String) throws {
     try secureStorage.removeValue(for: key)
   }
-  
-  func clear() throws {
-    try secureStorage.clear()
-  }
 }
 
 private extension Storage {
@@ -119,6 +114,10 @@ private extension Storage {
   
   func updateVersion(version: Int) {
     userDefaults.set(version, forKey: Constants.currentVersionKey)
+  }
+  
+  func clear() throws {
+    try secureStorage.clear()
   }
 }
 

@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable type_body_length file_length force_cast
+// swiftlint:disable type_body_length file_length
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -343,22 +343,6 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-  }
-  
-  func testClearLocalStorage_withError_shouldThrow() {
-    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
-    factorFacade.error = expectedError
-    XCTAssertThrowsError(try twilioVerify.clearLocalStorage(), "Clear local storage should throw") { error in
-      let error = error as! TwilioVerifyError
-      XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
-                     "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-      XCTAssertEqual(error.originalError, expectedError.originalError,
-                     "Original error should be \(expectedError.originalError) but was \(error.originalError)")
-    }
-  }
-  
-  func testClearLocalStorage_withoutError_shouldNotThrow() {
-    XCTAssertNoThrow(try twilioVerify.clearLocalStorage(), "Clear local storage should not throw")
   }
 }
 
