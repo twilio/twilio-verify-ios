@@ -73,4 +73,10 @@ extension FactorFacadeMock: FactorFacadeProtocol {
     }
     success()
   }
+  
+  func clearLocalStorage() throws {
+    if let error = error {
+      throw error
+    }
+  }
 }

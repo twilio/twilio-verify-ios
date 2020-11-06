@@ -220,47 +220,23 @@ class TwilioVerifyTests: XCTestCase {
     XCTAssertEqual(challengeList.metadata.nextPageToken, Constants.expectedNextPageToken,
                    "Page size should be \(Constants.expectedNextPageToken) but was \(challengeList.metadata.nextPageToken!)")
   }
-}
-
-private extension TwilioVerifyTests {
-  func createFactor() {
-    let successExpectation = expectation(description: "Wait for success response")
-    let expectedResponse: [String: Any] = [Constants.sidKey: Constants.expectedFactorSid,
-                                           Constants.friendlyNameKey: Constants.friendlyNameValue,
-                                           Constants.accountSidKey: Constants.accountSidValue,
-                                           Constants.statusKey: Constants.statusValue,
-                                           Constants.configKey: [Constants.credentialSidKey: Constants.credentialSidValue],
-                                           Constants.dateCreatedKey: Constants.dateCreatedValue]
-    let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
-    let accessToken = """
-              eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
-              AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
-              Z5Ijp7ImlkZW50aXR5IjoiWUViZDE1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNSIsImZhY3RvciI6InB1c2
-              giLCJyZXF1aXJlLWJpb21ldHJpY3MiOnRydWV9LCJhcGkiOnsiYXV0aHlfdjEiOlt7ImFjdCI6WyJjcmVhdGUiXS
-              wicmVzIjoiL1NlcnZpY2VzL0lTYjNhNjRhZTBkMjI2MmEyYmFkNWU5ODcwYzQ0OGI4M2EvRW50aXRpZXMvWUViZD
-              E1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNS9GYWN0b3JzIn1dfX0sImp0aSI6IlNLMDAxMGNkNzljOTg3Mz
-              VlMGNkOWJiNDk2MGVmNjJmYjgtMTU4Mzg1MTI2NCIsInN1YiI6IkFDYzg1NjNkYWY4OGVkMjZmMjI3NjM4ZjU3Mz
-              g3MjZmYmQifQ.R01YC9mfCzIf9W81GUUCMjTwnhzIIqxV-tcdJYuy6kA
-              """
-    let factorPayload = PushFactorPayload(
-      friendlyName: Constants.friendlyName,
-      serviceSid: Constants.serviceSid,
-      identity: Constants.identity,
-      pushToken: Constants.pushToken,
-      accessToken: accessToken)
-    var pushFactor: PushFactor!
-    twilioVerify.createFactor(withPayload: factorPayload, success: { factor in
-      pushFactor = factor as? PushFactor
-      successExpectation.fulfill()
+  
+  func testClearLocalStorage_shouldDeleteFactors() {
+    createFactor()
+    let expectation = self.expectation(description: "testClearLocalStorage_shouldDeleteFactors")
+    XCTAssertNoThrow(try twilioVerify.clearLocalStorage(), "Clear local storage should not throw")
+    var factors: [Factor]!
+    
+    twilioVerify.getAllFactors(success: { result in
+      factors = result
+      expectation.fulfill()
     }) { _ in
       XCTFail()
-      successExpectation.fulfill()
+      expectation.fulfill()
     }
-    wait(for: [successExpectation], timeout: 5)
-    XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
-                   "Sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
-    XCTAssertNotNil(pushFactor.keyPairAlias, "Alias shouldn't be nil")
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssert(factors.isEmpty, "Factors should be empty")
   }
 }
 
@@ -342,5 +318,45 @@ private extension TwilioVerifyTests {
     static let challengeData = try! JSONEncoder().encode(challengeDTO)
     static let expectedResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
     static let challengeListPayload = ChallengeListPayload(factorSid: expectedFactorSid, pageSize: 3)
+  }
+  
+  func createFactor() {
+    let successExpectation = expectation(description: "Wait for success response")
+    let expectedResponse: [String: Any] = [Constants.sidKey: Constants.expectedFactorSid,
+                                           Constants.friendlyNameKey: Constants.friendlyNameValue,
+                                           Constants.accountSidKey: Constants.accountSidValue,
+                                           Constants.statusKey: Constants.statusValue,
+                                           Constants.configKey: [Constants.credentialSidKey: Constants.credentialSidValue],
+                                           Constants.dateCreatedKey: Constants.dateCreatedValue]
+    let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
+    networkProvider.response = Response(data: data, headers: [:])
+    let accessToken = """
+              eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
+              AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
+              Z5Ijp7ImlkZW50aXR5IjoiWUViZDE1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNSIsImZhY3RvciI6InB1c2
+              giLCJyZXF1aXJlLWJpb21ldHJpY3MiOnRydWV9LCJhcGkiOnsiYXV0aHlfdjEiOlt7ImFjdCI6WyJjcmVhdGUiXS
+              wicmVzIjoiL1NlcnZpY2VzL0lTYjNhNjRhZTBkMjI2MmEyYmFkNWU5ODcwYzQ0OGI4M2EvRW50aXRpZXMvWUViZD
+              E1NjUzZDExNDg5YjI3YzFiNjI1NTIzMDMwMTgxNS9GYWN0b3JzIn1dfX0sImp0aSI6IlNLMDAxMGNkNzljOTg3Mz
+              VlMGNkOWJiNDk2MGVmNjJmYjgtMTU4Mzg1MTI2NCIsInN1YiI6IkFDYzg1NjNkYWY4OGVkMjZmMjI3NjM4ZjU3Mz
+              g3MjZmYmQifQ.R01YC9mfCzIf9W81GUUCMjTwnhzIIqxV-tcdJYuy6kA
+              """
+    let factorPayload = PushFactorPayload(
+      friendlyName: Constants.friendlyName,
+      serviceSid: Constants.serviceSid,
+      identity: Constants.identity,
+      pushToken: Constants.pushToken,
+      accessToken: accessToken)
+    var pushFactor: PushFactor!
+    twilioVerify.createFactor(withPayload: factorPayload, success: { factor in
+      pushFactor = factor as? PushFactor
+      successExpectation.fulfill()
+    }) { _ in
+      XCTFail()
+      successExpectation.fulfill()
+    }
+    wait(for: [successExpectation], timeout: 5)
+    XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
+                   "Sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
+    XCTAssertNotNil(pushFactor.keyPairAlias, "Alias shouldn't be nil")
   }
 }

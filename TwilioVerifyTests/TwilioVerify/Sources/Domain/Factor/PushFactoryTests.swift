@@ -587,6 +587,37 @@ class PushFactoryTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
+  
+  func testDeleteAllFactors_withErrorGettingFactors_shouldThrow() {
+    repository.factors = [Constants.factor]
+    repository.error = TestError.operationFailed
+    XCTAssertThrowsError(try factory.deleteAllFactors(), "Delete all factors should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testDeleteAllFactors_withErrorDeletingFactor_shouldThrow() {
+    repository.factors = [Constants.factor]
+    repository.deleteError = TestError.operationFailed
+    XCTAssertThrowsError(try factory.deleteAllFactors(), "Delete all factors should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testDeleteAllFactors_withErrorDeletingKeyPair_shouldThrow() {
+    var factor = Constants.factor
+    factor.keyPairAlias = "alias"
+    repository.factors = [factor]
+    keyStorage.errorDeletingKey = TestError.operationFailed
+    XCTAssertThrowsError(try factory.deleteAllFactors(), "Delete all factors should throw") { error in
+      XCTAssertEqual((error as! TestError), TestError.operationFailed)
+    }
+  }
+  
+  func testDeleteAllFactors_withoutErrors_shouldClearSecureStorage() {
+    repository.factors = [Constants.factor]
+    XCTAssertNoThrow(try factory.deleteAllFactors(), "Delete all factors should not throw")
+  }
 }
 
 private extension PushFactoryTests {
