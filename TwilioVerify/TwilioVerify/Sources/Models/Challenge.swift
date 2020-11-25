@@ -26,7 +26,7 @@ public protocol Challenge {
   ///Details of the Challenge
   var challengeDetails: ChallengeDetails { get }
   ///Hidden details of the Challenge
-  var hiddenDetails: String { get }
+  var hiddenDetails: [String: String]? { get }
   ///Sid of the factor to which the Challenge is related
   var factorSid: String { get }
   ///Status of the Challenge

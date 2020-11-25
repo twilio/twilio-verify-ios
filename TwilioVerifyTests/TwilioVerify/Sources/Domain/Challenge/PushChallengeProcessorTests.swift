@@ -63,7 +63,7 @@ class PushChallengeProcessorTests: XCTestCase {
       sid: Constants.sid,
       factorSid: Constants.factorSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       status: .pending,
       createdAt: Date(),
       updatedAt: Date(),
@@ -165,7 +165,7 @@ class PushChallengeProcessorTests: XCTestCase {
       sid: Constants.sid,
       factorSid: Constants.factorSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       status: .pending,
       createdAt: Date(),
       updatedAt: Date(),
@@ -202,7 +202,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.sid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -242,7 +242,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.sid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -274,7 +274,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.sid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: Constants.factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -306,7 +306,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: "sid123",
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: Constants.factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -338,7 +338,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: "sid123",
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: Constants.factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -370,7 +370,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: "sid123",
       challengeDetails: ChallengeDetails(message: "message", fields: [Detail(label: "label", value: "value")], date: Date()),
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: Constants.factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -402,7 +402,7 @@ class PushChallengeProcessorTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: "sid123",
       challengeDetails: ChallengeDetails(message: "message", fields: [Detail(label: "label", value: "value")], date: Date()),
-      hiddenDetails: "{\"key\":\"value\"}",
+      hiddenDetails: ["key": "value"],
       factorSid: Constants.factor.sid,
       status: .pending,
       createdAt: Date(),
@@ -494,7 +494,7 @@ private extension PushChallengeProcessorTests {
       FactorChallenge(
         sid: Constants.sid,
         challengeDetails: Constants.challengeDetails,
-        hiddenDetails: "{\"key\":\"value\"}",
+        hiddenDetails: ["key": "value"],
         factorSid: Constants.factor.sid,
         status: status,
         createdAt: Date(),

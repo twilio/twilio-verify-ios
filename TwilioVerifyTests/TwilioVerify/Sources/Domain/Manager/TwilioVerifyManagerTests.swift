@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable type_body_length file_length
+// swiftlint:disable type_body_length file_length force_cast
 class TwilioVerifyManagerTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -208,7 +208,7 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(challenge.sid, Constants.expectedChallenge.sid,
                    "Challenge sid should be \(Constants.expectedChallenge.sid) but was \(challenge.sid)")
     XCTAssertEqual(challenge.hiddenDetails, Constants.expectedChallenge.hiddenDetails,
-                   "Challenge hiddenDetails should be \(Constants.expectedChallenge.hiddenDetails) but was \(challenge.hiddenDetails)")
+                   "Challenge hiddenDetails should be \(Constants.expectedChallenge.hiddenDetails!) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.factorSid, Constants.expectedChallenge.factorSid,
                    "Challenge factorSid should be \(Constants.expectedChallenge.factorSid) but was \(challenge.factorSid)")
     XCTAssertEqual(challenge.status, Constants.expectedChallenge.status,
@@ -344,6 +344,22 @@ class TwilioVerifyManagerTests: XCTestCase {
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
   }
+  
+  func testClearLocalStorage_withError_shouldThrow() {
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    factorFacade.error = expectedError
+    XCTAssertThrowsError(try twilioVerify.clearLocalStorage(), "Clear local storage should throw") { error in
+      let error = error as! TwilioVerifyError
+      XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
+                     "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
+      XCTAssertEqual(error.originalError, expectedError.originalError,
+                     "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+    }
+  }
+  
+  func testClearLocalStorage_withoutError_shouldNotThrow() {
+    XCTAssertNoThrow(try twilioVerify.clearLocalStorage(), "Clear local storage should not throw")
+  }
 }
 
 private extension TwilioVerifyManagerTests {
@@ -376,7 +392,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge = FactorChallenge(
       sid: challengeSid,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key1": "value1"],
       factorSid: factorSid,
       status: .pending,
       createdAt: Date(),
@@ -386,7 +402,7 @@ private extension TwilioVerifyManagerTests {
     static let expectedChallenge2 = FactorChallenge(
       sid: challengeSid2,
       challengeDetails: ChallengeDetails(message: "message", fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key2": "value2"],
       factorSid: factorSid,
       status: .approved,
       createdAt: Date(),

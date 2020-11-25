@@ -66,6 +66,12 @@ extension ChallengeDetailViewController: ChallengeDetailView {
     presenter?.challenge.challengeDetails.fields.forEach {
       detailText.append("\($0.label): \($0.value)\n")
     }
+    if let hiddenDetails = presenter?.challenge.hiddenDetails {
+      detailText.append("Hidden Details\n")
+      hiddenDetails.forEach {
+        detailText.append("  \($0.key): \($0.value)\n")
+      }
+    }
     detailsTextView.text = detailText
     detailsHeightConstraint.constant = detailsTextView.contentSize.height
     expirationDateLabel.text = presenter?.challenge.expirationDate.verifyStringFormat()

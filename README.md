@@ -3,8 +3,9 @@
 [![CircleCI](https://circleci.com/gh/twilio/twilio-verify-ios.svg?style=shield&circle-token=278ebe32d8aac19f79d4f3b56edf2950d76f4d4c)](https://circleci.com/gh/twilio/twilio-verify-ios)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TwilioVerify.svg)](https://img.shields.io/cocoapods/v/TwilioVerify.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager Compatible](https://img.shields.io/badge/Swift_Package_Manager-compatible-4BC51D.svg?style=flat")](https://swift.org/package-manager/)
 [![Platform](https://img.shields.io/cocoapods/p/TwilioVerify.svg?style=flat)](https://twilio.github.io/twilio-verify-ios/latest/)
-
+[![Swift 5.2](https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg?logo=law)](https://github.com/twilio/twilio-verify-ios/blob/main/LICENSE)
 
 
@@ -23,6 +24,7 @@
 * [Errors](#Errors)
 * [Update factor's push token](#UpdatePushToken)
 * [Delete a factor](#DeleteFactor)
+* [Clear local storage](#ClearLocalStorage)
 
 <a name='About'></a>
 
@@ -39,7 +41,7 @@ None
 <a name='Requirements'></a>
 
 ## Requirements
-* iOS 11+
+* iOS 10+
 * Swift 5.2
 * Xcode 11.x
 
@@ -57,7 +59,7 @@ None
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> 0.0.4'
+pod 'TwilioVerify', '~> 0.1.1'
 ```
 
 ### Carthage
@@ -65,7 +67,7 @@ pod 'TwilioVerify', '~> 0.0.4'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "twilio/twilio-verify-ios" -> 0.0.4
+github "twilio/twilio-verify-ios" -> 0.1.1
 ```
 
 ### Swift Package Manager
@@ -76,7 +78,7 @@ Once you have your Swift package set up, adding TwilioVerify as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "0.0.4"))
+    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "0.1.1"))
 ]
 ```
 
@@ -106,8 +108,8 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 ## Running the Sample backend
 
 * Clone this repo: https://github.com/twilio/verify-push-sample-backend
-* Configure a [Notify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-or-select-a-notify-service) for the sample app, using the same APNs configuration
-* Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#configure-a-verify-service), using the Notify service for the sample app
+* Configure a [Push Credential](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-push-credential) for the sample app, using the same APNs configuration
+* Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-verify-service-and-add-the-push-credential), using the Push Credential for the sample app
 * Run the steps in the [README file](https://github.com/twilio/verify-push-sample-backend/blob/master/README.md)
 
 <a name='UsingSampleApp'></a>
@@ -150,7 +152,7 @@ Authentication Token | 68007 | Exception while generating token
 
 ## Update factor's push token
 You can update the factor's push token in case it changed, calling the `TwilioVerify.updateFactor` method:
-```
+```swift
 let updateFactorPayload = UpdatePushFactorPayload(sid: factorSid, pushToken: newPushToken)
 twilioVerify.updateFactor(withPayload: payload, success: { factor in
   // Success
@@ -165,10 +167,26 @@ See [FactorListPresenter](https://github.com/twilio/twilio-verify-ios/blob/main/
 
 ## Delete a factor
 You can delete a factor calling the `TwilioVerify.deleteFactor` method:
-```
+```swift
 twilioVerify.deleteFactor(withSid: factorSid, success: {
   // Success
 }) { error in
   // Error
 }
 ```
+
+<a name='ClearLocalStorage'></a>
+
+## Clear local storage
+You can clear the local storage calling the `TwilioVerify.clearLocalStorage` method:
+```swift
+do {
+  try twilioVerify.clearLocalStorage()
+} catch {
+  // Handle error
+}
+```
+### Important Notes
+
+- Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
+- Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.

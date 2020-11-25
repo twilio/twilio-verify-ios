@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'TwilioVerify'
-  s.version = '0.0.4'
+  s.version = '0.1.1'
   s.license = { :type => 'Apache-2.0', :file => 'LICENSE' }
   s.summary = 'TwilioVerify'
   s.homepage = 'https://github.com/twilio/twilio-verify-ios'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/twilio/twilio-verify-ios.git', :tag => s.version }
   s.documentation_url = 'https://twilio.github.io/twilio-verify-ios/latest/'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '10.0'
 
   s.swift_version = '5.2'
 

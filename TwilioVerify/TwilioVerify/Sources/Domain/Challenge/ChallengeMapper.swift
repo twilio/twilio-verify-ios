@@ -55,8 +55,7 @@ class ChallengeMapper: ChallengeMapperProtocol {
         throw MapperError.invalidDate
     }
       
-    let detailsDTO = try JSONDecoder().decode(ChallengeDetailsDTO.self, from: challengeDTO.details.data(using: .utf8)!)
-    let details = ChallengeDetails(message: detailsDTO.message, fields: detailsDTO.fields ?? [], date: DateFormatter().RFC3339(detailsDTO.date ?? String()))
+    let details = ChallengeDetails(message: challengeDTO.details.message, fields: challengeDTO.details.fields ?? [], date: DateFormatter().RFC3339(challengeDTO.details.date ?? String()))
     let factorChallenge = FactorChallenge(
       sid: challengeDTO.sid,
       challengeDetails: details,

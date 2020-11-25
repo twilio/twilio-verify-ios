@@ -53,8 +53,8 @@ class GetChallengeTests: BaseFactorTests {
                    "Challenge sid should be \(jsonDictionary[Constants.sidKey] as! String) but was \(challenge.sid)")
     XCTAssertEqual(challenge.factorSid, jsonDictionary[Constants.factorSidKey] as! String,
                    "Factor sid should be \(jsonDictionary[Constants.factorSidKey] as! String) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.hiddenDetails, jsonDictionary[Constants.hiddenDetailsKey] as! String,
-                   "Challenge hidden details should be \(jsonDictionary[Constants.hiddenDetailsKey] as! String) but was \(challenge.hiddenDetails)")
+    XCTAssertEqual(challenge.hiddenDetails, (jsonDictionary[Constants.hiddenDetailsKey] as! [String: String]),
+                   "Challenge hidden details should be \(jsonDictionary[Constants.hiddenDetailsKey] as! String) but was \(challenge.hiddenDetails!)")
     XCTAssertEqual(challenge.status.rawValue, jsonDictionary[Constants.statusKey] as! String,
                    "Challenge status should be \(jsonDictionary[Constants.statusKey] as! String) but was \(challenge.status.rawValue)")
   }

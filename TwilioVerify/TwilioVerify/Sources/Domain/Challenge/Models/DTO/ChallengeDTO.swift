@@ -21,8 +21,8 @@ import Foundation
 
 struct ChallengeDTO: Codable {
   let sid: String
-  let details: String
-  let hiddenDetails: String
+  let details: ChallengeDetailsDTO
+  let hiddenDetails: [String: String]?
   let factorSid: String
   let status: ChallengeStatus
   let expirationDate: String

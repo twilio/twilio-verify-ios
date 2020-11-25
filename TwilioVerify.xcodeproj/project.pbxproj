@@ -128,11 +128,11 @@
 		F239EC1424D07CD900141A00 /* BaseFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0C24D07CD800141A00 /* BaseFactorTests.swift */; };
 		F239EC1524D07CD900141A00 /* VerifyFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */; };
 		F239EC1624D07CD900141A00 /* DeleteFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0E24D07CD800141A00 /* DeleteFactorTests.swift */; };
-		F239EC1724D07CD900141A00 /* UpdateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */; };
 		F239EC1824D07CD900141A00 /* GetChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1024D07CD900141A00 /* GetChallengeTests.swift */; };
 		F239EC1924D07CD900141A00 /* UpdateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */; };
 		F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1224D07CD900141A00 /* CreateFactorTests.swift */; };
 		F239EC1B24D07CD900141A00 /* GetAllChallengesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */; };
+		F24FA15E2553184C0040036C /* UpdateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FA15D2553184C0040036C /* UpdateChallengeTests.swift */; };
 		F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F27A33E524CF898700A8053D /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
 		F27A33E624CF898700A8053D /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
@@ -324,11 +324,11 @@
 		F239EC0C24D07CD800141A00 /* BaseFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFactorTests.swift; sourceTree = "<group>"; };
 		F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyFactorTests.swift; sourceTree = "<group>"; };
 		F239EC0E24D07CD800141A00 /* DeleteFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteFactorTests.swift; sourceTree = "<group>"; };
-		F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChallengeTests.swift; sourceTree = "<group>"; };
 		F239EC1024D07CD900141A00 /* GetChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetChallengeTests.swift; sourceTree = "<group>"; };
 		F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1224D07CD900141A00 /* CreateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllChallengesTests.swift; sourceTree = "<group>"; };
+		F24FA15D2553184C0040036C /* UpdateChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChallengeTests.swift; sourceTree = "<group>"; };
 		F25A239B2500662100176805 /* IntegrationSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationSuite.xctestplan; sourceTree = "<group>"; };
 		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
@@ -837,7 +837,7 @@
 				F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */,
 				F239EC1024D07CD900141A00 /* GetChallengeTests.swift */,
 				2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */,
-				F239EC0F24D07CD800141A00 /* UpdateChallengeTests.swift */,
+				F24FA15D2553184C0040036C /* UpdateChallengeTests.swift */,
 				F239EC1124D07CD900141A00 /* UpdateFactorTests.swift */,
 				F239EC0D24D07CD800141A00 /* VerifyFactorTests.swift */,
 			);
@@ -1345,7 +1345,6 @@
 				2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */,
 				20C710CC248AAB1700B0F448 /* FactorMapperTests.swift in Sources */,
 				F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */,
-				F239EC1724D07CD900141A00 /* UpdateChallengeTests.swift in Sources */,
 				F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */,
 				F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */,
 				F29389112526BF7C0070394D /* LoggerTests.swift in Sources */,
@@ -1375,6 +1374,7 @@
 				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
 				F27A33EC24CF898D00A8053D /* KeychainMock.swift in Sources */,
+				F24FA15E2553184C0040036C /* UpdateChallengeTests.swift in Sources */,
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
@@ -1535,7 +1535,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1592,7 +1592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

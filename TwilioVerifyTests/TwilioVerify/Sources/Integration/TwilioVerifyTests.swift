@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_cast force_try function_body_length
+// swiftlint:disable force_cast force_try
 class TwilioVerifyTests: XCTestCase {
 
   private var twilioVerify: TwilioVerify!
@@ -103,26 +103,26 @@ class TwilioVerifyTests: XCTestCase {
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(challenge.sid, Constants.expectedResponse[Constants.sidKey],
-                   "Sid should be \(Constants.expectedResponse[Constants.sidKey]!!) but was \(challenge.sid)")
-    XCTAssertEqual(challenge.factorSid, Constants.expectedResponse[Constants.factorSidKey],
-                   "FactorSid should be \(Constants.expectedResponse[Constants.factorSidKey]!!) but was \(challenge.factorSid)")
-    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedResponse[Constants.createdDateKey]!!),
-                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedResponse[Constants.createdDateKey]!!)!) but was \(challenge.createdAt)")
-    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedResponse[Constants.updatedDateKey]!!),
-                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedResponse[Constants.updatedDateKey]!!)!) but was \(challenge.updatedAt)")
-    XCTAssertEqual(challenge.status.rawValue, Constants.expectedResponse[Constants.statusKey],
-                   "Status should be \(Constants.expectedResponse[Constants.statusKey]!!) but was \(challenge.status.rawValue)")
-    XCTAssertEqual(challenge.challengeDetails.message, Constants.details[Constants.messageKey] as! String,
-                   "Detail message should be \(Constants.details[Constants.messageKey] as! String) but was \(challenge.challengeDetails.message)")
-    XCTAssertEqual(challenge.challengeDetails.fields.count, (Constants.details[Constants.fieldsKey] as! [[String: String]]).count,
-                   "Detail fields count should be \((Constants.details[Constants.fieldsKey] as! [[String: String]]).count) but was \(challenge.challengeDetails.fields.count)")
-    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.details[Constants.dateKey]! as! String),
-                   "Detail date should be \(DateFormatter().RFC3339(Constants.details[Constants.dateKey]! as! String)!) but was \(challenge.challengeDetails.date!)")
-    XCTAssertEqual(challenge.hiddenDetails, Constants.hiddenDetailsString,
-                   "Hidden details should be \(Constants.hiddenDetailsString!) but was \(challenge.hiddenDetails)")
-    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedResponse[Constants.expirationDateKey]!!),
-                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedResponse[Constants.expirationDateKey]!!)!) but was \(challenge.expirationDate)")
+    XCTAssertEqual(challenge.sid, Constants.expectedSidValue,
+                   "Sid should be \(Constants.expectedSidValue) but was \(challenge.sid)")
+    XCTAssertEqual(challenge.factorSid, Constants.expectedFactorSid,
+                   "FactorSid should be \(Constants.expectedFactorSid) but was \(challenge.factorSid)")
+    XCTAssertEqual(challenge.createdAt, DateFormatter().RFC3339(Constants.expectedCreatedDate),
+                   "CreatedAt should be \(DateFormatter().RFC3339(Constants.expectedCreatedDate)!) but was \(challenge.createdAt)")
+    XCTAssertEqual(challenge.updatedAt, DateFormatter().RFC3339(Constants.expectedUpdatedDate),
+                   "UpdatedAt should be \(DateFormatter().RFC3339(Constants.expectedUpdatedDate)!) but was \(challenge.updatedAt)")
+    XCTAssertEqual(challenge.status.rawValue, Constants.expectedChallengeStatus.rawValue,
+                   "Status should be \(Constants.expectedChallengeStatus.rawValue) but was \(challenge.status.rawValue)")
+    XCTAssertEqual(challenge.challengeDetails.message, Constants.expectedMessage,
+                   "Detail message should be \(Constants.expectedMessage) but was \(challenge.challengeDetails.message)")
+    XCTAssertEqual(challenge.challengeDetails.fields.count, Constants.fields.count,
+                   "Detail fields count should be \(Constants.fields.count) but was \(challenge.challengeDetails.fields.count)")
+    XCTAssertEqual(challenge.challengeDetails.date, DateFormatter().RFC3339(Constants.expectedDateValue),
+                   "Detail date should be \(DateFormatter().RFC3339(Constants.expectedDateValue)!) but was \(challenge.challengeDetails.date!)")
+    XCTAssertEqual(challenge.hiddenDetails, Constants.hiddenDetails,
+                   "Hidden details should be \(Constants.hiddenDetails) but was \(challenge.hiddenDetails!)")
+    XCTAssertEqual(challenge.expirationDate, DateFormatter().RFC3339(Constants.expectedExpirationDate),
+                   "Expiration date should be \(DateFormatter().RFC3339(Constants.expectedExpirationDate)!) but was \(challenge.expirationDate)")
   }
   
   func testDeleteFactor_shouldSucceed() {
@@ -157,14 +157,8 @@ class TwilioVerifyTests: XCTestCase {
   func testUpdateChallenge_shouldSucceed() {
     createFactor()
     let expectation = self.expectation(description: "testGetChallenge_shouldSucceed")
-    let expectedUpdateResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                  Constants.factorSidKey: Constants.expectedFactorSid,
-                                  Constants.createdDateKey: Constants.expectedCreatedDate,
-                                  Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                  Constants.statusKey: ChallengeStatus.approved.rawValue,
-                                  Constants.detailsKey: Constants.detailsString,
-                                  Constants.hiddenDetailsKey: Constants.hiddenDetailsString,
-                                  Constants.expirationDateKey: Constants.expectedExpirationDate]
+    var expectedUpdateResponse = Constants.expectedResponse
+    expectedUpdateResponse[ChallengeDTO.CodingKeys.status.rawValue] = ChallengeStatus.approved.rawValue
     let dataGetChallenge = try! JSONSerialization.data(withJSONObject: Constants.expectedResponse, options: .prettyPrinted)
     let dataUpdateChallenge = try! JSONSerialization.data(withJSONObject: expectedUpdateResponse, options: .prettyPrinted)
     networkProvider.response = nil
@@ -198,29 +192,10 @@ class TwilioVerifyTests: XCTestCase {
   func testGetAllChallenges_shouldSucceed() {
     createFactor()
     let expectation = self.expectation(description: "testGetAllChallenges_shouldSucceed")
-    let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                   Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                         [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                   Constants.dateKey: Constants.expectedDateValue]
-    let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.utf8)!
-    let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    let expectedChallenge1 = [Constants.sidKey: Constants.expectedSidValue,
-                              Constants.factorSidKey: Constants.expectedFactorSid,
-                              Constants.createdDateKey: Constants.expectedCreatedDate,
-                              Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                              Constants.statusKey: Constants.expectedChallengeStatus.rawValue,
-                              Constants.detailsKey: detailsString,
-                              Constants.hiddenDetailsKey: hiddenDetailsString,
-                              Constants.expirationDateKey: Constants.expectedExpirationDate]
-    let expectedChallenge2 = [Constants.sidKey: Constants.expectedSidValue2,
-                              Constants.factorSidKey: Constants.expectedFactorSid,
-                              Constants.createdDateKey: Constants.expectedCreatedDate,
-                              Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                              Constants.statusKey: Constants.expectedChallengeStatus.rawValue,
-                              Constants.detailsKey: detailsString,
-                              Constants.hiddenDetailsKey: hiddenDetailsString,
-                              Constants.expirationDateKey: Constants.expectedExpirationDate]
+    let expectedChallenge1 = Constants.expectedResponse
+    var expectedChallenge2 = Constants.expectedResponse
+    expectedChallenge2[ChallengeDTO.CodingKeys.sid.rawValue] = Constants.expectedSidValue2
+    expectedChallenge2[ChallengeDTO.CodingKeys.status.rawValue] = Constants.expectedChallengeStatus2.rawValue
     let challenges = [expectedChallenge1, expectedChallenge2]
     let metadata = [Constants.pageSizeKey: Constants.expectedPageSize,
                     Constants.pageKey: Constants.expectedPage,
@@ -250,9 +225,106 @@ class TwilioVerifyTests: XCTestCase {
     XCTAssertEqual(challengeList.metadata.nextPageToken, Constants.expectedNextPageToken,
                    "Page size should be \(Constants.expectedNextPageToken) but was \(challengeList.metadata.nextPageToken!)")
   }
+  
+  func testClearLocalStorage_shouldDeleteFactors() {
+    createFactor()
+    let expectation = self.expectation(description: "testClearLocalStorage_shouldDeleteFactors")
+    XCTAssertNoThrow(try twilioVerify.clearLocalStorage(), "Clear local storage should not throw")
+    var factors: [Factor]!
+    
+    twilioVerify.getAllFactors(success: { result in
+      factors = result
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
+    
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssert(factors.isEmpty, "Factors should be empty")
+  }
 }
 
 private extension TwilioVerifyTests {
+  struct Constants {
+    static let sidKey = "sid"
+    static let statusKey = "status"
+    static let expectedChallengeStatus = ChallengeStatus.pending
+    static let expectedChallengeStatus2 = ChallengeStatus.approved
+    static let challengesKey = "challenges"
+    static let pageSizeKey = "page_size"
+    static let metadataKey = "meta"
+    static let pageKey = "page"
+    static let previousPageKey = "previous_page_url"
+    static let nextPageKey = "next_page_url"
+    static let expectedSidValue = "sid123"
+    static let expectedSidValue2 = "sid345"
+    static let expectedFactorSid = "factorSid123"
+    static let expectedCreatedDate = "2020-06-05T15:57:47Z"
+    static let expectedUpdatedDate = "2020-07-08T15:57:47Z"
+    static let expectedExpirationDate = "2020-09-10T15:57:47Z"
+    static let expectedMessage = "message123"
+    static let expectedDateValue = "2020-02-19T16:39:57-08:00"
+    static let expectedLabel1 = "Label1"
+    static let expectedLabel2 = "Label2"
+    static let expectedValue1 = "Value1"
+    static let expectedValue2 = "Value2"
+    static let expectedKey1 = "key1"
+    static let expectedPageSize = 2
+    static let expectedPage = 0
+    static let expectedPreviousPageToken = "DNYC032ef13048d311b1d31a7cc4b16065e1"
+    static let expectedNextPageToken = "DNYC033ef13049d311c1d31a8cc4b16065e1"
+    static let expectedNextPage = "https://verify.twilio.com/Challenges?Page=1&PageToken=\(expectedNextPageToken)&PageSize=2"
+    static let expectedPreviousPage = "https://verify.twilio.com/Challenges?Page=1&PageToken=\(expectedPreviousPageToken)&PageSize=2"
+    static let challengeSid = "sid123"
+    static let friendlyNameKey = "friendly_name"
+    static let friendlyNameValue = "friendlyName"
+    static let accountSidKey = "account_sid"
+    static let accountSidValue = "accountSid123"
+    static let statusValue = FactorStatus.unverified.rawValue
+    static let configKey = "config"
+    static let credentialSidKey = "credential_sid"
+    static let credentialSidValue = "credentialSid123"
+    static let dateCreatedKey = "date_created"
+    static let dateCreatedValue = "2020-06-05T15:57:47Z"
+    static let friendlyName = "friendlyName123"
+    static let serviceSid = "serviceSid123"
+    static let identity = "identityValue"
+    static let pushToken = "ACBtoken"
+    static let accessToken = "accessToken"
+    static let expectedFactor = PushFactor(
+      sid: "sid",
+      friendlyName: "friendlyName",
+      accountSid: "accountSid",
+      serviceSid: "serviceSid",
+      identity: "identity",
+      createdAt: Date(),
+      config: Config(credentialSid: "credentialSid"))
+    static let updatePushChallengePayload = UpdatePushChallengePayload(
+      factorSid: expectedFactorSid,
+      challengeSid: expectedSidValue,
+      status: .approved)
+    static let fields = [Detail(label: Constants.expectedLabel1, value: Constants.expectedValue1),
+                  Detail(label: Constants.expectedLabel2, value: Constants.expectedValue1)]
+    static let detailsDTO = ChallengeDetailsDTO(
+      message: Constants.expectedMessage,
+      fields: fields,
+      date: Constants.expectedDateValue)
+    static let hiddenDetails = [Constants.expectedKey1: Constants.expectedValue1]
+    static let challengeDTO = ChallengeDTO(
+      sid: Constants.expectedSidValue,
+      details: detailsDTO,
+      hiddenDetails: hiddenDetails,
+      factorSid: Constants.expectedFactorSid,
+      status: Constants.expectedChallengeStatus,
+      expirationDate: Constants.expectedExpirationDate,
+      createdAt: Constants.expectedCreatedDate,
+      updateAt: Constants.expectedUpdatedDate)
+    static let challengeData = try! JSONEncoder().encode(challengeDTO)
+    static let expectedResponse = try! JSONSerialization.jsonObject(with: challengeData, options: []) as! [String: Any]
+    static let challengeListPayload = ChallengeListPayload(factorSid: expectedFactorSid, pageSize: 3)
+  }
+  
   func createFactor() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse: [String: Any] = [Constants.sidKey: Constants.expectedFactorSid,
@@ -291,93 +363,5 @@ private extension TwilioVerifyTests {
     XCTAssertEqual(pushFactor.sid, expectedResponse[Constants.sidKey] as! String,
                    "Sid should be \(expectedResponse[Constants.sidKey] as! String) but was \(pushFactor.sid)")
     XCTAssertNotNil(pushFactor.keyPairAlias, "Alias shouldn't be nil")
-  }
-}
-
-private extension TwilioVerifyTests {
-  struct Constants {
-    static let sidKey = "sid"
-    static let factorSidKey = "factor_sid"
-    static let createdDateKey = "date_created"
-    static let updatedDateKey = "date_updated"
-    static let statusKey = "status"
-    static let expectedChallengeStatus = ChallengeStatus.pending
-    static let expectedChallengeStatus2 = ChallengeStatus.approved
-    static let detailsKey = "details"
-    static let hiddenDetailsKey = "hidden_details"
-    static let expirationDateKey = "expiration_date"
-    static let messageKey = "message"
-    static let fieldsKey = "fields"
-    static let labelKey = "label"
-    static let valueKey = "value"
-    static let dateKey = "date"
-    static let challengesKey = "challenges"
-    static let pageSizeKey = "page_size"
-    static let metadataKey = "meta"
-    static let pageKey = "page"
-    static let previousPageKey = "previous_page_url"
-    static let nextPageKey = "next_page_url"
-    static let expectedSidValue = "sid123"
-    static let expectedSidValue2 = "sid123"
-    static let expectedFactorSid = "factorSid123"
-    static let expectedCreatedDate = "2020-06-05T15:57:47Z"
-    static let expectedUpdatedDate = "2020-07-08T15:57:47Z"
-    static let expectedExpirationDate = "2020-09-10T15:57:47Z"
-    static let expectedMessage = "message123"
-    static let expectedDateValue = "2020-02-19T16:39:57-08:00"
-    static let expectedLabel1 = "Label1"
-    static let expectedLabel2 = "Label2"
-    static let expectedValue1 = "Value1"
-    static let expectedValue2 = "Value2"
-    static let expectedPageSize = 2
-    static let expectedPage = 0
-    static let expectedPreviousPageToken = "DNYC032ef13048d311b1d31a7cc4b16065e1"
-    static let expectedNextPageToken = "DNYC033ef13049d311c1d31a8cc4b16065e1"
-    static let expectedNextPage = "https://verify.twilio.com/Challenges?Page=1&PageToken=\(expectedNextPageToken)&PageSize=2"
-    static let expectedPreviousPage = "https://verify.twilio.com/Challenges?Page=1&PageToken=\(expectedPreviousPageToken)&PageSize=2"
-    static let challengeSid = "sid123"
-    static let friendlyNameKey = "friendly_name"
-    static let friendlyNameValue = "friendlyName"
-    static let accountSidKey = "account_sid"
-    static let accountSidValue = "accountSid123"
-    static let statusValue = FactorStatus.unverified.rawValue
-    static let configKey = "config"
-    static let credentialSidKey = "credential_sid"
-    static let credentialSidValue = "credentialSid123"
-    static let dateCreatedKey = "date_created"
-    static let dateCreatedValue = "2020-06-05T15:57:47Z"
-    static let friendlyName = "friendlyName123"
-    static let serviceSid = "serviceSid123"
-    static let identity = "identityValue"
-    static let pushToken = "ACBtoken"
-    static let accessToken = "accessToken"
-    static let expectedFactor = PushFactor(
-      sid: "sid",
-      friendlyName: "friendlyName",
-      accountSid: "accountSid",
-      serviceSid: "serviceSid",
-      identity: "identity",
-      createdAt: Date(),
-      config: Config(credentialSid: "credentialSid"))
-    static let updatePushChallengePayload = UpdatePushChallengePayload(
-      factorSid: expectedFactorSid,
-      challengeSid: expectedSidValue,
-      status: .approved)
-    static let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                          Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1, Constants.valueKey: Constants.expectedValue1],
-                                                                [Constants.labelKey: Constants.expectedLabel2, Constants.valueKey: Constants.expectedValue1]],
-                                          Constants.dateKey: Constants.expectedDateValue]
-    static let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
-    static let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    static let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
-    static let expectedResponse = [Constants.sidKey: Constants.expectedSidValue,
-                                   Constants.factorSidKey: Constants.expectedFactorSid,
-                                   Constants.createdDateKey: Constants.expectedCreatedDate,
-                                   Constants.updatedDateKey: Constants.expectedUpdatedDate,
-                                   Constants.statusKey: Constants.expectedChallengeStatus.rawValue,
-                                   Constants.detailsKey: detailsString,
-                                   Constants.hiddenDetailsKey: hiddenDetailsString,
-                                   Constants.expirationDateKey: Constants.expectedExpirationDate]
-    static let challengeListPayload = ChallengeListPayload(factorSid: expectedFactorSid, pageSize: 3)
   }
 }

@@ -137,7 +137,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       factorSid: Constants.factorSid,
       status: .pending,
       createdAt: Date(),
@@ -197,7 +197,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       factorSid: Constants.factorSid,
       status: .pending,
       createdAt: Date(),
@@ -221,7 +221,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       factorSid: Constants.factorSid,
       status: .pending,
       createdAt: Date(),
@@ -245,7 +245,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       factorSid: Constants.factorSid,
       status: .pending,
       createdAt: Date(),
@@ -427,7 +427,7 @@ extension ChallengeAPIClientTests {
     static let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
-      hiddenDetails: "",
+      hiddenDetails: nil,
       factorSid: Constants.factorSid,
       status: .pending,
       createdAt: Date(),

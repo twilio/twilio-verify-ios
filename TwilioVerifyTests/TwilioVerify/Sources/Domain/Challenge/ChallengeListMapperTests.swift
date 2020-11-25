@@ -228,15 +228,8 @@ private extension ChallengeListMapperTests {
     static let expectedNextPageURL = "http://www.twilio.com?\(ChallengeListMapper.Constants.pageToken)=\(expectedNextPageToken)"
     static let expectedKey = "key"
     static let challengeSid = "sid123"
-    static let details: [String: Any] = [Constants.messageKey: Constants.expectedMessage,
-                                         Constants.fieldsKey: [[Constants.labelKey: Constants.expectedLabel1,
-                                                                Constants.valueKey: Constants.expectedValue1],
-                                                                [Constants.labelKey: Constants.expectedLabel2,
-                                                                 Constants.valueKey: Constants.expectedValue1]],
-                                          Constants.dateKey: Constants.expectedDateValue]
-    static let detailsString = try! String(data: JSONSerialization.data(withJSONObject: details, options: []), encoding: String.Encoding.ascii)!
+    static let details = ChallengeDetailsDTO(message: "message", fields: [], date: nil)
     static let hiddenDetails = [Constants.labelKey: Constants.expectedLabel1]
-    static let hiddenDetailsString = try! String(data: JSONEncoder().encode(hiddenDetails), encoding: .utf8)
     static let expectedMetadata = MetadataDTO(page: expectedPage, pageSize: expectedPageSize, previousPageURL: expectedPreviousPageURL, nextPageURL: expectedNextPageURL)
     static let expectedChallenges = [generateChallengeDTO(withSid: expectedSidValue1, withStatus: .approved),
                                      generateChallengeDTO(withSid: expectedSidValue2, withStatus: .denied)]
@@ -247,8 +240,8 @@ private extension ChallengeListMapperTests {
   static func generateChallengeDTO(withSid sid: String, withStatus status: ChallengeStatus) -> ChallengeDTO {
     ChallengeDTO(
       sid: sid,
-      details: Constants.detailsString,
-      hiddenDetails: Constants.hiddenDetailsString!,
+      details: Constants.details,
+      hiddenDetails: Constants.hiddenDetails,
       factorSid: Constants.expectedFactorSid,
       status: status,
       expirationDate: Constants.expectedExpirationDate,
@@ -271,7 +264,7 @@ private extension ChallengeListMapperTests {
     FactorChallenge(
       sid: Constants.expectedSidValue1,
       challengeDetails: ChallengeDetails(message: Constants.expectedMessage, fields: [], date: Date()),
-      hiddenDetails: "hiddenDetails",
+      hiddenDetails: ["key": "value"],
       factorSid: factor?.sid ?? "12345",
       status: status,
       createdAt: Date(),
