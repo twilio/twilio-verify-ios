@@ -33,7 +33,7 @@ class TwilioVerifyTests: XCTestCase {
                         .setURL("https://twilio.com")
                         .setNetworkProvider(networkProvider)
                         .setClearStorageOnReinstall(true)
-                        .setLogLevel(.off)
+                        .enableDefaultLoggingService(withLevel: .off)
                         .build()
   }
   

@@ -18,16 +18,22 @@
 //
 
 import Foundation
+import os
 
 ///Describes the available operations to log information
 public protocol LoggerService {
   /**
+   Desired log level
+   */
+  var level: LogLevel {get}
+  /**
   Logs a **Message** with the specific **Level**
   - Parameters:
     - level: Describes the level
-    - message: Closure to be called when the operation succeeds, returns the created Factor
+    - message: The message to be logged
+    - redacted: Indicates if the message should be redacted when there's not a debugger attached to the app
   */
-  func log(withLevel level: LogLevel, message: String)
+  func log(withLevel level: LogLevel, message: String, redacted: Bool)
 }
 
 /**
@@ -48,42 +54,45 @@ public enum LogLevel {
   case networking
   case debug
   case all
+  
+  internal var mapToOSLogType: OSLogType {
+    switch self {
+      case .error:
+        return .error
+      case .info:
+        return .info
+      case .debug:
+        return .debug
+      default:
+        return .default
+    }
+  }
 }
 
 protocol LoggerProtocol {
-  var level: LogLevel {get}
   var services: [LoggerService] {get}
-  func setLogLevel(_ level: LogLevel)
   func addService(_ service: LoggerService)
+  func log(withLevel level: LogLevel, message: String, redacted: Bool)
 }
 
 class Logger {
   
   static let shared = Logger()
-  private(set) var level: LogLevel
   private(set) var services: [LoggerService]
   
   private init() {
     services = []
-    level = .off
   }
 }
 
 extension Logger: LoggerProtocol {
-  func setLogLevel(_ level: LogLevel) {
-    self.level = level
-  }
-  
   func addService(_ service: LoggerService) {
     services.append(service)
   }
-}
-
-extension Logger: LoggerService {
-  func log(withLevel level: LogLevel, message: String) {
-    guard level == self.level, level != .off else { return }
+  
+  func log(withLevel level: LogLevel, message: String, redacted: Bool) {
     services.forEach {
-      $0.log(withLevel: level, message: message)
+      $0.log(withLevel: level, message: message, redacted: redacted)
     }
   }
 }

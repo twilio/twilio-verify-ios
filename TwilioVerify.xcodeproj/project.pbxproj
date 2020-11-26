@@ -133,6 +133,7 @@
 		F239EC1A24D07CD900141A00 /* CreateFactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1224D07CD900141A00 /* CreateFactorTests.swift */; };
 		F239EC1B24D07CD900141A00 /* GetAllChallengesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */; };
 		F24FA15E2553184C0040036C /* UpdateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FA15D2553184C0040036C /* UpdateChallengeTests.swift */; };
+		F2572054256EAC5B0026963E /* DefaultLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2572053256EAC5B0026963E /* DefaultLogger.swift */; };
 		F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */; };
 		F27A33E524CF898700A8053D /* KeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */; };
 		F27A33E624CF898700A8053D /* KeychainQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */; };
@@ -161,6 +162,9 @@
 		F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */; };
 		F2C552C12493EBAB006F6CDF /* PushFactoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */; };
 		F2C552C32493F3D2006F6CDF /* FakeFactorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552C22493F3D2006F6CDF /* FakeFactorPayload.swift */; };
+		F2DF147D256F094000BC7A07 /* OSLogWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF147C256F094000BC7A07 /* OSLogWrapper.swift */; };
+		F2DF147F256F5E0F00BC7A07 /* OSLogWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF147E256F5E0F00BC7A07 /* OSLogWrapperMock.swift */; };
+		F2DF1481256F5FE500BC7A07 /* DefaultLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF1480256F5FE500BC7A07 /* DefaultLoggerTests.swift */; };
 		F2E6C9F42492C76A00922FBA /* PushFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F32492C76A00922FBA /* PushFactory.swift */; };
 		F2E6C9F62492DD1F00922FBA /* PushFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */; };
 		F2E6C9F82492E02B00922FBA /* KeyStorageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */; };
@@ -329,6 +333,7 @@
 		F239EC1224D07CD900141A00 /* CreateFactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFactorTests.swift; sourceTree = "<group>"; };
 		F239EC1324D07CD900141A00 /* GetAllChallengesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllChallengesTests.swift; sourceTree = "<group>"; };
 		F24FA15D2553184C0040036C /* UpdateChallengeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChallengeTests.swift; sourceTree = "<group>"; };
+		F2572053256EAC5B0026963E /* DefaultLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLogger.swift; sourceTree = "<group>"; };
 		F25A239B2500662100176805 /* IntegrationSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationSuite.xctestplan; sourceTree = "<group>"; };
 		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
@@ -355,6 +360,9 @@
 		F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorFacadeTests.swift; sourceTree = "<group>"; };
 		F2C552C02493EBAB006F6CDF /* PushFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryMock.swift; sourceTree = "<group>"; };
 		F2C552C22493F3D2006F6CDF /* FakeFactorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFactorPayload.swift; sourceTree = "<group>"; };
+		F2DF147C256F094000BC7A07 /* OSLogWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSLogWrapper.swift; sourceTree = "<group>"; };
+		F2DF147E256F5E0F00BC7A07 /* OSLogWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSLogWrapperMock.swift; sourceTree = "<group>"; };
+		F2DF1480256F5FE500BC7A07 /* DefaultLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggerTests.swift; sourceTree = "<group>"; };
 		F2E6C9F32492C76A00922FBA /* PushFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactory.swift; sourceTree = "<group>"; };
 		F2E6C9F52492DD1F00922FBA /* PushFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushFactoryTests.swift; sourceTree = "<group>"; };
 		F2E6C9F72492E02B00922FBA /* KeyStorageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorageMock.swift; sourceTree = "<group>"; };
@@ -959,6 +967,8 @@
 			isa = PBXGroup;
 			children = (
 				F293890C25269E3E0070394D /* Logger.swift */,
+				F2572053256EAC5B0026963E /* DefaultLogger.swift */,
+				F2DF147C256F094000BC7A07 /* OSLogWrapper.swift */,
 			);
 			path = Logger;
 			sourceTree = "<group>";
@@ -968,6 +978,7 @@
 			children = (
 				F293890F2526BF620070394D /* Mocks */,
 				F29389102526BF7C0070394D /* LoggerTests.swift */,
+				F2DF1480256F5FE500BC7A07 /* DefaultLoggerTests.swift */,
 			);
 			path = Logger;
 			sourceTree = "<group>";
@@ -976,6 +987,7 @@
 			isa = PBXGroup;
 			children = (
 				F29389122526C0220070394D /* LoggerServiceMock.swift */,
+				F2DF147E256F5E0F00BC7A07 /* OSLogWrapperMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1274,6 +1286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
+				F2572054256EAC5B0026963E /* DefaultLogger.swift in Sources */,
 				F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
@@ -1324,6 +1337,7 @@
 				2093573024870DA7008FDBCC /* FactorDataPayload.swift in Sources */,
 				F27A340324CF8B6600A8053D /* Keychain.swift in Sources */,
 				2086795F24ABA26200D1F0B9 /* ChallengeFacade.swift in Sources */,
+				F2DF147D256F094000BC7A07 /* OSLogWrapper.swift in Sources */,
 				F27A340224CF8B6600A8053D /* KeychainQuery.swift in Sources */,
 				2093573C248717EF008FDBCC /* ChallengeList.swift in Sources */,
 				F207BBB0249000CF00688E5C /* KeyStorage.swift in Sources */,
@@ -1375,6 +1389,7 @@
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
 				F27A33EC24CF898D00A8053D /* KeychainMock.swift in Sources */,
 				F24FA15E2553184C0040036C /* UpdateChallengeTests.swift in Sources */,
+				F2DF147F256F5E0F00BC7A07 /* OSLogWrapperMock.swift in Sources */,
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
 				20E3BB242489902A00BC90DE /* TestError.swift in Sources */,
 				2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */,
@@ -1391,6 +1406,7 @@
 				F2C552C12493EBAB006F6CDF /* PushFactoryMock.swift in Sources */,
 				2086796524ABD5F300D1F0B9 /* PushChallengeProcessorMock.swift in Sources */,
 				F27A33E024CF897800A8053D /* KeyPairFactory.swift in Sources */,
+				F2DF1481256F5FE500BC7A07 /* DefaultLoggerTests.swift in Sources */,
 				20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */,
 				204227A624A53D2B00CD001B /* ChallengeAPIClientMock.swift in Sources */,
 				20C710C4248A9C1300B0F448 /* NetworkProviderMock.swift in Sources */,

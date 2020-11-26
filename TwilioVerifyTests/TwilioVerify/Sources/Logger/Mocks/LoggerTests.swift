@@ -27,62 +27,21 @@ class LoggerTests: XCTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    mockService = LoggerServiceMock()
+    mockService = LoggerServiceMock(withLevel: .all)
     logger = Logger.shared
   }
   
-  override func tearDownWithError() throws {
-    logger.setLogLevel(.off)
-    try super.tearDownWithError()
-  }
-  
-  func testInit_logLevelShouldBeOff() {
-    XCTAssertEqual(logger.level, .off,
-                   "Log level should be \(LogLevel.off), but was \(logger.level)")
-  }
-  
-  func testSetLogLevel_logLevelShouldMatchTheSettedOne() {
-    let expectedLevel = LogLevel.networking
-    logger.setLogLevel(expectedLevel)
-    XCTAssertEqual(Logger.shared.level, expectedLevel,
-                   "Log level should be \(expectedLevel), but was \(logger.level)")
-  }
-
   func testAddService_servicesShouldNotBeEmpty() {
     logger.addService(mockService)
     XCTAssertFalse(logger.services.isEmpty, "Services should not be empty")
   }
-  
-  func testLog_withoutSettingLevel_shouldNotLog() {
-    let expectedMessage = "message"
-    let callsToLog = 0
-    Logger.shared.addService(mockService)
     
-    Logger.shared.log(withLevel: .debug, message: expectedMessage)
-    
-    XCTAssertEqual(mockService.callsToLog, callsToLog)
-    XCTAssertNil(mockService.message)
-  }
-  
-  func testLog_withDifferentLevelThanSettedLevel_shouldNotLog() {
-    let expectedMessage = "message"
-    let callsToLog = 0
-    Logger.shared.addService(mockService)
-    Logger.shared.setLogLevel(.networking)
-    
-    Logger.shared.log(withLevel: .debug, message: expectedMessage)
-    
-    XCTAssertEqual(mockService.callsToLog, callsToLog)
-    XCTAssertNil(mockService.message)
-  }
-  
-  func testLog_withSameLevelAsSettedLevel_shouldLog() {
+  func testLog_withServices_shouldCallLogOnServices() {
     let expectedMessage = "message"
     let callsToLog = 1
     Logger.shared.addService(mockService)
-    Logger.shared.setLogLevel(.networking)
-    
-    Logger.shared.log(withLevel: .networking, message: expectedMessage)
+  
+    Logger.shared.log(withLevel: .debug, message: expectedMessage, redacted: false)
     
     XCTAssertEqual(mockService.callsToLog, callsToLog)
     XCTAssertNotNil(mockService.message)

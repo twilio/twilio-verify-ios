@@ -190,12 +190,12 @@ public class TwilioVerifyBuilder {
   }
   
   /**
-   Specifies the desired level of logging
+   Enables the default logger
     - Parameters:
       - level: Desired level of logging
    */
-  public func setLogLevel(_ level: LogLevel) -> Self {
-    logLevel = level
+  public func enableDefaultLoggingService(withLevel level: LogLevel) -> Self {
+    loggingServices.append(DefaultLogger(withLevel: level))
     return self
   }
   
@@ -230,7 +230,6 @@ public class TwilioVerifyBuilder {
         .setAuthentication(authentication)
         .setFactorFacade(factorFacade)
         .build()
-      Logger.shared.setLogLevel(logLevel)
       loggingServices.forEach { Logger.shared.addService($0) }
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {

@@ -38,7 +38,7 @@ class GetChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .setLogLevel(.off)
+                            .enableDefaultLoggingService(withLevel: .off)
                             .build()
     var challenge: Challenge!
     twilioVerify.getChallenge(challengeSid: Constants.challengeSid, factorSid: factor!.sid, success: { response in
@@ -74,7 +74,7 @@ class GetChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .setLogLevel(.off)
+                            .enableDefaultLoggingService(withLevel: .off)
                             .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
@@ -106,7 +106,7 @@ class GetChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .setLogLevel(.off)
+                            .enableDefaultLoggingService(withLevel: .off)
                             .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!

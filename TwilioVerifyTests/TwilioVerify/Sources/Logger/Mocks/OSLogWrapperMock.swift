@@ -1,5 +1,5 @@
 //
-//  LoggerServiceMock.swift
+//  OSLogWrapperMock.swift
 //  TwilioVerifyTests
 //
 //  Copyright © 2020 Twilio.
@@ -18,21 +18,19 @@
 //
 
 import Foundation
+import os
 @testable import TwilioVerify
 
-class LoggerServiceMock {
+class OSLogWrapperMock {
   private(set) var callsToLog = 0
-  private(set) var level: LogLevel
-  private(set) var message: String!
-  
-  init(withLevel level: LogLevel) {
-    self.level = level
-  }
+  private(set) var message: String?
+  private(set) var type: OSLogType = .default
 }
 
-extension LoggerServiceMock: LoggerService {
-  func log(withLevel level: LogLevel, message: String, redacted: Bool) {
+extension OSLogWrapperMock: OSLogWrappable {
+  func log(_ message: String, type: OSLogType, redacted: Bool) {
     callsToLog += 1
     self.message = message
+    self.type = type
   }
 }
