@@ -48,7 +48,6 @@ that have their own associated reasons and codes.
 - **All:** Turn on all logging.
 */
 public enum LogLevel {
-  case off
   case error
   case info
   case networking
@@ -92,7 +91,9 @@ extension Logger: LoggerProtocol {
   
   func log(withLevel level: LogLevel, message: String, redacted: Bool) {
     services.forEach {
-      $0.log(withLevel: level, message: message, redacted: redacted)
+      if level == $0.level || $0.level == .all {
+        $0.log(withLevel: level, message: message, redacted: redacted)
+      }
     }
   }
 }

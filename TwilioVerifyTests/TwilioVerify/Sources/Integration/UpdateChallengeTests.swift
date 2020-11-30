@@ -47,7 +47,7 @@ class UpdateChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
       expectation.fulfill()
@@ -93,7 +93,7 @@ class UpdateChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
@@ -134,7 +134,7 @@ class UpdateChallengeTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!

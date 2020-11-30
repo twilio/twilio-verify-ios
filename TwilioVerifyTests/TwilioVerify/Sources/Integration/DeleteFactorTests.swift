@@ -32,7 +32,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       expectation.fulfill()
@@ -52,7 +52,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       expectation.fulfill()
@@ -72,7 +72,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
@@ -98,7 +98,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!

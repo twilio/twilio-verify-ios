@@ -159,7 +159,6 @@ public class TwilioVerifyBuilder {
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
   private var clearStorageOnReinstall: Bool
-  private var logLevel: LogLevel
   private var loggingServices: [LoggerService]
   
   ///Creates a new instance of TwilioVerifyBuilder
@@ -170,7 +169,6 @@ public class TwilioVerifyBuilder {
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
     baseURL = Constants.baseURL
     clearStorageOnReinstall = true
-    logLevel = .off
     loggingServices = []
   }
   

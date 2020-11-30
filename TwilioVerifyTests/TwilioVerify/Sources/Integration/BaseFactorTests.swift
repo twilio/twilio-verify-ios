@@ -44,7 +44,7 @@ class BaseFactorTests: XCTestCase {
                             .setURL("https://twilio.com")
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
-                            .enableDefaultLoggingService(withLevel: .off)
+                            .enableDefaultLoggingService(withLevel: .all)
                             .build()
     let accessToken = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz

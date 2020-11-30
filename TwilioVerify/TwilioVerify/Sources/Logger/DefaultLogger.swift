@@ -33,7 +33,7 @@ class DefaultLogger {
 
 extension DefaultLogger: LoggerService {
   func log(withLevel level: LogLevel, message: String, redacted: Bool) {
-    guard level == self.level || self.level == .all, self.level != .off else { return }
+    guard level == self.level || self.level == .all else { return }
     osLog.log(message, type: level.mapToOSLogType, redacted: redacted)
   }
 }
