@@ -155,10 +155,11 @@ public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
-  private var baseURL: String!
+  private var baseURL: String
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
-  private var clearStorageOnReinstall = true
+  private var clearStorageOnReinstall: Bool
+  private var loggingServices: [LoggerService]
   
   ///Creates a new instance of TwilioVerifyBuilder
   public init() {
@@ -166,7 +167,9 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
-    self.baseURL = Constants.baseURL
+    baseURL = Constants.baseURL
+    clearStorageOnReinstall = true
+    loggingServices = []
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -185,11 +188,30 @@ public class TwilioVerifyBuilder {
   }
   
   /**
-    Buids an instance of TwilioVerifyManager
-   
-    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
-    - Returns: An instance of `TwilioVerify`.
-    */
+   Enables the default logger
+    - Parameters:
+      - level: Desired level of logging
+   */
+  public func enableDefaultLoggingService(withLevel level: LogLevel) -> Self {
+    loggingServices.append(DefaultLogger(withLevel: level))
+    return self
+  }
+  
+  /**
+   Adds a custom Logging Service
+    - Parameters:
+      - service: Custom logging service to be used to log information
+   */
+  public func addLoggingService(_ service: LoggerService) -> Self {
+    loggingServices.append(service)
+    return self
+  }
+  
+  /**
+  Buids an instance of TwilioVerifyManager
+   - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
+   - Returns: An instance of `TwilioVerify`.
+  */
   public func build() throws -> TwilioVerify {
     do {
       let factorFacade = try FactorFacade.Builder()
@@ -206,6 +228,7 @@ public class TwilioVerifyBuilder {
         .setAuthentication(authentication)
         .setFactorFacade(factorFacade)
         .build()
+      loggingServices.forEach { Logger.shared.addService($0) }
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {
       throw TwilioVerifyError.initializationError(error: error as NSError)
