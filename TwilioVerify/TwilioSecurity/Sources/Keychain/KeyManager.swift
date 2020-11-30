@@ -106,7 +106,7 @@ extension KeyManager: KeyManagerProtocol {
   
   public func deleteKey(withAlias alias: String) throws {    
     let status = keychain.deleteItem(withQuery: keychainQuery.deleteKey(withAlias: alias))
-    guard status == errSecSuccess else {
+    guard status == errSecSuccess || status == errSecItemNotFound else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
       throw error
     }
