@@ -38,9 +38,9 @@ class RequestHelper {
     let appBuildCode = appInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
     let osVersion = "\(Constants.platform) \(UIDevice.current.systemVersion)"
     let device = UIDevice.current.model
-    let sdkName = frameworkInfo?[Constants.bundleName] as? String ?? Constants.unknown
-    let sdkVersionName = frameworkInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
-    let sdkBuildCode = frameworkInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
+    let sdkName = frameworkInfo?[Constants.sdkBundleName] as? String ?? Constants.unknown
+    let sdkVersionName = frameworkInfo?[Constants.sdkBundleShortVersionString] as? String ?? Constants.unknown
+    let sdkBuildCode = frameworkInfo?[Constants.sdkBundleVersion] as? String ?? Constants.unknown
     
     let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: Constants.separator)
     return HTTPHeader.userAgent(userAgent)
@@ -68,6 +68,9 @@ extension RequestHelper {
     static let bundleName = "CFBundleName"
     static let bundleShortVersionString = "CFBundleShortVersionString"
     static let bundleVersion = "CFBundleVersion"
+    static let sdkBundleName = "SDK_BUNDLE_NAME"
+    static let sdkBundleShortVersionString = "SDK_VERSION"
+    static let sdkBundleVersion = "SDK_BUNDLE_VERSION"
     static let unknown = "unknown"
     static let platform = "iOS"
   }
