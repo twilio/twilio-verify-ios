@@ -1,3 +1,22 @@
+# 0.2.0 (2020-11-06)
+
+### Features
+- Add public method to clear local storage  (#107) ([5524ed2](https://github.com/twilio/twilio-verify-ios/commit/5524ed26f0dfd10bc13ce4bc2e784a804ef22665))
+
+### Bug fixes
+- Added support for iOS 10 ([d9fb78f](https://github.com/twilio/twilio-verify-ios/commit/d9fb78f482151eb19358503b79a9decace3659e9))
+
+### Building system
+- Fix Cocoapods release (#101) ([b5b9ee5](https://github.com/twilio/twilio-verify-ios/commit/b5b9ee54e5539a5d06658048e6102e2ba4e05680))
+- Rearranged fastfile steps to match github tag with latest commit in main (#104) ([790aa52](https://github.com/twilio/twilio-verify-ios/commit/790aa52cd13d82069c573b1408d8cef979ace239))
+- Fixed DemoApp compilation (#105) ([fc96eac](https://github.com/twilio/twilio-verify-ios/commit/fc96eacab91914fe78885205b825a3709c92ed60))
+- Fixed DemoApp compilation (#106) ([755f955](https://github.com/twilio/twilio-verify-ios/commit/755f955b100bd598db4ec091ab5bcafcfdb6bec7))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
 # 0.1.1 (2020-10-15)
 
 ### Bug fixes

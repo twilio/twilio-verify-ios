@@ -69,12 +69,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     defer { completionHandler() }
     
-    guard response.actionIdentifier == UNNotificationDefaultActionIdentifier else {
-      return
-    }
-    guard let challengeSid = response.notification.request.content.userInfo["challenge_sid"] as? String,
-          let factorSid = response.notification.request.content.userInfo["factor_sid"] as? String,
-          let type = response.notification.request.content.userInfo["type"] as? String, type == "verify_push_challenge" else {
+    guard response.actionIdentifier == UNNotificationDefaultActionIdentifier,
+          let payload = response.notification.request.content.userInfo["data"] as? [String: Any],
+          let challengeSid = payload["challenge_sid"] as? String,
+          let factorSid = payload["factor_sid"] as? String,
+          let type = payload["type"] as? String, type == "verify_push_challenge" else {
       return
     }
     

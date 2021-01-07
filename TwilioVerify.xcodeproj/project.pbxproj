@@ -144,7 +144,6 @@
 		F27A33ED24CF898D00A8053D /* KeyManagerSecurityMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */; };
 		F27A33EE24CF898D00A8053D /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2358B3D2480285200C2D1AB /* KeychainTests.swift */; };
 		F27A33FD24CF8B5E00A8053D /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */; };
-		F27A33FE24CF8B5E00A8053D /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */; };
 		F27A340224CF8B6600A8053D /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */; };
 		F27A340324CF8B6600A8053D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340024CF8B6600A8053D /* Keychain.swift */; };
 		F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340124CF8B6600A8053D /* KeyManager.swift */; };
@@ -152,7 +151,6 @@
 		F27A340824CF8B7200A8053D /* ECSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340724CF8B7200A8053D /* ECSigner.swift */; };
 		F27A340B24CF8B7800A8053D /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340924CF8B7800A8053D /* Template.swift */; };
 		F27A340C24CF8B7800A8053D /* ECP256SignerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */; };
-		F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */; };
 		F293890D25269E3E0070394D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293890C25269E3E0070394D /* Logger.swift */; };
 		F29389112526BF7C0070394D /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389102526BF7C0070394D /* LoggerTests.swift */; };
 		F29389132526C0220070394D /* LoggerServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389122526C0220070394D /* LoggerServiceMock.swift */; };
@@ -336,7 +334,6 @@
 		F2572053256EAC5B0026963E /* DefaultLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLogger.swift; sourceTree = "<group>"; };
 		F25A239B2500662100176805 /* IntegrationSuite.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationSuite.xctestplan; sourceTree = "<group>"; };
 		F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
-		F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
 		F27A33FF24CF8B6600A8053D /* KeychainQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
 		F27A340024CF8B6600A8053D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F27A340124CF8B6600A8053D /* KeyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
@@ -344,7 +341,6 @@
 		F27A340724CF8B7200A8053D /* ECSigner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECSigner.swift; sourceTree = "<group>"; };
 		F27A340924CF8B7800A8053D /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		F27A340A24CF8B7800A8053D /* ECP256SignerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECP256SignerTemplate.swift; sourceTree = "<group>"; };
-		F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityStorageTests.swift; sourceTree = "<group>"; };
 		F27F7A3B2485972E001F2869 /* KeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerTests.swift; sourceTree = "<group>"; };
 		F27F7A3D2485973E001F2869 /* KeychainQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainQueryTests.swift; sourceTree = "<group>"; };
 		F293890C25269E3E0070394D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -941,7 +937,6 @@
 			isa = PBXGroup;
 			children = (
 				F27A33FB24CF8B5E00A8053D /* SecureStorage.swift */,
-				F27A33FC24CF8B5E00A8053D /* SecurityStorage.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1084,7 +1079,6 @@
 		F2FB79B2248979F4004B22E6 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				F27A340D24CF8EA100A8053D /* SecurityStorageTests.swift */,
 				F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */,
 			);
 			path = Storage;
@@ -1299,7 +1293,6 @@
 				20A92FD22481BEF400A9E8E7 /* NetworkError.swift in Sources */,
 				20E3BB1C24896BD800BC90DE /* FactorAPIClient.swift in Sources */,
 				F07B6F532492CA4400948FB1 /* JwtGenerator.swift in Sources */,
-				F27A33FE24CF8B5E00A8053D /* SecurityStorage.swift in Sources */,
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */,
 				20935748248719D5008FDBCC /* UpdateFactorPayload.swift in Sources */,
@@ -1424,7 +1417,6 @@
 				F239EC1B24D07CD900141A00 /* GetAllChallengesTests.swift in Sources */,
 				F0261C4624A267CF007881E9 /* ChallengeAPIClientTests.swift in Sources */,
 				F07B6F5A2492CA6700948FB1 /* JwtGeneratorMock.swift in Sources */,
-				F27A340E24CF8EA100A8053D /* SecurityStorageTests.swift in Sources */,
 				F239EC1624D07CD900141A00 /* DeleteFactorTests.swift in Sources */,
 				F27A33EA24CF898D00A8053D /* ECSignerTests.swift in Sources */,
 				2017297A24D0A41E0029493D /* DateProviderTests.swift in Sources */,
@@ -1735,7 +1727,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TwiilioVerifyHostApp;
+				PROVISIONING_PROFILE_SPECIFIER = "TwilioVerify HostApp Dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1755,7 +1747,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TwiilioVerifyHostApp;
+				PROVISIONING_PROFILE_SPECIFIER = "TwilioVerify HostApp Dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

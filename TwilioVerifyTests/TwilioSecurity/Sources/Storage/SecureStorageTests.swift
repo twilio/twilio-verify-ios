@@ -115,28 +115,10 @@ class SecureStorageTests: XCTestCase {
     XCTAssertNoThrow(try storage.removeValue(for: key), "Remove value should not throw")
   }
   
-  func testRemoveValue_valueDoesNotExist_shouldThrowError() {
+  func testRemoveValue_valueDoesNotExist_shouldNotThrowError() {
     let key = "key"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
     keychain.deleteItemStatus = errSecItemNotFound
-    XCTAssertThrowsError(try storage.removeValue(for: key), "Remove value should throw") { error in
-      let thrownError = error as NSError
-      XCTAssertEqual(
-        thrownError.code,
-        Int(errSecItemNotFound),
-        "Error code should be \(errSecItemNotFound), but was \(thrownError.code)"
-      )
-      XCTAssertEqual(
-        thrownError.domain,
-        NSOSStatusErrorDomain,
-        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
-      )
-      XCTAssertEqual(
-        thrownError.localizedDescription,
-        expectedLocalizedDescription,
-        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
-      )
-    }
+    XCTAssertNoThrow(try storage.removeValue(for: key), "Remove value should not throw")
   }
   
   func testClear_itemsExist_shouldClearKeychain() {
