@@ -36,9 +36,10 @@ class PushChallengeProcessorTests: XCTestCase {
   
   func testGetChallenge_withInvalidInput_shouldFail() {
     let expectation = self.expectation(description: "testGetChallenge_withInvalidInput_shouldFail")
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let challengeProviderError = InputError.invalidInput(field: "field")
+    let expectedError = TwilioVerifyError.inputError(error: challengeProviderError as NSError)
     var error: TwilioVerifyError!
-    challengeProvider.error = InputError.invalidInput
+    challengeProvider.error = challengeProviderError
     
     pushChallengeProcessor.getChallenge(withSid: Constants.sid, withFactor: Constants.factor, success: { _ in
       XCTFail()
@@ -123,7 +124,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = Constants.generateFactorChallenge()
     challengeProvider.updatedChallenge = Constants.generateFactorChallenge(withStatus: .approved)
     jwtGenerator.jwt = Constants.jwt
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "field") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .denied, success: {
       XCTFail()
@@ -171,7 +172,7 @@ class PushChallengeProcessorTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date())
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "invalid challenge") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -210,7 +211,7 @@ class PushChallengeProcessorTests: XCTestCase {
       expirationDate: Date(),
       factor: factor)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "invalid factor") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -284,7 +285,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: nil,
       response: Constants.response)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "signature fields") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -316,7 +317,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: [],
       response: Constants.response)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "signature fields") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -348,7 +349,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: Constants.signatureFields,
       response: nil)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -380,7 +381,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: Constants.signatureFields,
       response: [:])
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -412,7 +413,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: ["sid", "factorSid"],
       response: ["sid": "sid123"])
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()

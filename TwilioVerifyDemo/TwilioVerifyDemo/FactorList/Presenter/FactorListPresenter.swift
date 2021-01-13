@@ -35,14 +35,9 @@ class FactorListPresenter {
   private var factors: [Factor]
   
   init?(withView view: FactorListView) {
-    do {
-      self.view = view
-      self.twilioVerify = try TwilioVerifyAdapter()
-      self.factors = [Factor]()
-    } catch {
-      print("Unexpected error: \(error).")
-      return nil
-    }
+    self.view = view
+    self.twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self)!
+    self.factors = [Factor]()
   }
 }
 

@@ -35,11 +35,20 @@ class NetworkAdapter: NetworkProvider {
   }
   
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+    Logger.shared.log(withLevel: .info, message: "Executing \(urlRequest.httpMethod) to \(urlRequest.url)")
+    Logger.shared.log(withLevel: .networking, message: "--> \(urlRequest.httpMethod) \(urlRequest.url)")
+    urlRequest.allHTTPHeaderFields?.forEach { header in
+      Logger.shared.log(withLevel: .networking, message: "\(header.key): \(header.value)")
+    }
+    if let httpBody = urlRequest.httpBody, let body = String(data: httpBody, encoding: .utf8) {
+      Logger.shared.log(withLevel: .networking, message: "Request: \(body)")
+    }
     session.dataTask(with: urlRequest) { result in
       switch result {
         case .success(let response):
           success(response)
         case .failure(let error):
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
       }
     }.resume()

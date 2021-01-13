@@ -52,6 +52,7 @@ extension FactorRepository: FactorProvider {
         let factor = try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
         success(try strongSelf.save(factor))
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }, failure: failure)
@@ -66,6 +67,7 @@ extension FactorRepository: FactorProvider {
         updatedFactor.status = status
         success(try strongSelf.save(updatedFactor))
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }, failure: failure)
@@ -79,10 +81,12 @@ extension FactorRepository: FactorProvider {
         do {
           success(try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: payload))
         } catch {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
         }
       }, failure: failure)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
     }
   }
@@ -94,6 +98,7 @@ extension FactorRepository: FactorProvider {
         try strongSelf.delete(factor)
         success()
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }, failure: failure)

@@ -47,7 +47,9 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
           // swiftlint:disable:next force_cast
           strongSelf.pushChallengeProcessor.getChallenge(withSid: sid, withFactor: factor as! PushFactor, success: success, failure: failure)
         default:
-          failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+          let error =  InputError.invalidInput(field: "invalid factor")
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(TwilioVerifyError.inputError(error: error as NSError))
       }
     }, failure: failure)
   }
@@ -60,7 +62,9 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
           // swiftlint:disable:next force_cast
           strongSelf.updatePushChallenge(updateChallengePayload: updateChallengePayload, factor: factor as! PushFactor, success: success, failure: failure)
         default:
-          failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+          let error = InputError.invalidInput(field: "invalid factor")
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(TwilioVerifyError.inputError(error: error as NSError))
       }
     }, failure: failure)
   }
@@ -79,7 +83,9 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
 private extension ChallengeFacade {
   private func updatePushChallenge(updateChallengePayload: UpdateChallengePayload, factor: PushFactor, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = updateChallengePayload as? UpdatePushChallengePayload else {
-      failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+      let error = InputError.invalidInput(field: "invalid payload")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     pushChallengeProcessor.updateChallenge(withSid: payload.challengeSid, withFactor: factor, status: payload.status, success: success, failure: failure)

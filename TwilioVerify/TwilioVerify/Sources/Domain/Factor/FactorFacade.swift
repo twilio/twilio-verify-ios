@@ -43,7 +43,9 @@ class FactorFacade {
 extension FactorFacade: FactorFacadeProtocol {
   func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? PushFactorPayload else {
-      failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+      let error = InputError.invalidInput(field: "invalid payload")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     factory.createFactor(withAccessToken: payload.accessToken,
@@ -57,7 +59,9 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? VerifyPushFactorPayload else {
-      failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+      let error = InputError.invalidInput(field: "invalid payload")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     factory.verifyFactor(withSid: payload.sid, success: success, failure: failure)
@@ -65,7 +69,9 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? UpdatePushFactorPayload else {
-      failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+      let error = InputError.invalidInput(field: "invalid payload")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     factory.updateFactor(withSid: payload.sid, withPushToken: payload.pushToken, success: success, failure: failure)

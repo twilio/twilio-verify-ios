@@ -67,6 +67,7 @@ class URLRequestBuilder {
         do {
           urlRequest.httpBody = try transformParameters(httpHeaders: urlRequest.allHTTPHeaderFields, params: params)
         } catch {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           throw(error)
         }
       case .get:
@@ -93,6 +94,7 @@ private extension URLRequestBuilder {
         return try params.asData()
       }
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }

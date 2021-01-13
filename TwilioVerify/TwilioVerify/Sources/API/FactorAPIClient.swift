@@ -50,6 +50,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
         .build()
       networkProvider.execute(request, success: success, failure: failure)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
     }
   }
@@ -67,6 +68,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
           self.validateFailureResponse(withError: error, retries: retries, retryBlock: verifyFactor, failure: failure)
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }
@@ -103,6 +105,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
           }
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }
@@ -122,6 +125,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
           self.validateFailureResponse(withError: error, retries: retries, retryBlock: updateFactor, failure: failure)
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }

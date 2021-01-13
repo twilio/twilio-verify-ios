@@ -43,6 +43,7 @@ extension PushFactory: PushFactoryProtocol {
   func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String,
                     identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
+      Logger.shared.log(withLevel: .info, message: "Creating push factor \(friendlyName)")
       let alias = generateKeyPairAlias()
       let publicKey = try keyStorage.createKey(withAlias: alias)
       let binding = self.binding(publicKey)
@@ -56,6 +57,7 @@ extension PushFactory: PushFactoryProtocol {
         binding: binding,
         accessToken: accessToken
       )
+      Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
       
       repository.create(withPayload: payload, success: { [weak self] factor in
         guard let strongSelf = self else { return }
@@ -69,9 +71,11 @@ extension PushFactory: PushFactoryProtocol {
           success(pushFactor)
         } catch {
           do {
+            Logger.shared.log(withLevel: .debug, message: "Delete key pair \(alias)")
             try strongSelf.keyStorage.deleteKey(withAlias: alias)
             failure(TwilioVerifyError.keyStorageError(error: error as NSError))
           } catch {
+            Logger.shared.log(withLevel: .error, message: error.localizedDescription)
             failure(TwilioVerifyError.keyStorageError(error: error as NSError))
           }
         }
@@ -81,16 +85,19 @@ extension PushFactory: PushFactoryProtocol {
           try strongSelf.keyStorage.deleteKey(withAlias: alias)
           failure(TwilioVerifyError.networkError(error: error as NSError))
         } catch {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(TwilioVerifyError.keyStorageError(error: error as NSError))
         }
       }
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.keyStorageError(error: error as NSError))
     }
   }
   
   func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
+      Logger.shared.log(withLevel: .info, message: "Verifying push factor \(sid)")
       let factor = try repository.get(withSid: sid)
       guard let pushFactor = factor as? PushFactor else {
         failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
@@ -101,6 +108,7 @@ extension PushFactory: PushFactoryProtocol {
         return
       }
       let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid)
+      Logger.shared.log(withLevel: .debug, message: "Verify factor with payload \(payload)")
       repository.verify(pushFactor, payload: payload, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error as NSError))
       }
@@ -108,6 +116,7 @@ extension PushFactory: PushFactoryProtocol {
       if let error = error as? TwilioVerifyError {
         failure(error)
       } else {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.storageError(error: error as NSError))
       }
     }
@@ -115,6 +124,7 @@ extension PushFactory: PushFactoryProtocol {
   
   func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
+      Logger.shared.log(withLevel: .info, message: "Updating push factor \(sid)")
       let factor = try repository.get(withSid: sid)
       guard let pushFactor = factor as? PushFactor else {
         failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
@@ -127,16 +137,19 @@ extension PushFactory: PushFactoryProtocol {
         identity: pushFactor.identity,
         config: config(withToken: pushToken),
         factorSid: pushFactor.sid)
+      Logger.shared.log(withLevel: .debug, message: "Update push factor with payload \(payload)")
       repository.update(withPayload: payload, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error as NSError))
       }
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.storageError(error: error as NSError))
     }
   }
   
   func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
+      Logger.shared.log(withLevel: .info, message: "Deleting push factor \(sid)")
       let factor = try repository.get(withSid: sid)
       guard let pushFactor = factor as? PushFactor else {
         failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
@@ -152,18 +165,21 @@ extension PushFactory: PushFactoryProtocol {
           try strongSelf.keyStorage.deleteKey(withAlias: alias)
           success()
         } catch {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(TwilioVerifyError.keyStorageError(error: error as NSError))
         }
       }, failure: { error in
         failure(TwilioVerifyError.networkError(error: error as NSError))
       })
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.storageError(error: error as NSError))
     }
   }
   
   func deleteAllFactors() throws {
-   let factors = try repository.getAll()
+    Logger.shared.log(withLevel: .info, message: "Deleting factors")
+    let factors = try repository.getAll()
     try factors.forEach {
       try repository.delete($0)
       if let factor = $0 as? PushFactor, let keyPairAlias = factor.keyPairAlias {

@@ -43,6 +43,7 @@ extension KeyStorageAdapter: KeyStorage {
       let publicKey = try signer.getPublic()
       return publicKey.base64EncodedString()
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }
@@ -54,6 +55,7 @@ extension KeyStorageAdapter: KeyStorage {
       let signature = try signer.sign(message.data(using: .utf8)!)
       return signature
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.keyStorageError(error: error as NSError)
     }
   }
@@ -63,6 +65,7 @@ extension KeyStorageAdapter: KeyStorage {
       let signature = try sign(withAlias: alias, message: message)
       return signature.base64EncodedString()
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }

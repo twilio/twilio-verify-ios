@@ -89,7 +89,7 @@ extension Logger: LoggerProtocol {
     services.append(service)
   }
   
-  func log(withLevel level: LogLevel, message: String, redacted: Bool) {
+  func log(withLevel level: LogLevel, message: String, redacted: Bool = false) {
     services.forEach {
       if level == $0.level || $0.level == .all {
         $0.log(withLevel: level, message: message, redacted: redacted)
