@@ -35,10 +35,10 @@ func currentVersionNumber() -> VersionNumber {
   let versionFilePath = versionFilePathURL()
   do {
     let fileContents = try String(contentsOf: versionFilePath, encoding: .utf8)
-    let marketingVersionComponents = fileContents.components(separatedBy: Constants.Separator.newLine)[0]
+    let sdkVersionComponents = fileContents.components(separatedBy: Constants.Separator.newLine)[0]
                                       .components(separatedBy: Constants.Separator.space)
-    let versionKey = marketingVersionComponents[0]
-    let currentVersion = marketingVersionComponents.last!
+    let versionKey = sdkVersionComponents[0]
+    let currentVersion = sdkVersionComponents.last!
     return VersionNumber(key: versionKey, version: currentVersion)
   } catch {
     print(error.localizedDescription)
