@@ -39,7 +39,10 @@ class ChallengeDetailPresenter {
   
   init?(withView view: ChallengeDetailView, challengeSid: String = String(), factorSid: String = String()) {
     self.view = view
-    self.twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self)!
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
+      return nil
+    }
+    self.twilioVerify = twilioVerify
     self.challengeSid = challengeSid
     self.factorSid = factorSid
     fetchChallengeDetails()

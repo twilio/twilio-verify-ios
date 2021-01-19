@@ -32,7 +32,10 @@ class CreateFactorPresenter {
   
   init?(withView view: CreateFactorView, accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
     self.view = view
-    self.twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self)!
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
+      return nil
+    }
+    self.twilioVerify = twilioVerify
     self.accessTokensAPI = accessTokensAPI
   }
 }

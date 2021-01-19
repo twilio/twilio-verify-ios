@@ -36,7 +36,10 @@ class FactorListPresenter {
   
   init?(withView view: FactorListView) {
     self.view = view
-    self.twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self)!
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
+      return nil
+    }
+    self.twilioVerify = twilioVerify
     self.factors = [Factor]()
   }
 }
