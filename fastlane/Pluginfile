@@ -4,4 +4,4 @@
 
 gem 'fastlane-plugin-semantic_convention_release'
 
-gem 'fastlane-plugin-firebase_test_lab', git: 'https://github.com/sanarroya/fastlane-plugin-firebase_test_lab'
+gem 'fastlane-plugin-firebase_test_lab', git: 'https://github.com/yafuquen/fastlane-plugin-firebase_test_lab'
