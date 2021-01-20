@@ -53,7 +53,8 @@ platform :ios do
       oauth_key_file_path: 'gcloud-service-key.json',
       gcp_project: 'twilio-firebase-266721',
       timeout_sec: 300,
-      devices: ftl_devices
+      devices: ftl_devices,
+      ios_xc_test_args: { xcodeVersion: '11.6' }
     )
   end
 
