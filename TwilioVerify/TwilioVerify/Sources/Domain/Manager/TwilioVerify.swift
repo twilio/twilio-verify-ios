@@ -231,6 +231,7 @@ public class TwilioVerifyBuilder {
       loggingServices.forEach { Logger.shared.addService($0) }
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.initializationError(error: error as NSError)
     }
   }

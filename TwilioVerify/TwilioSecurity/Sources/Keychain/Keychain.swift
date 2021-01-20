@@ -35,6 +35,7 @@ extension KeychainProtocol {
     do {
       return try accessControl(withProtection: protection, flags: flags)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }
@@ -42,31 +43,38 @@ extension KeychainProtocol {
 
 class Keychain: KeychainProtocol {
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
-    var error: Unmanaged<CFError>?
-    guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &error) else {
-      throw error!.takeRetainedValue() as Error
+    var keychainError: Unmanaged<CFError>?
+    guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &keychainError) else {
+      let error = keychainError!.takeRetainedValue() as Error
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
     }
     return accessControl
   }
   
   func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data {
-    var error: Unmanaged<CFError>?
-    guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &error) else {
-      throw error!.takeRetainedValue() as Error
+    var keychainError: Unmanaged<CFError>?
+    guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError) else {
+      let error = keychainError!.takeRetainedValue() as Error
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
     }
-    
+    Logger.shared.log(withLevel: .debug, message: "Sign data with \(algorithm)")
     return signature as Data
   }
   
   func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool {
     var error: Unmanaged<CFError>?
+    Logger.shared.log(withLevel: .debug, message: "Verify message with \(algorithm)")
     return SecKeyVerifySignature(key, algorithm, signedData as CFData, signature as CFData, &error)
   }
   
   func representation(forKey key: SecKey) throws -> Data {
-    var error: Unmanaged<CFError>?
-    guard let representation = SecKeyCopyExternalRepresentation(key, &error) else {
-      throw error!.takeRetainedValue() as Error
+    var keychainError: Unmanaged<CFError>?
+    guard let representation = SecKeyCopyExternalRepresentation(key, &keychainError) else {
+      let error = keychainError!.takeRetainedValue() as Error
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
     }
     return representation as Data
   }
@@ -76,9 +84,10 @@ class Keychain: KeychainProtocol {
     let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
-    
+    Logger.shared.log(withLevel: .debug, message: "Generated key pair for parameters \(parameters)")
     return KeyPair(publicKey: publicKey!, privateKey: privateKey!)
   }
   
@@ -87,6 +96,7 @@ class Keychain: KeychainProtocol {
     let status = SecItemCopyMatching(query as CFDictionary, &result)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
     return result
@@ -94,11 +104,13 @@ class Keychain: KeychainProtocol {
   
   func addItem(withQuery query: Query) -> OSStatus {
     deleteItem(withQuery: query)
+    Logger.shared.log(withLevel: .debug, message: "Added item for \(query)")
     return SecItemAdd(query as CFDictionary, nil)
   }
   
   @discardableResult
   func deleteItem(withQuery query: Query) -> OSStatus {
+    Logger.shared.log(withLevel: .debug, message: "Deleted item for \(query)")
     return SecItemDelete(query as CFDictionary)
   }
 }

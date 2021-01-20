@@ -143,7 +143,7 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput.errorDescription,
+    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "wrong factor for challenge").errorDescription,
                    "Error should be \(InputError.invalidInput) but was \(error!)")
   }
 
@@ -194,7 +194,7 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput.errorDescription,
+    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "invalid factor").errorDescription,
                    "Error should be \(InputError.invalidInput) but was \(error!)")
   }
 
@@ -210,7 +210,7 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput.errorDescription,
+    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "responded or expired challenge can not be updated").errorDescription,
                    "Error should be \(InputError.invalidInput) but was \(error!)")
   }
 }

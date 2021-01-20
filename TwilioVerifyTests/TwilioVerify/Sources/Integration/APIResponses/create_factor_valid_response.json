@@ -1,7 +1,7 @@
 {
   "identity": "factorIdentity",
   "factor_type": "push",
-  "service_sid": "VA08fb7b6e4bdbc53bda0f55296dui72s",
+  "service_sid": "VA08fb7bxxxxxxxxxxxxxx55296dui72s",
   "status": "unverified",
   "config": {
     "credential_sid": "credentialSid"

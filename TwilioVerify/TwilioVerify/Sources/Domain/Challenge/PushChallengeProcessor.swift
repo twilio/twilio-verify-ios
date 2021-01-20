@@ -37,53 +37,70 @@ class PushChallengeProcessor {
 
 extension PushChallengeProcessor: PushChallengeProcessorProtocol {
   func getChallenge(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    Logger.shared.log(withLevel: .info, message: "Getting challenge \(sid) with factor \(factor.sid)")
     challengeProvider.get(withSid: sid, withFactor: factor, success: success, failure: { error in
       failure(TwilioVerifyError.inputError(error: error as NSError))
     })
   }
   
   func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    Logger.shared.log(withLevel: .info, message: "Updating challenge \(sid) with factor \(factor.sid) to new status \(status)")
     getChallenge(withSid: sid, withFactor: factor, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
       guard let factorChallenge = challenge as? FactorChallenge else {
-        failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+        let error = InputError.invalidInput(field: "challenge")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       guard factorChallenge.factor is PushFactor, factorChallenge.factor?.sid == factor.sid else {
-        failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+        let error = InputError.invalidInput(field: "factor for challenge")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       guard let alias = factor.keyPairAlias else {
-        failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError))
+        let error = StorageError.error("Alias not found")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.storageError(error: error as NSError))
         return
       }
       guard let signatureFields = factorChallenge.signatureFields, !signatureFields.isEmpty else {
-        failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+        let error = InputError.invalidInput(field: "Signature fields")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       guard let response = factorChallenge.response, !response.isEmpty else {
-        failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+        let error = InputError.invalidInput(field: "challenge response")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       var signerTemplate: SignerTemplate
       do {
         signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.keyStorageError(error: error as NSError))
         return
       }
       do {
         let authPayload = try strongSelf.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
+        Logger.shared.log(withLevel: .debug, message: "Update challenge with auth payload \(authPayload)")
         strongSelf.challengeProvider.update(challenge, payload: authPayload, success: { updatedChallenge in
           if updatedChallenge.status == status {
             success()
           } else {
-            failure(TwilioVerifyError.inputError(error: InputError.invalidInput as NSError))
+            let error = InputError.invalidInput(field: "Challenge was not updated")
+            Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+            failure(TwilioVerifyError.inputError(error: error as NSError))
           }
         }, failure: { error in
           failure(TwilioVerifyError.inputError(error: error as NSError))
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.inputError(error: error as NSError))
       }
     }, failure: failure)
@@ -94,11 +111,14 @@ private extension PushChallengeProcessor {
   func generateSignature(withSignatureFields signatureFields: [String], withResponse response: [String: Any], status: ChallengeStatus, signerTemplate: SignerTemplate) throws -> String {
     var payload = try signatureFields.reduce(into: [String: Any]()) { result, key in
       guard let value = response[key] else {
-        throw InputError.invalidInput
+        let error = InputError.invalidInput(field: "value in response")
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        throw error
       }
       result[key] = value
     }
     payload[Constants.status] = status.rawValue
+    Logger.shared.log(withLevel: .debug, message: "Update challenge with payload \(payload)")
     return try jwtGenerator.generateJWT(forHeader: [:], forPayload: payload, withSignerTemplate: signerTemplate)
   }
 }

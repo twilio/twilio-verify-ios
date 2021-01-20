@@ -85,6 +85,7 @@ private extension FactorMapper {
                                   createdAt: date, config: Config(credentialSid: pushFactorDTO.config.credentialSid))
       return pushFactor
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.mapperError(error: error as NSError)
     }
   }

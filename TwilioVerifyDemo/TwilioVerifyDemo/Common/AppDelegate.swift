@@ -40,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     UNUserNotificationCenter.current().delegate = self
+    let container = DIContainer.shared
+    if let twilioVerifyAdapter = try? TwilioVerifyAdapter() {
+      container.register(type: TwilioVerifyAdapter.self, component: twilioVerifyAdapter)
+    }
     return true
   }
   
