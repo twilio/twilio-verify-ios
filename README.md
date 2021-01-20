@@ -90,6 +90,14 @@ If you want to receive challenges as push notifications, you should register You
 
 ## Usage
 
+---
+**NOTE**
+
+The SDK should be used from a Swift class.
+See an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift)
+
+---
+
 See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push-ios) for a step-by-step guide to using this SDK in a basic Verify Push implementation.
 
 <a name='SampleApp'></a>
