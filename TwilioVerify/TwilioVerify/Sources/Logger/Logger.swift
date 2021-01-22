@@ -40,7 +40,6 @@ public protocol LoggerService {
 Error types returned by the TwilioVerify SDK. It encompasess different types of errors
 that have their own associated reasons and codes.
 
-- **Off:** Turn off logging, default.
 - **Error:** Log error events that might still allow the application to continue running.
 - **Info:** Log the progress of the application at coarse-grained level.
 - **Networking:** Log network requests.
