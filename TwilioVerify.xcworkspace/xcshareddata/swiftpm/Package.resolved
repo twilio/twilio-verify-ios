@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "TwilioVerify",
+        "repositoryURL": "twilio-verify-ios",
+        "state": {
+          "branch": null,
+          "revision": "96cefa2a7660c38f8b2cd61377c55ee014c42c8b",
+          "version": "0.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
