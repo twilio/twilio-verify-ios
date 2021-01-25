@@ -163,6 +163,8 @@ jobs:
   Distribute app:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
       - run:
           name: Distribute app
           command: bundle exec fastlane distribute_sample_app
