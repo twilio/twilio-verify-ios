@@ -160,6 +160,13 @@ commands:
           command: bundle exec fastlane release
 
 jobs:
+  Distribute app:
+    executor: macos_executor
+    steps:
+      - run:
+          name: Distribute app
+          command: bundle exec fastlane distribute_sample_app
+
   Unit Tests and Lint:
     executor: macos_executor
     steps:
@@ -204,27 +211,28 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Unit Tests and Lint
-      - Integration Tests Single Device:
-          requires:
-            - Unit Tests and Lint
-      - Integration Tests All Devices:
-          requires:
-            - Integration Tests Single Device
-      - Build TwilioVerify:
-          requires:
-            - Integration Tests Single Device
-            - Unit Tests and Lint
-      - Size report:
-          requires:
-            - Build TwilioVerify
-      - Release SDK:
-          requires:
-            - Size report
-          filters:
-            branches:
-              only:
-                - main
+      - Distribute app
+      # - Unit Tests and Lint
+      # - Integration Tests Single Device:
+      #     requires:
+      #       - Unit Tests and Lint
+      # - Integration Tests All Devices:
+      #     requires:
+      #       - Integration Tests Single Device
+      # - Build TwilioVerify:
+      #     requires:
+      #       - Integration Tests Single Device
+      #       - Unit Tests and Lint
+      # - Size report:
+      #     requires:
+      #       - Build TwilioVerify
+      # - Release SDK:
+      #     requires:
+      #       - Size report
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      

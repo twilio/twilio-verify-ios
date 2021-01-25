@@ -168,4 +168,20 @@ platform :ios do
     sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
   end
 
+  desc "Distribute sample app for internal testing"
+  lane :distribute_sample_app do |options|
+    #app_distribution_key = "gcloud-app-distribution-service-key.json"
+    #key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
+    build_app(
+      # silent: true,
+      # clean: false,
+      scheme: "TwilioVerifyDemo",
+      workspace: "TwilioVerify.xcworkspace",
+      export_method: "ad-hoc",
+      output_directory: "build_ipa"
+      # skip_codesigning: true,
+      # skip_archive: true
+    )
+  end  
+
 end
