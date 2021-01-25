@@ -343,27 +343,9 @@ class KeyManagerTests: XCTestCase {
     XCTAssertNoThrow(try keyManager.deleteKey(withAlias: Constants.alias), "Delete key should not throw")
   }
   
-  func testRemoveValue_valueDoesNotExist_shouldThrowError() {
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+  func testRemoveValue_valueDoesNotExist_shouldNotThrowError() {
     keychain.deleteItemStatus = errSecItemNotFound
-    XCTAssertThrowsError(try keyManager.deleteKey(withAlias: Constants.alias), "Remove value should throw") { error in
-      let thrownError = error as NSError
-      XCTAssertEqual(
-        thrownError.code,
-        Int(errSecItemNotFound),
-        "Error code should be \(errSecItemNotFound), but was \(thrownError.code)"
-      )
-      XCTAssertEqual(
-        thrownError.domain,
-        NSOSStatusErrorDomain,
-        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
-      )
-      XCTAssertEqual(
-        thrownError.localizedDescription,
-        expectedLocalizedDescription,
-        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
-      )
-    }
+    XCTAssertNoThrow(try keyManager.deleteKey(withAlias: Constants.alias), "Delete key should not throw")
   }
 }
 

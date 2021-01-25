@@ -38,7 +38,7 @@ class KeychainTests: XCTestCase {
   func testAccessControl_withInvalidProtection_shouldThrow() {
     let expectedErrorCode = -50
     let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - SecAccessControl: invalid protection: )"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - SecAccessControl: invalid protection"
     XCTAssertThrowsError(try keychain.accessControl(withProtection: String() as CFString), "Access Control sohuld throw", { error in
       let thrownError = error as NSError
       XCTAssertEqual(
@@ -51,9 +51,8 @@ class KeychainTests: XCTestCase {
         expectedErrorDomain,
         "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
       )
-      XCTAssertEqual(
-        thrownError.localizedDescription,
-        expectedLocalizedDescription,
+      XCTAssertTrue(
+        thrownError.localizedDescription.contains(expectedLocalizedDescription),
         "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
       )
     })
@@ -77,12 +76,11 @@ class KeychainTests: XCTestCase {
   func testSign_withInvalidAlgorithm_shouldThrow() {
     let expectedErrorCode = -50
     let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - bad digest size for signing with algorithm algid:sign:ECDSA:digest-X962:SHA256)"
     let dataToSign = "data".data(using: .utf8)!
     var pair: KeyPair!
     
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    XCTAssertThrowsError(try keychain.sign(withPrivateKey: pair.privateKey, algorithm: .ecdsaSignatureDigestX962SHA256, dataToSign: dataToSign), "") { error in
+    XCTAssertThrowsError(try keychain.sign(withPrivateKey: pair.privateKey, algorithm: .rsaSignatureDigestPKCS1v15SHA256, dataToSign: dataToSign), "") { error in
       let thrownError = error as NSError
       XCTAssertEqual(
         thrownError.code,
@@ -93,11 +91,6 @@ class KeychainTests: XCTestCase {
         thrownError.domain,
         expectedErrorDomain,
         "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
-      )
-      XCTAssertEqual(
-        thrownError.localizedDescription,
-        expectedLocalizedDescription,
-        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
       )
     }
   }
