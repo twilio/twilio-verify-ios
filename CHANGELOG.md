@@ -1,3 +1,13 @@
+# 0.3.1 (2021-01-25)
+
+### Bug fixes
+- Fix version file and generation ([ee63023](https://github.com/twilio/twilio-verify-ios/commit/ee63023a80804295fda9b0c5778789e4301bdc59))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
 # 0.3.0 (2021-01-25)
 
 ### Features
