@@ -1,3 +1,26 @@
+# 0.3.1 (2021-01-25)
+
+### Bug fixes
+- Fix version file and generation ([ee63023](https://github.com/twilio/twilio-verify-ios/commit/ee63023a80804295fda9b0c5778789e4301bdc59))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
+# 0.3.0 (2021-01-25)
+
+### Features
+- Support react native bridge (#114) ([457b3a2](https://github.com/twilio/twilio-verify-ios/commit/457b3a297f062a299aa9432c7386485d24378721))
+
+### Documentation
+- Add note in readme about using the SDK from a swift class (#116) ([41ef89e](https://github.com/twilio/twilio-verify-ios/commit/41ef89e5a8017de4efe00e43a9d9c0e5b644b1e3))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
 # 0.2.0 (2020-11-06)
 
 ### Features

@@ -48,9 +48,13 @@ func currentVersionNumber() -> VersionNumber {
 
 func updateFile(withVersion versionNumber: VersionNumber) {
   let versionFilePath = versionFilePathURL()
-  let newVersion = "\(versionNumber.key) = \(versionNumber.version)"
+  let newVersion = "\(versionNumber.key) = \(versionNumber.version)" 
   do {
-    try newVersion.write(to: versionFilePath, atomically: true, encoding: .utf8)
+    var fileContents = try String(contentsOf: versionFilePath, encoding: .utf8)
+    var components = fileContents.components(separatedBy: Constants.Separator.newLine)
+    components[0] = newVersion
+    fileContents = components.joined(separator: Constants.Separator.newLine)
+    try fileContents.write(to: versionFilePath, atomically: true, encoding: .utf8)
   } catch {
     print(error.localizedDescription)
   }
