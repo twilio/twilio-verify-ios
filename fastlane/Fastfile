@@ -177,7 +177,7 @@ platform :ios do
     #app_distribution_key = "gcloud-app-distribution-service-key.json"
     #key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
     match(type: "adhoc")
-    gym(export_method: "ad-hoc")
+    gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
     # build_app(
       # silent: true,
       # clean: false,
