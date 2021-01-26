@@ -179,6 +179,8 @@ platform :ios do
     match(type: "adhoc")
     gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
+    UI.message("Hello")
+    UI.message(ipa_path)
     firebase_app_distribution(
       app: ENV["SAMPLE_APP_FIREBASE_ID"],
       ipa_path: ipa_path,
