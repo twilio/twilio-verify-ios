@@ -12,6 +12,10 @@ all_ftl_devices = [
 default_platform(:ios)
 
 platform :ios do
+  before_all do
+    setup_circle_ci
+  end
+
   desc "Runs unit tests"
   lane :unit_tests do |options|
     test_plan = options[:test_plan]
@@ -172,16 +176,18 @@ platform :ios do
   lane :distribute_sample_app do |options|
     #app_distribution_key = "gcloud-app-distribution-service-key.json"
     #key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
-    build_app(
+    match(type: "adhoc")
+    gym(export_method: "ad-hoc")
+    # build_app(
       # silent: true,
       # clean: false,
-      scheme: "TwilioVerifyDemo",
-      workspace: "TwilioVerify.xcworkspace",
-      export_method: "ad-hoc",
-      output_directory: "build_ipa"
+      # scheme: "TwilioVerifyDemo",
+      # workspace: "TwilioVerify.xcworkspace",
+      # export_method: "ad-hoc",
+      # output_directory: "build_ipa"
       # skip_codesigning: true,
       # skip_archive: true
-    )
+    # )
   end  
 
 end
