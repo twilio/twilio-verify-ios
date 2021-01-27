@@ -9,14 +9,14 @@ IFS=$SAVEIFS
 
 for (( i=0; i<${#components[@]}; i++ ))
 do
-    if [[ ${components[$i]} == "let version ="* ]]; then
-        version=$(echo ${components[$i]} | cut -d"\"" -f2)
-    fi
+  if [[ ${components[$i]} == "let version ="* ]]; then
+    version=$(echo ${components[$i]} | cut -d"\"" -f2)
+ fi
 done
-echo "$version"
+
 jazzy \
- --output docs/$version/ \
- --theme apple
+  --output docs/$version/ \
+  --theme apple
 
 cd docs
 ln -nsf "$version" latest 

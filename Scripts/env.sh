@@ -47,9 +47,9 @@ IFS=$SAVEIFS
 
 for (( i=0; i<${#components[@]}; i++ ))
 do
-    if [[ ${components[$i]} == "let version ="* ]]; then
-        version=$(echo ${components[$i]} | cut -d"\"" -f2)
-    fi
+  if [[ ${components[$i]} == "let version ="* ]]; then
+    version=$(echo ${components[$i]} | cut -d"\"" -f2)
+  fi
 done
 
 export BASE_VERSION=${version}
