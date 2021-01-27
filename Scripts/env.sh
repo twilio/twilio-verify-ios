@@ -38,8 +38,22 @@ else
   export USE_DEBUG_LIBS=0
 fi
 
+
+twilioVerifyConfig=`cat TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift`
+SAVEIFS=$IFS
+IFS=$'\n'
+components=($twilioVerifyConfig)
+IFS=$SAVEIFS
+
+for (( i=0; i<${#components[@]}; i++ ))
+do
+    if [[ ${components[$i]} == "let version ="* ]]; then
+        version=$(echo ${components[$i]} | cut -d"\"" -f2)
+    fi
+done
+
 VERSION_PATH=($(head -n 1 TwilioVerify/Config/Version.xcconfig))
-export BASE_VERSION=${VERSION_PATH[@]: -1}
+export BASE_VERSION=${version}
 
 # Output locations
 export TEMP_DIR="${BASE_DIR}/temp"

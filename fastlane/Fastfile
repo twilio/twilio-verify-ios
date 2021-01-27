@@ -102,7 +102,7 @@ platform :ios do
     next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
     ensure_git_status_clean
     # Increment version in Verify module
-    UI.message("Updating TwilioVerify/Config/Version.xcconfig")
+    UI.message("Updating TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift")
     sh("./../Scripts/bump-version.swift #{next_version}")
     version_bump_podspec(
       path: "./TwilioVerify.podspec",
@@ -133,7 +133,7 @@ platform :ios do
     UI.message("Updating README.md")
     last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
     sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
-    git_add(path: ['./TwilioVerify/Config/Version.xcconfig', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
+    git_add(path: ['./TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     
