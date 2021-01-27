@@ -179,7 +179,7 @@ private extension PushFactory {
     static let pushType = "apn"
     static let sdkVersionKey = "SdkVersion"
     static let appIdKey = "AppId"
-    static let sdkBundleShortVersionString = "SDK_VERSION"
+    static let sdkVersion = version
     static let notificationPlatformKey = "NotificationPlatform"
     static let notificationTokenKey = "NotificationToken"
     static let algKey = "Alg"
@@ -204,7 +204,7 @@ private extension PushFactory {
   }
   
   func config(withToken token: String) -> [String: String] {
-    [Constants.sdkVersionKey: Bundle(for: PushFactory.self).infoDictionary?[Constants.sdkBundleShortVersionString] as? String ?? String(),
+    [Constants.sdkVersionKey: Constants.sdkVersion,
      Constants.appIdKey: Bundle.main.bundleIdentifier ?? "",
      Constants.notificationPlatformKey: Constants.pushType,
      Constants.notificationTokenKey: token]
