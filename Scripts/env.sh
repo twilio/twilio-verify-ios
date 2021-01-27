@@ -52,7 +52,6 @@ do
     fi
 done
 
-VERSION_PATH=($(head -n 1 TwilioVerify/Config/Version.xcconfig))
 export BASE_VERSION=${version}
 
 # Output locations
