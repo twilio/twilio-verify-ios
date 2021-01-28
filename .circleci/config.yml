@@ -189,9 +189,6 @@ jobs:
       - distribute_debug_sample_app:
           env: "PROD"
           base_url: $PROD_URL
-      - run:
-          name: Distribute app
-          command: bundle exec fastlane distribute_sample_app
 
   Unit Tests and Lint:
     executor: macos_executor
