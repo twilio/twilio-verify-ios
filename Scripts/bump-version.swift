@@ -2,19 +2,16 @@
 
 import Foundation
 
-struct VersionNumber {
-  var key: String
-  var version: String
-}
-
 struct Constants {
-  static let versionFileRelativePath = "../TwilioVerify/Config/Version.xcconfig"
+  static let versionFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
   static let missingArgumentsError = """
   Expected version argument not set correctly e.g. 0.1.0
   """
+  static let versionKey = "version"
+  
   struct Separator {
     static let dot = "."
-    static let space = " "
+    static let equal: Character = "="
     static let newLine = "\n"
   }
 }
@@ -26,34 +23,22 @@ func bumpVersion() {
   }
   let nextVersion = CommandLine.arguments[1]
   print("Bumping version to \(nextVersion)")
-  var versionNumber = currentVersionNumber()
-  versionNumber.version = nextVersion
-  updateFile(withVersion: versionNumber)
+  updateFile(withVersion: nextVersion)
 }
 
-func currentVersionNumber() -> VersionNumber {
+func updateFile(withVersion newVersion: String) {
   let versionFilePath = versionFilePathURL()
-  do {
-    let fileContents = try String(contentsOf: versionFilePath, encoding: .utf8)
-    let sdkVersionComponents = fileContents.components(separatedBy: Constants.Separator.newLine)[0]
-                                      .components(separatedBy: Constants.Separator.space)
-    let versionKey = sdkVersionComponents[0]
-    let currentVersion = sdkVersionComponents.last!
-    return VersionNumber(key: versionKey, version: currentVersion)
-  } catch {
-    print(error.localizedDescription)
-  }
-  return VersionNumber(key: String(), version: String())
-}
-
-func updateFile(withVersion versionNumber: VersionNumber) {
-  let versionFilePath = versionFilePathURL()
-  let newVersion = "\(versionNumber.key) = \(versionNumber.version)" 
   do {
     var fileContents = try String(contentsOf: versionFilePath, encoding: .utf8)
-    var components = fileContents.components(separatedBy: Constants.Separator.newLine)
-    components[0] = newVersion
-    fileContents = components.joined(separator: Constants.Separator.newLine)
+    let versionComponents: [String] = fileContents.components(separatedBy: Constants.Separator.newLine).map {
+      if $0.contains(Constants.versionKey) {
+        let currentVersion = $0.split(separator: Constants.Separator.equal)[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        return $0.replacingOccurrences(of: currentVersion, with: "\"\(newVersion)\"")
+      } else {
+        return $0
+      }
+    }
+    fileContents = versionComponents.joined(separator: Constants.Separator.newLine)
     try fileContents.write(to: versionFilePath, atomically: true, encoding: .utf8)
   } catch {
     print(error.localizedDescription)

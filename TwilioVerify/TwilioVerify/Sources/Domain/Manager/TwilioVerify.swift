@@ -155,7 +155,7 @@ public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
-  private var baseURL: String!
+  private var _baseURL: String!
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
   private var clearStorageOnReinstall = true
@@ -166,7 +166,7 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
-    self.baseURL = Constants.baseURL
+    self._baseURL = baseURL
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -180,7 +180,7 @@ public class TwilioVerifyBuilder {
   }
   
   func setURL(_ url: String) -> Self {
-    self.baseURL = url
+    self._baseURL = url
     return self
   }
   
@@ -195,14 +195,14 @@ public class TwilioVerifyBuilder {
       let factorFacade = try FactorFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setKeyStorage(keyStorage)
-        .setURL(baseURL)
+        .setURL(_baseURL)
         .setAuthentication(authentication)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setJWTGenerator(jwtGenerator)
-        .setURL(baseURL)
+        .setURL(_baseURL)
         .setAuthentication(authentication)
         .setFactorFacade(factorFacade)
         .build()
@@ -210,11 +210,5 @@ public class TwilioVerifyBuilder {
     } catch {
       throw TwilioVerifyError.initializationError(error: error as NSError)
     }
-  }
-}
-
-private extension TwilioVerifyBuilder {
-  struct Constants {
-    static let baseURL = "https://verify.twilio.com/v2/"
   }
 }
