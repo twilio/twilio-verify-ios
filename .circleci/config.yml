@@ -172,7 +172,7 @@ commands:
           name: Generating APK for internal distribution
           command: bundle exec fastlane distribute_debug_sample_app env:<<parameters.env>> url:<<parameters.base_url>>
 jobs:
-  Distribute app:
+  Distribute debug sample app:
     executor: macos_executor
     steps:
       - checkout
@@ -234,28 +234,37 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Distribute app
-      # - Unit Tests and Lint
-      # - Integration Tests Single Device:
-      #     requires:
-      #       - Unit Tests and Lint
-      # - Integration Tests All Devices:
-      #     requires:
-      #       - Integration Tests Single Device
-      # - Build TwilioVerify:
-      #     requires:
-      #       - Integration Tests Single Device
-      #       - Unit Tests and Lint
-      # - Size report:
-      #     requires:
-      #       - Build TwilioVerify
-      # - Release SDK:
-      #     requires:
-      #       - Size report
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+      - Unit Tests and Lint
+      - Integration Tests Single Device:
+          requires:
+            - Unit Tests and Lint
+      - Integration Tests All Devices:
+          requires:
+            - Integration Tests Single Device
+      - Build TwilioVerify:
+          requires:
+            - Integration Tests Single Device
+            - Unit Tests and Lint
+      - Size report:
+          requires:
+            - Build TwilioVerify
+      - Distribute debug sample app
+          requires:
+            - Build TwilioVerify
+          filters:
+            branches:
+              only:
+                - /feature.*/
+                - /release.*/
+                - /hotfix.*/
+                - dev              
+      - Release SDK:
+          requires:
+            - Size report
+          filters:
+            branches:
+              only:
+                - main
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
       # Uncomment this part when all the steps to release a new version are done      

@@ -154,6 +154,10 @@ platform :ios do
     )
     
     pod_push(path: "./TwilioVerify.podspec", verbose: true)
+    plain_notes = conventional_changelog(
+      format: 'plain',
+      commit_url: 'https://github.com/twilio/twilio-verify-android/commit')
+    distribute_sample_app(notes: plain_notes, url: ENV["PROD_URL"], versionName: next_version)    
   end
 
   lane :danger_tests do |options|
