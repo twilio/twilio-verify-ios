@@ -184,21 +184,6 @@ platform :ios do
              commit_url: 'https://github.com/twilio/twilio-verify-ios/commit')
     url = options[:url]
     distribute_sample_app(notes: plain_notes, url: url, versionName: "#{next_version}-#{env}")
-
-
-
-    sh("./../Scripts/change-base-url.swift #{options[:base_url]}")
-    app_distribution_key = "gcloud-app-distribution-service-key.json"
-    key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
-    match(type: "adhoc")
-    gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
-    ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
-    firebase_app_distribution(
-      app: ENV["SAMPLE_APP_FIREBASE_ID"],
-      ipa_path: ipa_path,
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUP"],
-      service_credentials_file: key_file
-    )
   end  
 
   desc "Distribute sample app for internal testing"
