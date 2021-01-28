@@ -172,15 +172,26 @@ platform :ios do
     sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
   end
 
-  desc "Distribute sample app for internal testing"
-  lane :distribute_sample_app do |options|
+  desc "Distribute debug sample app for internal testing"
+  lane :distribute_debug_sample_app do |options|
+    env = options[:env]
+    title = "iOS Verify Push #{env}"
+    tag_prefix = '*'
+    verify(title: title, tag_prefix: tag_prefix)
+    next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
+    plain_notes = conventional_changelog(
+             format: 'plain',
+             commit_url: 'https://github.com/twilio/twilio-verify-ios/commit')
+    distribute_sample_app(notes: plain_notes, url: url, versionName: "#{next_version}-#{env}")
+
+
+
+    sh("./../Scripts/change-base-url.swift #{options[:base_url]}")
     app_distribution_key = "gcloud-app-distribution-service-key.json"
     key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
     match(type: "adhoc")
     gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
-    UI.message("Hello")
-    UI.message(ipa_path)
     firebase_app_distribution(
       app: ENV["SAMPLE_APP_FIREBASE_ID"],
       ipa_path: ipa_path,
@@ -189,4 +200,20 @@ platform :ios do
     )
   end  
 
+  desc "Distribute sample app for internal testing"
+  lane :distribute_sample_app do |options|
+    app_distribution_key = "gcloud-app-distribution-service-key.json"
+    key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
+    sh("./../Scripts/change-base-url.swift #{options[:base_url]}")
+    match(type: "adhoc")
+    gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
+    ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
+    firebase_app_distribution(
+      app: ENV["SAMPLE_APP_FIREBASE_ID"],
+      ipa_path: ipa_path,
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUP"],
+      service_credentials_file: key_file,
+      release_notes: options[:notes]
+    )
+  end
 end
