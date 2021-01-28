@@ -182,6 +182,7 @@ platform :ios do
     plain_notes = conventional_changelog(
              format: 'plain',
              commit_url: 'https://github.com/twilio/twilio-verify-ios/commit')
+    url = options[:url]
     distribute_sample_app(notes: plain_notes, url: url, versionName: "#{next_version}-#{env}")
 
 
