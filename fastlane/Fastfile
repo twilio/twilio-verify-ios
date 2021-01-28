@@ -90,7 +90,6 @@ platform :ios do
 
   desc "Verify next release"
   lane :verify do |options|
-    ensure_git_status_clean
     # Check if there is any change since last version
     is_releaseable = analyze_commits(
       match: options[:tag_prefix]
@@ -191,6 +190,10 @@ platform :ios do
     app_distribution_key = "gcloud-app-distribution-service-key.json"
     key_file = "#{ENV["HOME"]}/#{app_distribution_key}"
     sh("./../Scripts/change-base-url.swift #{options[:url]}")
+    increment_version_number(
+      xcodeproj: "./TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj",
+      version_number: options[:versionName]
+    )
     match(type: "adhoc")
     gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
