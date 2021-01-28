@@ -3,11 +3,13 @@
 import Foundation
 
 struct Constants {
-  static let versionFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
+  static let configFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
+  static let plistFileRelativePath = "../TwilioVerify/Info.plist"
   static let missingArgumentsError = """
   Expected version argument not set correctly e.g. 0.1.0
   """
   static let versionKey = "version"
+  static let bundleShortVersionKey = "CFBundleShortVersionString"
   
   struct Separator {
     static let dot = "."
@@ -23,13 +25,14 @@ func bumpVersion() {
   }
   let nextVersion = CommandLine.arguments[1]
   print("Bumping version to \(nextVersion)")
-  updateFile(withVersion: nextVersion)
+  updateConfigFile(withVersion: nextVersion)
+  updatePlistFile(withVersion: nextVersion)
 }
 
-func updateFile(withVersion newVersion: String) {
-  let versionFilePath = versionFilePathURL()
+func updateConfigFile(withVersion newVersion: String) {
+  let configFilePath = configFilePathURL()
   do {
-    var fileContents = try String(contentsOf: versionFilePath, encoding: .utf8)
+    var fileContents = try String(contentsOf: configFilePath, encoding: .utf8)
     let versionComponents: [String] = fileContents.components(separatedBy: Constants.Separator.newLine).map {
       if $0.contains(Constants.versionKey) {
         let currentVersion = $0.split(separator: Constants.Separator.equal)[1].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -39,15 +42,23 @@ func updateFile(withVersion newVersion: String) {
       }
     }
     fileContents = versionComponents.joined(separator: Constants.Separator.newLine)
-    try fileContents.write(to: versionFilePath, atomically: true, encoding: .utf8)
+    try fileContents.write(to: configFilePath, atomically: true, encoding: .utf8)
   } catch {
     print(error.localizedDescription)
   }
 }
 
-func versionFilePathURL() -> URL {
+func configFilePathURL() -> URL {
   let currentPathURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-  return currentPathURL.appendingPathComponent(Constants.versionFileRelativePath)
+  return currentPathURL.appendingPathComponent(Constants.configFileRelativePath)
+}
+
+func updatePlistFile(withVersion newVersion: String) {
+  guard var plistDictionary = NSDictionary(contentsOfFile: Constants.plistFileRelativePath) as? [String: Any] else {
+    return
+  }
+  plistDictionary.updateValue(newVersion, forKey: Constants.bundleShortVersionKey)
+  (plistDictionary as NSDictionary).write(toFile: Constants.plistFileRelativePath, atomically: true)
 }
 
 @discardableResult
