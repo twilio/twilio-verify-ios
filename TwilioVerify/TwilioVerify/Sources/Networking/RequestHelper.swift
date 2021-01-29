@@ -23,24 +23,22 @@ import UIKit
 class RequestHelper {
   
   private let appInfo: [String: Any]?
-  private let frameworkInfo: [String: Any]?
   private let authorization: BasicAuthorization
   
   required init(authorization: BasicAuthorization) {
     self.authorization = authorization
     self.appInfo = Bundle.main.infoDictionary
-    self.frameworkInfo = Bundle(for: type(of: self)).infoDictionary
   }
   
   private func userAgentHeader() -> HTTPHeader {
-    let appName = appInfo?[Constants.bundleName] as? String ?? Constants.unknown
-    let appVersionName = appInfo?[Constants.bundleShortVersionString] as? String ?? Constants.unknown
-    let appBuildCode = appInfo?[Constants.bundleVersion] as? String ?? Constants.unknown
+    let appName = appInfo?[Constants.appBundleName] as? String ?? Constants.unknown
+    let appVersionName = appInfo?[Constants.appBundleShortVersionString] as? String ?? Constants.unknown
+    let appBuildCode = appInfo?[Constants.appBundleVersion] as? String ?? Constants.unknown
     let osVersion = "\(Constants.platform) \(UIDevice.current.systemVersion)"
     let device = UIDevice.current.model
-    let sdkName = frameworkInfo?[Constants.sdkBundleName] as? String ?? Constants.unknown
-    let sdkVersionName = frameworkInfo?[Constants.sdkBundleShortVersionString] as? String ?? Constants.unknown
-    let sdkBuildCode = frameworkInfo?[Constants.sdkBundleVersion] as? String ?? Constants.unknown
+    let sdkName = Constants.sdkBundleName
+    let sdkVersionName = Constants.sdkVersion
+    let sdkBuildCode = Constants.sdkBundleVersion
     
     let userAgent = [appName, Constants.platform, appVersionName, appBuildCode, osVersion, device, sdkName, sdkVersionName, sdkBuildCode].joined(separator: Constants.separator)
     return HTTPHeader.userAgent(userAgent)
@@ -65,12 +63,12 @@ class RequestHelper {
 extension RequestHelper {
   struct Constants {
     static let separator = "; "
-    static let bundleName = "CFBundleName"
-    static let bundleShortVersionString = "CFBundleShortVersionString"
-    static let bundleVersion = "CFBundleVersion"
-    static let sdkBundleName = "SDK_BUNDLE_NAME"
-    static let sdkBundleShortVersionString = "SDK_VERSION"
-    static let sdkBundleVersion = "SDK_BUNDLE_VERSION"
+    static let appBundleName = "CFBundleName"
+    static let appBundleShortVersionString = "CFBundleShortVersionString"
+    static let appBundleVersion = "CFBundleVersion"
+    static let sdkBundleName = bundleName
+    static let sdkVersion = version
+    static let sdkBundleVersion = bundleVersion
     static let unknown = "unknown"
     static let platform = "iOS"
   }
