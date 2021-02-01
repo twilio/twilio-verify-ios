@@ -42,7 +42,7 @@ platform :ios do
     if options[:ftl_devices] == 'all'
       ftl_devices = all_ftl_devices
     end
-
+    match(type: "development")
     scan(
       scheme: 'TwilioVerify',
       testplan: test_plan,
