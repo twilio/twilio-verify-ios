@@ -1,3 +1,16 @@
+# 0.3.2 (2021-02-02)
+
+### Bug fixes
+- Read SDK version and config ([d694f3e](https://github.com/twilio/twilio-verify-ios/commit/d694f3eef0a9bdc72614cee06377243d254175bb))
+
+### Building system
+- Add SDK as package dependency in sample app (#120) ([6da3f06](https://github.com/twilio/twilio-verify-ios/commit/6da3f069cd2e2666b83d99ff75aad3f807d09113))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.3 MB    | 0.8 MB
+
+
 # 0.3.1 (2021-01-25)
 
 ### Bug fixes
