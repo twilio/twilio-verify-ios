@@ -199,7 +199,10 @@ platform :ios do
       version_number: options[:versionName]
     )
     match(type: "adhoc")
-    gym(scheme: "TwilioVerifyDemo", export_method: "ad-hoc")
+    gym(
+      scheme: "TwilioVerifyDemo", 
+      export_method: "ad-hoc",
+      silent: true)
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
     firebase_app_distribution(
       app: ENV["SAMPLE_APP_FIREBASE_ID"],
