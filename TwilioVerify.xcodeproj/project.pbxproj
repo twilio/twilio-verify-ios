@@ -45,6 +45,7 @@
 		2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */; };
 		2060CFFE24857614001DD494 /* HTTPHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */; };
 		2060D00024857976001DD494 /* ParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFF24857976001DD494 /* ParametersTests.swift */; };
+		20793D6B25C1E19B00870D2C /* TwilioVerifyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20793D6A25C1E19B00870D2C /* TwilioVerifyConfig.swift */; };
 		2086795F24ABA26200D1F0B9 /* ChallengeFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2086795E24ABA26200D1F0B9 /* ChallengeFacade.swift */; };
 		2086796124ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2086796024ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift */; };
 		2086796324ABD45E00D1F0B9 /* ChallengeFacadeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2086796224ABD45E00D1F0B9 /* ChallengeFacadeMock.swift */; };
@@ -228,6 +229,7 @@
 		2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAuthorizationTests.swift; sourceTree = "<group>"; };
 		2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeadersTests.swift; sourceTree = "<group>"; };
 		2060CFFF24857976001DD494 /* ParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTests.swift; sourceTree = "<group>"; };
+		20793D6A25C1E19B00870D2C /* TwilioVerifyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioVerifyConfig.swift; sourceTree = "<group>"; };
 		2086795E24ABA26200D1F0B9 /* ChallengeFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFacade.swift; sourceTree = "<group>"; };
 		2086796024ABC5BC00D1F0B9 /* ChallengeFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFacadeTests.swift; sourceTree = "<group>"; };
 		2086796224ABD45E00D1F0B9 /* ChallengeFacadeMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFacadeMock.swift; sourceTree = "<group>"; };
@@ -307,7 +309,6 @@
 		F20CB4312476E6380061A2D8 /* KeyManagerSecurityMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManagerSecurityMock.swift; sourceTree = "<group>"; };
 		F20CB44B24773C180061A2D8 /* ECSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECSignerTests.swift; sourceTree = "<group>"; };
 		F20CB44E2477413E0061A2D8 /* KeyPairFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairFactory.swift; sourceTree = "<group>"; };
-		F22A1B8124D8BA3E0054E256 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		F2358B3D2480285200C2D1AB /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		F236CEBA24CF4E2E002EBD50 /* TwilioSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F239EC0024D07CD000141A00 /* get_challenge_pending_valid_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_challenge_pending_valid_response.json; sourceTree = "<group>"; };
@@ -969,7 +970,6 @@
 			children = (
 				F27A33F024CF89B900A8053D /* TwilioSecurity */,
 				F27A33EF24CF89AF00A8053D /* TwilioVerify */,
-				F2CFC42324A5A1F2008430B6 /* Config */,
 				F2AA377C246F30BE00B9388F /* Info.plist */,
 			);
 			path = TwilioVerify;
@@ -1006,16 +1006,9 @@
 				2093571B24870A73008FDBCC /* Models */,
 				20A92FC6248197B500A9E8E7 /* Networking */,
 				2003C43F2480232900279BBD /* TwilioVerifyError.swift */,
+				20793D6A25C1E19B00870D2C /* TwilioVerifyConfig.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		F2CFC42324A5A1F2008430B6 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				F22A1B8124D8BA3E0054E256 /* Version.xcconfig */,
-			);
-			path = Config;
 			sourceTree = "<group>";
 		};
 		F2F62F9E248846D800E330E4 /* HostApp */ = {
@@ -1236,6 +1229,7 @@
 			files = (
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
 				F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */,
+				20793D6B25C1E19B00870D2C /* TwilioVerifyConfig.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
 				F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */,
@@ -1442,7 +1436,6 @@
 		};
 		F2AA378A246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F22A1B8124D8BA3E0054E256 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1505,7 +1498,6 @@
 		};
 		F2AA378B246F30BF00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F22A1B8124D8BA3E0054E256 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
