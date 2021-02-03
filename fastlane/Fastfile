@@ -207,13 +207,12 @@ platform :ios do
     )
     gym(
       scheme: "TwilioVerifyDemo", 
-      export_method: "development",
+      export_method: "ad-hoc",
       silent: true,
       export_options: {
-        method: "development",
         signingStyle: "manual",
         provisioningProfiles: {
-          "com.twilio.TwilioVerifyDemo" => "match Development com.twilio.TwilioVerifyDemo"
+          "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo"
         }
       })
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
