@@ -1,8 +1,18 @@
 #!/bin/bash
 
 cd ..
-sdk_version=($(head -n 1 TwilioVerify/Config/Version.xcconfig))
-version=${sdk_version[@]: -1}
+twilioVerifyConfig=`cat TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift`
+SAVEIFS=$IFS
+IFS=$'\n'
+components=($twilioVerifyConfig)
+IFS=$SAVEIFS
+
+for (( i=0; i<${#components[@]}; i++ ))
+do
+  if [[ ${components[$i]} == "let version ="* ]]; then
+    version=$(echo ${components[$i]} | cut -d"\"" -f2)
+ fi
+done
 
 jazzy \
   --output docs/$version/ \
