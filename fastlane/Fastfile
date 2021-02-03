@@ -208,14 +208,7 @@ platform :ios do
     gym(
       scheme: "TwilioVerifyDemo", 
       export_method: "development",
-      silent: true,
-      export_options: {
-        method: "development",
-        signingStyle: "manual",
-        provisioningProfiles: {
-          "com.twilio.TwilioVerifyDemo" => "match Development com.twilio.TwilioVerifyDemo"
-        }
-      }
+      silent: true
     )
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
     firebase_app_distribution(
