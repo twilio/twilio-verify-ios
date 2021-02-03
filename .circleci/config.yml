@@ -248,16 +248,16 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
-      - Distribute debug sample app
-          #requires:
-          #  - Build TwilioVerify
-          #filters:
-          #  branches:
-          #    only:
-          #      - /feature.*/
-          #      - /release.*/
-          #      - /hotfix.*/
-          #      - dev              
+      - Distribute debug sample app:
+          requires:
+           - Build TwilioVerify
+          filters:
+           branches:
+             only:
+               - /feature.*/
+               - /release.*/
+               - /hotfix.*/
+               - dev              
       - Release SDK:
           requires:
             - Size report
