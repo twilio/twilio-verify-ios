@@ -250,7 +250,8 @@ workflows:
             - Build TwilioVerify
       - Distribute debug sample app:
           requires:
-            - Build TwilioVerify
+            - Integration Tests Single Device
+          #  - Build TwilioVerify
           #filters:
           #  branches:
           #    only:
