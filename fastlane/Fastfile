@@ -42,10 +42,10 @@ platform :ios do
     if options[:ftl_devices] == 'all'
       ftl_devices = all_ftl_devices
     end
-    match(
-      type: "development",
-      app_identifier: ["com.twilio.verify.HostApp"]
-    )
+    #match(
+    #  type: "development",
+    #  app_identifier: ["com.twilio.verify.HostApp"]
+    #)
     scan(
       scheme: 'TwilioVerify',
       testplan: test_plan,
@@ -207,7 +207,7 @@ platform :ios do
     )
     gym(
       scheme: "TwilioVerifyDemo", 
-      #export_method: "ad-hoc",
+      export_method: "ad-hoc",
       #silent: true,
       export_options: {
         method: "ad-hoc",
