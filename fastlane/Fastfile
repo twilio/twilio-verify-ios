@@ -198,7 +198,9 @@ platform :ios do
       xcodeproj: "./TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj",
       version_number: options[:versionName]
     )
-    match(type: "adhoc")
+    match(
+      type: "adhoc",
+      app_identifier: ["com.twilio.TwilioVerifyDemo"])
     gym(
       scheme: "TwilioVerifyDemo", 
       export_method: "ad-hoc",
