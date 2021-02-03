@@ -210,7 +210,7 @@ platform :ios do
       export_method: "development",
       silent: true,
       export_options: {
-        method: "ad-hoc",
+        method: "development",
         signingStyle: "manual",
         provisioningProfiles: {
           "com.twilio.TwilioVerifyDemo" => "match Development com.twilio.TwilioVerifyDemo"
