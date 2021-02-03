@@ -42,7 +42,10 @@ platform :ios do
     if options[:ftl_devices] == 'all'
       ftl_devices = all_ftl_devices
     end
-    match(type: "development")
+    match(
+      type: "development",
+      app_identifier: ["com.twilio.verify.HostApp"]
+    )
     scan(
       scheme: 'TwilioVerify',
       testplan: test_plan,
@@ -199,17 +202,18 @@ platform :ios do
       version_number: options[:versionName]
     )
     match(
-      type: "adhoc",
-      app_identifier: ["com.twilio.TwilioVerifyDemo"])
+      type: "development",
+      app_identifier: ["com.twilio.TwilioVerifyDemo"]
+    )
     gym(
       scheme: "TwilioVerifyDemo", 
       export_method: "ad-hoc",
       silent: true,
       export_options: {
-        method: "ad-hoc",
+        method: "development",
         signingStyle: "manual",
         provisioningProfiles: {
-          "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo"
+          "com.twilio.TwilioVerifyDemo" => "match Development com.twilio.TwilioVerifyDemo"
         }
       })
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
