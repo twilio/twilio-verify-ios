@@ -204,6 +204,7 @@ platform :ios do
       export_method: "ad-hoc",
       silent: true,
       export_options: {
+        method: "ad-hoc"
         signingStyle: "manual",
         provisioningProfiles: {
           "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo"

@@ -248,9 +248,8 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
-      - Distribute debug sample app:
-          requires:
-            - Integration Tests Single Device
+      - Distribute debug sample app
+          #requires:
           #  - Build TwilioVerify
           #filters:
           #  branches:
