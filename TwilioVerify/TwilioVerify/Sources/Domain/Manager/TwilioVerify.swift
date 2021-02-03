@@ -166,7 +166,7 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
-    self._baseURL = baseURL
+    _baseURL = baseURL
   }
   
   func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -180,7 +180,7 @@ public class TwilioVerifyBuilder {
   }
   
   func setURL(_ url: String) -> Self {
-    self._baseURL = url
+    _baseURL = url
     return self
   }
   
