@@ -202,20 +202,21 @@ platform :ios do
       version_number: options[:versionName]
     )
     match(
-      type: "adhoc",
+      type: "development",
       app_identifier: ["com.twilio.TwilioVerifyDemo"]
     )
     gym(
       scheme: "TwilioVerifyDemo", 
-      export_method: "ad-hoc",
+      export_method: "development"
       #silent: true,
-      export_options: {
-        method: "ad-hoc",
-        signingStyle: "manual",
-        provisioningProfiles: {
-          "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo"
-        }
-      })
+      # export_options: {
+      #   method: "ad-hoc",
+      #   signingStyle: "manual",
+      #   provisioningProfiles: {
+      #     "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo"
+      #   }
+      # }
+    )
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
     firebase_app_distribution(
       app: ENV["SAMPLE_APP_FIREBASE_ID"],
