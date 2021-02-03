@@ -202,7 +202,7 @@ platform :ios do
       version_number: options[:versionName]
     )
     match(
-      type: "development",
+      type: "adhoc",
       app_identifier: ["com.twilio.TwilioVerifyDemo"]
     )
     gym(
