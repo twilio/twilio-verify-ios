@@ -214,12 +214,14 @@ platform :ios do
     }
     gym(
       scheme: "TwilioVerifyDemo",
+      workspace: "TwilioVerifyDemo.xcworkspace",
       export_method: "ad-hoc",
       xcargs: settings_to_override,
       silent: true,
       export_options: {
         provisioningProfiles: { 
-            "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"]
+            "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
+            "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"]
         }
       }
     )
