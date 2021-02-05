@@ -210,7 +210,8 @@ platform :ios do
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
       :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
-      :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"]
+      :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
+      :CURRENT_PROJECT_VERSION => Time.now.to_i.to_s
     }
     gym(
       scheme: "TwilioVerifyDemo",
