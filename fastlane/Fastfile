@@ -204,13 +204,12 @@ platform :ios do
 
     match(
       app_identifier: "com.twilio.TwilioVerifyDemo",
-      type: "adhoc",
-      readonly: true
+      type: "adhoc"
     )
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
-      :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
-      :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"]
+      :PROVISIONING_PROFILE_SPECIFIER => "match AdHoc com.twilio.TwilioVerifyDemo",
+      :DEVELOPMENT_TEAM => "9EVH78F4V4"
     }
     gym(
       scheme: "TwilioVerifyDemo",
@@ -220,11 +219,34 @@ platform :ios do
       silent: true,
       export_options: {
         provisioningProfiles: { 
-            "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
-            "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"]
+            "com.twilio.TwilioVerifyDemo" => "match AdHoc com.twilio.TwilioVerifyDemo",
+            "com.twilio.verify.HostApp" => "match AdHoc com.twilio.verify.HostApp"
         }
       }
     )
+    # match(
+    #   app_identifier: "com.twilio.TwilioVerifyDemo",
+    #   type: "adhoc",
+    #   readonly: true
+    # )
+    # settings_to_override = {
+    #   :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
+    #   :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
+    #   :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"]
+    # }
+    # gym(
+    #   scheme: "TwilioVerifyDemo",
+    #   workspace: "TwilioVerify.xcworkspace",
+    #   export_method: "ad-hoc",
+    #   xcargs: settings_to_override,
+    #   silent: true,
+    #   export_options: {
+    #     provisioningProfiles: { 
+    #         "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
+    #         "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"]
+    #     }
+    #   }
+    # )
     ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
     firebase_app_distribution(
       app: ENV["SAMPLE_APP_FIREBASE_ID"],
