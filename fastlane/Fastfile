@@ -204,7 +204,7 @@ platform :ios do
 
     match(
       app_identifier: "com.twilio.TwilioVerifyDemo",
-      type: "development",
+      type: "adhoc",
       readonly: true
     )
     settings_to_override = {
@@ -213,8 +213,8 @@ platform :ios do
       :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"]
     }
     gym(
-      scheme: "TwilioVerifyDemo", 
-      export_method: "development",
+      scheme: "TwilioVerifyDemo",
+      export_method: "ad-hoc",
       xcargs: settings_to_override,
       silent: true,
       export_options: {
