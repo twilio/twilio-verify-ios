@@ -214,7 +214,7 @@ platform :ios do
     }
     gym(
       scheme: "TwilioVerifyDemo",
-      workspace: "TwilioVerifyDemo.xcworkspace",
+      workspace: "TwilioVerify.xcworkspace",
       export_method: "ad-hoc",
       xcargs: settings_to_override,
       silent: true,
