@@ -41,6 +41,7 @@ extension URLSession {
         result(.failure(NetworkError.failureStatusCode(failureResponse: failureResponse)))
         return
       }
+      Logger.shared.log(withLevel: .networking, message: "Response headers: \(response.allHeaderFields.map{"\($0): \($1)"}.joined(separator: ", "))")
       Logger.shared.log(withLevel: .networking, message: "Response body: \(String(data: data, encoding: .utf8))")
       result(.success(Response(data: data, headers: response.allHeaderFields)))
     }
