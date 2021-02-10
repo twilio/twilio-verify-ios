@@ -24,9 +24,10 @@ GEM
     algoliasearch (1.27.5)
       httpclient (~> 2.8, >= 2.8.3)
       json (>= 1.5.1)
+    artifactory (3.0.15)
     atomos (0.1.3)
     aws-eventstream (1.1.0)
-    aws-partitions (1.417.0)
+    aws-partitions (1.418.0)
     aws-sdk-core (3.111.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -139,9 +140,10 @@ GEM
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     fastimage (2.2.1)
-    fastlane (2.171.0)
+    fastlane (2.172.0)
       CFPropertyList (>= 2.3, < 4.0.0)
       addressable (>= 2.3, < 3.0.0)
+      artifactory (~> 3.0)
       aws-sdk-s3 (~> 1.0)
       babosa (>= 1.0.3, < 2.0.0)
       bundler (>= 1.12.0, < 3.0.0)
@@ -175,6 +177,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-firebase_app_distribution (0.2.5)
     fastlane-plugin-semantic_convention_release (1.0.6)
     ffi (1.14.2)
     filesize (0.2.0)
@@ -334,6 +337,7 @@ DEPENDENCIES
   danger-slather
   danger-swiftlint
   fastlane
+  fastlane-plugin-firebase_app_distribution
   fastlane-plugin-firebase_test_lab!
   fastlane-plugin-semantic_convention_release
   filesize

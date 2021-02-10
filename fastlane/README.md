@@ -66,6 +66,12 @@ fastlane ios danger_tests
 fastlane ios build_swift_package
 ```
 
+### ios distribute_sample_app
+```
+fastlane ios distribute_sample_app
+```
+Distribute sample app for internal testing
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
