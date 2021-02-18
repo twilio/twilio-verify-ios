@@ -234,7 +234,6 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Distribute debug sample app
       - Unit Tests and Lint
       - Integration Tests Single Device:
           requires:
