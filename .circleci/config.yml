@@ -8,8 +8,8 @@ executors:
 commands:
   setup:
     steps:
-      - configure_secrets
-      - configure_xcode_signing
+      # - configure_secrets
+      # - configure_xcode_signing
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
