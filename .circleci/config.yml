@@ -138,7 +138,7 @@ commands:
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
-          command: ./Scripts/build-app-sizer.sh
+          command: bundle exec fastlane build_app_sizer
       - run:
           name: "Copy Report"
           command: cp ./temp/SizeReport/SizeImpact.md ~/Desktop

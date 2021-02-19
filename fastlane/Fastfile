@@ -77,6 +77,15 @@ platform :ios do
     )
   end
 
+  desc "Runs app sizer"
+  lane :build_app_sizer do
+    match(
+      type: "development",
+      app_identifier: ["com.twilio.verify.AppSizer"]
+    )
+    sh('./../Scripts/build-app-sizer.sh')
+  end
+
   desc "Release a new production version"
   lane :release do
     title = 'iOS Verify Push Release'
