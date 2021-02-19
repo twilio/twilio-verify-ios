@@ -11,7 +11,7 @@
   <key>provisioningProfiles</key>
   <dict>
     <key>com.twilio.verify.AppSizer</key>
-    <string>TwilioVerify AppSizer Dev</string>
+    <string>match Development com.twilio.verify.AppSizer</string>
   </dict>
   <key>signingCertificate</key>
   <string>Apple Development</string>

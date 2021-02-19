@@ -245,9 +245,10 @@ workflows:
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
-      - Size report:
-          requires:
-            - Build TwilioVerify
+      - Size report
+      # - Size report:
+          # requires:
+            # - Build TwilioVerify
       - Distribute debug sample app:
           requires:
            - Build TwilioVerify
