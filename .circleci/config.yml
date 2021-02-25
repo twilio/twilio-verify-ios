@@ -8,8 +8,6 @@ executors:
 commands:
   setup:
     steps:
-      - configure_secrets
-      - configure_xcode_signing
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
@@ -50,21 +48,6 @@ commands:
     steps:
       - store_artifacts:
             path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
-  
-  configure_secrets:
-    steps:
-      - run:
-          name: "Installing secrets"
-          command: ./Scripts/extract-secrets.sh
-
-  configure_xcode_signing:
-    steps:
-      - run:
-          name: "Install signing certificates"
-          command: ./Scripts/configure-keychain.sh
-      - run:
-          name: "Install provisioning profiles"
-          command: ./Scripts/configure-provisioning-profiles.sh
 
   configure_google_service_account:
     steps:
@@ -138,7 +121,7 @@ commands:
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
-          command: ./Scripts/build-app-sizer.sh
+          command: bundle exec fastlane build_app_sizer
       - run:
           name: "Copy Report"
           command: cp ./temp/SizeReport/SizeImpact.md ~/Desktop
