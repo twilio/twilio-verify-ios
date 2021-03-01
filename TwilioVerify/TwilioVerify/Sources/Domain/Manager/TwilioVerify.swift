@@ -155,10 +155,10 @@ public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
-  private var baseURL: String
+  private var _baseURL: String!
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
-  private var clearStorageOnReinstall: Bool
+  private var clearStorageOnReinstall = true
   private var loggingServices: [LoggerService]
   
   ///Creates a new instance of TwilioVerifyBuilder
@@ -167,7 +167,7 @@ public class TwilioVerifyBuilder {
     networkProvider = NetworkAdapter()
     jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
-    baseURL = Constants.baseURL
+    _baseURL = baseURL
     clearStorageOnReinstall = true
     loggingServices = []
   }
@@ -183,7 +183,7 @@ public class TwilioVerifyBuilder {
   }
   
   func setURL(_ url: String) -> Self {
-    self.baseURL = url
+    _baseURL = url
     return self
   }
   
@@ -214,31 +214,25 @@ public class TwilioVerifyBuilder {
   */
   public func build() throws -> TwilioVerify {
     do {
+      loggingServices.forEach { Logger.shared.addService($0) }
       let factorFacade = try FactorFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setKeyStorage(keyStorage)
-        .setURL(baseURL)
+        .setURL(_baseURL)
         .setAuthentication(authentication)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setJWTGenerator(jwtGenerator)
-        .setURL(baseURL)
+        .setURL(_baseURL)
         .setAuthentication(authentication)
         .setFactorFacade(factorFacade)
         .build()
-      loggingServices.forEach { Logger.shared.addService($0) }
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.initializationError(error: error as NSError)
     }
-  }
-}
-
-private extension TwilioVerifyBuilder {
-  struct Constants {
-    static let baseURL = "https://verify.twilio.com/v2/"
   }
 }

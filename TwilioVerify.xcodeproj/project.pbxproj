@@ -1723,7 +1723,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "TwilioVerify HostApp Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.twilio.verify.HostApp";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1743,7 +1743,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "TwilioVerify HostApp Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.twilio.verify.HostApp";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
