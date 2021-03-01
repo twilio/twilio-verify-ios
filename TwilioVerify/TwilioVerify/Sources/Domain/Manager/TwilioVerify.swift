@@ -155,10 +155,10 @@ public class TwilioVerifyBuilder {
   
   private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
-  private var _baseURL: String!
+  private var _baseURL: String
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
-  private var clearStorageOnReinstall = true
+  private var clearStorageOnReinstall: Bool
   private var loggingServices: [LoggerService]
   
   ///Creates a new instance of TwilioVerifyBuilder
