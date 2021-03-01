@@ -63,15 +63,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    completionHandler([.alert, .sound, .badge])
+    guard let payload = notification.request.content.userInfo["data"] as? [String: Any] else {
+      return
+    }
+    showChallenge(payload: payload)
   }
   
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     defer { completionHandler() }
-    
     guard response.actionIdentifier == UNNotificationDefaultActionIdentifier,
-          let payload = response.notification.request.content.userInfo["data"] as? [String: Any],
-          let challengeSid = payload["challenge_sid"] as? String,
+          let payload = response.notification.request.content.userInfo["data"] as? [String: Any] else {
+      return
+    }
+    
+    showChallenge(payload: payload)
+  }
+}
+
+private extension AppDelegate {
+  func showChallenge(payload: [String: Any]) {
+    guard let challengeSid = payload["challenge_sid"] as? String,
           let factorSid = payload["factor_sid"] as? String,
           let type = payload["type"] as? String, type == "verify_push_challenge" else {
       return
