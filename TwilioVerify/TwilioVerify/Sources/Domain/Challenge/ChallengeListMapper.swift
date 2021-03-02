@@ -50,6 +50,7 @@ extension ChallengeListMapper: ChallengeListMapperProtocol {
       let challengeList = FactorChallengeList(challenges: challenges, metadata: metadata)
       return challengeList
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.mapperError(error: error as NSError)
     }
   }

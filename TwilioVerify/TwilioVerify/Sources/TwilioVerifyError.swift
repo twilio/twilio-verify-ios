@@ -113,12 +113,12 @@ public enum TwilioVerifyError: LocalizedError {
 }
 
 enum InputError: LocalizedError {
-  case invalidInput
+  case invalidInput(field: String)
   
   var errorDescription: String? {
     switch self {
-      case .invalidInput:
-        return "Invalid input"
+      case .invalidInput(let field):
+        return "Invalid input: \(field)"
     }
   }
 }

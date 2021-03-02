@@ -31,14 +31,12 @@ class CreateFactorPresenter {
   private let accessTokensAPI: AccessTokensAPI
   
   init?(withView view: CreateFactorView, accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
-    do {
-      self.view = view
-      self.twilioVerify = try TwilioVerifyAdapter()
-      self.accessTokensAPI = accessTokensAPI
-    } catch {
-      print("Unexpected error: \(error).")
+    self.view = view
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
       return nil
     }
+    self.twilioVerify = twilioVerify
+    self.accessTokensAPI = accessTokensAPI
   }
 }
 

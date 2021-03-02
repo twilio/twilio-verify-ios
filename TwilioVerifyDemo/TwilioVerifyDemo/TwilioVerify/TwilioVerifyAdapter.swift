@@ -23,7 +23,11 @@ class TwilioVerifyAdapter {
   private var twilioVerify: TwilioVerify
   
   init() throws {
-    twilioVerify = try TwilioVerifyBuilder().build()
+    var builder = TwilioVerifyBuilder()
+    #if DEBUG
+      builder = builder.enableDefaultLoggingService(withLevel: .all)
+    #endif
+    twilioVerify = try builder.build()
   }
 }
 

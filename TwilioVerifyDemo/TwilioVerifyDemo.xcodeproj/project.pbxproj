@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F0C5C5E825BF17E6006CCD8E /* TwilioVerify in Frameworks */ = {isa = PBXBuildFile; productRef = F0C5C5E725BF17E6006CCD8E /* TwilioVerify */; };
+		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
 		F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */; };
 		F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */; };
 		F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		F0C5C5E625BF17C8006CCD8E /* twilio-verify-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "twilio-verify-ios"; path = ..; sourceTree = "<group>"; };
+		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
 		F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailPresenter.swift; sourceTree = "<group>"; };
 		F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				F2AA37CB246F323E00B9388F /* Assets.xcassets */,
 				F2AA37C2246F323C00B9388F /* AppDelegate.swift */,
 				F2CC678F24B5077B000CB11E /* View */,
+				F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				F275354C24A53229005A5605 /* AccessTokensAPI.swift in Sources */,
 				F297F61F24A5435300294A0D /* AccessTokenResponse.swift in Sources */,
 				F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */,
+				F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */,
 				F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -236,7 +236,7 @@ class ChallengeAPIClientTests: XCTestCase {
       expectation.fulfill()
     }
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(error.errorDescription, InputError.invalidInput.errorDescription)
+    XCTAssertEqual(error.errorDescription, InputError.invalidInput(field: "factor for challenge").errorDescription)
   }
   
   func testUpdateChallenge_withValidData_shouldMatchExpectedParams() {

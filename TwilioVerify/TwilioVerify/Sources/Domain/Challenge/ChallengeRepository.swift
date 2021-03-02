@@ -48,20 +48,37 @@ extension ChallengeRepository: ChallengeProvider {
                                                                 ($0.key as? String)?.compare(Constants.signatureFieldsHeader, options: .caseInsensitive) == .orderedSame
                                                                }?.value as? String)
         if challenge.factorSid != factor.sid {
-          failure(InputError.invalidInput)
+          let error = InputError.invalidInput(field: "wrong factor for challenge")
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(error)
           return
         }
         challenge.factor = factor
         success(challenge)
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }, failure: failure)
   }
   
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
-    guard let factorChallenge = challenge as? FactorChallenge, let factor = factorChallenge.factor, factorChallenge.status == .pending else {
-      failure(InputError.invalidInput)
+    guard let factorChallenge = challenge as? FactorChallenge else {
+      let error = InputError.invalidInput(field: "invalid challenge")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(error)
+      return
+    }
+    guard let factor = factorChallenge.factor else {
+      let error = InputError.invalidInput(field: "invalid factor")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(error)
+      return
+    }
+    guard factorChallenge.status == .pending else {
+      let error = InputError.invalidInput(field: "responded or expired challenge can not be updated")
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      failure(error)
       return
     }
     apiClient.update(factorChallenge, withAuthPayload: payload, success: { [weak self] _ in
@@ -77,6 +94,7 @@ extension ChallengeRepository: ChallengeProvider {
         let challengeList = try strongSelf.challengeListMapper.fromAPI(withData: response.data)
         success(challengeList)
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }, failure: failure)

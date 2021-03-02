@@ -46,6 +46,7 @@ extension ECSigner: Signer {
     do {
       return try keychain.sign(withPrivateKey: keyPair.privateKey, algorithm: signatureAlgorithm, dataToSign: data)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }
@@ -72,6 +73,7 @@ extension ECSigner: Signer {
       result.append(representation)
       return result
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }
