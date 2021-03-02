@@ -99,7 +99,7 @@ class ChallengeFacadeTests: XCTestCase {
   func testGetChallenge_withInvalidFactorType_shouldFail() {
     let expectation = self.expectation(description: "testGetChallenge_withInvalidFactorType_shouldFail")
     factorFacade.factor = Constants.fakeFactor
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "invalid factor") as NSError)
     var error: TwilioVerifyError!
     challengeFacade.get(withSid: Constants.challengeSid, withFactorSid: Constants.factorSid, success: { _ in
       XCTFail()
@@ -175,7 +175,7 @@ class ChallengeFacadeTests: XCTestCase {
   func testUpdateChallenge_withInvalidFactorType_shouldFail() {
     let expectation = self.expectation(description: "testUpdateChallenge_withInvalidFactorType_shouldFail")
     factorFacade.factor = Constants.fakeFactor
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "") as NSError)
     var error: TwilioVerifyError!
     challengeFacade.update(withPayload: Constants.updatePushChallengePayload, success: {
       XCTFail()
@@ -195,7 +195,7 @@ class ChallengeFacadeTests: XCTestCase {
   func testUpdateChallenge_withInvalidPayload_shouldFail() {
     let expectation = self.expectation(description: "testUpdateChallenge_withInvalidPayload_shouldFail")
     factorFacade.factor = Constants.expectedFactor
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "") as NSError)
     var error: TwilioVerifyError!
     challengeFacade.update(withPayload: Constants.fakeUpdateChallengePayload, success: {
       XCTFail()

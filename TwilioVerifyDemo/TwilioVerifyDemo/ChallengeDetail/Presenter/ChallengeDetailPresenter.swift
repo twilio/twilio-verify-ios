@@ -38,16 +38,14 @@ class ChallengeDetailPresenter {
   private let factorSid: String
   
   init?(withView view: ChallengeDetailView, challengeSid: String = String(), factorSid: String = String()) {
-    do {
-      self.view = view
-      self.twilioVerify = try TwilioVerifyAdapter()
-      self.challengeSid = challengeSid
-      self.factorSid = factorSid
-      fetchChallengeDetails()
-    } catch {
-      print("Unexpected error: \(error).")
+    self.view = view
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
       return nil
     }
+    self.twilioVerify = twilioVerify
+    self.challengeSid = challengeSid
+    self.factorSid = factorSid
+    fetchChallengeDetails()
   }
 }
 

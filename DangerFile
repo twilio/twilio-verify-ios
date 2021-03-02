@@ -6,6 +6,7 @@ warn("Big PR") if git.lines_of_code > 500
 slather.configure('TwilioVerify.xcodeproj', 'TwilioVerify', options: {
   workspace: 'TwilioVerify.xcworkspace',
   output_directory:  './fastlane/Test Output/CompleteSuite/coverage',
+  ignore_list: ['**/OSLogWrapper.swift'],
   ci_service: :circleci,
   coverage_service: :terminal,
   html: true,

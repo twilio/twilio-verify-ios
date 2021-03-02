@@ -61,6 +61,7 @@ extension AuthenticationProvider: Authentication {
           throw AuthenticationError.invalidFactor
       }
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
     }
   }
