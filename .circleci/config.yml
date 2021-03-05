@@ -55,6 +55,12 @@ commands:
           name: Configure Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
 
+  configure_gcloud_app_distribution_service:
+    steps:
+      - run:
+          name: Configure GCloud App Distribution service
+          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+
   unit_tests:
     parameters:
       test_plan:
@@ -138,6 +144,7 @@ commands:
       - setup
       - attach_workspace:
           at: ~/Desktop
+      - configure_gcloud_app_distribution_service
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
@@ -160,9 +167,7 @@ jobs:
     steps:
       - checkout
       - setup
-      - run:
-          name: Store GCloud app distribution service
-          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+      - configure_gcloud_app_distribution_service
       - distribute_debug_sample_app:
           env: "DEV"
           base_url: $DEV_URL
