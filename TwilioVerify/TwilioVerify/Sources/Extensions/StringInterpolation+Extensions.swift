@@ -1,8 +1,8 @@
 //
-//  TwilioVerifyConfig.swift
+//  StringInterpolation+Extensions.swift
 //  TwilioVerify
 //
-//  Copyright © 2020 Twilio.
+//  Copyright © 2021 Twilio.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -17,7 +17,11 @@
 //  limitations under the License.
 //
 
-let version = "0.3.2"
-let bundleName = "TwilioVerify"
-let bundleVersion = "1"
-let baseURL = "https://verify.twilio.com/v2/"
+import Foundation
+
+extension String.StringInterpolation {
+  
+  mutating func appendInterpolation<T: CustomStringConvertible>(_ value: T?) {
+    appendInterpolation(value ?? "nil" as CustomStringConvertible)
+  }
+}

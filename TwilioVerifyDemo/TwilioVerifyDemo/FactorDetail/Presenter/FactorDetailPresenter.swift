@@ -39,16 +39,14 @@ class FactorDetailPresenter {
   }
   
   init?(withView view: FactorDetailView?, factor: Factor) {
-    do {
-      self.view = view
-      self.twilioVerify = try TwilioVerifyAdapter()
-      self.factor = factor
-      self.challenges = []
-      fetchChallenges()
-    } catch {
-      print("Unexpected error: \(error).")
+    self.view = view
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
       return nil
     }
+    self.twilioVerify = twilioVerify
+    self.factor = factor
+    self.challenges = []
+    fetchChallenges()
   }
 }
 

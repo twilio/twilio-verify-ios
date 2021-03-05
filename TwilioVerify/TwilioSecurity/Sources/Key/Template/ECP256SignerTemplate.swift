@@ -42,6 +42,7 @@ extension ECP256SignerTemplate: SignerTemplate {
       self.accessControl = try keychain.accessControl(withProtection: Constants.accessControlProtection, flags: Constants.accessControlFlags)
       self.parameters = try createSignerParameters(keychain)
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
   }

@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerify
 
-// swiftlint:disable force_try
+// swiftlint:disable force_try function_body_length
 class UpdateChallengeTests: BaseFactorTests {
   
   func testUpdateChallenge_withValidAPIResponse_shouldSucceed() {
@@ -43,7 +43,12 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .enableDefaultLoggingService(withLevel: .all)
+                            .build()
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
       expectation.fulfill()
     }) { _ in
@@ -84,7 +89,12 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlErrorResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .enableDefaultLoggingService(withLevel: .all)
+                            .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
@@ -120,7 +130,12 @@ class UpdateChallengeTests: BaseFactorTests {
                            URLSessionDataTaskMock(data: jsonApprovedChallengesData, httpURLResponse: urlResponse, requestError: nil)]
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
-    let twilioVerify = try! TwilioVerifyBuilder().setURL(Constants.url).setNetworkProvider(networkProvider).build()
+    let twilioVerify = try! TwilioVerifyBuilder()
+                            .setURL(Constants.url)
+                            .setNetworkProvider(networkProvider)
+                            .setClearStorageOnReinstall(true)
+                            .enableDefaultLoggingService(withLevel: .all)
+                            .build()
     let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {

@@ -1,6 +1,6 @@
 //
-//  TwilioVerifyConfig.swift
-//  TwilioVerify
+//  OSLogWrapperMock.swift
+//  TwilioVerifyTests
 //
 //  Copyright © 2020 Twilio.
 //
@@ -17,7 +17,20 @@
 //  limitations under the License.
 //
 
-let version = "0.3.2"
-let bundleName = "TwilioVerify"
-let bundleVersion = "1"
-let baseURL = "https://verify.twilio.com/v2/"
+import Foundation
+import os
+@testable import TwilioVerify
+
+class OSLogWrapperMock {
+  private(set) var callsToLog = 0
+  private(set) var message: String?
+  private(set) var type: OSLogType = .default
+}
+
+extension OSLogWrapperMock: OSLogWrappable {
+  func log(_ message: String, type: OSLogType, redacted: Bool) {
+    callsToLog += 1
+    self.message = message
+    self.type = type
+  }
+}

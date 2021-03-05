@@ -1,6 +1,6 @@
 //
-//  TwilioVerifyConfig.swift
-//  TwilioVerify
+//  LoggerServiceMock.swift
+//  TwilioVerifyTests
 //
 //  Copyright © 2020 Twilio.
 //
@@ -17,7 +17,22 @@
 //  limitations under the License.
 //
 
-let version = "0.3.2"
-let bundleName = "TwilioVerify"
-let bundleVersion = "1"
-let baseURL = "https://verify.twilio.com/v2/"
+import Foundation
+@testable import TwilioVerify
+
+class LoggerServiceMock {
+  private(set) var callsToLog = 0
+  private(set) var level: LogLevel
+  private(set) var message: String!
+  
+  init(withLevel level: LogLevel) {
+    self.level = level
+  }
+}
+
+extension LoggerServiceMock: LoggerService {
+  func log(withLevel level: LogLevel, message: String, redacted: Bool) {
+    callsToLog += 1
+    self.message = message
+  }
+}

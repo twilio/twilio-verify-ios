@@ -8,8 +8,6 @@ executors:
 commands:
   setup:
     steps:
-      - configure_secrets
-      - configure_xcode_signing
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
@@ -50,21 +48,6 @@ commands:
     steps:
       - store_artifacts:
             path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
-  
-  configure_secrets:
-    steps:
-      - run:
-          name: "Installing secrets"
-          command: ./Scripts/extract-secrets.sh
-
-  configure_xcode_signing:
-    steps:
-      - run:
-          name: "Install signing certificates"
-          command: ./Scripts/configure-keychain.sh
-      - run:
-          name: "Install provisioning profiles"
-          command: ./Scripts/configure-provisioning-profiles.sh
 
   configure_google_service_account:
     steps:
@@ -138,7 +121,7 @@ commands:
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
       - run:
           name: "Build AppSizer App"
-          command: ./Scripts/build-app-sizer.sh
+          command: bundle exec fastlane build_app_sizer
       - run:
           name: "Copy Report"
           command: cp ./temp/SizeReport/SizeImpact.md ~/Desktop
@@ -159,7 +142,37 @@ commands:
           name: "Release SDK"
           command: bundle exec fastlane release
 
+  distribute_debug_sample_app:
+    parameters:
+      env:
+        description: environment name (DEV, STAGE, PROD)
+        type: string     
+      base_url:
+        description: API base URL
+        type: string
+    steps:
+      - run:
+          name: Generating APK for internal distribution
+          command: bundle exec fastlane distribute_debug_sample_app env:<<parameters.env>> url:<<parameters.base_url>>
 jobs:
+  Distribute debug sample app:
+    executor: macos_executor
+    steps:
+      - checkout
+      - setup
+      - run:
+          name: Store GCloud app distribution service
+          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+      - distribute_debug_sample_app:
+          env: "DEV"
+          base_url: $DEV_URL
+      - distribute_debug_sample_app:
+          env: "STAGE"
+          base_url: $STAGE_URL
+      - distribute_debug_sample_app:
+          env: "PROD"
+          base_url: $PROD_URL
+
   Unit Tests and Lint:
     executor: macos_executor
     steps:
@@ -218,6 +231,16 @@ workflows:
       - Size report:
           requires:
             - Build TwilioVerify
+      - Distribute debug sample app:
+          requires:
+           - Build TwilioVerify
+          filters:
+           branches:
+             only:
+               - /feature.*/
+               - /release.*/
+               - /hotfix.*/
+               - dev              
       - Release SDK:
           requires:
             - Size report

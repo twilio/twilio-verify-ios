@@ -34,11 +34,15 @@ extension URLSession {
         result(.failure(NetworkError.invalidResponse(errorResponse: data)))
         return
       }
+      Logger.shared.log(withLevel: .networking, message: "Response code: \(response.statusCode)")
       guard response.statusCode < 300 else {
         let failureResponse = FailureResponse(responseCode: response.statusCode, errorData: data, headers: response.allHeaderFields)
+        Logger.shared.log(withLevel: .networking, message: "Error body: \(String(data: data, encoding: .utf8))")
         result(.failure(NetworkError.failureStatusCode(failureResponse: failureResponse)))
         return
       }
+      Logger.shared.log(withLevel: .networking, message: "Response headers: \(response.allHeaderFields.map {"\($0): \($1)"}.joined(separator: ", "))")
+      Logger.shared.log(withLevel: .networking, message: "Response body: \(String(data: data, encoding: .utf8))")
       result(.success(Response(data: data, headers: response.allHeaderFields)))
     }
   }

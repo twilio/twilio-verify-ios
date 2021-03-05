@@ -1,5 +1,5 @@
 //
-//  TwilioVerifyConfig.swift
+//  DefaultLogger.swift
 //  TwilioVerify
 //
 //  Copyright © 2020 Twilio.
@@ -17,7 +17,23 @@
 //  limitations under the License.
 //
 
-let version = "0.3.2"
-let bundleName = "TwilioVerify"
-let bundleVersion = "1"
-let baseURL = "https://verify.twilio.com/v2/"
+import Foundation
+
+class DefaultLogger {
+  
+  private(set) var level: LogLevel
+  private let osLog: OSLogWrappable
+  
+  init(withLevel level: LogLevel,
+       osLog: OSLogWrappable = OSLogWrapper()) {
+    self.level = level
+    self.osLog = osLog
+  }
+}
+
+extension DefaultLogger: LoggerService {
+  func log(withLevel level: LogLevel, message: String, redacted: Bool) {
+    guard level == self.level || self.level == .all else { return }
+    osLog.log(message, type: level.mapToOSLogType, redacted: redacted)
+  }
+}

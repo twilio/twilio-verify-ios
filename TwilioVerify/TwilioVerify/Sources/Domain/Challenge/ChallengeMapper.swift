@@ -44,6 +44,7 @@ class ChallengeMapper: ChallengeMapperProtocol {
       factorChallenge.signatureFields = signatureFields
       return factorChallenge
     } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw TwilioVerifyError.mapperError(error: error as NSError)
     }
   }
@@ -52,7 +53,9 @@ class ChallengeMapper: ChallengeMapperProtocol {
     guard let expirationDate = DateFormatter().RFC3339(challengeDTO.expirationDate),
       let createdAt = DateFormatter().RFC3339(challengeDTO.createdAt),
       let updatedAt = DateFormatter().RFC3339(challengeDTO.updateAt) else {
-        throw MapperError.invalidDate
+        let error = MapperError.invalidDate
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        throw error
     }
       
     let details = ChallengeDetails(message: challengeDTO.details.message, fields: challengeDTO.details.fields ?? [], date: DateFormatter().RFC3339(challengeDTO.details.date ?? String()))

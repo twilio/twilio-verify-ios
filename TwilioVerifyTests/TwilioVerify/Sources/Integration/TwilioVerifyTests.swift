@@ -29,7 +29,12 @@ class TwilioVerifyTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     networkProvider = NetworkProviderMock()
-    twilioVerify = try! TwilioVerifyBuilder().setURL("https://twilio.com").setNetworkProvider(networkProvider).build()
+    twilioVerify = try! TwilioVerifyBuilder()
+                        .setURL("https://twilio.com")
+                        .setNetworkProvider(networkProvider)
+                        .setClearStorageOnReinstall(true)
+                        .enableDefaultLoggingService(withLevel: .all)
+                        .build()
   }
   
   func testCreateFactor_shouldSucceed() {

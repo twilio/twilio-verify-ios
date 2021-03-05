@@ -51,6 +51,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           self.validateFailureResponse(withError: error, retries: retries, retryBlock: getChallenge, failure: failure)
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }
@@ -77,6 +78,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           self.validateFailureResponse(withError: error, retries: retries, retryBlock: getAllChallenges, failure: failure)
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }
@@ -87,7 +89,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
     func updateChallenge(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
         guard let factor = challenge.factor else {
-          failure(InputError.invalidInput)
+          failure(InputError.invalidInput(field: "factor for challenge"))
           return
         }
         let authToken = try authentication.generateJWT(forFactor: factor)
@@ -100,6 +102,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           self.validateFailureResponse(withError: error, retries: retries, retryBlock: updateChallenge, failure: failure)
         })
       } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
       }
     }

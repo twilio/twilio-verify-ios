@@ -39,7 +39,7 @@ else
 fi
 
 
-twilioVerifyConfig=`cat TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift`
+twilioVerifyConfig=`cat ./../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift`
 SAVEIFS=$IFS
 IFS=$'\n'
 components=($twilioVerifyConfig)

@@ -31,14 +31,12 @@ class CreateFactorPresenter {
   private let accessTokensAPI: AccessTokensAPI
   
   init?(withView view: CreateFactorView, accessTokensAPI: AccessTokensAPI = AccessTokensAPIClient()) {
-    do {
-      self.view = view
-      self.twilioVerify = try TwilioVerifyAdapter()
-      self.accessTokensAPI = accessTokensAPI
-    } catch {
-      print("Unexpected error: \(error).")
+    self.view = view
+    guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
       return nil
     }
+    self.twilioVerify = twilioVerify
+    self.accessTokensAPI = accessTokensAPI
   }
 }
 
@@ -52,11 +50,16 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       view?.showAlert(withMessage: "Invalid URL")
       return
     }
+    let deviceToken = pushToken()
+    guard !deviceToken.isEmpty else {
+      view?.showAlert(withMessage: "Invalid device token for push")
+      return
+    }
     saveAccessTokenURL(url)
     accessTokensAPI.accessTokens(at: url, identity: identity, success: { [weak self] response in
       guard let strongSelf = self else { return }
       let factorName = "\(identity)'s Factor"
-      strongSelf.createFactor(response, withFactorName: factorName, success: { factor in
+      strongSelf.createFactor(response, withFactorName: factorName, deviceToken: deviceToken, success: { factor in
         strongSelf.verify(factor, success: { _ in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
@@ -104,12 +107,12 @@ private extension CreateFactorPresenter {
     return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String ?? String()
   }
   
-  func createFactor(_ accessToken: AccessTokenResponse, withFactorName factorName: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(_ accessToken: AccessTokenResponse, withFactorName factorName: String, deviceToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     let payload = PushFactorPayload(
       friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
       identity: accessToken.identity,
-      pushToken: pushToken(),
+      pushToken: deviceToken,
       accessToken: accessToken.token
     )
     twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
