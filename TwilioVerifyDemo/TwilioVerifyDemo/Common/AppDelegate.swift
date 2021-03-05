@@ -67,16 +67,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    guard let payload = notification.request.content.userInfo["data"] as? [String: Any] else {
+    guard let payload = notification.request.content.userInfo as? [String: Any] else {
+      completionHandler(UNNotificationPresentationOptions(rawValue: 0))
       return
     }
     showChallenge(payload: payload)
+    completionHandler(.sound)
   }
   
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     defer { completionHandler() }
     guard response.actionIdentifier == UNNotificationDefaultActionIdentifier,
-          let payload = response.notification.request.content.userInfo["data"] as? [String: Any] else {
+          let payload = response.notification.request.content.userInfo as? [String: Any] else {
       return
     }
     
