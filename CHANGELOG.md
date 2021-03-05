@@ -1,3 +1,13 @@
+# 0.4.0 (2021-03-05)
+
+### Features
+- SDK Logging (#124) ([d66887d](https://github.com/twilio/twilio-verify-ios/commit/d66887d293bacdd8aa7e7da8a47f373fa95f2c9d))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
 # 0.3.2 (2021-02-02)
 
 ### Bug fixes

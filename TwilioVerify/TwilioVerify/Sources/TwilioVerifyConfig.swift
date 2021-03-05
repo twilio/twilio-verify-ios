@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-let version = "0.3.2"
+let version = "0.4.0"
 let bundleName = "TwilioVerify"
 let bundleVersion = "1"
 let baseURL = "https://verify.twilio.com/v2/"
