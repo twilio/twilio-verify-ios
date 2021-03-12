@@ -21,6 +21,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Identity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nnP-ip-qbB">
                                 <rect key="frame" x="16" y="188" width="382" height="20"/>
+                                <accessibility key="accessibilityConfiguration" identifier="identityInput"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1SK-U4-ZoR"/>
                                 </constraints>
@@ -29,6 +30,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Access token URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asf-Kj-V6U" userLabel="Access token URL Text Field">
                                 <rect key="frame" x="16" y="228" width="382" height="20"/>
+                                <accessibility key="accessibilityConfiguration" identifier="accessTokenInput"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="qes-Rf-29Z"/>
                                 </constraints>
@@ -38,6 +40,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIO-J6-K4C">
                                 <rect key="frame" x="16" y="272" width="382" height="48"/>
                                 <color key="backgroundColor" red="0.20746630429999999" green="0.47376841310000001" blue="0.75125902889999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="createFactorButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="2c3-rN-9dH"/>
                                 </constraints>
