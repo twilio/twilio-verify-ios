@@ -84,30 +84,30 @@ public enum TwilioVerifyError: LocalizedError {
 
   /**
    Error code of the associated error
-   - **NetworkError:** 68001
-   - **MapperError:** 68002
-   - **StorageError:** 68003
-   - **InputError:** 68004
-   - **KeyStorageError:** 68005
-   - **InitializationError:** 68006
-   - **AuthenticationTokenError:** 68007
+   - **NetworkError:**
+   - **MapperError:**
+   - **StorageError:**
+   - **InputError:**
+   - **KeyStorageError:**
+   - **InitializationError:**
+   - **AuthenticationTokenError:**
    */
   public var code: Int {
     switch self {
       case .networkError:
-        return 68001
+        return 60401
       case .mapperError:
-        return 68002
+        return 60402
       case .storageError:
-        return 68003
+        return 60403
       case .inputError:
-        return 68004
+        return 60404
       case .keyStorageError:
-        return 68005
+        return 60405
       case .initializationError:
-        return 68006
+        return 60406
       case .authenticationTokenError:
-        return 68007
+        return 60407
     }
   }
 }
