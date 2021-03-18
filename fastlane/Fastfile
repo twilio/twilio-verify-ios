@@ -61,7 +61,7 @@ platform :ios do
       gcp_project: 'twilio-firebase-266721',
       timeout_sec: 300,
       devices: ftl_devices,
-      ios_xc_test_args: { xcodeVersion: '11.6' }
+      ios_xc_test_args: { xcodeVersion: '12.4' }
     )
   end
 
