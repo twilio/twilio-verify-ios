@@ -1,11 +1,11 @@
 output_directory = './fastlane/Test Output/'
 coverage_directory = '/coverage'
 complete_suite = 'CompleteSuite'
-single_ftl_device = [{ios_model_id: 'iphone8', ios_version_id: '13.6'}]
+single_ftl_device = [{ios_model_id: 'iphone8', ios_version_id: '14.1'}]
 all_ftl_devices = [
-  {ios_model_id: 'iphone11', ios_version_id: '13.3'},
-  {ios_model_id: 'iphonexsmax', ios_version_id: '12.0'},
-  {ios_model_id: 'iphonex', ios_version_id: '11.4'},
+  {ios_model_id: 'iphone11', ios_version_id: '13.6'},
+  {ios_model_id: 'iphone11pro', ios_version_id: '13.3'},
+  {ios_model_id: 'iphone7', ios_version_id: '12.0'},
   {ios_model_id: 'iphone8plus', ios_version_id: '12.3'}
 ]
 
@@ -60,8 +60,7 @@ platform :ios do
       oauth_key_file_path: 'gcloud-service-key.json',
       gcp_project: 'twilio-firebase-266721',
       timeout_sec: 300,
-      devices: ftl_devices,
-      ios_xc_test_args: { xcodeVersion: '12.4' }
+      devices: ftl_devices
     )
   end
 
