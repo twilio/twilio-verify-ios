@@ -31,6 +31,11 @@ Runs integration tests
 fastlane ios build_universal_framework
 ```
 Builds universal framework for release
+### ios build_app_sizer
+```
+fastlane ios build_app_sizer
+```
+Runs app sizer
 ### ios release
 ```
 fastlane ios release
@@ -66,6 +71,11 @@ fastlane ios danger_tests
 fastlane ios build_swift_package
 ```
 
+### ios distribute_debug_sample_app
+```
+fastlane ios distribute_debug_sample_app
+```
+Distribute debug sample app for internal testing
 ### ios distribute_sample_app
 ```
 fastlane ios distribute_sample_app
