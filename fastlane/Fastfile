@@ -99,7 +99,7 @@ platform :ios do
       output_name: "AppSizer.ipa",
       export_options: "./AppSizer/AppSizer/ExportOptions/dev.plist"
     )
-    sh('./../Scripts/build-app-sizer.sh')
+    sh('./../Scripts/app-sizer.sh')
   end
 
   desc "Release a new production version"

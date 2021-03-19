@@ -47,7 +47,7 @@ File.open("#{SIZE_REPORT_DIR}/#{FRAMEWORK_NAME} Size Impact Report.txt", 'w') do
   f.puts "Size impact report for #{FRAMEWORK_NAME} #{BASE_VERSION}"
   f.puts ""
 
-  app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/app-thinning.plist")
+  app_thinning_plist = Plist.parse_xml("#{IPA_DIR}/Apps/app-thinning.plist")
 
   for variant in app_thinning_plist['variants']
     variant_name = variant[0]
