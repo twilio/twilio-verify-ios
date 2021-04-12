@@ -44,7 +44,7 @@ None
 ## Requirements
 * iOS 10+
 * Swift 5.2
-* Xcode 11.x
+* Xcode 12.x
 
 <a name='Documentation'></a>
 
@@ -171,13 +171,13 @@ twilioVerify = try builder.build()
 ## Errors
 Types | Code | Description
 ---------- | ----------- | -----------
-Network | 68001 | Exception while calling the API
-Mapping | 68002 | Exception while mapping an entity
-Storage | 68003 | Exception while storing/loading an entity
-Input | 68004 | Exception while loading input
-Key Storage | 68005 | Exception while storing/loading key pairs
-Initialization | 68006 | Exception while initializing an object
-Authentication Token | 68007 | Exception while generating token
+Network | 60401 | Exception while calling the API
+Mapping | 60402 | Exception while mapping an entity
+Storage | 60403 | Exception while storing/loading an entity
+Input | 60404 | Exception while loading input
+Key Storage | 60405 | Exception while storing/loading key pairs
+Initialization | 60406 | Exception while initializing an object
+Authentication Token | 60407 | Exception while generating token
 
 <a name='UpdatePushToken'></a>
 

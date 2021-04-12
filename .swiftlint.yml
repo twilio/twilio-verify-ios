@@ -27,3 +27,6 @@ switch_case_alignment:
 function_parameter_count:
   warning: 7
   error: 9
+
+excluded:
+  - vendor
