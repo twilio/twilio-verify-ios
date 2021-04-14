@@ -70,12 +70,26 @@ platform :ios do
     build_app(
       silent: true,
       clean: false,
-      scheme: "TwilioVerifySDK",
+      scheme: "TwilioVerify",
       workspace: "TwilioVerify.xcworkspace",
       skip_codesigning: true,
       skip_archive: true
     )
   end
+
+  desc "Export release xcframework"
+	lane :export_release_xcframework do
+	  create_xcframework(
+	    scheme: 'TwilioVerify',
+	    destinations: ['iOS'],
+			product_name: 'TwilioVerify',
+	    xcframework_output_directory: 'Products/xcframeworks/release',
+			include_dSYMs: true,
+			include_BCSymbolMaps: true,
+	    include_debug_symbols: true,
+			enable_bitcode: true
+	  )
+	end
 
   desc "Runs app sizer"
   lane :build_app_sizer do
@@ -109,7 +123,7 @@ platform :ios do
     next unless verify(title: title, tag_prefix: tag_prefix)
     increment_version()
     build_universal_framework()
-    sh('zip -r ~/Desktop/TwilioVerify.framework.zip ~/Desktop/TwilioVerify.framework')
+    export_release_xcframework()
     public_api_docs()
     build_swift_package()
     pod_lib_lint(verbose: true)
@@ -178,7 +192,7 @@ platform :ios do
       tag_name: tag,
       description: notes,
       commitish: "main",
-      upload_assets: '../Desktop/TwilioVerify.framework.zip'
+      upload_assets: '../Desktop/TwilioVerify.zip'
     )
     
     pod_push(path: "./TwilioVerify.podspec", verbose: true)

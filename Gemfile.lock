@@ -178,6 +178,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-create_xcframework (1.1.2)
     fastlane-plugin-firebase_app_distribution (0.2.5)
     fastlane-plugin-semantic_convention_release (1.0.6)
     ffi (1.14.2)
@@ -338,6 +339,7 @@ DEPENDENCIES
   danger-slather
   danger-swiftlint
   fastlane
+  fastlane-plugin-create_xcframework
   fastlane-plugin-firebase_app_distribution
   fastlane-plugin-firebase_test_lab!
   fastlane-plugin-semantic_convention_release
