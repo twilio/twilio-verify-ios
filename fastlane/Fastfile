@@ -70,7 +70,7 @@ platform :ios do
     build_app(
       silent: true,
       clean: false,
-      scheme: "TwilioVerifySDK",
+      scheme: "TwilioVerify",
       workspace: "TwilioVerify.xcworkspace",
       skip_codesigning: true,
       skip_archive: true

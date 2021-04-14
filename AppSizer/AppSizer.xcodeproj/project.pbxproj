@@ -67,6 +67,7 @@
 		F22EA92F24916DCF008712CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				860BB6862628F18700E021C9 /* TwilioVerify.xcframework */,
 				F22EA93124918634008712CF /* TwilioSecurity.framework */,
 				860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */,
 			);
