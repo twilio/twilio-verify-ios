@@ -102,18 +102,19 @@ commands:
       - setup
       - run:
           name: "Build Universal Framework"
-          command: bundle exec fastlane build_universal_framework
+          command: bundle exec fastlane export_release_xcframework
       - run:
           name: "Zip Framework"
           command: |
-                  cd ~/Desktop
-                  zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
+                  cd Products/xcframeworks/release
+                  zip -r ~/Desktop/<< parameters.artifact >>.zip << parameters.artifact >>.xcframework
       - store_artifacts:
-          path: ~/Desktop/<< parameters.artifact >>.framework.zip
+          path: ~/Desktop/<< parameters.artifact >>.zip
+          destination: << parameters.artifact >>.zip
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - TwilioVerify.framework
+            - TwilioVerify.zip
 
   build_app_sizer:
     steps:
@@ -207,7 +208,7 @@ jobs:
     executor: macos_executor
     steps:
       - build_framework:
-          scheme: TwilioVerifySDK
+          scheme: TwilioVerify
           artifact: TwilioVerify
 
   Size report:

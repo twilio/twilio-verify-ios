@@ -6,20 +6,6 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		F216C2B524C9057900AFC3A1 /* TwilioVerifySDK */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = F216C2B624C9057900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioVerifySDK" */;
-			buildPhases = (
-				F216C2BA24C9058700AFC3A1 /* Build Universal Framework */,
-			);
-			dependencies = (
-			);
-			name = TwilioVerifySDK;
-			productName = TwilioVerifySDK;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003C43F2480232900279BBD /* TwilioVerifyError.swift */; };
 		2017297624D0A2D70029493D /* BaseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2017297524D0A2D70029493D /* BaseAPIClient.swift */; };
@@ -1161,9 +1147,6 @@
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Twilio;
 				TargetAttributes = {
-					F216C2B524C9057900AFC3A1 = {
-						CreatedOnToolsVersion = 11.6;
-					};
 					F2AA3777246F30BE00B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
 						LastSwiftMigration = 1150;
@@ -1193,7 +1176,6 @@
 				F2AA3777246F30BE00B9388F /* TwilioVerify */,
 				F2AA3780246F30BF00B9388F /* TwilioVerifyTests */,
 				F2F62F9C248846D800E330E4 /* HostApp */,
-				F216C2B524C9057900AFC3A1 /* TwilioVerifySDK */,
 			);
 		};
 /* End PBXProject section */
@@ -1249,24 +1231,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		F216C2BA24C9058700AFC3A1 /* Build Universal Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Universal Framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n${SRCROOT}/Scripts/build-frameworks.sh TwilioVerify\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1472,24 +1436,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F216C2B724C9057900AFC3A1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		F216C2B924C9057900AFC3A1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		F2AA378A246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1634,6 +1580,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1665,6 +1612,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1754,15 +1702,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F216C2B624C9057900AFC3A1 /* Build configuration list for PBXAggregateTarget "TwilioVerifySDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F216C2B724C9057900AFC3A1 /* Debug */,
-				F216C2B924C9057900AFC3A1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		F2AA3772246F30BE00B9388F /* Build configuration list for PBXProject "TwilioVerify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
