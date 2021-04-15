@@ -23,7 +23,7 @@ import XCTest
 // swiftlint:disable type_body_length file_length force_cast
 class TwilioVerifyManagerTests: XCTestCase {
 
-  private var twilioVerify: TwilioVerify!
+  private var twilioVerify: TwilioVerifySDK!
   private var factorFacade: FactorFacadeMock!
   private var challengeFacade: ChallengeFacadeMock!
   

@@ -23,7 +23,7 @@ import XCTest
 // swiftlint:disable force_cast force_try
 class TwilioVerifyTests: XCTestCase {
 
-  private var twilioVerify: TwilioVerify!
+  private var twilioVerify: TwilioVerifySDK!
   private var networkProvider: NetworkProviderMock!
   
   override func setUpWithError() throws {

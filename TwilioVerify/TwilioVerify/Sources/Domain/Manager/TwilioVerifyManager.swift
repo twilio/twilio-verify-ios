@@ -31,7 +31,7 @@ public class TwilioVerifyManager {
   }
 }
 
-extension TwilioVerifyManager: TwilioVerify {
+extension TwilioVerifyManager: TwilioVerifySDK {
   /**
   Creates a **Factor** from a **FactorPayload**
   - Parameters:

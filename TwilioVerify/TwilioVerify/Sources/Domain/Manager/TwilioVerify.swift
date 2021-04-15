@@ -31,7 +31,7 @@ public typealias FactorListSuccessBlock = ([Factor]) -> ()
 public typealias EmptySuccessBlock = () -> ()
 
 ///Describes the available operations to proccess Factors and Challenges
-public protocol TwilioVerify {
+public protocol TwilioVerifySDK {
   
   /**
    Creates a **Factor** from a **FactorPayload**
@@ -212,7 +212,7 @@ public class TwilioVerifyBuilder {
    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
    - Returns: An instance of `TwilioVerify`.
   */
-  public func build() throws -> TwilioVerify {
+  public func build() throws -> TwilioVerifySDK {
     do {
       loggingServices.forEach { Logger.shared.addService($0) }
       let factorFacade = try FactorFacade.Builder()
