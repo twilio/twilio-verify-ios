@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		860BB6872628F18700E021C9 /* TwilioVerify.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 860BB6862628F18700E021C9 /* TwilioVerify.xcframework */; };
+		861F6311262E3B3D005EA12E /* TwilioVerifySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */; };
+		861F6312262E3B3D005EA12E /* TwilioVerifySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F22EA92E24916DC5008712CF /* dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = F22EA92D24916DC5008712CF /* dev.plist */; };
 		F27AF9F7248EA61D009A62F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */; };
 		F27AF9FB248EA61D009A62F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9FA248EA61D009A62F9 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				861F6312262E3B3D005EA12E /* TwilioVerifySDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -30,7 +32,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		860BB6862628F18700E021C9 /* TwilioVerify.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = TwilioVerify.xcframework; sourceTree = "<group>"; };
+		860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = TwilioVerifySDK.xcframework; sourceTree = "<group>"; };
 		F22EA92D24916DC5008712CF /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dev.plist; sourceTree = "<group>"; };
 		F22EA93124918634008712CF /* TwilioSecurity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = "<group>"; };
 		F27AF9F3248EA61D009A62F9 /* AppSizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				860BB6872628F18700E021C9 /* TwilioVerify.xcframework in Frameworks */,
+				861F6311262E3B3D005EA12E /* TwilioVerifySDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +67,8 @@
 		F22EA92F24916DCF008712CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				860BB6862628F18700E021C9 /* TwilioVerify.xcframework */,
 				F22EA93124918634008712CF /* TwilioSecurity.framework */,
+				860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";

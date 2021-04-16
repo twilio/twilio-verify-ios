@@ -17,7 +17,7 @@
 
 import UIKit
 import Foundation
-import TwilioVerify
+import TwilioVerifySDK
 
 protocol CreateFactorPresentable {
   func create(withIdentity identity: String?, accessTokenURL: String?)

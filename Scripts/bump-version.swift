@@ -3,8 +3,8 @@
 import Foundation
 
 struct Constants {
-  static let configFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
-  static let plistFileRelativePath = "../TwilioVerify/Info.plist"
+  static let configFileRelativePath = "../TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift"
+  static let plistFileRelativePath = "../TwilioVerifySDK/Info.plist"
   static let missingArgumentsError = """
   Expected version argument not set correctly e.g. 0.1.0
   """

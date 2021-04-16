@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F0C5C5E825BF17E6006CCD8E /* TwilioVerify in Frameworks */ = {isa = PBXBuildFile; productRef = F0C5C5E725BF17E6006CCD8E /* TwilioVerify */; };
+		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
 		F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */; };
 		F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */; };
@@ -45,8 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F0C5C5E625BF17C8006CCD8E /* twilio-verify-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "twilio-verify-ios"; path = ..; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		F0C5C5E625BF17C8006CCD8E /* twilio-verify-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "twilio-verify-ios"; path = ..; sourceTree = "<group>"; };
 		F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
 		F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailPresenter.swift; sourceTree = "<group>"; };
 		F275352F24A51CAD005A5605 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0C5C5E825BF17E6006CCD8E /* TwilioVerify in Frameworks */,
+				860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,7 +323,7 @@
 			);
 			name = TwilioVerifyDemo;
 			packageProductDependencies = (
-				F0C5C5E725BF17E6006CCD8E /* TwilioVerify */,
+				860BB68B262A018A00E021C9 /* TwilioVerifySDK */,
 			);
 			productName = TwilioVerifyDemo;
 			productReference = F2AA37BF246F323C00B9388F /* TwilioVerifyDemo.app */;
@@ -712,9 +712,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F0C5C5E725BF17E6006CCD8E /* TwilioVerify */ = {
+		860BB68B262A018A00E021C9 /* TwilioVerifySDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = TwilioVerify;
+			productName = TwilioVerifySDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

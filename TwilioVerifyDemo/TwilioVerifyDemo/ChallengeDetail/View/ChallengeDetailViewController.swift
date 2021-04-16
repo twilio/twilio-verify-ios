@@ -16,7 +16,7 @@
 //
 
 import UIKit
-import TwilioVerify
+import TwilioVerifySDK
 
 protocol ChallengeDetailView: class {
   func updateView()

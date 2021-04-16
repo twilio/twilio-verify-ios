@@ -18,7 +18,7 @@
 //
 
 import UIKit
-import TwilioVerify
+import TwilioVerifySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,7 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    print(TwilioVerifyVersionNumber)
+    if let sdkVersion = Bundle(for: TwilioVerifyBuilder.self).infoDictionary?["CFBundleShortVersionString"] {
+        print(sdkVersion)
+    }
     return true
   }
 }
