@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ..
-twilioVerifyConfig=`cat TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift`
+twilioVerifyConfig=`cat TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift`
 SAVEIFS=$IFS
 IFS=$'\n'
 components=($twilioVerifyConfig)

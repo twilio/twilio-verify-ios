@@ -17,7 +17,7 @@
 
 import UIKit
 import Foundation
-import TwilioVerify
+import TwilioVerifySDK
 import UserNotifications
 
 protocol FactorListPresentable {
