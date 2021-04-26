@@ -150,7 +150,7 @@ platform :ios do
     UI.message("Updating TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift")
     sh("./../Scripts/bump-version.swift #{next_version}")
     version_bump_podspec(
-      path: "./TwilioVerifySDK.podspec",
+      path: "./TwilioVerify.podspec",
       version_number: "#{next_version}"
     )
   end
@@ -178,7 +178,7 @@ platform :ios do
     UI.message("Updating README.md")
     last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
     sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
-    git_add(path: ['./TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerifySDK/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerifySDK.podspec"])
+    git_add(path: ['./TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerifySDK/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     
@@ -195,7 +195,7 @@ platform :ios do
       upload_assets: '../Desktop/TwilioVerifySDK.zip'
     )
     
-    pod_push(path: "./TwilioVerifySDK.podspec", verbose: true)
+    pod_push(path: "./TwilioVerify.podspec", verbose: true)
     plain_notes = conventional_changelog(
       format: 'plain',
       commit_url: 'https://github.com/twilio/twilio-verify-android/commit')
