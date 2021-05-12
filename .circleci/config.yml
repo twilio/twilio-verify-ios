@@ -107,15 +107,15 @@ commands:
           name: "Zip Framework"
           command: |
                   cd Products/xcframeworks/release
-                  zip -r ~/Desktop/<< parameters.artifact >>.zip << parameters.artifact >>.xcframework
+                  zip -r ~/Desktop/<< parameters.artifact >>.framework.zip << parameters.artifact >>.xcframework
                   cp -r << parameters.artifact >>.xcframework ~/Desktop/
       - store_artifacts:
-          path: ~/Desktop/<< parameters.artifact >>.zip
-          destination: << parameters.artifact >>.zip
+          path: ~/Desktop/<< parameters.artifact >>.framework.zip
+          destination: << parameters.artifact >>.framework.zip
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - << parameters.artifact >>.zip
+            - << parameters.artifact >>.framework.zip
             - << parameters.artifact >>.xcframework
 
   build_app_sizer:

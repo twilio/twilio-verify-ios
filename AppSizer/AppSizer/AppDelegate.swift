@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    if let sdkVersion = Bundle(for: TwilioVerifyBuilder.self).infoDictionary?["CFBundleShortVersionString"] {
+    if let sdkVersion = Bundle(identifier: "com.twilio.TwilioVerify")?.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
         print(sdkVersion)
     }
     return true
