@@ -71,16 +71,7 @@ pod 'TwilioVerify', '~> 0.4.0'
 github "twilio/twilio-verify-ios" -> 0.4.0
 ```
 
-Since version 1.0.0 the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Currently, the support of Carthage to consume the prebuilt assets of `.xcframework` from Github are in progress (https://github.com/Carthage/Carthage/pull/3152), but for the moment you still can install it using Carthage with the following methods:
-
-1. Build it from source + XCFrameworks flag, this would make Carthage try to build all the dependencies and create the XCFramerworks related. IE: 
-    ```sh
-    carthage bootstrap --use-xcframeworks
-    ```
-    - Requires Carthage version: 0.37.0
-2. Build it from source (Not recommended), this is the opted option for Carthage when it is unable to find a raw `.framework`, Carthage will be slicing the iPhone-Simulator arm64 version to create a fat framework using Xcode 12, so it will work on all devices except the Simulators running in a Mac with the SoC M1. 
-    - This will require using the script to strip the framework's architecture before lipo command fails: https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md#workaround-script
-    - Also make sure to exclude the **arm64** architectures from your targets at **Built Settings** > **Architectures** > Exclude from **Any iOS Simulator SDK** > **arm64**
+Since version `1.0.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
 
 ### Swift Package Manager
 

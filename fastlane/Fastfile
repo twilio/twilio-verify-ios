@@ -192,7 +192,7 @@ platform :ios do
       tag_name: tag,
       description: notes,
       commitish: "main",
-      upload_assets: '../Desktop/TwilioVerifySDK.zip'
+      upload_assets: '../Desktop/TwilioVerifySDK.framework.zip'
     )
     
     pod_push(path: "./TwilioVerify.podspec", verbose: true)
