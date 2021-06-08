@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/yafuquen/fastlane-plugin-firebase_test_lab
-  revision: 70237707c2afe3f13de596f424f8dec64fdc56f6
+  revision: a2dedb1e3e60cb595bba0ea2a867f770b372e9bf
   specs:
     fastlane-plugin-firebase_test_lab (1.0.7)
       faraday
-      google-cloud-storage (~> 1.25.1)
+      google-cloud-storage (>= 1.25.1, < 2.0.0)
       googleauth
       plist (>= 3.0.0)
       rubyzip (>= 1.0.0)
@@ -90,7 +90,7 @@ GEM
     colored2 (3.1.2)
     commander-fastlane (4.4.6)
       highline (~> 1.7.2)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.1.8)
     cork (0.3.0)
       colored2 (~> 3.1)
     danger (8.2.3)
@@ -127,16 +127,20 @@ GEM
     ethon (0.12.0)
       ffi (>= 1.3.0)
     excon (0.79.0)
-    faraday (1.3.0)
+    faraday (1.4.1)
+      faraday-excon (~> 1.1)
       faraday-net_http (~> 1.0)
+      faraday-net_http_persistent (~> 1.1)
       multipart-post (>= 1.2, < 3)
-      ruby2_keywords
+      ruby2_keywords (>= 0.0.4)
     faraday-cookie_jar (0.0.7)
       faraday (>= 0.8.0)
       http-cookie (~> 1.0.0)
+    faraday-excon (1.1.0)
     faraday-http-cache (2.2.0)
       faraday (>= 0.8)
     faraday-net_http (1.0.1)
+    faraday-net_http_persistent (1.1.0)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     fastimage (2.2.3)
@@ -179,7 +183,7 @@ GEM
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-create_xcframework (1.1.2)
-    fastlane-plugin-firebase_app_distribution (0.2.5)
+    fastlane-plugin-firebase_app_distribution (0.2.9)
     fastlane-plugin-semantic_convention_release (1.0.6)
     ffi (1.14.2)
     filesize (0.2.0)
@@ -242,8 +246,8 @@ GEM
     memoist (0.16.2)
     mini_magick (4.11.0)
     mini_mime (1.0.2)
-    mini_portile2 (2.5.0)
-    minitest (5.14.2)
+    mini_portile2 (2.5.1)
+    minitest (5.14.4)
     molinillo (0.6.6)
     multi_json (1.15.0)
     multipart-post (2.0.0)
@@ -253,10 +257,10 @@ GEM
     naturally (2.2.1)
     netrc (0.11.0)
     no_proxy_fix (0.1.2)
-    nokogiri (1.11.0)
+    nokogiri (1.11.4)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    octokit (4.20.0)
+    octokit (4.21.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
     open4 (1.3.4)
@@ -292,11 +296,11 @@ GEM
       CFPropertyList
       naturally
     slack-notifier (2.3.2)
-    slather (2.5.0)
+    slather (2.7.1)
       CFPropertyList (>= 2.2, < 4)
       activesupport
       clamp (~> 1.3)
-      nokogiri (~> 1.8)
+      nokogiri (~> 1.11)
       xcodeproj (~> 1.7)
     sqlite3 (1.4.2)
     terminal-notifier (2.0.0)
@@ -310,7 +314,7 @@ GEM
       tty-cursor (~> 0.7)
     typhoeus (1.4.0)
       ethon (>= 0.9.0)
-    tzinfo (1.2.7)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     uber (0.1.0)
     unf (0.1.4)
@@ -336,7 +340,7 @@ PLATFORMS
 
 DEPENDENCIES
   danger
-  danger-slather
+  danger-slather (>= 0.0.6)
   danger-swiftlint
   fastlane
   fastlane-plugin-create_xcframework
