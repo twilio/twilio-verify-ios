@@ -19,7 +19,7 @@
 
 import Foundation
 
-struct Response {
+public struct Response {
   let data: Data
   let headers: [AnyHashable: Any]
 }

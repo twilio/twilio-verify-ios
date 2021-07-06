@@ -19,10 +19,10 @@
 
 import Foundation
 
-typealias SuccessResponseBlock = (Response) -> ()
-typealias FailureBlock = (Error) -> ()
+public typealias SuccessResponseBlock = (Response) -> ()
+public typealias FailureBlock = (Error) -> ()
 
-protocol NetworkProvider {
+public protocol NetworkProvider {
   func execute(_ urlRequest: URLRequest, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
