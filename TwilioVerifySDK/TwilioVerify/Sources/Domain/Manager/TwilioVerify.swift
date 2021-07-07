@@ -161,7 +161,7 @@ public class TwilioVerifyBuilder {
   private var clearStorageOnReinstall: Bool
   private var loggingServices: [LoggerService]
   
-  ///Creates a new instance of TwilioVerifyBuilder
+  /// Creates a new instance of TwilioVerifyBuilder
   public init() {
     keyStorage = KeyStorageAdapter()
     networkProvider = NetworkAdapter()
@@ -171,8 +171,10 @@ public class TwilioVerifyBuilder {
     clearStorageOnReinstall = true
     loggingServices = []
   }
-  
-  func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
+
+  /// Set the NetworkProvider that will be used by the `TwilioVerify` instance.
+  /// - Parameter networkProvider: instance of a `NetworkProvider`
+  public func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
     self.networkProvider = networkProvider
     return self
   }
@@ -181,7 +183,7 @@ public class TwilioVerifyBuilder {
     self.clearStorageOnReinstall = clearStorageOnReinstall
     return self
   }
-  
+
   func setURL(_ url: String) -> Self {
     _baseURL = url
     return self
