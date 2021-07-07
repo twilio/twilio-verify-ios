@@ -3,7 +3,7 @@ warn("Big PR") if git.lines_of_code > 500
 
 
 # Slater config
-slather.configure('TwilioVerify.xcodeproj', 'TwilioVerify', options: {
+slather.configure('TwilioVerifySDK.xcodeproj', 'TwilioVerifySDK', options: {
   workspace: 'TwilioVerify.xcworkspace',
   output_directory:  './fastlane/Test Output/CompleteSuite/coverage',
   ignore_list: ['**/OSLogWrapper.swift'],

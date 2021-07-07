@@ -3,7 +3,7 @@
 import Foundation
 
 struct Constants {
-  static let configFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
+  static let configFileRelativePath = "../TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift"
   static let missingArgumentsError = """
   Expected base URL argument not set correctly
   """

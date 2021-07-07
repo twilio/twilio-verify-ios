@@ -2,26 +2,26 @@
 import PackageDescription
 
 let package = Package(
-  name: "TwilioVerify",
+  name: "TwilioVerifySDK",
   platforms: [
     .iOS(.v10)
   ],
   products: [
     .library(
-      name: "TwilioVerify",
-      targets: ["TwilioVerify"])
+      name: "TwilioVerifySDK",
+      targets: ["TwilioVerifySDK"])
   ],
   dependencies: [],
   targets: [
     .target(
-      name: "TwilioVerify",
+      name: "TwilioVerifySDK",
       dependencies: [],
-      path: "TwilioVerify"
+      path: "TwilioVerifySDK"
     ),
     .testTarget(
-      name: "TwilioVerifyTests",
-      dependencies: ["TwilioVerify"],
-      path: "TwilioVerifyTests"
+      name: "TwilioVerifySDKTests",
+      dependencies: ["TwilioVerifySDK"],
+      path: "TwilioVerifySDKTests"
     )
   ]
 )

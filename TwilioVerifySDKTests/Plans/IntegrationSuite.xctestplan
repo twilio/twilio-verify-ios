@@ -1,0 +1,55 @@
+{
+  "configurations" : [
+    {
+      "id" : "264480FC-B0F3-467D-A9CB-CAC5DE147E0A",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "AuthenticationProviderTests",
+        "BasicAuthorizationTests",
+        "ChallengeAPIClientTests",
+        "ChallengeFacadeTests",
+        "ChallengeListMapperTests",
+        "ChallengeMapperTests",
+        "ChallengeRepositoryTests",
+        "DateProviderTests",
+        "ECP256SignerTemplateTests",
+        "ECSignerTests",
+        "FactorAPIClientTests",
+        "FactorFacadeTests",
+        "FactorMapperTests",
+        "FactorRepositoryTests",
+        "HTTPHeadersTests",
+        "JwtGeneratorTests",
+        "JwtSignerTests",
+        "KeyManagerTests",
+        "KeyStorageAdapterTests",
+        "KeychainQueryTests",
+        "NetworkAdapterTests",
+        "ParametersTests",
+        "PushChallengeProcessorTests",
+        "PushFactoryTests",
+        "RequestHelperTests",
+        "SecureStorageTests",
+        "StorageTests",
+        "TwilioVerifyManagerTests",
+        "URLRequestBuilderTests"
+      ],
+      "target" : {
+        "containerPath" : "container:TwilioVerifySDK.xcodeproj",
+        "identifier" : "F2AA3780246F30BF00B9388F",
+        "name" : "TwilioVerifySDKTests"
+      }
+    }
+  ],
+  "version" : 1
+}

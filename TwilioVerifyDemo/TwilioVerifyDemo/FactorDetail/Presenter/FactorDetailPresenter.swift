@@ -18,7 +18,7 @@
 //
 
 import Foundation
-import TwilioVerify
+import TwilioVerifySDK
 
 protocol FactorDetailPresentable {
   var factor: Factor {get}

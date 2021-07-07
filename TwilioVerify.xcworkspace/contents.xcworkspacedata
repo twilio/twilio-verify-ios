@@ -8,6 +8,6 @@
       location = "group:TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TwilioVerify.xcodeproj">
+      location = "group:TwilioVerifySDK.xcodeproj">
    </FileRef>
 </Workspace>

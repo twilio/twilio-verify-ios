@@ -71,6 +71,8 @@ pod 'TwilioVerify', '~> 0.4.0'
 github "twilio/twilio-verify-ios" -> 0.4.0
 ```
 
+Since version `1.0.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
+
 ### Swift Package Manager
 
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler. It is in early development, but TwilioVerify does support its use on iOS.
@@ -96,6 +98,8 @@ If you want to receive challenges as push notifications, you should register You
 
 The SDK should be used from a Swift class.
 See an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift)
+
+Since version `1.0.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
 
 ---
 

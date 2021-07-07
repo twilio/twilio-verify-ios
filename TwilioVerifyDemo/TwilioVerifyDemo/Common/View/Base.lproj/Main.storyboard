@@ -234,13 +234,13 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV" userLabel="Identity Label">
                                                 <rect key="frame" x="71" y="0.0" width="0.0" height="20"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="identity"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXZ-Lb-651">
                                                 <rect key="frame" x="0.0" y="0.0" width="69" height="20"/>
-                                                <accessibility key="accessibilityConfiguration" identifier="identity"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="tmx-wS-EXM"/>
                                                 </constraints>

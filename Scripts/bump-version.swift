@@ -3,12 +3,13 @@
 import Foundation
 
 struct Constants {
-  static let configFileRelativePath = "../TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift"
-  static let plistFileRelativePath = "../TwilioVerify/Info.plist"
+  static let configFileRelativePath = "../TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift"
+  static let plistFileRelativePath = "../TwilioVerifySDK/Info.plist"
   static let missingArgumentsError = """
   Expected version argument not set correctly e.g. 0.1.0
   """
   static let versionKey = "version"
+  static let bundleVersionKey = "CFBundleVersion"
   static let bundleShortVersionKey = "CFBundleShortVersionString"
   
   struct Separator {
@@ -58,6 +59,7 @@ func updatePlistFile(withVersion newVersion: String) {
     return
   }
   plistDictionary.updateValue(newVersion, forKey: Constants.bundleShortVersionKey)
+  plistDictionary.updateValue(newVersion, forKey: Constants.bundleVersionKey)
   (plistDictionary as NSDictionary).write(toFile: Constants.plistFileRelativePath, atomically: true)
 }
 

@@ -18,7 +18,7 @@
 //
 
 import UIKit
-import TwilioVerify
+import TwilioVerifySDK
 
 class ChallengeTableViewCell: UITableViewCell {
 

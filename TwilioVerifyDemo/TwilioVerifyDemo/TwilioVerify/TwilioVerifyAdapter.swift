@@ -16,7 +16,7 @@
 //
 
 import Foundation
-import TwilioVerify
+import TwilioVerifySDK
 
 class TwilioVerifyAdapter {
   
