@@ -47,9 +47,3 @@ extension URLSession {
     }
   }
 }
-
-internal struct FailureResponse {
-  let responseCode: Int
-  let errorData: Data
-  let headers: [AnyHashable: Any]
-}

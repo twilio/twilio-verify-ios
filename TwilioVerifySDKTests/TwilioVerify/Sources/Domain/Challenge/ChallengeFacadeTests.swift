@@ -271,6 +271,46 @@ class ChallengeFacadeTests: XCTestCase {
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
   }
+
+  func testGetAllChallenges_withCompleteFailureResponse_shouldFailAndRetrieveNetworkDescription() {
+    let expectation = self.expectation(description: "testGetAllChallenges_withFailureResponse_shouldFail")
+    factorFacade.factor = Constants.expectedFactor
+    let expectedError =  TwilioVerifyError.networkError(error: NetworkError.failureStatusCode(failureResponse: FailureResponse(responseCode: 400,
+                                                                                                                               errorData: "{\"message\":\"Bad Request\"}".data(using: .utf8)!,
+                                                                                                                               headers: [:])) as NSError)
+    repository.error = expectedError
+    var error: TwilioVerifyError!
+    challengeFacade.getAll(withPayload: Constants.challengeListPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, "Error while calling the API: {\"message\":\"Bad Request\"}")
+  }
+
+  func testGetAllChallenges_withFailureResponse_shouldFailAndRetrieveGenericNetworkDescription() {
+    let expectation = self.expectation(description: "testGetAllChallenges_withFailureResponse_shouldFail")
+    factorFacade.factor = Constants.expectedFactor
+    let expectedError =  TwilioVerifyError.networkError(error: NetworkError.failureStatusCode(failureResponse: FailureResponse(responseCode: 400,
+                                                                                                                               errorData: "".data(using: .utf8)!,
+                                                                                                                               headers: [:])) as NSError)
+    repository.error = expectedError
+    var error: TwilioVerifyError!
+    challengeFacade.getAll(withPayload: Constants.challengeListPayload, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failure in
+      error = failure
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 3, handler: nil)
+    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
+    XCTAssertEqual(error.localizedDescription, "Error while calling the API")
+  }
 }
 
 private extension ChallengeFacadeTests {

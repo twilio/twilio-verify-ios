@@ -65,8 +65,15 @@ public enum TwilioVerifyError: LocalizedError {
   ///Brief description of the error, indicates at which layer the error ocurred
   public var errorDescription: String? {
     switch self {
-      case .networkError:
-        return "Error while calling the API"
+      case .networkError(let error):
+        var description = ["Error while calling the API"]
+
+        if case let .failureStatusCode(failureResponse) = (error as? TwilioVerifyError)?.originalError as? NetworkError,
+           !failureResponse.errorDescription.isEmpty {
+          description.append(failureResponse.errorDescription)
+        }
+
+        return description.compactMap { $0 }.joined(separator: ": ")
       case .mapperError:
         return "Error while mapping an entity"
       case .storageError:

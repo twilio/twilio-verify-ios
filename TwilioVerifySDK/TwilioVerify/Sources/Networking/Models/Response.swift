@@ -23,3 +23,13 @@ public struct Response {
   let data: Data
   let headers: [AnyHashable: Any]
 }
+
+public struct FailureResponse {
+  let responseCode: Int
+  let errorData: Data
+  let headers: [AnyHashable: Any]
+
+  var errorDescription: String {
+    return String(data: errorData, encoding: .utf8) ?? String()
+  }
+}
