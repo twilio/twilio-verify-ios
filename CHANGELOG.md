@@ -14,6 +14,22 @@ Architecture | Compressed Size | Uncompressed Size
 arm64        |       0.4 MB    | 0.9 MB
 
 
+# 1.0.0 (2021-07-26)
+
+### Features
+- XCFramework Support & SDK Renaming (#141) ([4c62d70](https://github.com/twilio/twilio-verify-ios/commit/4c62d70eb48fa2ec63b1f1c72ab39d46c4708395))
+
+### Bug fixes
+- Update error codes (#133) ([c11b0fa](https://github.com/twilio/twilio-verify-ios/commit/c11b0fafa961b62ea57343fa4bc1a95aef8b6324))
+
+### BREAKING CHANGES
+- Supporting XCFramework & Renaming TwilioVerify framework to TwilioVerifySDK to prevent bug https://bugs.swift.org/browse/SR-14195 ([4c62d70](https://github.com/twilio/twilio-verify-ios/commit/4c62d70eb48fa2ec63b1f1c72ab39d46c4708395))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
 # 0.4.0 (2021-03-05)
 
 ### Features

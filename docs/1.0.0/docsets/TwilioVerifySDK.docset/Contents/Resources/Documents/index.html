@@ -207,12 +207,12 @@ This project provides an SDK to implement Verify Push for your iOS app.</p>
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
 <p><a href="https://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
-<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'TwilioVerify'</span><span class="p">,</span> <span class="s1">'~&gt; 0.4.0'</span>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'TwilioVerify'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.0'</span>
 </code></pre>
 <h3 id='carthage' class='heading'>Carthage</h3>
 
 <p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "twilio/twilio-verify-ios" -&gt; 0.4.0
+<pre class="highlight plaintext"><code>github "twilio/twilio-verify-ios" -&gt; 1.0.0
 </code></pre>
 
 <p>Since version <code>1.0.0</code> of <code>TwilioVerifySDK</code> the prebuilt asset fat version <code>.framework</code> is been deprecated, to give space for the universal framework <code>.xcframework</code>. Make sure to use the new version of Carthage <a href="https://github.com/Carthage/Carthage/releases/tag/0.38.0">0.38.0</a> that was release in order to support the <code>xcframework</code> assets, by using this version or a superior one, Carthage will download and unzip the <code>TwilioVerifySDK.framework.zip</code> attached in the release version, resulting in a <code>TwilioVerifySDK.xcframework</code> that can be found in the build folder of Carthage.</p>
@@ -222,7 +222,7 @@ This project provides an SDK to implement Verify Push for your iOS app.</p>
 
 <p>Once you have your Swift package set up, adding TwilioVerify as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/twilio/twilio-verify-ios.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"0.4.0"</span><span class="p">))</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/twilio/twilio-verify-ios.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.0.0"</span><span class="p">))</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='register-your-app-with-apns' class='heading'>Register Your App with APNs</h3>
