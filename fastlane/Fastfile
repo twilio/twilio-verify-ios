@@ -126,7 +126,7 @@ platform :ios do
     export_release_xcframework()
     public_api_docs()
     build_swift_package()
-    pod_lib_lint(verbose: true)
+    pod_lib_lint(verbose: true, allow_warnings: true)
     post_release()
   end
 
