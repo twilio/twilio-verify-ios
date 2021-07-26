@@ -195,7 +195,7 @@ platform :ios do
       upload_assets: '../Desktop/TwilioVerifySDK.framework.zip'
     )
     
-    pod_push(path: "./TwilioVerify.podspec", verbose: true)
+    pod_push(path: "./TwilioVerify.podspec", verbose: true, allow_warnings:true)
     plain_notes = conventional_changelog(
       format: 'plain',
       commit_url: 'https://github.com/twilio/twilio-verify-android/commit')
