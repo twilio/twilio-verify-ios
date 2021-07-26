@@ -20,7 +20,7 @@ platform :ios do
   lane :unit_tests do |options|
     test_plan = options[:test_plan]
     scan(
-      scheme: "TwilioVerify",
+      scheme: "TwilioVerifySDK",
       testplan: test_plan,
       workspace: "TwilioVerify.xcworkspace",
       device: "iPhone 11",
@@ -47,7 +47,7 @@ platform :ios do
       app_identifier: ["com.twilio.verify.HostApp"]
     )
     scan(
-      scheme: 'TwilioVerify',
+      scheme: 'TwilioVerifySDK',
       testplan: test_plan,
       clean: true,
       suppress_xcode_output: true,
@@ -61,7 +61,7 @@ platform :ios do
       gcp_project: 'twilio-firebase-266721',
       timeout_sec: 300,
       devices: ftl_devices,
-      ios_xc_test_args: { xcodeVersion: '12.3' }
+      ios_xc_test_args: { xcodeVersion: '12.5' }
     )
   end
 
@@ -74,6 +74,20 @@ platform :ios do
       workspace: "TwilioVerify.xcworkspace",
       skip_codesigning: true,
       skip_archive: true
+    )
+  end
+
+  desc "Export release xcframework"
+  lane :export_release_xcframework do
+    create_xcframework(
+      scheme: 'TwilioVerifySDK',
+      destinations: ['iOS'],
+      product_name: 'TwilioVerifySDK',
+      xcframework_output_directory: 'Products/xcframeworks/release',
+      include_dSYMs: true,
+      include_BCSymbolMaps: true,
+      include_debug_symbols: true,
+      enable_bitcode: true
     )
   end
 
@@ -109,7 +123,7 @@ platform :ios do
     next unless verify(title: title, tag_prefix: tag_prefix)
     increment_version()
     build_universal_framework()
-    sh('zip -r ~/Desktop/TwilioVerify.framework.zip ~/Desktop/TwilioVerify.framework')
+    export_release_xcframework()
     public_api_docs()
     build_swift_package()
     pod_lib_lint(verbose: true)
@@ -133,7 +147,7 @@ platform :ios do
     next_version = lane_context[SharedValues::RELEASE_NEXT_VERSION]
     ensure_git_status_clean
     # Increment version in Verify module
-    UI.message("Updating TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift")
+    UI.message("Updating TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift")
     sh("./../Scripts/bump-version.swift #{next_version}")
     version_bump_podspec(
       path: "./TwilioVerify.podspec",
@@ -164,7 +178,7 @@ platform :ios do
     UI.message("Updating README.md")
     last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
     sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
-    git_add(path: ['./TwilioVerify/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerify/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
+    git_add(path: ['./TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerifySDK/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     
@@ -178,7 +192,7 @@ platform :ios do
       tag_name: tag,
       description: notes,
       commitish: "main",
-      upload_assets: '../Desktop/TwilioVerify.framework.zip'
+      upload_assets: '../Desktop/TwilioVerifySDK.framework.zip'
     )
     
     pod_push(path: "./TwilioVerify.podspec", verbose: true)

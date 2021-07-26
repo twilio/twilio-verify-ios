@@ -3,7 +3,7 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "12.4.0"
+      xcode: "12.5.0"
 
 commands:
   setup:
@@ -102,18 +102,21 @@ commands:
       - setup
       - run:
           name: "Build Universal Framework"
-          command: bundle exec fastlane build_universal_framework
+          command: bundle exec fastlane export_release_xcframework
       - run:
           name: "Zip Framework"
           command: |
-                  cd ~/Desktop
-                  zip -r << parameters.artifact >>.framework.zip << parameters.artifact >>.framework
+                  cd Products/xcframeworks/release
+                  zip -r ~/Desktop/<< parameters.artifact >>.framework.zip << parameters.artifact >>.xcframework
+                  cp -r << parameters.artifact >>.xcframework ~/Desktop/
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
+          destination: << parameters.artifact >>.framework.zip
       - persist_to_workspace:
           root: ~/Desktop
           paths:
-            - TwilioVerify.framework
+            - << parameters.artifact >>.framework.zip
+            - << parameters.artifact >>.xcframework
 
   build_app_sizer:
     steps:
@@ -125,6 +128,8 @@ commands:
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
+      - run:
+          ls -al ./AppSizer/AppSizer/Frameworks/
       - run:
           name: "Build AppSizer App"
           command: bundle exec fastlane build_app_sizer
@@ -208,7 +213,7 @@ jobs:
     steps:
       - build_framework:
           scheme: TwilioVerifySDK
-          artifact: TwilioVerify
+          artifact: TwilioVerifySDK
 
   Size report:
     executor: macos_executor

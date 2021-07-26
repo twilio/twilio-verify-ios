@@ -30,7 +30,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Access token URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="asf-Kj-V6U" userLabel="Access token URL Text Field">
                                 <rect key="frame" x="16" y="228" width="382" height="20"/>
-                                <accessibility key="accessibilityConfiguration" identifier="accessTokenInput"/>
+                                <accessibility key="accessibilityConfiguration" identifier="accessTokenUrlInput"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="qes-Rf-29Z"/>
                                 </constraints>
@@ -175,6 +175,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="AOe-kC-D0s">
                                                 <rect key="frame" x="55.5" y="0.0" width="0.0" height="20"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="factorNameText"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -214,7 +215,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T6I-Gh-YgV">
                                                 <rect key="frame" x="34" y="0.0" width="4" height="20"/>
-                                                <accessibility key="accessibilityConfiguration" identifier="factorSid"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="factorSidText"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -234,13 +235,13 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dHP-pe-nFV" userLabel="Identity Label">
                                                 <rect key="frame" x="71" y="0.0" width="0.0" height="20"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="identityText"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXZ-Lb-651">
                                                 <rect key="frame" x="0.0" y="0.0" width="69" height="20"/>
-                                                <accessibility key="accessibilityConfiguration" identifier="identity"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="tmx-wS-EXM"/>
                                                 </constraints>
@@ -264,6 +265,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cpM-pe-GdU">
                                                 <rect key="frame" x="61.5" y="0.0" width="0.0" height="20"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="factorStatusText"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -351,7 +353,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhe-OL-G1D">
                                 <rect key="frame" x="16" y="156" width="382" height="30"/>
-                                <accessibility key="accessibilityConfiguration" identifier="message"/>
+                                <accessibility key="accessibilityConfiguration" identifier="challengeMessageText"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="tbY-S8-g3d"/>
                                 </constraints>
@@ -364,7 +366,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Pwo-Ye-M9u">
                                         <rect key="frame" x="61.5" y="0.0" width="0.0" height="20"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="challengeStatus"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="challengeStatusText"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -406,7 +408,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vZS-F7-jrC">
                                         <rect key="frame" x="34" y="0.0" width="0.0" height="20"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="challengeSid"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="challengeSidText"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -437,7 +439,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nth-V8-CbZ">
                                         <rect key="frame" x="93" y="0.0" width="0.0" height="20"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="expirationDate"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="challengeExpireOnText"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -468,7 +470,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="CHZ-01-0eU">
                                         <rect key="frame" x="99" y="0.0" width="0.0" height="20"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="updatedDate"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="challengeUpdatedAtText"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -509,7 +511,7 @@
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-Oy-5ox">
                                         <rect key="frame" x="229" y="0.0" width="153" height="40"/>
                                         <color key="backgroundColor" red="0.13725490196078433" green="0.53333333333333333" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="approve"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="approveButton"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <state key="normal" title="APPROVE">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -521,7 +523,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haj-jL-X8S">
                                         <rect key="frame" x="0.0" y="0.0" width="153" height="40"/>
                                         <color key="backgroundColor" red="0.82352941176470584" green="0.13333333333333333" blue="0.1764705882352941" alpha="1" colorSpace="calibratedRGB"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="deny"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="denyButton"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <state key="normal" title="DENY">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

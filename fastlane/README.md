@@ -31,6 +31,11 @@ Runs integration tests
 fastlane ios build_universal_framework
 ```
 Builds universal framework for release
+### ios export_release_xcframework
+```
+fastlane ios export_release_xcframework
+```
+Export release xcframework
 ### ios build_app_sizer
 ```
 fastlane ios build_app_sizer

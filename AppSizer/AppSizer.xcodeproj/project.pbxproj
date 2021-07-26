@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86FFD7F5264C6D2E002CC683 /* TwilioVerifySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */; };
+		86FFD7F6264C6D2E002CC683 /* TwilioVerifySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F22EA92E24916DC5008712CF /* dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = F22EA92D24916DC5008712CF /* dev.plist */; };
-		F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; };
-		F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22EA93024918634008712CF /* TwilioVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F27AF9F7248EA61D009A62F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */; };
 		F27AF9FB248EA61D009A62F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27AF9FA248EA61D009A62F9 /* ViewController.swift */; };
 		F27AF9FE248EA61D009A62F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F27AF9FC248EA61D009A62F9 /* Main.storyboard */; };
@@ -18,13 +18,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F22EA937249186A3008712CF /* Embed Frameworks */ = {
+		86FFD7F7264C6D2E002CC683 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F22EA939249186A5008712CF /* TwilioVerify.framework in Embed Frameworks */,
+				86FFD7F6264C6D2E002CC683 /* TwilioVerifySDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,8 +32,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = TwilioVerifySDK.xcframework; sourceTree = "<group>"; };
 		F22EA92D24916DC5008712CF /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dev.plist; sourceTree = "<group>"; };
-		F22EA93024918634008712CF /* TwilioVerify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwilioVerify.framework; sourceTree = "<group>"; };
 		F22EA93124918634008712CF /* TwilioSecurity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwilioSecurity.framework; sourceTree = "<group>"; };
 		F27AF9F3248EA61D009A62F9 /* AppSizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F27AF9F6248EA61D009A62F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,13 +49,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F22EA938249186A5008712CF /* TwilioVerify.framework in Frameworks */,
+				86FFD7F5264C6D2E002CC683 /* TwilioVerifySDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86FFD7F4264C6D2E002CC683 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F22EA92C24916D90008712CF /* ExportOptions */ = {
 			isa = PBXGroup;
 			children = (
@@ -68,7 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				F22EA93124918634008712CF /* TwilioSecurity.framework */,
-				F22EA93024918634008712CF /* TwilioVerify.framework */,
+				860BB693262DF95B00E021C9 /* TwilioVerifySDK.xcframework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -78,6 +85,7 @@
 			children = (
 				F27AF9F5248EA61D009A62F9 /* AppSizer */,
 				F27AF9F4248EA61D009A62F9 /* Products */,
+				86FFD7F4264C6D2E002CC683 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,8 +122,7 @@
 				F27AF9EF248EA61D009A62F9 /* Sources */,
 				F27AF9F0248EA61D009A62F9 /* Frameworks */,
 				F27AF9F1248EA61D009A62F9 /* Resources */,
-				F22EA937249186A3008712CF /* Embed Frameworks */,
-				F22EA93424918665008712CF /* Strip Archs */,
+				86FFD7F7264C6D2E002CC683 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -172,27 +179,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F22EA93424918665008712CF /* Strip Archs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Strip Archs";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/bash\n\"${SRCROOT}/AppSizer/Frameworks/TwilioVerify.framework/strip-frameworks.sh\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F27AF9EF248EA61D009A62F9 /* Sources */ = {

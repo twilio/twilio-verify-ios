@@ -16,7 +16,7 @@
 //
 
 import UIKit
-import TwilioVerify
+import TwilioVerifySDK
 
 protocol CreateFactorView: class {
   func showAlert(withMessage message: String)
