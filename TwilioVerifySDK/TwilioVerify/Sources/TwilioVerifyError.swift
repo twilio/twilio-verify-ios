@@ -68,7 +68,7 @@ public enum TwilioVerifyError: LocalizedError {
       case .networkError(let error):
         var description = ["Error while calling the API"]
 
-        if case let .failureStatusCode(failureResponse) = (error as? TwilioVerifyError)?.originalError as? NetworkError,
+        if case let .failureStatusCode(failureResponse) = ((error as Error) as? TwilioVerifyError)?.originalError as? NetworkError,
            !failureResponse.errorDescription.isEmpty {
           description.append(failureResponse.errorDescription)
         }
