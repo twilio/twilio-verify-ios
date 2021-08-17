@@ -18,6 +18,7 @@
 //
 
 import Foundation
+import LocalAuthentication
 
 typealias Query = [String: Any]
 
@@ -40,7 +41,9 @@ protocol KeychainQueryProtocol {
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
   func deleteKey(withAlias alias: String) -> Query
   func save(data: Data, withKey key: String) -> Query
+  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext) -> Query
   func getData(withKey key: String) -> Query
+  func getData(withKey key: String, authenticationPrompt: String) -> Query
   func getAll() -> Query
   func delete(withKey key: String) -> Query
   func deleteItems() -> Query
@@ -76,6 +79,14 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
+  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecValueData: data,
+     kSecAttrAccessControl: accessControl,
+     kSecUseAuthenticationContext: context] as Query
+  }
+
   func getData(withKey key: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
@@ -83,6 +94,13 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
+  func getData(withKey key: String, authenticationPrompt: String) -> Query {
+    [kSecClass: kSecClassGenericPassword,
+     kSecAttrAccount: key,
+     kSecReturnData: true,
+     kSecUseOperationPrompt: authenticationPrompt] as Query
+  }
+
   func getAll() -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecReturnAttributes: true,
