@@ -47,7 +47,7 @@ extension ChallengeProviderMock: ChallengeProvider {
     }
   }
   
-  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
+  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
       return

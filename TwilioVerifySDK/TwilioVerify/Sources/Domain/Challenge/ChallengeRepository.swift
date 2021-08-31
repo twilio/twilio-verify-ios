@@ -22,7 +22,7 @@ import Foundation
 protocol ChallengeProvider {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
-  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock)
+  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock)
 }
 
 class ChallengeRepository {
@@ -87,8 +87,8 @@ extension ChallengeRepository: ChallengeProvider {
     }, failure: failure)
   }
   
-  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
-    apiClient.getAll(forFactor: factor, status: status?.rawValue, pageSize: pageSize, pageToken: pageToken, success: { [weak self] response in
+  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
+    apiClient.getAll(forFactor: factor, status: status?.rawValue, pageSize: pageSize, order: order, pageToken: pageToken, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {
         let challengeList = try strongSelf.challengeListMapper.fromAPI(withData: response.data)
