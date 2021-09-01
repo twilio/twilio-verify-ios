@@ -21,9 +21,14 @@ import Foundation
 import LocalAuthentication
 
 ///:nodoc:
+public typealias SuccessBlock = (Data) -> ()
+///:nodoc:
+public typealias ErrorBlock = (Error) -> ()
+
+///:nodoc:
 public protocol AuthenticatedSecureStorageProvider {
-  func save(_ data: Data, withKey key: String) throws
-  func get(_ key: String, authenticationPrompt: String) throws -> Data
+  func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock)
+  func get(_ key: String, authenticator: Authenticator, success: SuccessBlock, failure: ErrorBlock)
   func removeValue(for key: String) throws
   func clear() throws
 }
@@ -46,32 +51,47 @@ public class AuthenticatedSecureStorage {
 }
 
 extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
-  public func save(_ data: Data, withKey key: String) throws {
-    Logger.shared.log(withLevel: .info, message: "Saving \(key)")
-    let accessControl = try getAccessControl()
-    let context = LAContext()
-    let query = keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: context)
-    let status = keychain.addItem(withQuery: query)
-    guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
+  public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
+      if result {
+        do {
+          Logger.shared.log(withLevel: .info, message: "Saving \(key)")
+          let accessControl = try self.getAccessControl()
+          let query = self.keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: authenticator.context)
+          let status = self.keychain.addItem(withQuery: query)
+          guard status == errSecSuccess else {
+            let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+            Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+            failure(error)
+            return
+          }
+          Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
+          success()
+        }catch {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(error)
+        }
+      } else {
+        if let error = err {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(error)
+        }
+      }
     }
-    Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
   }
 
-  public func get(_ key: String, authenticationPrompt: String) throws -> Data {
+  public func get(_ key: String, authenticator: Authenticator, success: SuccessBlock, failure: ErrorBlock) {
     Logger.shared.log(withLevel: .info, message: "Getting \(key)")
-    let query = keychainQuery.getData(withKey: key, authenticationPrompt: authenticationPrompt)
+    let query = keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
     do {
       let result = try keychain.copyItemMatching(query: query)
       // swiftlint:disable:next force_cast
       let data = result as! Data
       Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
-      return data
+      success(data)
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
+      failure(error)
     }
   }
 
@@ -111,4 +131,10 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     static let accessControlFlagsBiometrics: SecAccessControlCreateFlags = .biometryCurrentSet
     static let accessControlFlags: SecAccessControlCreateFlags = .touchIDCurrentSet
   }
+}
+
+public protocol Authenticator {
+  var context: LAContext { get }
+  var localizedAuthenticationPrompt: String { get }
+  var localizedReason: String { get }
 }
