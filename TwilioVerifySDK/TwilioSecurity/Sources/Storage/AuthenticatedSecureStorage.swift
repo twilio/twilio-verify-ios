@@ -44,7 +44,7 @@ public class AuthenticatedSecureStorage {
   }
 
   init(keychain: KeychainProtocol = Keychain(),
-    keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
@@ -67,7 +67,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
           }
           Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
           success()
-        }catch {
+        } catch {
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
         }
