@@ -73,7 +73,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
     factorFacade.get(withSid: challengeListPayload.factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
       strongSelf.repository.getAll(for: factor, status: challengeListPayload.status,
-                                   pageSize: challengeListPayload.pageSize, pageToken: challengeListPayload.pageToken, success: success) { error in
+                                   pageSize: challengeListPayload.pageSize, order: challengeListPayload.order, pageToken: challengeListPayload.pageToken, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error as NSError))
       }
     }, failure: failure)
