@@ -179,7 +179,7 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
+  public func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
     self.clearStorageOnReinstall = clearStorageOnReinstall
     return self
   }

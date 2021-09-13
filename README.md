@@ -26,6 +26,7 @@
 * [Update factor's push token](#UpdatePushToken)
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
+* [Reinstall and persist factors](#Reinstall)
 
 <a name='About'></a>
 
@@ -225,3 +226,23 @@ do {
 
 - Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
 - Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.
+
+<a name='Reinstall'></a>
+
+## Reinstall and persist factors
+Uninstalling the app could remove all data, so after a reinstall the created factor(s) will not exist in the device anymore. As the information is being saved in the keychain, it is possible to persist factors and key pairs after a reinstall
+
+---
+**NOTE**
+This may change in future iOS versions, it keeps working for iOS 14 and below. Preserving keychain items on app uninstall could be a privacy concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
+
+---
+
+To persist factors after a reinstall, use `TwilioVerifyBuilder.setClearStorageOnReinstall` method when creating the `TwilioVerify` instance. The default value is `true`, so the factors will be deleted on reinstall. Change it to `false` to persist the factor(s)
+
+```swift
+let builder = TwilioVerifyBuilder().setClearStorageOnReinstall(false)
+let twilioVerify = try builder.build()
+```
+
+The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as it is explained in [Update factor's push token](#UpdatePushToken)
