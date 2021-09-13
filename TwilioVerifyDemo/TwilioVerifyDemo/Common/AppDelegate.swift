@@ -15,11 +15,14 @@
 //  limitations under the License.
 //
 
+import Foundation
 import UIKit
+import TwilioVerifySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+  private var twilioVerify: TwilioVerify?
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -43,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let container = DIContainer.shared
     if let twilioVerifyAdapter = try? TwilioVerifyAdapter() {
       container.register(type: TwilioVerifyAdapter.self, component: twilioVerifyAdapter)
+      twilioVerify = twilioVerifyAdapter
     }
     return true
   }
@@ -65,13 +69,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+  ) {
     guard let payload = notification.request.content.userInfo as? [String: Any] else {
       completionHandler(UNNotificationPresentationOptions(rawValue: 0))
       return
     }
-    showChallenge(payload: payload)
+    handleChallengeApproval(with: payload)
     completionHandler(.sound)
   }
   
@@ -82,11 +89,47 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       return
     }
     
-    showChallenge(payload: payload)
+    handleChallengeApproval(with: payload)
   }
 }
 
 private extension AppDelegate {
+  func handleChallengeApproval(
+    with payload: [String: Any]
+  ) {
+    guard let challengeSid = payload["challenge_sid"] as? String,
+          let factorSid = payload["factor_sid"] as? String else {
+      return
+    }
+
+    if AppModel.factorsSilentyApproved[factorSid] == true {
+      updateChallenge(with: .approved,
+                      notificationPayload: payload,
+                      factorSid: factorSid,
+                      challengeSid: challengeSid)
+    } else {
+      showChallenge(payload: payload)
+    }
+  }
+  
+  func updateChallenge(with status: ChallengeStatus,
+                       notificationPayload: [String: Any],
+                       factorSid: String,
+                       challengeSid: String) {
+    
+    let payload = UpdatePushChallengePayload(
+      factorSid: factorSid,
+      challengeSid: challengeSid,
+      status: status
+    )
+    
+    twilioVerify?.updateChallenge(withPayload: payload, success: { [weak self] in
+      self?.showChallenge(payload: notificationPayload)
+    }) { error in
+      print("Unable to silenty approve this challenge, details: \(error.errorMessage)")
+    }
+  }
+  
   func showChallenge(payload: [String: Any]) {
     guard let challengeSid = payload["challenge_sid"] as? String,
           let factorSid = payload["factor_sid"] as? String,

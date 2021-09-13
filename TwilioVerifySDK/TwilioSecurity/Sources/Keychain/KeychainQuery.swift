@@ -73,14 +73,18 @@ struct KeychainQuery: KeychainQueryProtocol {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+     kSecAttrAccessGroup: "9EVH78F4V4.com.twilio.TwilioVerifyDemo",
+     kSecAttrSynchronizable: true] as Query
   }
   
   func getData(withKey key: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecReturnData: true,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+     kSecAttrAccessGroup: "9EVH78F4V4.com.twilio.TwilioVerifyDemo",
+     kSecAttrSynchronizable: true] as Query
   }
   
   func getAll() -> Query {
@@ -88,17 +92,23 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecReturnAttributes: true,
      kSecReturnData: true,
      kSecMatchLimit: kSecMatchLimitAll,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+     kSecAttrAccessGroup: "9EVH78F4V4.com.twilio.TwilioVerifyDemo",
+     kSecAttrSynchronizable: true] as Query
   }
   
   func delete(withKey key: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+     kSecAttrAccessGroup: "9EVH78F4V4.com.twilio.TwilioVerifyDemo",
+     kSecAttrSynchronizable: true] as Query
   }
   
   func deleteItems() -> Query {
     [kSecClass: kSecClassGenericPassword,
-    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+    kSecAttrAccessGroup: "9EVH78F4V4.com.twilio.TwilioVerifyDemo",
+    kSecAttrSynchronizable: true] as Query
   }
 }

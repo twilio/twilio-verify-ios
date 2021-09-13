@@ -19,7 +19,7 @@
 
 import UIKit
 
-protocol FactorDetailView: class {
+protocol FactorDetailView: AnyObject {
   func showAlert(withMessage message: String)
   func updateFactorView()
   func updateChallengesList()
@@ -32,7 +32,8 @@ class FactorDetailViewController: UIViewController {
   @IBOutlet private weak var statusLabel: UILabel!
   @IBOutlet private weak var sidTextField: UITextField!
   @IBOutlet private weak var tableView: UITableView!
-  
+  @IBOutlet private weak var silentlyApproveSwitch: UISwitch!
+
   var presenter: FactorDetailPresentable!
   
   override func viewDidLoad() {
@@ -89,6 +90,7 @@ extension FactorDetailViewController: FactorDetailView {
     sidTextField.text = presenter.factor.sid
     identityLabel.text = presenter.factor.identity
     statusLabel.text = presenter.factor.status.rawValue
+    silentlyApproveSwitch.isOn = presenter.isSilentyApproved
     title = presenter.factor.friendlyName
   }
   
@@ -113,5 +115,9 @@ private extension FactorDetailViewController {
     tableView.dataSource = self
     tableView.tableFooterView = UIView()
     tableView.register(UINib(nibName: String(describing: ChallengeTableViewCell.self), bundle: nil), forCellReuseIdentifier: ChallengeTableViewCell.reuseIdentifier)
+  }
+  
+  @IBAction private func silentlyApproveSwitchChanged() {
+    presenter.updateSilentlyApproveStatus()
   }
 }
