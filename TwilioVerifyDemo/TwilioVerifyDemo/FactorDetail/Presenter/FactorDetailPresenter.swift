@@ -66,7 +66,7 @@ extension FactorDetailPresenter: FactorDetailPresentable {
 
 private extension FactorDetailPresenter {
   func fetchChallenges() {
-    let payload = ChallengeListPayload(factorSid: factor.sid, pageSize: 20)
+    let payload = ChallengeListPayload(factorSid: factor.sid, pageSize: 20, order: .desc)
     twilioVerify.getAllChallenges(withPayload: payload, success: { [weak self] list in
       guard let strongSelf = self else { return }
       strongSelf.challenges = list.challenges

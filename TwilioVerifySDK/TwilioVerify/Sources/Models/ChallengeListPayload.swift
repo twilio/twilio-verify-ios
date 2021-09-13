@@ -25,6 +25,8 @@ public struct ChallengeListPayload {
   public let factorSid: String
   ///Number of Challenges to be returned by the service
   public let pageSize: Int
+  ///Sort challenges in order by creation date of the challenge
+  public let order: ChallengeListOrder
   ///Status to filter the Challenges, if nothing is sent, Challenges of all status will be returned
   public var status: ChallengeStatus?
   ///Token used to retrieve the next page in the pagination arrangement
@@ -37,12 +39,20 @@ public struct ChallengeListPayload {
     - pageSize: Number of Challenges to be returned by the service
     - status: Status to filter the Challenges, if nothing is sent, Challenges of all status will be
               returned
+    - order: Sort challenges in order by creation date of the challenge
     - pageToken: Token used to retrieve the next page in the pagination arrangement
   */
-  public init(factorSid: String, pageSize: Int, status: ChallengeStatus? = nil, pageToken: String? = nil) {
+  public init(factorSid: String, pageSize: Int, status: ChallengeStatus? = nil, order: ChallengeListOrder = .asc, pageToken: String? = nil) {
     self.factorSid = factorSid
     self.pageSize = pageSize
+    self.order = order
     self.status = status
     self.pageToken = pageToken
   }
+}
+
+///Describes the order to fetch a **ChallengeList**
+public enum ChallengeListOrder: String, Codable {
+  case asc
+  case desc
 }

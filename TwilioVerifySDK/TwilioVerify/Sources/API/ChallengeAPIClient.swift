@@ -21,7 +21,7 @@ import Foundation
 
 protocol ChallengeAPIClientProtocol {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
-  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
 
@@ -58,13 +58,14 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
     getChallenge()
   }
   
-  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func getAll(forFactor factor: Factor, status: String?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     func getAllChallenges(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
         let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         var parameters = [Parameter(name: Constants.factorSidKey, value: factor.sid),
-                          Parameter(name: Constants.pageSizeKey, value: pageSize)]
+                          Parameter(name: Constants.pageSizeKey, value: pageSize),
+                          Parameter(name: Constants.orderKey, value: order.rawValue)]
         if let status = status {
           parameters.append(Parameter(name: Constants.statusKey, value: status))
         }
@@ -141,6 +142,7 @@ extension ChallengeAPIClient {
     static let authPayloadKey = "AuthPayload"
     static let pageSizeKey = "PageSize"
     static let pageTokenKey = "pageToken"
+    static let orderKey = "Order"
     static let statusKey = "Status"
     static let factorSidKey = "FactorSid"
     static let getChallengeURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Challenges/\(APIConstants.challengeSidPath)"
