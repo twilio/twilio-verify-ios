@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PushFactorPayload Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/PushFactorPayload" class="dashAnchor"></a>
+    <a title="PushFactorPayload Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">TwilioVerifySDK 1.1.0 Docs</a> (86% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">TwilioVerifySDK Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        PushFactorPayload Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeListOrder.html">ChallengeListOrder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LoggerService.html">LoggerService</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NetworkProvider.html">NetworkProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:15TwilioVerifySDK8ResponseV">Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:15TwilioVerifySDK12FailureBlocka">FailureBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:15TwilioVerifySDK20SuccessResponseBlocka">SuccessResponseBlock</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>PushFactorPayload</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">PushFactorPayload</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FactorPayload.html">FactorPayload</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Describes the information required to create a <strong>Factor</strong> which type is <strong>Push</strong>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV12friendlyNameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/friendlyName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV12friendlyNameSSvp">friendlyName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A human readable description of this resource, up to 64 characters. For a push factor, this can be the device&rsquo;s name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">friendlyName</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV10serviceSidSSvp"></a>
+                    <a name="//apple_ref/swift/Property/serviceSid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV10serviceSidSSvp">serviceSid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The unique SID identifier of the Service.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">serviceSid</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV8identitySSvp"></a>
+                    <a name="//apple_ref/swift/Property/identity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV8identitySSvp">identity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
+because the systems that will process this attribute assume it is not directly identifying information.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">identity</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV10factorTypeAA0eH0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/factorType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV10factorTypeAA0eH0Ovp">factorType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Type of the factor, push by default.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">factorType</span><span class="p">:</span> <span class="kt"><a href="../Enums/FactorType.html">FactorType</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV9pushTokenSSvp"></a>
+                    <a name="//apple_ref/swift/Property/pushToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV9pushTokenSSvp">pushToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registration token generated by APNS when registering for remote notifications.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">pushToken</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV11accessTokenSSvp"></a>
+                    <a name="//apple_ref/swift/Property/accessToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV11accessTokenSSvp">accessToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Previously generated Access Token using the /accessTokens endpoint.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK17PushFactorPayloadV12friendlyName10serviceSid8identity9pushToken06accessM0ACSS_S4Stcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(friendlyName:serviceSid:identity:pushToken:accessToken:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK17PushFactorPayloadV12friendlyName10serviceSid8identity9pushToken06accessM0ACSS_S4Stcfc">init(friendlyName:<wbr>serviceSid:<wbr>identity:<wbr>pushToken:<wbr>accessToken:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <strong>PushFactorPayload</strong> with the given parameters.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">friendlyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">serviceSid</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">identity</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">pushToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>friendlyName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A human readable description of this resource, up to 64 characters. For a push factor, this can be the device&rsquo;s name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceSid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unique SID identifier of the Service.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
+      because the systems that will process this attribute assume it is not directly identifying information.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pushToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Registration token generated by APNS when registering for remote notifications.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Previously generated Access Token using the /accessTokens endpoint.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="https://github.com/twilio/twilio-verify-ios" target="_blank" rel="external">Twilio</a>. All rights reserved. (Last updated: 2021-09-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

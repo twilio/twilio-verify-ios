@@ -1,3 +1,13 @@
+# 1.1.0 (2021-09-13)
+
+### Features
+- Ordering for challenge list ([86ddbba](https://github.com/twilio/twilio-verify-ios/commit/86ddbbadd51516bdd4853defb4606edefeba71c0))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
 # 1.0.0 (2021-07-26)
 
 ### Features
