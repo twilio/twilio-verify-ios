@@ -180,7 +180,7 @@ public class TwilioVerifyBuilder {
   }
   
   /// Defines if the storage will be cleared after a reinstall
-  /// - Parameter clearStorageOnReinstall: If true, the storage will be cleared after a reinstall, so created factors will not exist in the device anymore. If false, created factors will persist in the device
+  /// - Parameter clearStorageOnReinstall: If true, the storage will be cleared after a reinstall, so created factors will not exist in the device anymore. If false, created factors will persist in the device. Default value is true
   public func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
     self.clearStorageOnReinstall = clearStorageOnReinstall
     return self
