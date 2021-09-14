@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
-		97B7832A26F0FA9E0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832926F0FA9E0066CFD1 /* PushChallengePayloadData.swift */; };
-		97C5984426EA5AB0006C6562 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C5984326EA5AB0006C6562 /* AppModel.swift */; };
+		97B7832A26F0FA9E0066CFD1 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */; };
+		97C5984426EA5AB0006C6562 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
 		F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */; };
 		F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24C243C24B62A8000C1B92C /* ChallengeDetailPresenter.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushChallengePayloadData.swift; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		F0C5C5E625BF17C8006CCD8E /* twilio-verify-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "twilio-verify-ios"; path = ..; sourceTree = "<group>"; };
 		F24C243824B6146600C1B92C /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
@@ -290,14 +292,13 @@
 		F2CC678E24B50774000CB11E /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				97B7832926F0FA9E0066CFD1 /* PushChallengePayloadData.swift */,
 				F2AA37D0246F323E00B9388F /* Info.plist */,
 				F2AA37CD246F323E00B9388F /* LaunchScreen.storyboard */,
 				F2AA37CB246F323E00B9388F /* Assets.xcassets */,
 				F2AA37C2246F323C00B9388F /* AppDelegate.swift */,
 				F2CC678F24B5077B000CB11E /* View */,
 				F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */,
-				97C5984326EA5AB0006C6562 /* AppModel.swift */,
+				97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -427,8 +428,9 @@
 				F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */,
 				F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */,
 				F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */,
-				97B7832A26F0FA9E0066CFD1 /* PushChallengePayloadData.swift in Sources */,
-				97C5984426EA5AB0006C6562 /* AppModel.swift in Sources */,
+				97B7832A26F0FA9E0066CFD1 /* (null) in Sources */,
+				97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */,
+				97C5984426EA5AB0006C6562 /* (null) in Sources */,
 				F24C243924B6146600C1B92C /* ChallengeDetailViewController.swift in Sources */,
 				F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */,
 				F275354C24A53229005A5605 /* AccessTokensAPI.swift in Sources */,
