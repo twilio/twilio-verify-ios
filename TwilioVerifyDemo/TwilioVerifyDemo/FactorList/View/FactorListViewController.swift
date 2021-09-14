@@ -17,7 +17,7 @@
 
 import UIKit
 
-protocol FactorListView: class {
+protocol FactorListView: AnyObject {
   func reloadData()
   func showAlert(withMessage message: String)
 }

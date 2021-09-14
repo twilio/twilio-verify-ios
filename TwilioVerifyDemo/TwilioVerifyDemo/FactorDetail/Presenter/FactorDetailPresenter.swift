@@ -21,7 +21,10 @@ import Foundation
 import TwilioVerifySDK
 
 protocol FactorDetailPresentable {
-  var factor: Factor {get}
+  var factor: Factor { get }
+  var isSilentyApproved: Bool { get }
+  
+  func updateSilentlyApproveStatus()
   func didAppear()
   func numberOfItems() -> Int
   func challenge(at index: Int) -> Challenge
@@ -43,6 +46,7 @@ class FactorDetailPresenter {
     guard let twilioVerify = DIContainer.shared.resolve(type: TwilioVerifyAdapter.self) else {
       return nil
     }
+    
     self.twilioVerify = twilioVerify
     self.factor = factor
     self.challenges = []
@@ -51,6 +55,18 @@ class FactorDetailPresenter {
 }
 
 extension FactorDetailPresenter: FactorDetailPresentable {
+  var isSilentyApproved: Bool {
+    AppModel.factorsSilentyApproved[factor.sid] == true
+  }
+  
+  func updateSilentlyApproveStatus() {
+    if !AppModel.factorsSilentyApproved.keys.contains(factor.sid) {
+      AppModel.factorsSilentyApproved[factor.sid] = false
+    }
+    
+    AppModel.factorsSilentyApproved[factor.sid]?.toggle()
+  }
+  
   func didAppear() {
     view?.updateFactorView()
   }

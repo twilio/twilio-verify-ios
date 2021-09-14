@@ -116,6 +116,12 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 * Get the Access token generation URL from your backend [(Running the Sample backend)](#SampleBackend). You will use it for creating a factor
 * Run the `TwilioVerifyDemo` project using `Release` as build configuration
 
+#### Silently approve challenges
+
+You can silently approve challenges when your app already knows that the user is trying to complete an action (actively logging in, making a transaction, etc.) on the same device as the registered device that is being challenged.
+
+You can enable the option "Silently approve challenges" for a factor. After enabling it, every challenge received as a push notification when the app is in foreground for that factor will be silently approved, so user interaction is not required. The option will be saved for the session, so the selection will not be persisted.
+
 <a name='SampleBackend'></a>
 
 ## Running the Sample backend
