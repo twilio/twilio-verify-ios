@@ -93,6 +93,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 private extension AppDelegate {
   func handleChallengeApproval(with payload: [String: Any]) {
     guard let payloadData = PushChallengePayloadData(payload: payload) else {
+      print("Unable to parse payload to expected push challenge, payload used: \(payload)")
       return
     }
 
