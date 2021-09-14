@@ -230,11 +230,11 @@ do {
 <a name='Reinstall'></a>
 
 ## Reinstall and persist factors
-Uninstalling the app could remove all data, so after a reinstall the created factor(s) will not exist in the device anymore. As the information is being saved in the keychain, it is possible to persist factors and key pairs after a reinstall
+By default, the created factors and key pairs will not persist in the device after the app is uninstalled and reinstalled for security reasons. However, it's possible to change this default behavior and persist the factors and key pairs after a reinstall, because both are saved in the keychain.
 
 ---
 **NOTE**
-This may change in future iOS versions, it keeps working for iOS 14 and below. Preserving keychain items on app uninstall could be a privacy concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
+This may change in future iOS versions, but it will keep working for iOS 14 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
 
 ---
 
@@ -245,4 +245,4 @@ let builder = TwilioVerifyBuilder().setClearStorageOnReinstall(false)
 let twilioVerify = try builder.build()
 ```
 
-The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as it is explained in [Update factor's push token](#UpdatePushToken)
+The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in [Update factor's push token](#UpdatePushToken)
