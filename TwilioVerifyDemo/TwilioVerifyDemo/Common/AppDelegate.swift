@@ -15,11 +15,14 @@
 //  limitations under the License.
 //
 
+import Foundation
 import UIKit
+import TwilioVerifySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+  private var twilioVerify: TwilioVerify?
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -43,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let container = DIContainer.shared
     if let twilioVerifyAdapter = try? TwilioVerifyAdapter() {
       container.register(type: TwilioVerifyAdapter.self, component: twilioVerifyAdapter)
+      twilioVerify = twilioVerifyAdapter
     }
     return true
   }
@@ -71,7 +75,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       completionHandler(UNNotificationPresentationOptions(rawValue: 0))
       return
     }
-    showChallenge(payload: payload)
+    handleChallengeApproval(with: payload)
     completionHandler(.sound)
   }
   
@@ -82,19 +86,51 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       return
     }
     
-    showChallenge(payload: payload)
+    handleChallengeApproval(with: payload)
   }
 }
 
 private extension AppDelegate {
+  func handleChallengeApproval(with payload: [String: Any]) {
+    guard let payloadData = PushChallengePayloadData(payload: payload) else {
+      return
+    }
+
+    if AppModel.factorsSilentyApproved[payloadData.factorSid] == true {
+      updateChallenge(with: .approved,
+                      notificationPayload: payload,
+                      factorSid: payloadData.factorSid,
+                      challengeSid: payloadData.challengeSid)
+    } else {
+      showChallenge(payload: payload)
+    }
+  }
+  
+  func updateChallenge(with status: ChallengeStatus,
+                       notificationPayload: [String: Any],
+                       factorSid: String,
+                       challengeSid: String) {
+    
+    let payload = UpdatePushChallengePayload(
+      factorSid: factorSid,
+      challengeSid: challengeSid,
+      status: status
+    )
+    
+    twilioVerify?.updateChallenge(withPayload: payload, success: { [weak self] in
+      self?.showChallenge(payload: notificationPayload)
+    }) { error in
+      print("Unable to silenty approve this challenge, details: \(error.errorMessage)")
+    }
+  }
+  
   func showChallenge(payload: [String: Any]) {
-    guard let challengeSid = payload["challenge_sid"] as? String,
-          let factorSid = payload["factor_sid"] as? String,
-          let type = payload["type"] as? String, type == "verify_push_challenge" else {
+    guard let payloadData = PushChallengePayloadData(payload: payload) else {
       return
     }
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    
     guard let challengeNavigation = storyboard.instantiateViewController(withIdentifier: "ChallengeView") as? UINavigationController,
           let challengeView = challengeNavigation.viewControllers[0] as? ChallengeDetailViewController & ChallengeDetailView else {
       return
@@ -102,8 +138,8 @@ private extension AppDelegate {
     
     challengeView.presenter = ChallengeDetailPresenter(
       withView: challengeView,
-      challengeSid: challengeSid,
-      factorSid: factorSid
+      challengeSid: payloadData.challengeSid,
+      factorSid: payloadData.factorSid
     )
     challengeView.shouldShowButtonToDismissView = true
     
