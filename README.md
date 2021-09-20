@@ -26,6 +26,7 @@
 * [Update factor's push token](#UpdatePushToken)
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
+* [Reinstall and persist factors](#Reinstall)
 
 <a name='About'></a>
 
@@ -115,6 +116,12 @@ See [Verify Push Quickstart](https://www.twilio.com/docs/verify/quickstarts/push
 * [Enable push notifications](https://help.apple.com/xcode/mac/current/#/devdfd3d04a1)
 * Get the Access token generation URL from your backend [(Running the Sample backend)](#SampleBackend). You will use it for creating a factor
 * Run the `TwilioVerifyDemo` project using `Release` as build configuration
+
+#### Silently approve challenges
+
+You can silently approve challenges when your app already knows that the user is trying to complete an action (actively logging in, making a transaction, etc.) on the same device as the registered device that is being challenged.
+
+You can enable the option "Silently approve challenges" for a factor. After enabling it, every challenge received as a push notification when the app is in foreground for that factor will be silently approved, so user interaction is not required. The option will be saved for the session, so the selection will not be persisted.
 
 <a name='SampleBackend'></a>
 
@@ -225,3 +232,23 @@ do {
 
 - Calling this method will not delete factors in **Verify Push API**, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.
 - Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.
+
+<a name='Reinstall'></a>
+
+## Reinstall and persist factors
+By default, the created factors and key pairs will not persist in the device after the app is uninstalled and reinstalled for security reasons. However, it's possible to change this default behavior and persist the factors and key pairs after a reinstall, because both are saved in the keychain.
+
+---
+**NOTE**
+This may change in future iOS versions, but it will keep working for iOS 14 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
+
+---
+
+To persist factors after a reinstall, use `TwilioVerifyBuilder.setClearStorageOnReinstall` method when creating the `TwilioVerify` instance. The default value is `true`, so the factors will be deleted on reinstall. Change it to `false` to persist the factor(s)
+
+```swift
+let builder = TwilioVerifyBuilder().setClearStorageOnReinstall(false)
+let twilioVerify = try builder.build()
+```
+
+The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in [Update factor's push token](#UpdatePushToken)

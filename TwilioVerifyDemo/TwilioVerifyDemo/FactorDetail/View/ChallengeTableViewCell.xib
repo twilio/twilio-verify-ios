@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ChallengeTableViewCell" rowHeight="58" id="KGk-i7-Jjw" customClass="ChallengeTableViewCell" customModule="TwilioVerifyDemo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="328" height="54"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ChallengeTableViewCell" rowHeight="91" id="KGk-i7-Jjw" customClass="ChallengeTableViewCell" customModule="TwilioVerifyDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="328" height="87"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="297" height="54"/>
+                <rect key="frame" x="0.0" y="0.0" width="298.5" height="87"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1V-zG-cbo">
-                        <rect key="frame" x="16" y="10" width="265" height="21"/>
+                        <rect key="frame" x="16" y="10" width="266.5" height="21"/>
                         <accessibility key="accessibilityConfiguration" identifier="challengeMessageText"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46F-EO-w5Z">
-                        <rect key="frame" x="16" y="31" width="265" height="17"/>
+                        <rect key="frame" x="16" y="31" width="266.5" height="17"/>
+                        <accessibility key="accessibilityConfiguration" identifier="challengeExpireOnText"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oya-eb-UHo">
+                        <rect key="frame" x="16" y="48" width="266.5" height="17"/>
                         <accessibility key="accessibilityConfiguration" identifier="challengeExpireOnText"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
@@ -33,21 +40,25 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="46F-EO-w5Z" secondAttribute="bottom" constant="6" id="6qe-pd-T8Z"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oya-eb-UHo" secondAttribute="bottom" constant="16" id="3D1-YM-oc2"/>
                     <constraint firstItem="46F-EO-w5Z" firstAttribute="trailing" secondItem="x1V-zG-cbo" secondAttribute="trailing" id="Aii-gv-GnQ"/>
+                    <constraint firstAttribute="trailing" secondItem="oya-eb-UHo" secondAttribute="trailing" constant="16" id="BiF-h3-t1K"/>
                     <constraint firstItem="x1V-zG-cbo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="MhH-Ab-PJg"/>
                     <constraint firstItem="46F-EO-w5Z" firstAttribute="leading" secondItem="x1V-zG-cbo" secondAttribute="leading" id="T2L-1m-EhB"/>
+                    <constraint firstItem="oya-eb-UHo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="dtO-Dj-wKE"/>
                     <constraint firstItem="x1V-zG-cbo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ejG-pW-kVp"/>
                     <constraint firstItem="46F-EO-w5Z" firstAttribute="top" secondItem="x1V-zG-cbo" secondAttribute="bottom" id="iJJ-D2-uJA"/>
+                    <constraint firstItem="oya-eb-UHo" firstAttribute="top" secondItem="46F-EO-w5Z" secondAttribute="bottom" id="q7W-an-Oc0"/>
                     <constraint firstAttribute="trailing" secondItem="x1V-zG-cbo" secondAttribute="trailing" constant="16" id="vGx-87-keK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="expirationDateLabel" destination="46F-EO-w5Z" id="9Ws-lX-LpF"/>
+                <outlet property="expirationDateLabel" destination="oya-eb-UHo" id="Xex-72-TxB"/>
                 <outlet property="messageLabel" destination="x1V-zG-cbo" id="72n-vG-5tE"/>
+                <outlet property="statusLabel" destination="46F-EO-w5Z" id="CKi-Wm-v8D"/>
             </connections>
-            <point key="canvasLocation" x="101.44927536231884" y="141.29464285714286"/>
+            <point key="canvasLocation" x="101.44927536231884" y="152.34375"/>
         </tableViewCell>
     </objects>
 </document>
