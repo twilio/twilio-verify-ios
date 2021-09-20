@@ -1,3 +1,13 @@
+# 1.2.0 (2021-09-20)
+
+### Features
+- Allow persisting factors after a reinstall ([0598808](https://github.com/twilio/twilio-verify-ios/commit/059880871a9d9c7ef97bf025e076e3af0e7e8db7))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
 # 1.1.0 (2021-09-13)
 
 ### Features
