@@ -28,13 +28,23 @@ public typealias ErrorBlock = (Error) -> ()
 ///:nodoc:
 public protocol AuthenticatedSecureStorageProvider {
   func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock)
-  func get(_ key: String, authenticator: Authenticator, success: SuccessBlock, failure: ErrorBlock)
+  func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock)
   func removeValue(for key: String) throws
   func clear() throws
 }
 
 ///:nodoc:
 public class AuthenticatedSecureStorage {
+
+  private enum Errors: Error, LocalizedError {
+    case authenticationFailed
+
+    var errorDescription: String? {
+      switch self {
+        case .authenticationFailed: return "Authentication failed"
+      }
+    }
+  }
 
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
@@ -52,47 +62,42 @@ public class AuthenticatedSecureStorage {
 
 extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
-    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
-      if result {
-        do {
-          Logger.shared.log(withLevel: .info, message: "Saving \(key)")
-          let accessControl = try self.getAccessControl()
-          let query = self.keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: authenticator.context)
-          let status = self.keychain.addItem(withQuery: query)
-          guard status == errSecSuccess else {
-            let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
-            Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-            failure(error)
-            return
-          }
-          Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
-          success()
-        } catch {
+    evaluatePolicy(for: authenticator, success: {
+      do {
+        Logger.shared.log(withLevel: .info, message: "Saving \(key)")
+        let accessControl = try self.getAccessControl()
+        let query = self.keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: authenticator.context)
+        let status = self.keychain.addItem(withQuery: query)
+        guard status == errSecSuccess else {
+          let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
+          return
         }
-      } else {
-        if let error = err {
-          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(error)
-        }
+        Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
+        success()
+      } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(error)
       }
-    }
+    }, failure: failure)
   }
 
-  public func get(_ key: String, authenticator: Authenticator, success: SuccessBlock, failure: ErrorBlock) {
-    Logger.shared.log(withLevel: .info, message: "Getting \(key)")
-    let query = keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
-    do {
-      let result = try keychain.copyItemMatching(query: query)
-      // swiftlint:disable:next force_cast
-      let data = result as! Data
-      Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
-      success(data)
-    } catch {
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(error)
-    }
+  public func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock) {
+    evaluatePolicy(for: authenticator, success: {
+      Logger.shared.log(withLevel: .info, message: "Getting \(key)")
+      let query = self.keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
+      do {
+        let result = try self.keychain.copyItemMatching(query: query)
+        // swiftlint:disable:next force_cast
+        let data = result as! Data
+        Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
+        success(data)
+      } catch {
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(error)
+      }
+    }, failure: failure)
   }
 
   public func removeValue(for key: String) throws {
@@ -122,6 +127,24 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
       return try keychain.accessControl(withProtection: Constants.accessControlProtection, flags: Constants.accessControlFlagsBiometrics)
     } else {
       return try keychain.accessControl(withProtection: Constants.accessControlProtection, flags: Constants.accessControlFlags)
+    }
+  }
+
+  private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+    Logger.shared.log(withLevel: .info, message: "Evaluating authentication")
+    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
+      if result {
+        success()
+      } else {
+        if let error = err {
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(error)
+        } else {
+          let error = Errors.authenticationFailed
+          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+          failure(error)
+        }
+      }
     }
   }
 

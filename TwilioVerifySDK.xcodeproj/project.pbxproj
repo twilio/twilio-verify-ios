@@ -78,6 +78,9 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		86E5DD5326F1413000A5680B /* AuthenticatedSecureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5226F1413000A5680B /* AuthenticatedSecureStorageTests.swift */; };
+		86E5DD5B26F2892E00A5680B /* MockContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5A26F2892E00A5680B /* MockContext.swift */; };
+		86E5DD5D26F2895600A5680B /* AuthenticatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5C26F2895600A5680B /* AuthenticatorMock.swift */; };
 		F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02034CA24F9654C00D87AAA /* FactorMigrations.swift */; };
 		F02144F0250AA79B00933B7E /* MigrationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02144EF250AA79B00933B7E /* MigrationMock.swift */; };
 		F0261C4224A26289007881E9 /* ChallengeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */; };
@@ -271,6 +274,9 @@
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		86E5DD5226F1413000A5680B /* AuthenticatedSecureStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedSecureStorageTests.swift; sourceTree = "<group>"; };
+		86E5DD5A26F2892E00A5680B /* MockContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContext.swift; sourceTree = "<group>"; };
+		86E5DD5C26F2895600A5680B /* AuthenticatorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorMock.swift; sourceTree = "<group>"; };
 		F02034CA24F9654C00D87AAA /* FactorMigrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMigrations.swift; sourceTree = "<group>"; };
 		F02144EF250AA79B00933B7E /* MigrationMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationMock.swift; sourceTree = "<group>"; };
 		F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClient.swift; sourceTree = "<group>"; };
@@ -676,6 +682,15 @@
 			path = Challenge;
 			sourceTree = "<group>";
 		};
+		86E5DD5926F2890800A5680B /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				86E5DD5A26F2892E00A5680B /* MockContext.swift */,
+				86E5DD5C26F2895600A5680B /* AuthenticatorMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		F05A319C2493E26C0098F49C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1064,7 +1079,9 @@
 		F2FB79B2248979F4004B22E6 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				86E5DD5926F2890800A5680B /* Mocks */,
 				F2FB79B324897A06004B22E6 /* SecureStorageTests.swift */,
+				86E5DD5226F1413000A5680B /* AuthenticatedSecureStorageTests.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1338,15 +1355,18 @@
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				F08379A024AE7A37003F18DD /* ChallengeListMapperTests.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
+				86E5DD5B26F2892E00A5680B /* MockContext.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
 				2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */,
 				2017297E24D0A4980029493D /* DateProviderMock.swift in Sources */,
 				204227A424A538E800CD001B /* ChallengeRepositoryTests.swift in Sources */,
 				2048753F24A2641A00D70FAA /* TwilioVerifyTests.swift in Sources */,
+				86E5DD5326F1413000A5680B /* AuthenticatedSecureStorageTests.swift in Sources */,
 				F207BBBA2490320D00688E5C /* KeyStorageAdapterTests.swift in Sources */,
 				F2E6C9FA2492E11300922FBA /* FactorRepositoryMock.swift in Sources */,
 				F207BBBE2490337000688E5C /* SignerMock.swift in Sources */,
 				F27A33EC24CF898D00A8053D /* KeychainMock.swift in Sources */,
+				86E5DD5D26F2895600A5680B /* AuthenticatorMock.swift in Sources */,
 				F24FA15E2553184C0040036C /* UpdateChallengeTests.swift in Sources */,
 				F2DF147F256F5E0F00BC7A07 /* OSLogWrapperMock.swift in Sources */,
 				F07B6F5B2492CA6700948FB1 /* FactorMock.swift in Sources */,
