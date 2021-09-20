@@ -23,6 +23,8 @@ class MockContext: LAContext {
 
   var evaluatePolicyResult: Bool = true
   var evaluatePolicyError: Error?
+  var canEvaluatePolicyResult: Bool = true
+  var canEvaluatePolicyError: Error?
 
   convenience init(evaluatePolicyResult: Bool = true, evaluatePolicyError: Error? = nil) {
     self.init()
@@ -31,7 +33,8 @@ class MockContext: LAContext {
   }
 
   override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-    return true
+    error?.pointee = canEvaluatePolicyError as NSError?
+    return canEvaluatePolicyResult
   }
 
   override func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void) {

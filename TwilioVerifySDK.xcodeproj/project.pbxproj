@@ -78,6 +78,7 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		86902FB726F8E4EB00DD72E1 /* BiometricError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86902FB626F8E4EB00DD72E1 /* BiometricError.swift */; };
 		86E5DD5326F1413000A5680B /* AuthenticatedSecureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5226F1413000A5680B /* AuthenticatedSecureStorageTests.swift */; };
 		86E5DD5B26F2892E00A5680B /* MockContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5A26F2892E00A5680B /* MockContext.swift */; };
 		86E5DD5D26F2895600A5680B /* AuthenticatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5DD5C26F2895600A5680B /* AuthenticatorMock.swift */; };
@@ -274,6 +275,7 @@
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		86902FB626F8E4EB00DD72E1 /* BiometricError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricError.swift; sourceTree = "<group>"; };
 		86E5DD5226F1413000A5680B /* AuthenticatedSecureStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedSecureStorageTests.swift; sourceTree = "<group>"; };
 		86E5DD5A26F2892E00A5680B /* MockContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContext.swift; sourceTree = "<group>"; };
 		86E5DD5C26F2895600A5680B /* AuthenticatorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorMock.swift; sourceTree = "<group>"; };
@@ -682,6 +684,14 @@
 			path = Challenge;
 			sourceTree = "<group>";
 		};
+		86902FB526F8E4D600DD72E1 /* Biometrics */ = {
+			isa = PBXGroup;
+			children = (
+				86902FB626F8E4EB00DD72E1 /* BiometricError.swift */,
+			);
+			path = Biometrics;
+			sourceTree = "<group>";
+		};
 		86E5DD5926F2890800A5680B /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -913,6 +923,7 @@
 		F27A33F524CF89DB00A8053D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				86902FB526F8E4D600DD72E1 /* Biometrics */,
 				F27A33F824CF89F000A8053D /* Storage */,
 				F27A33F724CF89E900A8053D /* Keychain */,
 				F27A33F624CF89E400A8053D /* Key */,
@@ -1262,6 +1273,7 @@
 				F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */,
 				F2572054256EAC5B0026963E /* DefaultLogger.swift in Sources */,
 				F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */,
+				86902FB726F8E4EB00DD72E1 /* BiometricError.swift in Sources */,
 				20793D6B25C1E19B00870D2C /* TwilioVerifyConfig.swift in Sources */,
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
