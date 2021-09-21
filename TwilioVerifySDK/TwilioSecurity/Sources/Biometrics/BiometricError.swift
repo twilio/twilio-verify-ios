@@ -9,6 +9,7 @@
 import Foundation
 import LocalAuthentication
 
+/// Biometric Errors derived by LAError's LocalAuthentication. For more information, see https://developer.apple.com/documentation/localauthentication/laerror
 public enum BiometricError: Error, LocalizedError {
 
     // MARK: - Biometric LAError cases
@@ -31,6 +32,7 @@ public enum BiometricError: Error, LocalizedError {
 
     // MARK: - Resolution
 
+    // swiftlint:disable:next cyclomatic_complexity
     public static func given(_ error: NSError?) -> Self? {
       guard let error = error else {
         return nil

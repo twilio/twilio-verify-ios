@@ -41,7 +41,7 @@ public class AuthenticatedSecureStorage {
 
     public var errorDescription: String? {
       switch self {
-      case .authenticationFailed: return "Authentication failed"
+        case .authenticationFailed: return "Authentication failed"
       }
     }
   }
