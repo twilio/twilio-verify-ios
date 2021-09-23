@@ -239,4 +239,44 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     // Then
     XCTAssertEqual(keychainMock.callOrder.first, .deleteItem)
   }
+
+  // MARK: - Biometric Errors
+
+  func testSave_withValidValuesSavingDataButFailedAuthentication_shouldThrowBiometricError() {
+    // Given
+    let data = "testData".data(using: .utf8)
+    let key = "testKey"
+    let mockContext = MockContext()
+    let authenticator = AuthenticatorMock(context: mockContext)
+    let expectedError = "Biometric error: LAError authenticationFailed"
+    mockContext.canEvaluatePolicyResult = false
+    mockContext.canEvaluatePolicyError = LAError(.authenticationFailed)
+
+    // When
+    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+      // Then
+      XCTFail("Save data should fail, since there is not keychain available")
+    } failure: { error in
+      XCTAssertEqual(expectedError, error.localizedDescription)
+    }
+  }
+
+  func testSave_withValidValuesSavingDataButUnexpectedError_shouldThrowUnexpectedError() {
+    // Given
+    let data = "testData".data(using: .utf8)
+    let key = "testKey"
+    let mockContext = MockContext()
+    let authenticator = AuthenticatorMock(context: mockContext)
+    let expectedError = "Authentication failed"
+    mockContext.canEvaluatePolicyResult = false
+    mockContext.canEvaluatePolicyError = MockErrors.unexpected
+
+    // When
+    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+      // Then
+      XCTFail("Save data should fail, since there is not keychain available")
+    } failure: { error in
+      XCTAssertEqual(expectedError, error.localizedDescription)
+    }
+  }
 }

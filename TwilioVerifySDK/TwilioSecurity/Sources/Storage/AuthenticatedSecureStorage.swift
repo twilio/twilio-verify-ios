@@ -36,10 +36,10 @@ public protocol AuthenticatedSecureStorageProvider {
 ///:nodoc:
 public class AuthenticatedSecureStorage {
 
-  private enum Errors: Error, LocalizedError {
-    case authenticationFailed
+  public enum Errors: Error, LocalizedError {
+    case authenticationFailed(Error?)
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
       switch self {
         case .authenticationFailed: return "Authentication failed"
       }
@@ -131,7 +131,23 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   }
 
   private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
-    Logger.shared.log(withLevel: .info, message: "Evaluating authentication")
+    Logger.shared.log(withLevel: .info, message: "Validating policy")
+
+    var error: NSError?
+
+    guard authenticator.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+      if let biometricError = BiometricError.given(error) {
+        Logger.shared.log(withLevel: .error, message: biometricError.localizedDescription)
+        failure(biometricError)
+      } else {
+        Logger.shared.log(withLevel: .error, message: error?.localizedDescription ?? .init())
+        failure(Errors.authenticationFailed(error))
+      }
+      return
+    }
+
+    Logger.shared.log(withLevel: .info, message: "Evaluating policy")
+
     authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
       if result {
         success()
@@ -140,7 +156,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
         } else {
-          let error = Errors.authenticationFailed
+          let error = Errors.authenticationFailed(error)
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
         }
