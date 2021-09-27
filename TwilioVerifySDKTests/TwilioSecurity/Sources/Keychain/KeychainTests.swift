@@ -18,6 +18,8 @@
 //
 
 import XCTest
+import Foundation
+import LocalAuthentication
 @testable import TwilioVerifySDK
 
 // swiftlint:disable force_cast type_body_length
@@ -272,7 +274,7 @@ class KeychainTests: XCTestCase {
       )
     }
   }
-  
+    
   func testCopyItemMatching_witMatches_shouldReturnKey() {
     var pair: KeyPair!
     var keyObject: AnyObject!
@@ -312,6 +314,37 @@ class KeychainTests: XCTestCase {
     let status = keychain.deleteItem(withQuery: Constants.keyQuery)
     XCTAssertEqual(status, errSecSuccess)
   }
+    
+    
+  func testCreateQuery_withAccessControl_shouldBeCreatedAndAdded() {
+    let accessControl = { [unowned self] () -> SecAccessControl in
+      if #available(iOS 11.3, *) {
+        return try self.keychain.accessControl(
+          withProtection: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+          flags: .biometryCurrentSet
+        )
+      } else {
+        return try self.keychain.accessControl(
+          withProtection: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+          flags: .touchIDCurrentSet
+        )
+      }
+    }
+    
+    let data = "data".data(using: .utf8)!
+    
+    let query = try? KeychainQuery().save(
+      data: data,
+      withKey: Constants.alias,
+      accessControl: accessControl(),
+      context: StubLAContext()
+    )
+    
+    let status = keychain.addItem(withQuery: query!)
+    
+    XCTAssertNoThrow(query)
+    XCTAssertEqual(status, errSecSuccess)
+  }
 }
 
 private extension KeychainTests {
@@ -338,5 +371,10 @@ private extension KeychainTests {
     secItemClasses.forEach {
       SecItemDelete([kSecClass: $0] as CFDictionary)
     }
+  }
+  
+  class StubLAContext: LAContext {
+    override func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void) {}
+    override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool { return true }
   }
 }
