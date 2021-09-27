@@ -345,6 +345,25 @@ class KeychainTests: XCTestCase {
     XCTAssertNoThrow(query)
     XCTAssertEqual(status, errSecSuccess)
   }
+  
+  func testCreateQuery_withAuthenticationPromt_shouldBeCreated_withGivenProperties() {
+    let testKey = "test_key"
+    let authenticationPromptTestKey = "authentication_prompt"
+    
+    let query = KeychainQuery().getData(
+      withKey: testKey,
+      authenticationPrompt: authenticationPromptTestKey
+    )
+    
+    let status = keychain.addItem(withQuery: query)
+    
+    XCTAssertNotNil(query[kSecAttrAccount.asString])
+    XCTAssertNotNil(query[kSecUseOperationPrompt.asString])
+    XCTAssertEqual(query[kSecAttrAccount.asString] as? String, testKey)
+    XCTAssertEqual(query[kSecUseOperationPrompt.asString] as? String, authenticationPromptTestKey)
+    XCTAssertNoThrow(query)
+    XCTAssertEqual(status, errSecSuccess)
+  }
 }
 
 private extension KeychainTests {
@@ -376,5 +395,11 @@ private extension KeychainTests {
   class StubLAContext: LAContext {
     override func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void) {}
     override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool { return true }
+  }
+}
+
+private extension CFString {
+  var asString: String {
+    self as String
   }
 }
