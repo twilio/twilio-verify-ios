@@ -110,7 +110,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let data = "testData".data(using: .utf8)
     let key = "testKey"
     let authenticator = AuthenticatorMock(context: MockContext(evaluatePolicyResult: false, evaluatePolicyError: MockErrors.unexpected))
-    let expectedError = MockErrors.unexpected
+    let expectedError = AuthenticatedSecureStorage.Errors.authenticationFailed(MockErrors.unexpected)
     keychainMock.addItemStatus = [errSecNotAvailable]
 
     // When
@@ -160,15 +160,18 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     // Given
     let data = "testData".data(using: .utf8)
     let key = "testKey"
-    let authenticator = AuthenticatorMock(context: MockContext(evaluatePolicyResult: false))
     keychainMock.keys = [data] as [AnyObject]
+    let mockContext = MockContext()
+    let authenticator = AuthenticatorMock(context: mockContext)
+    let expectedError = AuthenticatedSecureStorage.Errors.authenticationFailed(BiometricError.secAuthFailed)
+    mockContext.canEvaluatePolicyError = BiometricError.secAuthFailed
 
     // When
     testSubject.get(key, authenticator: authenticator) { _ in
       // Then
       XCTFail("Get Data should failed, because of an authentication failure")
     } failure: { error in
-      XCTAssertEqual("Authentication failed", error.localizedDescription)
+      XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
     }
   }
 
@@ -248,7 +251,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let key = "testKey"
     let mockContext = MockContext()
     let authenticator = AuthenticatorMock(context: mockContext)
-    let expectedError = "Biometric error: LAError authenticationFailed"
+    let expectedError = BiometricError.authenticationFailed
     mockContext.canEvaluatePolicyResult = false
     mockContext.canEvaluatePolicyError = LAError(.authenticationFailed)
 
@@ -257,7 +260,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
       // Then
       XCTFail("Save data should fail, since there is not keychain available")
     } failure: { error in
-      XCTAssertEqual(expectedError, error.localizedDescription)
+      XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
     }
   }
 

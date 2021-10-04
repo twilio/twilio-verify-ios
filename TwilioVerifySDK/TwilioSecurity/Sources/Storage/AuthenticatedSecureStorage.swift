@@ -62,7 +62,7 @@ public class AuthenticatedSecureStorage {
 
 extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
-    evaluatePolicy(for: authenticator, success: {
+    evaluatePolicy(for: authenticator, withDeviceOwnerAuthentication: true, success: {
       do {
         Logger.shared.log(withLevel: .info, message: "Saving \(key)")
         let accessControl = try self.getAccessControl()
@@ -95,7 +95,11 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
         success(data)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(error)
+        if let biometricError = BiometricError.given(error as NSError) {
+          failure(biometricError)
+        } else {
+          failure(error)
+        }
       }
     }, failure: failure)
   }
@@ -130,12 +134,12 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
   }
 
-  private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+  private func evaluatePolicy(for authenticator: Authenticator, withDeviceOwnerAuthentication: Bool = false, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
     Logger.shared.log(withLevel: .info, message: "Validating policy")
 
     var error: NSError?
 
-    guard authenticator.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+    guard authenticator.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error), error == nil else {
       if let biometricError = BiometricError.given(error) {
         Logger.shared.log(withLevel: .error, message: biometricError.localizedDescription)
         failure(biometricError)
@@ -146,15 +150,20 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
       return
     }
 
+    guard withDeviceOwnerAuthentication else {
+        success()
+        return
+    }
+
     Logger.shared.log(withLevel: .info, message: "Evaluating policy")
 
-    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
+    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, error in
       if result {
         success()
       } else {
-        if let error = err {
-          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(error)
+        if let error = error, let biometricError = BiometricError.given(error as NSError) {
+          Logger.shared.log(withLevel: .error, message: biometricError.localizedDescription)
+          failure(biometricError)
         } else {
           let error = Errors.authenticationFailed(error)
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
