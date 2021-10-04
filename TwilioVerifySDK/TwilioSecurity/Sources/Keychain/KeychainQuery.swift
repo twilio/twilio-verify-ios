@@ -111,10 +111,9 @@ struct KeychainQuery: KeychainQueryProtocol {
   
   func delete(withKey key: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccount: key] as Query
   }
-  
+
   func deleteItems() -> Query {
     [kSecClass: kSecClassGenericPassword,
     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query

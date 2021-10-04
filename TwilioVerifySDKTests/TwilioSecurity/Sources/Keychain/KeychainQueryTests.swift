@@ -118,11 +118,9 @@ class KeychainQueryTests: XCTestCase {
     let query = keychainQuery.delete(withKey: Constants.alias)
     let keyClass = query[kSecClass as String] as! CFString
     let label = query[kSecAttrAccount as String] as! String
-    let access = query[kSecAttrAccessible as String] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
   
   func testDeleteItems_shouldReturnValidQuery() {

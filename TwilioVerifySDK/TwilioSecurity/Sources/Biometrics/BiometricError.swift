@@ -33,6 +33,7 @@ public enum BiometricError: Error, LocalizedError {
     case secNotAvailable
     case secReadOnly
     case secInvalidKeychain
+    case secItemNotFound
 
     public var errorDescription: String? {
         return "Biometric error: \(String(describing: self))"
@@ -80,6 +81,7 @@ public enum BiometricError: Error, LocalizedError {
             case Int(errSecNotAvailable): return .secNotAvailable
             case Int(errSecReadOnly): return .secReadOnly
             case Int(errSecInvalidKeychain): return .secInvalidKeychain
+            case Int(errSecItemNotFound): return .secItemNotFound
             default: return nil
         }
     }
