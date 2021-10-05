@@ -18,6 +18,8 @@
 //
 
 import XCTest
+import Foundation
+import LocalAuthentication
 @testable import TwilioVerifySDK
 
 // swiftlint:disable force_cast type_body_length
@@ -272,7 +274,7 @@ class KeychainTests: XCTestCase {
       )
     }
   }
-  
+    
   func testCopyItemMatching_witMatches_shouldReturnKey() {
     var pair: KeyPair!
     var keyObject: AnyObject!
@@ -312,6 +314,38 @@ class KeychainTests: XCTestCase {
     let status = keychain.deleteItem(withQuery: Constants.keyQuery)
     XCTAssertEqual(status, errSecSuccess)
   }
+    
+    
+  func testCreateQuery_withAccessControl_shouldBeCreatedAndAdded() {
+    let data = "data".data(using: .utf8)!
+    
+    let query = KeychainQuery().save(
+      data: data,
+      withKey: Constants.alias,
+      accessControl: StubLAContext.getAccessControl(keychain: keychain),
+      context: StubLAContext()
+    )
+    
+    let status = keychain.addItem(withQuery: query)
+    
+    XCTAssertNoThrow(query)
+    XCTAssertEqual(status, errSecSuccess)
+  }
+  
+  func testCreateQuery_withAuthenticationPromt_shouldBeCreated_withGivenProperties() {
+    let testKey = "test_key"
+    let authenticationPromptTestKey = "authentication_prompt"
+    
+    let query = KeychainQuery().getData(
+      withKey: testKey,
+      authenticationPrompt: authenticationPromptTestKey
+    )
+    
+    let status = keychain.addItem(withQuery: query)
+    
+    XCTAssertNoThrow(query)
+    XCTAssertEqual(status, errSecSuccess)
+  }
 }
 
 private extension KeychainTests {
@@ -338,5 +372,11 @@ private extension KeychainTests {
     secItemClasses.forEach {
       SecItemDelete([kSecClass: $0] as CFDictionary)
     }
+  }
+}
+
+extension CFString {
+  var asString: String {
+    self as String
   }
 }
