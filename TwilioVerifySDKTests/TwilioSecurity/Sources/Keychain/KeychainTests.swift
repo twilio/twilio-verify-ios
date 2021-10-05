@@ -322,7 +322,7 @@ class KeychainTests: XCTestCase {
     let query = KeychainQuery().save(
       data: data,
       withKey: Constants.alias,
-      accessControl: StubLAContext.getAccesControl(keychain: keychain),
+      accessControl: StubLAContext.getAccessControl(keychain: keychain),
       context: StubLAContext()
     )
     
