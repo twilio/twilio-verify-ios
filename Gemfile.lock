@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/yafuquen/fastlane-plugin-firebase_test_lab
+  revision: a2dedb1e3e60cb595bba0ea2a867f770b372e9bf
+  specs:
+    fastlane-plugin-firebase_test_lab (1.0.7)
+      faraday
+      google-cloud-storage (>= 1.25.1, < 2.0.0)
+      googleauth
+      plist (>= 3.0.0)
+      rubyzip (>= 1.0.0)
+      tty-spinner (>= 0.8.0, < 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -180,6 +192,9 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-create_xcframework (1.1.2)
+    fastlane-plugin-firebase_app_distribution (0.3.1)
+    fastlane-plugin-semantic_convention_release (1.0.6)
     ffi (1.14.2)
     filesize (0.2.0)
     fourflusher (2.3.1)
@@ -350,10 +365,14 @@ DEPENDENCIES
   danger-slather (>= 0.0.6)
   danger-swiftlint (>= 0.24.4)
   fastlane (>= 2.178.0)
+  fastlane-plugin-create_xcframework
+  fastlane-plugin-firebase_app_distribution
+  fastlane-plugin-firebase_test_lab!
+  fastlane-plugin-semantic_convention_release
   filesize
   jazzy (>= 0.13.6)
   plist
   xcpretty
 
 BUNDLED WITH
-   2.1.4
+   2.2.14
