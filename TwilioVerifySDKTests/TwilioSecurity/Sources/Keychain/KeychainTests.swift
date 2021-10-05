@@ -317,30 +317,16 @@ class KeychainTests: XCTestCase {
     
     
   func testCreateQuery_withAccessControl_shouldBeCreatedAndAdded() {
-    let accessControl = { [unowned self] () -> SecAccessControl in
-      if #available(iOS 11.3, *) {
-        return try self.keychain.accessControl(
-          withProtection: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-          flags: .biometryCurrentSet
-        )
-      } else {
-        return try self.keychain.accessControl(
-          withProtection: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-          flags: .touchIDCurrentSet
-        )
-      }
-    }
-    
     let data = "data".data(using: .utf8)!
     
-    let query = try? KeychainQuery().save(
+    let query = KeychainQuery().save(
       data: data,
       withKey: Constants.alias,
-      accessControl: accessControl(),
+      accessControl: StubLAContext.getAccesControl(keychain: keychain),
       context: StubLAContext()
     )
     
-    let status = keychain.addItem(withQuery: query!)
+    let status = keychain.addItem(withQuery: query)
     
     XCTAssertNoThrow(query)
     XCTAssertEqual(status, errSecSuccess)
@@ -357,10 +343,6 @@ class KeychainTests: XCTestCase {
     
     let status = keychain.addItem(withQuery: query)
     
-    XCTAssertNotNil(query[kSecAttrAccount.asString])
-    XCTAssertNotNil(query[kSecUseOperationPrompt.asString])
-    XCTAssertEqual(query[kSecAttrAccount.asString] as? String, testKey)
-    XCTAssertEqual(query[kSecUseOperationPrompt.asString] as? String, authenticationPromptTestKey)
     XCTAssertNoThrow(query)
     XCTAssertEqual(status, errSecSuccess)
   }
@@ -391,14 +373,9 @@ private extension KeychainTests {
       SecItemDelete([kSecClass: $0] as CFDictionary)
     }
   }
-  
-  class StubLAContext: LAContext {
-    override func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void) {}
-    override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool { return true }
-  }
 }
 
-private extension CFString {
+extension CFString {
   var asString: String {
     self as String
   }
