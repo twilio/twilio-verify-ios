@@ -84,7 +84,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   }
 
   public func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock) {
-    evaluatePolicy(for: authenticator, success: {
+    canEvaluatePolicy(for: authenticator, success: {
       Logger.shared.log(withLevel: .info, message: "Getting \(key)")
       let query = self.keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
       do {
@@ -95,7 +95,11 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
         success(data)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(error)
+        if let biometricError = BiometricError.given(error as NSError) {
+          failure(biometricError)
+        } else {
+          failure(error)
+        }
       }
     }, failure: failure)
   }
@@ -130,12 +134,11 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
   }
 
-  private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+  private func canEvaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
     Logger.shared.log(withLevel: .info, message: "Validating policy")
-
     var error: NSError?
 
-    guard authenticator.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+    guard authenticator.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error), error == nil else {
       if let biometricError = BiometricError.given(error) {
         Logger.shared.log(withLevel: .error, message: biometricError.localizedDescription)
         failure(biometricError)
@@ -146,22 +149,27 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
       return
     }
 
-    Logger.shared.log(withLevel: .info, message: "Evaluating policy")
+    success()
+  }
 
-    authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, err in
-      if result {
-        success()
-      } else {
-        if let error = err {
-          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(error)
+  private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+    Logger.shared.log(withLevel: .info, message: "Evaluating policy")
+    canEvaluatePolicy(for: authenticator, success: {
+      authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, error in
+        if result {
+          success()
         } else {
-          let error = Errors.authenticationFailed(error)
-          Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(error)
+          if let error = error, let biometricError = BiometricError.given(error as NSError) {
+            Logger.shared.log(withLevel: .error, message: biometricError.localizedDescription)
+            failure(biometricError)
+          } else {
+            let error = Errors.authenticationFailed(error)
+            Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+            failure(error)
+          }
         }
       }
-    }
+    }, failure: failure)
   }
 
   struct Constants {
