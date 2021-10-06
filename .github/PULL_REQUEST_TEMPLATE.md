@@ -6,7 +6,7 @@
 
 <!-- Ticket: Please add the Jira ticket number or the Github issue number according to your case -->
 ## Jira Ticket
-- ACCSEC-
+- [#####]
 
 ## Github Issue
 - ISSUE-
@@ -15,7 +15,7 @@
 ## Description
 - 
 
-<!-- Commit message: This repository uses a commit message convention https://docs.google.com/document/d/19ed9FHIAlJwlGzf3xacgE15MVfTwx8n9G2QeYyCr-5E/edit?usp=drive_web&ouid=116864038767072405931 set the commit message to be used when merging this PR e.g. docs: add architecture diagrams [ACCSEC-99999] -->
+<!-- Commit message: This repository uses a commit message convention https://docs.google.com/document/d/19ed9FHIAlJwlGzf3xacgE15MVfTwx8n9G2QeYyCr-5E/edit?usp=drive_web&ouid=116864038767072405931 set the commit message to be used when merging this PR e.g. docs: add architecture diagrams [99999] -->
 ## Commit message
 -  
 
