@@ -245,7 +245,7 @@ By default, the created factors and key pairs will not persist in the device aft
 
 ---
 **NOTE**
-This may change in future iOS versions, but it will keep working for iOS 14 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
+This may change in future iOS versions, but it will keep working for iOS 15 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
 
 ---
 
@@ -257,3 +257,6 @@ let twilioVerify = try builder.build()
 ```
 
 The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in [Update factor's push token](#UpdatePushToken)
+
+The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
+> Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
