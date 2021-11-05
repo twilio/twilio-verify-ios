@@ -314,24 +314,7 @@ class KeychainTests: XCTestCase {
     let status = keychain.deleteItem(withQuery: Constants.keyQuery)
     XCTAssertEqual(status, errSecSuccess)
   }
-    
-    
-  func testCreateQuery_withAccessControl_shouldBeCreatedAndAdded() {
-    let data = "data".data(using: .utf8)!
-    
-    let query = KeychainQuery().save(
-      data: data,
-      withKey: Constants.alias,
-      accessControl: StubLAContext.getAccessControl(keychain: keychain),
-      context: StubLAContext()
-    )
-    
-    let status = keychain.addItem(withQuery: query)
-    
-    XCTAssertNoThrow(query)
-    XCTAssertEqual(status, errSecSuccess)
-  }
-  
+
   func testCreateQuery_withAuthenticationPromt_shouldBeCreated_withGivenProperties() {
     let testKey = "test_key"
     let authenticationPromptTestKey = "authentication_prompt"

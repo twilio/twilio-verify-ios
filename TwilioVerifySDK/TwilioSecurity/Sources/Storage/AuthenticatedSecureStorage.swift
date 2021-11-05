@@ -62,7 +62,7 @@ public class AuthenticatedSecureStorage {
 
 extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
-    evaluatePolicy(for: authenticator, with: key, success: {
+    evaluatePolicy(for: authenticator, success: {
       do {
         Logger.shared.log(withLevel: .info, message: "Saving \(key)")
         let accessControl = try self.getAccessControl()
@@ -85,20 +85,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
   }
 
   public func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock) {
-    canEvaluatePolicy(for: authenticator, with: key, success: {
-
-      Logger.shared.log(withLevel: .info, message: "Verifying biometrics policy state for key: \(key)")
-      if let biometricPolicyState = self.getBiometricPolicyState(for: key),
-         let evaluatedPolicyDomainState = authenticator.context.evaluatedPolicyDomainState {
-          guard biometricPolicyState == evaluatedPolicyDomainState else {
-              Logger.shared.log(withLevel: .info, message: "User did change biometrics")
-              failure(BiometricError.didChangeBiometrics)
-              return
-          }
-      } else if authenticator.context.evaluatedPolicyDomainState != nil {
-        self.storeBiometricPolicyState(with: key, with: authenticator.context)
-      }
-
+    canEvaluatePolicy(for: authenticator, success: {
       Logger.shared.log(withLevel: .info, message: "Getting \(key)")
       let query = self.keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
       do {
@@ -108,6 +95,17 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
         Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
         success(data)
       } catch {
+
+        Logger.shared.log(withLevel: .info, message: "Verifying biometrics policy state for key: \(key)")
+        if let biometricPolicyState = self.getBiometricPolicyState(for: key),
+           let evaluatedPolicyDomainState = authenticator.context.evaluatedPolicyDomainState {
+          guard biometricPolicyState == evaluatedPolicyDomainState else {
+            Logger.shared.log(withLevel: .error, message: "User did change biometrics")
+            failure(BiometricError.didChangeBiometrics)
+            return
+          }
+        }
+
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         if let biometricError = BiometricError.given(error as NSError) {
           failure(biometricError)
@@ -148,7 +146,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
   }
 
-  private func canEvaluatePolicy(for authenticator: Authenticator, with key: String, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+  private func canEvaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
     Logger.shared.log(withLevel: .info, message: "Validating policy")
     var error: NSError?
 
@@ -166,9 +164,9 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     success()
   }
 
-  private func evaluatePolicy(for authenticator: Authenticator, with key: String, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+  private func evaluatePolicy(for authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
     Logger.shared.log(withLevel: .info, message: "Evaluating policy")
-    canEvaluatePolicy(for: authenticator, with: key, success: {
+    canEvaluatePolicy(for: authenticator, success: {
       authenticator.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticator.localizedReason) { result, error in
         if result {
           success()

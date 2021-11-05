@@ -133,7 +133,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let data = "testData".data(using: .utf8)
     let key = "testKey"
     let authenticator = AuthenticatorMock(context: MockContext())
-    keychainMock.keys = [nil, data] as [AnyObject]
+    keychainMock.keys = [data] as [AnyObject]
 
     // When
     testSubject.get(key, authenticator: authenticator) { responseData in
@@ -149,6 +149,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let key = "testKey"
     let authenticator = AuthenticatorMock(context: MockContext())
     let expectedError = MockErrors.unexpected
+    keychainMock.keys = [nil] as [AnyObject]
     keychainMock.error = expectedError
 
     // When
@@ -299,8 +300,8 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let mockContext = MockContext()
     let authenticator = AuthenticatorMock(context: mockContext)
     mockContext.evaluatedPolicyDomainStateResult = newBiometricsData
-    keychainMock.keys = [biometricsData, data] as [AnyObject]
-    keychainMock.addItemStatus = [errSecSuccess]
+    keychainMock.keys = [nil, biometricsData] as [AnyObject]
+    keychainMock.error = NSError(domain: NSOSStatusErrorDomain, code: Int(errSecAuthFailed), userInfo: [:])
 
     // When
     testSubject.get(key, authenticator: authenticator) { _ in
@@ -320,7 +321,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let mockContext = MockContext()
     let authenticator = AuthenticatorMock(context: mockContext)
     mockContext.evaluatedPolicyDomainStateResult = newBiometricsData
-    keychainMock.keys = [biometricsData, data] as [AnyObject]
+    keychainMock.keys = [data, biometricsData] as [AnyObject]
     keychainMock.addItemStatus = [errSecSuccess]
 
     // When

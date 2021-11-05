@@ -88,8 +88,14 @@ extension KeychainMock: KeychainProtocol {
   func copyItemMatching(query: Query) throws -> AnyObject {
     callsToCopyItemMatching += 1
     if let error = error {
+      self.error = nil
       throw error
     }
+
+    guard keys.indices.contains(callsToCopyItemMatching) else {
+      throw NSError(domain: NSOSStatusErrorDomain, code: Int(errSecItemNotFound), userInfo: [:])
+    }
+
     return keys[callsToCopyItemMatching]
   }
   
