@@ -25,6 +25,11 @@ class MockContext: LAContext {
   var evaluatePolicyError: Error?
   var canEvaluatePolicyResult: Bool = true
   var canEvaluatePolicyError: Error?
+  var evaluatedPolicyDomainStateResult: Data?
+
+  override var evaluatedPolicyDomainState: Data? {
+    return evaluatedPolicyDomainStateResult
+  }
 
   convenience init(evaluatePolicyResult: Bool = true, evaluatePolicyError: Error? = nil) {
     self.init()

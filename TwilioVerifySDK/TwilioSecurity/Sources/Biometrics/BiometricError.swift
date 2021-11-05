@@ -12,6 +12,9 @@ import LocalAuthentication
 /// Biometric Errors derived by LAError's LocalAuthentication. For more information, see https://developer.apple.com/documentation/localauthentication/laerror
 /// Biometric Errors derived by OSStatus. For more information, see https://developer.apple.com/documentation/security/1542001-security_framework_result_codes
 public enum BiometricError: Error, LocalizedError {
+    // MARK: - Custom Errors
+
+    case didChangeBiometrics
 
     // MARK: - Biometric LAError cases
 
