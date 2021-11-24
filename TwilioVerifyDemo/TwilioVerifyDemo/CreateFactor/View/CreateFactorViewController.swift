@@ -18,7 +18,7 @@
 import UIKit
 import TwilioVerifySDK
 
-protocol CreateFactorView: class {
+protocol CreateFactorView: AnyObject {
   func showAlert(withMessage message: String)
   func stopLoader()
   func dismissView()
@@ -26,6 +26,7 @@ protocol CreateFactorView: class {
 
 class CreateFactorViewController: UIViewController {
 
+  @IBOutlet private weak var enablePushNotificationsSwitch: UISwitch!
   @IBOutlet private weak var identityTextField: UITextField!
   @IBOutlet private weak var accessTokenURLTextField: UITextField!
   @IBOutlet private weak var createButton: UIButton!
@@ -48,8 +49,15 @@ class CreateFactorViewController: UIViewController {
   @IBAction func createFactor() {
     let identity = identityTextField.text
     let url = accessTokenURLTextField.text
+    let pushNotificationEnabled = enablePushNotificationsSwitch.isOn
+      
     loader.startAnimating()
-    presenter?.create(withIdentity: identity, accessTokenURL: url)
+      
+    presenter?.create(
+        withIdentity: identity,
+        accessTokenURL: url,
+        pushNotificationEnabled: pushNotificationEnabled
+    )
   }
 }
 

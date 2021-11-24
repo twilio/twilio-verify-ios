@@ -50,9 +50,9 @@ extension FactorFacade: FactorFacadeProtocol {
     }
     factory.createFactor(withAccessToken: payload.accessToken,
                          friendlyName: payload.friendlyName,
-                         pushToken: payload.pushToken,
                          serviceSid: payload.serviceSid,
                          identity: payload.identity,
+                         pushToken: payload.pushToken,
                          success: success,
                          failure: failure)
   }
