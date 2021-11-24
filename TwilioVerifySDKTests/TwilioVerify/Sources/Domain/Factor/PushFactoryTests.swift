@@ -22,7 +22,7 @@ import XCTest
 
 // swiftlint:disable force_cast type_body_length file_length
 class PushFactoryTests: XCTestCase {
-
+  
   var repository: FactorRepositoryMock!
   var keyStorage: KeyStorageMock!
   var factory: PushFactoryProtocol!
@@ -41,14 +41,14 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.factor = Constants.fakeFactor
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -64,14 +64,14 @@ class PushFactoryTests: XCTestCase {
     var error: TwilioVerifyError!
     keyStorage.errorCreatingKey = TestError.operationFailed
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -88,14 +88,14 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.error = TestError.operationFailed
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -113,14 +113,14 @@ class PushFactoryTests: XCTestCase {
     keyStorage.errorDeletingKey = TestError.operationFailed
     repository.error = TestError.operationFailed
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
+                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -138,14 +138,14 @@ class PushFactoryTests: XCTestCase {
     repository.saveError = TestError.operationFailed
     repository.factor = Constants.factor
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
+                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -164,14 +164,14 @@ class PushFactoryTests: XCTestCase {
     repository.saveError = TestError.operationFailed
     repository.factor = Constants.factor
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }) { failureReason in
-                          error = failureReason
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
+                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+      XCTFail()
+      expectation.fulfill()
+    }) { failureReason in
+      error = failureReason
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
@@ -187,14 +187,14 @@ class PushFactoryTests: XCTestCase {
     keyStorage.createKeyResult = Constants.data
     repository.factor = Constants.factor
     
-    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, pushToken: Constants.pushToken,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, success: { factor in
-                          pushFactor = (factor as! PushFactor)
-                          expectation.fulfill()
-                        }) { _ in
-                          XCTFail()
-                          expectation.fulfill()
-                        }
+    factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
+                         identity: Constants.identity, pushToken: Constants.pushToken, success: { factor in
+      pushFactor = (factor as! PushFactor)
+      expectation.fulfill()
+    }) { _ in
+      XCTFail()
+      expectation.fulfill()
+    }
     
     waitForExpectations(timeout: 3, handler: nil)
     XCTAssertEqual(pushFactor.sid, Constants.factor.sid,
@@ -256,7 +256,7 @@ class PushFactoryTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
-
+  
   func testVerifyFactor_factorIsMissingAlias_shouldFail() {
     let expectation = self.expectation(description: "testVerifyFactor_factorIsMissingAlias_shouldFail")
     let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError)
@@ -562,7 +562,7 @@ class PushFactoryTests: XCTestCase {
     XCTAssertEqual(error.originalError, expectedError.originalError,
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
-
+  
   func testDeleteFactor_withErrorDeletingKeyPair_shouldFail() {
     let expectation = self.expectation(description: "testDeleteFactor_withErrorDeletingKeyPair_shouldFail")
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
@@ -617,6 +617,49 @@ class PushFactoryTests: XCTestCase {
   func testDeleteAllFactors_withoutErrors_shouldClearSecureStorage() {
     repository.factors = [Constants.factor]
     XCTAssertNoThrow(try factory.deleteAllFactors(), "Delete all factors should not throw")
+  }
+  
+  func testCreateFactor_WithNilPushToken_ShouldReturnFactor() {
+    let accessToken = "test-token"
+    let friendlyName = "friendlyName"
+    let serviceSid = "serviceSid"
+    let identity = "identity"
+
+    keyStorage.createKeyResult = Constants.data
+    repository.factor = Constants.factor
+    
+    factory.createFactor(
+      withAccessToken: accessToken,
+      friendlyName: friendlyName,
+      serviceSid: serviceSid,
+      identity: identity,
+      pushToken: nil,
+      success: { factor in
+        XCTAssertEqual(factor.serviceSid, serviceSid)
+        XCTAssertEqual(factor.friendlyName, friendlyName)
+        XCTAssertEqual(factor.identity, identity)
+        XCTAssertEqual(factor.status, .unverified)
+      },
+      failure: { error in
+        XCTFail(error.localizedDescription)
+      }
+    )
+  }
+  
+  func testUpdateFactor_WithNilPushToken_ShouldReturnFactor() {
+    repository.factor = Constants.factor
+
+    factory.updateFactor(
+      withSid: Constants.factor.sid,
+      withPushToken: nil,
+      success: { factor in
+        XCTAssertEqual(factor.sid, Constants.factor.sid)
+        XCTAssertEqual(factor.status, Constants.factor.status)
+      },
+      failure: { error in
+        XCTFail(error.localizedDescription)
+      }
+    )
   }
 }
 
