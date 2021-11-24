@@ -65,9 +65,9 @@ extension PushFactory: PushFactoryProtocol {
       let publicKey = try keyStorage.createKey(withAlias: alias)
       let binding = self.binding(publicKey)
       let config = self.config(withToken: pushToken)
-      let payload = CreateFactorPayload(friendlyName: friendlyName,type: .push,
-                                        serviceSid: serviceSid,identity: identity,
-                                        config: config,binding: binding,
+      let payload = CreateFactorPayload(friendlyName: friendlyName, type: .push,
+                                        serviceSid: serviceSid, identity: identity,
+                                        config: config, binding: binding,
                                         accessToken: accessToken)
         
       Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
