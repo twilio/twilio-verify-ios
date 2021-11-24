@@ -27,8 +27,8 @@ class PushFactoryMock {
 }
 
 extension PushFactoryMock: PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String,
-                    serviceSid: String, identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(withAccessToken accessToken: String, friendlyName: String, serviceSid: String, identity: String,
+                    pushToken: String?, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
       return
@@ -44,7 +44,7 @@ extension PushFactoryMock: PushFactoryProtocol {
     success(factor)
   }
   
-  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateFactor(withSid sid: String, withPushToken pushToken: String?, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     if let error = error {
       failure(error)
       return

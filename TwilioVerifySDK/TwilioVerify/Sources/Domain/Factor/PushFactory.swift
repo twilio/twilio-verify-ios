@@ -20,11 +20,27 @@
 import Foundation
 
 protocol PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
-  func deleteFactor(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock)
+  func createFactor(withAccessToken accessToken: String,
+                    friendlyName: String,
+                    serviceSid: String,
+                    identity: String,
+                    pushToken: String?,
+                    success: @escaping FactorSuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock)
+  
+  func verifyFactor(withSid sid: String,
+                    success: @escaping FactorSuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock)
+  
+  func updateFactor(withSid sid: String,
+                    withPushToken pushToken: String?,
+                    success: @escaping FactorSuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock)
+  
+  func deleteFactor(withSid sid: String,
+                    success: @escaping EmptySuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock)
+  
   func deleteAllFactors() throws
 }
 
@@ -40,23 +56,20 @@ class PushFactory {
 }
 
 extension PushFactory: PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String, friendlyName: String, pushToken: String, serviceSid: String,
-                    identity: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(withAccessToken accessToken: String, friendlyName: String, serviceSid: String,
+                    identity: String, pushToken: String?,
+                    success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
       Logger.shared.log(withLevel: .info, message: "Creating push factor \(friendlyName)")
       let alias = generateKeyPairAlias()
       let publicKey = try keyStorage.createKey(withAlias: alias)
       let binding = self.binding(publicKey)
       let config = self.config(withToken: pushToken)
-      let payload = CreateFactorPayload(
-        friendlyName: friendlyName,
-        type: .push,
-        serviceSid: serviceSid,
-        identity: identity,
-        config: config,
-        binding: binding,
-        accessToken: accessToken
-      )
+      let payload = CreateFactorPayload(friendlyName: friendlyName, type: .push,
+                                        serviceSid: serviceSid, identity: identity,
+                                        config: config, binding: binding,
+                                        accessToken: accessToken)
+        
       Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
       
       repository.create(withPayload: payload, success: { [weak self] factor in
@@ -122,7 +135,10 @@ extension PushFactory: PushFactoryProtocol {
     }
   }
   
-  func updateFactor(withSid sid: String, withPushToken pushToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateFactor(withSid sid: String,
+                    withPushToken pushToken: String?,
+                    success: @escaping FactorSuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock) {
     do {
       Logger.shared.log(withLevel: .info, message: "Updating push factor \(sid)")
       let factor = try repository.get(withSid: sid)
@@ -201,6 +217,7 @@ private extension PushFactory {
     static let algKey = "Alg"
     static let defaulAlg = "ES256"
     static let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    static let nonePushType = "none"
   }
   
   func generateKeyPairAlias() -> String {
@@ -219,10 +236,19 @@ private extension PushFactory {
      Constants.algKey: Constants.defaulAlg]
   }
   
-  func config(withToken token: String) -> [String: String] {
-    [Constants.sdkVersionKey: Constants.sdkVersion,
-     Constants.appIdKey: Bundle.main.bundleIdentifier ?? "",
-     Constants.notificationPlatformKey: Constants.pushType,
-     Constants.notificationTokenKey: token]
+  func config(withToken token: String?) -> [String: String] {
+    var configuration = [
+      Constants.sdkVersionKey: Constants.sdkVersion,
+      Constants.appIdKey: Bundle.main.bundleIdentifier ?? .init()
+    ]
+    
+    if let token = token, !token.isEmpty {
+      configuration[Constants.notificationTokenKey] = token
+      configuration[Constants.notificationPlatformKey] = Constants.pushType
+    } else {
+      configuration[Constants.notificationPlatformKey] = Constants.nonePushType
+    }
+    
+    return configuration
   }
 }
