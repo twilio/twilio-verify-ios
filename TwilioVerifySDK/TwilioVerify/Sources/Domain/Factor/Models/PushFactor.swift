@@ -34,4 +34,11 @@ struct PushFactor: Factor, Codable {
 
 struct Config: Codable {
   let credentialSid: String
+  let notificationPlatform: NotificationPlatform
 }
+
+public enum NotificationPlatform: String, Codable {
+  case apn
+  case none
+}
+

@@ -39,7 +39,9 @@ struct PushFactorDTO: Codable {
 
 struct ConfigDTO: Codable {
   let credentialSid: String
+  let notificationPlatform: String
   enum CodingKeys: String, CodingKey {
     case credentialSid = "credential_sid"
+    case notificationPlatform = "notification_platform"
   }
 }

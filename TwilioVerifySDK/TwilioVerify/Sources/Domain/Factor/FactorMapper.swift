@@ -79,10 +79,13 @@ private extension FactorMapper {
       guard let date = DateFormatter().RFC3339(pushFactorDTO.createdAt) else {
         throw MapperError.invalidDate
       }
+      let notificationPlatform = NotificationPlatform(rawValue: pushFactorDTO.config.notificationPlatform) ?? .apn
+      let config = Config(credentialSid: pushFactorDTO.config.credentialSid,
+                          notificationPlatform: notificationPlatform)
       
       let pushFactor = PushFactor(status: pushFactorDTO.status, sid: pushFactorDTO.sid, friendlyName: pushFactorDTO.friendlyName,
                                   accountSid: pushFactorDTO.accountSid, serviceSid: serviceSid, identity: identity,
-                                  createdAt: date, config: Config(credentialSid: pushFactorDTO.config.credentialSid))
+                                  createdAt: date, config: config)
       return pushFactor
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
