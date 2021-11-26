@@ -55,6 +55,39 @@ class FactorMapperTests: XCTestCase {
                    "Factor status should be \(expectedFactorResponse[Constants.statusKey] as! String) but was \(factor.status)")
     XCTAssertEqual(factor.createdAt, DateFormatter().RFC3339(expectedFactorResponse[Constants.dateCreatedKey] as! String),
                    "Factor createdAt should be \(expectedFactorResponse[Constants.dateCreatedKey] as! String) but was \(factor.createdAt)")
+    XCTAssertEqual((factor as! PushFactor).config.notificationPlatform, NotificationPlatform.apn,
+                   "Factor notification platform should be \(NotificationPlatform.apn) but was \((factor as! PushFactor).config.notificationPlatform)")
+  }
+  
+  func testFromAPI_withValidResponseAndNotificationPlatformNone_shouldReturnFactor() {
+    let config = [Constants.credentialSidKey: Constants.expectedCredentialSid,
+                  Constants.notificationPlatformKey: Constants.expectedNotificationPlatform]
+    let expectedFactorResponse: [String: Any] = [Constants.sidKey: Constants.expectedSidValue,
+                                                 Constants.friendlyNameKey: Constants.expectedFriendlyName,
+                                                 Constants.accountSidKey: Constants.expectedAccountSid,
+                                                 Constants.statusKey: FactorStatus.unverified.rawValue,
+                                                 Constants.configKey: config,
+                                                 Constants.dateCreatedKey: Constants.expectedDate]
+    let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+                                            identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken)
+    var factor: Factor!
+    XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
+    XCTAssertEqual(factor.type, factorPayload.type, "Factor type should be \(factorPayload.type) but was \(factor.type)")
+    XCTAssertEqual(factor.serviceSid, factorPayload.serviceSid, "Factor serviceSid should be \(factorPayload.serviceSid) but was \(factor.serviceSid)")
+    XCTAssertEqual(factor.identity, factorPayload.identity, "Factor identity should be \(factorPayload.identity) but was \(factor.identity)")
+    XCTAssertEqual(factor.sid, expectedFactorResponse[Constants.sidKey] as! String,
+                   "Factor sid should be \(expectedFactorResponse[Constants.sidKey] as! String) but was \(factor.sid)")
+    XCTAssertEqual(factor.friendlyName, expectedFactorResponse[Constants.friendlyNameKey] as! String,
+                   "Factor friendlyName should be \(expectedFactorResponse[Constants.friendlyNameKey] as! String) but was \(factor.friendlyName)")
+    XCTAssertEqual(factor.accountSid, expectedFactorResponse[Constants.accountSidKey] as! String,
+                   "Factor accountSid should be \(expectedFactorResponse[Constants.accountSidKey] as! String) but was \(factor.accountSid)")
+    XCTAssertEqual(factor.status.rawValue, expectedFactorResponse[Constants.statusKey] as! String,
+                   "Factor status should be \(expectedFactorResponse[Constants.statusKey] as! String) but was \(factor.status)")
+    XCTAssertEqual(factor.createdAt, DateFormatter().RFC3339(expectedFactorResponse[Constants.dateCreatedKey] as! String),
+                   "Factor createdAt should be \(expectedFactorResponse[Constants.dateCreatedKey] as! String) but was \(factor.createdAt)")
+    XCTAssertEqual((factor as! PushFactor).config.notificationPlatform, NotificationPlatform.apn,
+                   "Factor notification platform should be \(NotificationPlatform.apn) but was \((factor as! PushFactor).config.notificationPlatform)")
   }
   
   func testFromAPI_withIncompleteResponse_shouldThrow() {
@@ -114,7 +147,7 @@ class FactorMapperTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       createdAt: Date(),
-      config: Config(credentialSid: Constants.expectedCredentialSid),
+      config: Config(credentialSid: Constants.expectedCredentialSid, notificationPlatform: .apn),
       keyPairAlias: Constants.expectedKeyPairAlias)
     var factor: Factor!
     XCTAssertNoThrow(factor = try! mapper.fromStorage(withData: JSONEncoder().encode(expectedFactor)), "Factor mapper should succeed")
@@ -162,7 +195,7 @@ class FactorMapperTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       createdAt: Date(),
-      config: Config(credentialSid: Constants.expectedCredentialSid),
+      config: Config(credentialSid: Constants.expectedCredentialSid, notificationPlatform: .apn),
       keyPairAlias: Constants.expectedKeyPairAlias)
     var factorData: Data!
     XCTAssertNoThrow(factorData = try! mapper.toData(expectedFactor), "Factor mapper should succeed")
@@ -175,6 +208,8 @@ class FactorMapperTests: XCTestCase {
     XCTAssertEqual(factor.createdAt, expectedFactor.createdAt, "Factor createdAt should be \(expectedFactor.createdAt) but was \(factor.createdAt)")
     XCTAssertEqual(factor.keyPairAlias, expectedFactor.keyPairAlias,
                    "Factor keyPairAlias should be \(String(describing: expectedFactor.keyPairAlias)) but was \(String(describing: factor.keyPairAlias))")
+    XCTAssertEqual(factor.config.notificationPlatform, expectedFactor.config.notificationPlatform,
+                   "Factor notification platform should be \(expectedFactor.config.notificationPlatform) but was \(factor.config.notificationPlatform)")
   }
   
   func testMapStatus_withValidResponse_shouldReturnFactorStatus() {
@@ -204,6 +239,7 @@ private extension FactorMapperTests {
     static let dateCreatedKey = "date_created"
     static let configKey = "config"
     static let credentialSidKey = "credential_sid"
+    static let notificationPlatformKey = "notification_platform"
     static let typeKey = "type"
     static let pushType = FactorType.push
     static let friendlyNameValue = "factor name"
@@ -216,5 +252,6 @@ private extension FactorMapperTests {
     static let expectedCredentialSid = "credentialSid123"
     static let expectedKeyPairAlias = "alias"
     static let expectedDate = "2020-06-05T15:57:47Z"
+    static let expectedNotificationPlatform = "none"
   }
 }
