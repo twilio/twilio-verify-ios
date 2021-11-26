@@ -41,4 +41,3 @@ public enum NotificationPlatform: String, Codable {
   case apn
   case none
 }
-
