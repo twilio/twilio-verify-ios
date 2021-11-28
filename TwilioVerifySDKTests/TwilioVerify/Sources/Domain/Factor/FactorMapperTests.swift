@@ -169,6 +169,25 @@ class FactorMapperTests: XCTestCase {
                    "Factor keyPairAlias should be \(String(describing: expectedFactor.keyPairAlias)) but was \(String(describing: (factor as! PushFactor).keyPairAlias))")
   }
   
+  func testFromStorage_withoutNotificationPlatform_shouldReturnFactor() {
+    let expectedStoredFactor: [String: Any] = ["sid": Constants.expectedSidValue,
+                                               "type": Constants.pushType.rawValue,
+                                               "friendlyName": Constants.expectedFriendlyName,
+                                               "accountSid": Constants.expectedAccountSid,
+                                               "serviceSid": Constants.serviceSidValue,
+                                               "identity": Constants.identityValue,
+                                               "status": FactorStatus.verified.rawValue,
+                                               "config": ["credentialSid": Constants.expectedCredentialSid],
+                                               "createdAt": Date().timeIntervalSince1970,
+                                               "keyPairAlias": Constants.expectedKeyPairAlias]
+    let data = try! JSONSerialization.data(withJSONObject: expectedStoredFactor, options: .prettyPrinted)
+    var factor: Factor!
+    XCTAssertNoThrow(factor = try! mapper.fromStorage(withData: data), "Factor mapper should succeed")
+    XCTAssertTrue(factor is PushFactor, "Factor should be \(PushFactor.self)")
+    XCTAssertEqual((factor as! PushFactor).config.notificationPlatform, NotificationPlatform.apn,
+                   "Factor notification platform should be \(NotificationPlatform.apn) but was \((factor as! PushFactor).config.notificationPlatform)")
+  }
+  
   func testFromStorage_withInvalidFactorStored_shouldThrow() {
     let expectedFactorResponse = [Constants.sidKey: Constants.expectedSidValue,
                                   Constants.friendlyNameKey: Constants.expectedFriendlyName,

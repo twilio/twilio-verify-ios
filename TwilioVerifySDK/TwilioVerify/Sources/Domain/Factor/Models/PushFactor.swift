@@ -34,10 +34,12 @@ struct PushFactor: Factor, Codable {
 
 struct Config: Codable {
   let credentialSid: String
-  var notificationPlatform: NotificationPlatform = .apn
+  @Default<NotificationPlatform> var notificationPlatform: NotificationPlatform = .apn
 }
 
-public enum NotificationPlatform: String, Codable {
+public enum NotificationPlatform: String, Codable, DefaultValue {
   case apn
   case none
+  
+  static let defaultValue = NotificationPlatform.apn
 }
