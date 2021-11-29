@@ -34,12 +34,26 @@ struct PushFactor: Factor, Codable {
 
 struct Config: Codable {
   let credentialSid: String
-  @Default<NotificationPlatform> var notificationPlatform: NotificationPlatform = .apn
+  var notificationPlatform: NotificationPlatform = .apn
+  
+  enum CodingKeys: String, CodingKey {
+    case credentialSid
+    case notificationPlatform
+  }
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.credentialSid = try container.decode(String.self, forKey: .credentialSid)
+    self.notificationPlatform = try container.decodeIfPresent(NotificationPlatform.self, forKey: .notificationPlatform) ?? .apn
+  }
+  
+  init(credentialSid: String, notificationPlatform: NotificationPlatform = .apn) {
+    self.credentialSid = credentialSid
+    self.notificationPlatform = notificationPlatform
+  }
 }
 
-public enum NotificationPlatform: String, Codable, DefaultValue {
+public enum NotificationPlatform: String, Codable {
   case apn
   case none
-  
-  static let defaultValue = NotificationPlatform.apn
 }
