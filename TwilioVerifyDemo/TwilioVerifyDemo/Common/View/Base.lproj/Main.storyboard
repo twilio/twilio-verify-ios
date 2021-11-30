@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6NF-nA-uIc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,7 +39,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" smartDashesType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIO-J6-K4C">
-                                <rect key="frame" x="16" y="272" width="382" height="48"/>
+                                <rect key="frame" x="16" y="299" width="382" height="48"/>
                                 <color key="backgroundColor" red="0.20746630429999999" green="0.47376841310000001" blue="0.75125902889999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="createFactorButton"/>
                                 <constraints>
@@ -54,22 +54,35 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DTf-rj-Xpc">
-                                <rect key="frame" x="188.5" y="277.5" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="304.5" width="37" height="37"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eIc-Qk-RG4">
+                                <rect key="frame" x="20" y="258" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable push notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIY-16-0A7">
+                                <rect key="frame" x="79" y="265.5" width="152.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nnP-ip-qbB" secondAttribute="trailing" constant="16" id="12G-m3-wLS"/>
                             <constraint firstItem="IIO-J6-K4C" firstAttribute="leading" secondItem="nnP-ip-qbB" secondAttribute="leading" id="6Lf-7l-UlD"/>
                             <constraint firstItem="nnP-ip-qbB" firstAttribute="top" secondItem="lWK-do-CBc" secondAttribute="bottom" constant="48" id="7on-eU-IoY"/>
+                            <constraint firstItem="hIY-16-0A7" firstAttribute="centerY" secondItem="eIc-Qk-RG4" secondAttribute="centerY" id="FyS-Wr-76e"/>
                             <constraint firstItem="asf-Kj-V6U" firstAttribute="leading" secondItem="nnP-ip-qbB" secondAttribute="leading" id="JZi-zP-a2U"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="eIc-Qk-RG4" secondAttribute="leading" id="R1U-7J-vKU"/>
+                            <constraint firstItem="IIO-J6-K4C" firstAttribute="top" secondItem="eIc-Qk-RG4" secondAttribute="bottom" constant="10" id="VDy-GQ-x4W"/>
                             <constraint firstItem="asf-Kj-V6U" firstAttribute="trailing" secondItem="nnP-ip-qbB" secondAttribute="trailing" id="VO5-hd-vNm"/>
-                            <constraint firstItem="IIO-J6-K4C" firstAttribute="top" secondItem="asf-Kj-V6U" secondAttribute="bottom" constant="24" id="ZZL-T3-Djt"/>
                             <constraint firstItem="asf-Kj-V6U" firstAttribute="top" secondItem="nnP-ip-qbB" secondAttribute="bottom" constant="20" id="a1n-az-nP5"/>
                             <constraint firstItem="IIO-J6-K4C" firstAttribute="trailing" secondItem="asf-Kj-V6U" secondAttribute="trailing" id="bvT-q7-DpR"/>
                             <constraint firstItem="DTf-rj-Xpc" firstAttribute="centerY" secondItem="IIO-J6-K4C" secondAttribute="centerY" id="oUA-GP-Me4"/>
                             <constraint firstItem="nnP-ip-qbB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="tAh-Lk-2Pg"/>
+                            <constraint firstItem="hIY-16-0A7" firstAttribute="leading" secondItem="eIc-Qk-RG4" secondAttribute="trailing" constant="10" id="vOb-dO-la7"/>
+                            <constraint firstItem="eIc-Qk-RG4" firstAttribute="top" secondItem="asf-Kj-V6U" secondAttribute="bottom" constant="10" id="zkU-6V-T2o"/>
                             <constraint firstItem="DTf-rj-Xpc" firstAttribute="centerX" secondItem="IIO-J6-K4C" secondAttribute="centerX" id="zzO-BU-Rny"/>
                         </constraints>
                     </view>
@@ -80,6 +93,7 @@
                         <outlet property="accessTokenURLTextField" destination="asf-Kj-V6U" id="fQU-Kb-YwS"/>
                         <outlet property="closeButton" destination="jM7-ZR-nYX" id="m9x-Y5-gsa"/>
                         <outlet property="createButton" destination="IIO-J6-K4C" id="hXR-x0-4iD"/>
+                        <outlet property="enablePushNotificationsSwitch" destination="eIc-Qk-RG4" id="xRK-BV-bRe"/>
                         <outlet property="identityTextField" destination="nnP-ip-qbB" id="7Du-K0-DUZ"/>
                         <outlet property="loader" destination="DTf-rj-Xpc" id="jMP-Tt-mhG"/>
                     </connections>
