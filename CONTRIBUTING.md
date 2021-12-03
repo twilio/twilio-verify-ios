@@ -14,6 +14,22 @@ If this is your first time contributing to an open-source project, [check out ou
 
 ## Testing
 
+1. Enter the directory of the project. For example:
+
+```bash
+cd twilio-verify-ios
+```
+
+2. Install test dependencies by running
+
+```bash
+bundle check || bundle install
+```
+3. Execute the complete test suite by running
+
+```bash
+bundle exec fastlane unit_tests test_plan:CompleteSuite
+```
 
 ## Creating a pull request
 Please open a pull request on the [twilio-verify-ios](https://github.com/twilio/twilio-verify-ios) repository from your fork and fill out the pull request template.
