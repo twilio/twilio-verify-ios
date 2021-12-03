@@ -27,6 +27,7 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Contributing](#Contributing)
 
 <a name='About'></a>
 
@@ -252,3 +253,8 @@ let twilioVerify = try builder.build()
 ```
 
 The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in [Update factor's push token](#UpdatePushToken)
+
+<a name='Contributing'></a>
+
+## Contributing
+This project wolcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
