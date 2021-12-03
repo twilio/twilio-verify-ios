@@ -28,6 +28,7 @@
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
 * [Contributing](#Contributing)
+* [License](#License)
 
 <a name='About'></a>
 
@@ -258,3 +259,9 @@ The push token will change after the reinstall. Update the push token to receive
 
 ## Contributing
 This project wolcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
+
+<a name='License'></a>
+
+## License
+[Apache © Twilio Inc.](./LICENSE)
+
