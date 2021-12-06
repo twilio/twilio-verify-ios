@@ -146,6 +146,28 @@ class KeychainQueryTests: XCTestCase {
       XCTAssertEqual(query[kSecAttrAccount.asString] as? String, testKey)
       XCTAssertEqual(query[kSecUseOperationPrompt.asString] as? String, authenticationPromptTestKey)
   }
+  
+  func testCreateQuery_withAccessControl_shouldHaveGivenAttributes() {
+    guard
+      let data = "data".data(using: .utf8),
+      let accessControl = try? StubLAContext.getAccessControl(keychain: keychain) else {
+        XCTFail("Unable to create Test mock data.")
+        return
+      }
+    
+    let query = KeychainQuery().save(
+      data: data,
+      withKey: Constants.alias,
+      accessControl: accessControl,
+      context: StubLAContext()
+    )
+    
+    XCTAssertNotNil(query[kSecClass.asString])
+    XCTAssertNotNil(query[kSecAttrAccount.asString])
+    XCTAssertNotNil(query[kSecValueData.asString])
+    XCTAssertNotNil(query[kSecAttrAccessControl.asString])
+    XCTAssertNotNil(query[kSecUseAuthenticationContext.asString])
+  }
 }
 
 private extension KeychainQueryTests {

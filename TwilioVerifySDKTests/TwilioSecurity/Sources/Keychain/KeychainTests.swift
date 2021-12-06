@@ -329,6 +329,27 @@ class KeychainTests: XCTestCase {
     XCTAssertNoThrow(query)
     XCTAssertEqual(status, errSecSuccess)
   }
+
+  func testCreateQuery_withAccessControl_shouldFail() {
+    guard
+      let data = "data".data(using: .utf8),
+      let accessControl = try? StubLAContext.getAccessControl(keychain: keychain) else {
+        XCTFail("Unable to create Test mock data.")
+        return
+      }
+    
+    let query = KeychainQuery().save(
+      data: data,
+      withKey: Constants.alias,
+      accessControl: accessControl,
+      context: StubLAContext()
+    )
+    
+    let status: OSStatus = keychain.addItem(withQuery: query)
+    
+    XCTAssertNoThrow(query)
+    XCTAssertEqual(status, errSecAuthFailed)
+  }
 }
 
 private extension KeychainTests {
