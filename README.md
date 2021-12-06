@@ -258,7 +258,7 @@ The push token will change after the reinstall. Update the push token to receive
 <a name='Contributing'></a>
 
 ## Contributing
-This project wolcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
+This project welcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
 
 <a name='License'></a>
 
