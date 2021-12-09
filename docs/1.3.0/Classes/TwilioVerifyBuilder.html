@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TwilioVerifyBuilder Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/TwilioVerifyBuilder" class="dashAnchor"></a>
+    <a title="TwilioVerifyBuilder Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">TwilioVerifySDK 1.3.0 Docs</a> (84% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">TwilioVerifySDK Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TwilioVerifyBuilder Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeListOrder.html">ChallengeListOrder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NotificationPlatform.html">NotificationPlatform</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LoggerService.html">LoggerService</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NetworkProvider.html">NetworkProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:15TwilioVerifySDK8ResponseV">Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:15TwilioVerifySDK12FailureBlocka">FailureBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:15TwilioVerifySDK20SuccessResponseBlocka">SuccessResponseBlock</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TwilioVerifyBuilder</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">TwilioVerifyBuilder</span></code></pre>
+
+                </div>
+              </div>
+            <p>Builder class that builds an instance of TwilioVerifyManager, which handles all the operations
+regarding Factors and Challenges</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderCACycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderCACycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new instance of TwilioVerifyBuilder</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderC18setNetworkProvideryACXDAA0fG0_pF"></a>
+                    <a name="//apple_ref/swift/Method/setNetworkProvider(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderC18setNetworkProvideryACXDAA0fG0_pF">setNetworkProvider(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the NetworkProvider that will be used by the <code><a href="../Protocols/TwilioVerify.html">TwilioVerify</a></code> instance.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setNetworkProvider</span><span class="p">(</span><span class="n">_</span> <span class="nv">networkProvider</span><span class="p">:</span> <span class="kt"><a href="../Protocols/NetworkProvider.html">NetworkProvider</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>networkProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>instance of a <code><a href="../Protocols/NetworkProvider.html">NetworkProvider</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderC26setClearStorageOnReinstallyACXDSbF"></a>
+                    <a name="//apple_ref/swift/Method/setClearStorageOnReinstall(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderC26setClearStorageOnReinstallyACXDSbF">setClearStorageOnReinstall(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Defines if the storage will be cleared after a reinstall</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setClearStorageOnReinstall</span><span class="p">(</span><span class="n">_</span> <span class="nv">clearStorageOnReinstall</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>clearStorageOnReinstall</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If true, the storage will be cleared after a reinstall, so created factors will not exist in the device anymore.
+If false, created factors will persist in the device. Default value is true</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderC27enableDefaultLoggingService9withLevelACXDAA03LogJ0O_tF"></a>
+                    <a name="//apple_ref/swift/Method/enableDefaultLoggingService(withLevel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderC27enableDefaultLoggingService9withLevelACXDAA03LogJ0O_tF">enableDefaultLoggingService(withLevel:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enables the default logger</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">enableDefaultLoggingService</span><span class="p">(</span><span class="n">withLevel</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Enums/LogLevel.html">LogLevel</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>level</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Desired level of logging</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderC17addLoggingServiceyACXDAA06LoggerG0_pF"></a>
+                    <a name="//apple_ref/swift/Method/addLoggingService(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderC17addLoggingServiceyACXDAA06LoggerG0_pF">addLoggingService(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a custom Logging Service</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addLoggingService</span><span class="p">(</span><span class="n">_</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LoggerService.html">LoggerService</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Custom logging service to be used to log information</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15TwilioVerifySDK0aB7BuilderC5buildAA0aB0_pyKF"></a>
+                    <a name="//apple_ref/swift/Method/build()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15TwilioVerifySDK0aB7BuilderC5buildAA0aB0_pyKF">build()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Buids an instance of TwilioVerifyManager</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code>TwilioVerifyError.initializationError</code> if an error occurred while initializing.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">build</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/TwilioVerify.html">TwilioVerify</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of <code><a href="../Protocols/TwilioVerify.html">TwilioVerify</a></code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="https://github.com/twilio/twilio-verify-ios" target="_blank" rel="external">Twilio</a>. All rights reserved. (Last updated: 2021-11-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
