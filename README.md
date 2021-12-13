@@ -27,6 +27,8 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Contributing](#Contributing)
+* [License](#License)
 
 <a name='About'></a>
 
@@ -260,3 +262,13 @@ The push token will change after the reinstall. Update the push token to receive
 
 The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
 > Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
+
+<a name='Contributing'></a>
+
+## Contributing
+This project welcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
+
+<a name='License'></a>
+
+## License
+[Apache © Twilio Inc.](./LICENSE)
