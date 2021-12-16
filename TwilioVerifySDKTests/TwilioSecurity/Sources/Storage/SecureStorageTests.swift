@@ -41,6 +41,7 @@ class SecureStorageTests: XCTestCase {
     let key = "key"
     let expectedErrorCode = errSecDuplicateItem
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25299.)"
+    keychain.deleteItemStatus = errSecSuccess
     keychain.addItemStatus = [expectedErrorCode]
     XCTAssertThrowsError(try storage.save(data, withKey: key, withServiceName: "service"), "Save should throw") { error in
       let thrownError = error as NSError
@@ -66,6 +67,7 @@ class SecureStorageTests: XCTestCase {
     let data = "data".data(using: .utf8)!
     let key = "key"
     keychain.addItemStatus = [errSecSuccess]
+    keychain.deleteItemStatus = errSecSuccess
     XCTAssertNoThrow(try storage.save(data, withKey: key, withServiceName: "service"), "Save should not throw")
   }
   
