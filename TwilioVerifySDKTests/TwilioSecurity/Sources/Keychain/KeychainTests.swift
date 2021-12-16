@@ -250,7 +250,7 @@ class KeychainTests: XCTestCase {
     let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
     let data = "data".data(using: .utf8)!
-    let query = KeychainQuery().save(data: data, withKey: Constants.alias)
+    let query = KeychainQuery().save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
     let status = keychain.addItem(withQuery: query)
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
     XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in
@@ -317,6 +317,7 @@ class KeychainTests: XCTestCase {
 private extension KeychainTests {
   struct Constants {
     static let alias = "alias"
+    static let service = "service"
     static let algorithm: SecKeyAlgorithm = .ecdsaSignatureMessageX962SHA256
     static let keyQuery = [kSecClass: kSecClassKey,
                            kSecAttrKeyClass: kSecAttrKeyClassPublic,

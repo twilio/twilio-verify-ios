@@ -24,3 +24,36 @@ struct FactorMigrations {
     []
   }
 }
+
+class AddServiceToKeychainItems: Migration {
+  
+  private let secureStorage: SecureStorageProvider
+  private let factorMapper: FactorMapper
+  
+  init(secureStorage: SecureStorageProvider,
+       factorMapper: FactorMapper = FactorMapper()) {
+    self.secureStorage = secureStorage
+    self.factorMapper = factorMapper
+  }
+  
+  var startVersion: Int = 0
+  
+  var endVersion: Int = 1
+  
+  func migrate(data: [Data]) -> [Entry] {
+    guard let factorsWithoutAccountName = try? secureStorage.getAll(withServiceName: nil) else {
+      return []
+    }
+    let factors = data.compactMap { item in
+      return try? factorMapper.fromStorage(withData: item)
+    }
+    return factorsWithoutAccountName.compactMap { item in
+      guard let factorToUpdate = try? factorMapper.fromStorage(withData: item) else {
+        return nil
+      }
+      return Entry(key: factorToUpdate.sid, value: item)
+    }.filter { entry in
+      !factors.contains { $0.sid == entry.key}
+    }
+  }
+}

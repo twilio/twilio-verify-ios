@@ -32,7 +32,7 @@ class SecureStorageMock {
 }
 
 extension SecureStorageMock: SecureStorageProvider {
-  func save(_ data: Data, withKey key: String) throws {
+  func save(_ data: Data, withKey key: String, withServiceName service: String) throws {
     callsToSave += 1
     if let error = error {
       throw error
@@ -47,7 +47,7 @@ extension SecureStorageMock: SecureStorageProvider {
     return operationResult
   }
   
-  func getAll() throws -> [Data] {
+  func getAll(withServiceName service: String?) throws -> [Data] {
     callsToGetAll += 1
     if let error = error {
       throw error
@@ -62,7 +62,7 @@ extension SecureStorageMock: SecureStorageProvider {
     }
   }
   
-  func clear() throws {
+  func clear(withServiceName service: String) throws {
     callsToClear += 1
     if let error = error {
       throw error

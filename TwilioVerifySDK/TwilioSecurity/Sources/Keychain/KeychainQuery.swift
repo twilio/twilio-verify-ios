@@ -39,11 +39,11 @@ protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
   func deleteKey(withAlias alias: String) -> Query
-  func save(data: Data, withKey key: String) -> Query
+  func save(data: Data, withKey key: String, withServiceName service: String) -> Query
   func getData(withKey key: String) -> Query
-  func getAll() -> Query
+  func getAll(withServiceName service: String?) -> Query
   func delete(withKey key: String) -> Query
-  func deleteItems() -> Query
+  func deleteItems(withServiceName service: String) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
@@ -69,10 +69,11 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-  func save(data: Data, withKey key: String) -> Query {
+  func save(data: Data, withKey key: String, withServiceName service: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
+     kSecAttrService: service,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
@@ -83,12 +84,16 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-  func getAll() -> Query {
-    [kSecClass: kSecClassGenericPassword,
+  func getAll(withServiceName service: String?) -> Query {
+    var query = [kSecClass: kSecClassGenericPassword,
      kSecReturnAttributes: true,
      kSecReturnData: true,
      kSecMatchLimit: kSecMatchLimitAll,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    if let service = service {
+      query[kSecAttrService as String] = service
+    }
+    return query
   }
   
   func delete(withKey key: String) -> Query {
@@ -97,8 +102,9 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
   }
   
-  func deleteItems() -> Query {
+  func deleteItems(withServiceName service: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
-    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+     kSecAttrService: service,] as Query
   }
 }

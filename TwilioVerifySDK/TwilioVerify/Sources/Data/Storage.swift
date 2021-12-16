@@ -66,7 +66,7 @@ extension Storage: StorageProvider {
   }
   
   func save(_ data: Data, withKey key: String) throws {
-    try secureStorage.save(data, withKey: key)
+    try secureStorage.save(data, withKey: key, withServiceName: Constants.service)
   }
   
   func get(_ key: String) throws -> Data {
@@ -74,7 +74,7 @@ extension Storage: StorageProvider {
   }
   
   func getAll() throws -> [Data] {
-    try secureStorage.getAll()
+    try secureStorage.getAll(withServiceName: nil)
   }
   
   func removeValue(for key: String) throws {
@@ -82,7 +82,7 @@ extension Storage: StorageProvider {
   }
   
   func clear() throws {
-    try secureStorage.clear()
+    try secureStorage.clear(withServiceName: Constants.service)
   }
 }
 
@@ -93,6 +93,7 @@ private extension Storage {
       return
     }
     if currentVersion == Constants.noVersion && clearStorageOnReinstall {
+      try? addServiceToKeychainItems()
       try clear()
       updateVersion(version: Constants.version)
       return
@@ -120,6 +121,14 @@ private extension Storage {
   func updateVersion(version: Int) {
     userDefaults.set(version, forKey: Constants.currentVersionKey)
   }
+  
+  func addServiceToKeychainItems() throws {
+    let migration = AddServiceToKeychainItems(secureStorage: secureStorage)
+    let migrationResult = migration.migrate(data: try secureStorage.getAll(withServiceName: Constants.service))
+    for result in migrationResult {
+      try save(result.value, withKey: result.key)
+    }
+  }
 }
 
 extension Storage {
@@ -127,5 +136,6 @@ extension Storage {
     static let currentVersionKey = "currentVersion"
     static let version = 1
     static let noVersion = 0
+    static let service = "TwilioVerify"
   }
 }

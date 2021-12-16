@@ -100,6 +100,8 @@ class StorageTests: XCTestCase {
   
   func testInit_withClearStorageOnReinstall_shouldCallSecureStorageClear() {
     let expectedCallsToMethod = 1
+    let expectedData = [Constants.data]
+    secureStorage.objectsData = expectedData
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: true)
@@ -116,7 +118,7 @@ class StorageTests: XCTestCase {
     )
   }
   
-  func testInit_withNoClearStorageOnReinstall_shouldCallSecureStorageClear() {
+  func testInit_withNoClearStorageOnReinstall_shouldNotCallSecureStorageClear() {
     let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
@@ -130,6 +132,8 @@ class StorageTests: XCTestCase {
   
   func testInit_withClearStorageOnReinstallAndMigrations_shouldNotMigrate() {
     let expectedCallsToMethod = 0
+    let expectedData = [Constants.data]
+    secureStorage.objectsData = expectedData
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
