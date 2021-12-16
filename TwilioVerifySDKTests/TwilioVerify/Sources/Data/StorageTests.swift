@@ -121,6 +121,8 @@ class StorageTests: XCTestCase {
   func testInit_withNoClearStorageOnReinstall_shouldNotCallSecureStorageClear() {
     let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
+    let expectedData = [Constants.data]
+    secureStorage.objectsData = expectedData
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: false)
     XCTAssertEqual(
@@ -241,7 +243,7 @@ private extension StorageTests {
   func initStorage(withMigrations migrations: [Migration], withStartVersion startVersion: Int, withEndVersion endVersion: Int) {
     let userDefaults: UserDefaults = .standard
     userDefaults.set(startVersion, forKey: Storage.Constants.currentVersionKey)
-    storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: false)
+    storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: true)
     let currentVersion = userDefaults.integer(forKey: Storage.Constants.currentVersionKey)
     XCTAssertEqual(
       currentVersion,

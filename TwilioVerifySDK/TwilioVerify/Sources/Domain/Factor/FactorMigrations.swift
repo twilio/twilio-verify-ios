@@ -25,7 +25,7 @@ struct FactorMigrations {
   }
 }
 
-class AddServiceToFactors: Migration {
+class AddKeychainServiceToFactors: Migration {
   
   private let secureStorage: SecureStorageProvider
   private let factorMapper: FactorMapper

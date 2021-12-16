@@ -92,6 +92,10 @@ private extension Storage {
     guard currentVersion < version else {
       return
     }
+    if let hasItems = try? !getAll().isEmpty, currentVersion == Constants.noVersion && hasItems && !clearStorageOnReinstall {
+      currentVersion = 1
+      updateVersion(version: currentVersion)
+    }
     if currentVersion == Constants.noVersion && clearStorageOnReinstall {
       try? clearItemsWithoutService()
       try clear()
@@ -108,6 +112,7 @@ private extension Storage {
         break
       }
     }
+    updateVersion(version: Constants.version)
   }
   
   func applyMigration(_ migration: Migration) throws {
@@ -123,7 +128,7 @@ private extension Storage {
   }
   
   func clearItemsWithoutService() throws {
-    let migration = AddServiceToFactors(secureStorage: secureStorage)
+    let migration = AddKeychainServiceToFactors(secureStorage: secureStorage)
     let migrationResult = migration.migrate(data: try secureStorage.getAll(withServiceName: Constants.service))
     for result in migrationResult {
       try removeValue(for: result.key)
