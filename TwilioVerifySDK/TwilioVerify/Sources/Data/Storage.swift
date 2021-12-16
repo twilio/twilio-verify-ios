@@ -93,7 +93,7 @@ private extension Storage {
       return
     }
     if currentVersion == Constants.noVersion && clearStorageOnReinstall {
-      try? addServiceToKeychainItems()
+      try? clearItemsWithoutService()
       try clear()
       updateVersion(version: Constants.version)
       return
@@ -122,11 +122,11 @@ private extension Storage {
     userDefaults.set(version, forKey: Constants.currentVersionKey)
   }
   
-  func addServiceToKeychainItems() throws {
-    let migration = AddServiceToKeychainItems(secureStorage: secureStorage)
+  func clearItemsWithoutService() throws {
+    let migration = AddServiceToFactors(secureStorage: secureStorage)
     let migrationResult = migration.migrate(data: try secureStorage.getAll(withServiceName: Constants.service))
     for result in migrationResult {
-      try save(result.value, withKey: result.key)
+      try removeValue(for: result.key)
     }
   }
 }
