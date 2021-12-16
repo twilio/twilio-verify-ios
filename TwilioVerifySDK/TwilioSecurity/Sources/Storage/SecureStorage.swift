@@ -48,8 +48,8 @@ public class SecureStorage {
 extension SecureStorage: SecureStorageProvider {
   public func save(_ data: Data, withKey key: String, withServiceName service: String) throws {
     Logger.shared.log(withLevel: .info, message: "Saving \(key)")
-    let queryWithoutService = keychainQuery.save(data: data, withKey: key, withServiceName: nil)
-    keychain.deleteItem(withQuery: queryWithoutService)
+    let deleteQuery = keychainQuery.delete(withKey: key)
+    keychain.deleteItem(withQuery: deleteQuery)
     let query = keychainQuery.save(data: data, withKey: key, withServiceName: service)
     let status = keychain.addItem(withQuery: query)
     guard status == errSecSuccess else {
