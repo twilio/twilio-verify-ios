@@ -21,11 +21,11 @@ import Foundation
 
 ///:nodoc:
 public protocol SecureStorageProvider {
-  func save(_ data: Data, withKey key: String, withServiceName service: String) throws
+  func save(_ data: Data, withKey key: String, withServiceName service: String?) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll(withServiceName service: String?) throws -> [Data]
-  func clear(withServiceName service: String) throws
+  func clear(withServiceName service: String?) throws
 }
 
 ///:nodoc:
@@ -46,7 +46,7 @@ public class SecureStorage {
 }
 
 extension SecureStorage: SecureStorageProvider {
-  public func save(_ data: Data, withKey key: String, withServiceName service: String) throws {
+  public func save(_ data: Data, withKey key: String, withServiceName service: String?) throws {
     Logger.shared.log(withLevel: .info, message: "Saving \(key)")
     let deleteQuery = keychainQuery.delete(withKey: key)
     keychain.deleteItem(withQuery: deleteQuery)
@@ -108,7 +108,7 @@ extension SecureStorage: SecureStorageProvider {
     }
   }
   
-  public func clear(withServiceName service: String) throws {
+  public func clear(withServiceName service: String?) throws {
     Logger.shared.log(withLevel: .info, message: "Clearing storage")
     if try !getAll(withServiceName: service).isEmpty {
       let query = keychainQuery.deleteItems(withServiceName: service)

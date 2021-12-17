@@ -92,14 +92,12 @@ private extension Storage {
     guard currentVersion < version else {
       return
     }
-    if let hasItems = try? !getAll().isEmpty, currentVersion == Constants.noVersion && hasItems && !clearStorageOnReinstall {
-      currentVersion = 1
-      updateVersion(version: currentVersion)
-    }
-    if currentVersion == Constants.noVersion && clearStorageOnReinstall {
+    let previousClearStorageOnReinstall = previousClearStorageOnReinstallValue()
+    if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall != nil {
       try? clearItemsWithoutService()
       try clear()
       updateVersion(version: Constants.version)
+      updateClearStorageOnReinstall(value: clearStorageOnReinstall)
       return
     }
     for migration in migrations {
@@ -113,6 +111,7 @@ private extension Storage {
       }
     }
     updateVersion(version: Constants.version)
+    updateClearStorageOnReinstall(value: clearStorageOnReinstall)
   }
   
   func applyMigration(_ migration: Migration) throws {
@@ -134,6 +133,20 @@ private extension Storage {
       try removeValue(for: result.key)
     }
   }
+  
+  func previousClearStorageOnReinstallValue() -> Bool? {
+    guard let clearStorageOnReinstallValue = try? get(Constants.clearStorageOnReinstallKey) else {
+      return nil
+    }
+    return Bool(String(decoding: clearStorageOnReinstallValue, as: UTF8.self))
+  }
+  
+  func updateClearStorageOnReinstall(value: Bool) {
+    guard let clearStorageOnReinstallValue = value.description.data(using: .utf8) else {
+      return
+    }
+    try? secureStorage.save(clearStorageOnReinstallValue, withKey: Constants.clearStorageOnReinstallKey, withServiceName: nil)
+  }
 }
 
 extension Storage {
@@ -142,5 +155,6 @@ extension Storage {
     static let version = 1
     static let noVersion = 0
     static let service = "TwilioVerify"
+    static let clearStorageOnReinstallKey = "clearStorageOnReinstall"
   }
 }
