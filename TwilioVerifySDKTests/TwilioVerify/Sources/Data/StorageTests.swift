@@ -47,7 +47,7 @@ class StorageTests: XCTestCase {
     var data: Data!
     let expectedData = Constants.data
     let expectedCallsToMethod = 1
-    secureStorage.operationResult = expectedData
+    secureStorage.objectsData = [Constants.key: expectedData]
     
     XCTAssertNoThrow(data = try storage.get(Constants.key), "Get should not throw")
     XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
@@ -69,7 +69,7 @@ class StorageTests: XCTestCase {
     var data: [Data?]!
     let expectedData = [Constants.data]
     let expectedCallsToMethod = 1
-    secureStorage.objectsData = expectedData
+    secureStorage.objectsData = [Constants.key: Constants.data]
     
     XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
     XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
@@ -100,8 +100,29 @@ class StorageTests: XCTestCase {
   
   func testInit_withClearStorageOnReinstall_shouldCallSecureStorageClear() {
     let expectedCallsToMethod = 1
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
+    let userDefaults: UserDefaults = .standard
+    userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
+    secureStorage.objectsData = [Storage.Constants.clearStorageOnReinstallKey: true.description.data(using: .utf8)!]
+    storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: true)
+    XCTAssertEqual(
+      secureStorage.callsToClear,
+      expectedCallsToMethod,
+      "Clear should be called \(expectedCallsToMethod) but was called \(secureStorage.callsToClear)"
+    )
+    let currentVersion = userDefaults.integer(forKey: Storage.Constants.currentVersionKey)
+    XCTAssertEqual(
+      currentVersion,
+      Storage.Constants.version,
+      "Version should be \(Storage.Constants.version) but was \(currentVersion)"
+    )
+    XCTAssertTrue(
+      secureStorage.objectsData[Storage.Constants.clearStorageOnReinstallKey] != nil,
+      "ClearStorageOnReinstall should have a value"
+    )
+  }
+  
+  func testInit_withClearStorageOnReinstallAndNoPreviousValue_shouldNotCallSecureStorageClear() {
+    let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: true)
@@ -116,13 +137,15 @@ class StorageTests: XCTestCase {
       Storage.Constants.version,
       "Version should be \(Storage.Constants.version) but was \(currentVersion)"
     )
+    XCTAssertTrue(
+      secureStorage.objectsData[Storage.Constants.clearStorageOnReinstallKey] != nil,
+      "ClearStorageOnReinstall should have a value"
+    )
   }
   
   func testInit_withNoClearStorageOnReinstall_shouldNotCallSecureStorageClear() {
     let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: false)
     XCTAssertEqual(
@@ -134,10 +157,9 @@ class StorageTests: XCTestCase {
   
   func testInit_withClearStorageOnReinstallAndMigrations_shouldNotMigrate() {
     let expectedCallsToMethod = 0
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
+    secureStorage.objectsData = [Storage.Constants.clearStorageOnReinstallKey: true.description.data(using: .utf8)!]
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationV0ToV1]
     storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: true)
@@ -156,8 +178,7 @@ class StorageTests: XCTestCase {
   
   func testInit_withMigrations_shouldExecuteMigrations() {
     let expectedCallsToMethod = 1
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
+    secureStorage.objectsData = [Constants.key: Constants.data]
     let migrationToV0 = MigrationMock(startVersion: -1, endVersion: 0)
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationToV0, migrationV0ToV1]
@@ -176,8 +197,7 @@ class StorageTests: XCTestCase {
   
   func testInit_withMigrations_shouldExecuteMigration() {
     let expectedCallsToMethod = 1
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
+    secureStorage.objectsData = [Constants.key: Constants.data]
     let migrationToV0 = MigrationMock(startVersion: -1, endVersion: 0)
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationToV0, migrationV0ToV1]
@@ -196,8 +216,7 @@ class StorageTests: XCTestCase {
   
   func testInit_withStorageVersion_shouldNotMigrate() {
     let expectedCallsToMethod = 0
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
+    secureStorage.objectsData = [Constants.key: Constants.data]
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationV0ToV1]
     initStorage(withMigrations: migrations, withStartVersion: Storage.Constants.version, withEndVersion: Storage.Constants.version)
@@ -209,16 +228,16 @@ class StorageTests: XCTestCase {
   }
   
   func testInit_withMigrations_shouldMigrate() {
-    let expectedData = [Constants.data]
-    secureStorage.objectsData = expectedData
+    let expectedCallsToMethod = 2
+    secureStorage.objectsData = [Constants.key: Constants.data]
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     migrationV0ToV1.migrateData = migrate
     let migrations = [migrationV0ToV1]
     initStorage(withMigrations: migrations, withStartVersion: migrationV0ToV1.startVersion, withEndVersion: migrationV0ToV1.endVersion)
     XCTAssertEqual(
       secureStorage.callsToSave,
-      expectedData.count,
-      "Save should be called \(expectedData.count) but was called \(secureStorage.callsToSave)"
+      expectedCallsToMethod,
+      "Save should be called \(expectedCallsToMethod) but was called \(secureStorage.callsToSave)"
     )
   }
   
@@ -243,7 +262,7 @@ private extension StorageTests {
   func initStorage(withMigrations migrations: [Migration], withStartVersion startVersion: Int, withEndVersion endVersion: Int) {
     let userDefaults: UserDefaults = .standard
     userDefaults.set(startVersion, forKey: Storage.Constants.currentVersionKey)
-    storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: true)
+    storage = try! Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: false)
     let currentVersion = userDefaults.integer(forKey: Storage.Constants.currentVersionKey)
     XCTAssertEqual(
       currentVersion,
