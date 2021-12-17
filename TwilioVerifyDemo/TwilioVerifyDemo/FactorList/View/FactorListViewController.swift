@@ -39,7 +39,11 @@ class FactorListViewController: UIViewController {
     presenter?.registerForPushNotifications()
     presenter?.getFactors()
   }
-  
+
+  @IBAction func didTapSettingsButton(_ sender: Any) {
+    present(SettingsViewController(), animated: true)
+  }
+
   @IBAction func createFactor() {
     guard let navController = createFactorViewController() as? UINavigationController else {
       return
