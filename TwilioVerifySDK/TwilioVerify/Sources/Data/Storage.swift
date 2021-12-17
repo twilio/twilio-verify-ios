@@ -92,8 +92,8 @@ private extension Storage {
     guard currentVersion < version else {
       return
     }
-    let previousClearStorageOnReinstall = previousClearStorageOnReinstallValue()
-    if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall != nil {
+    let previousClearStorageOnReinstall = userDefaults.bool(forKey: "previousClearStorage")
+    if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall {
       try? clearItemsWithoutService()
       try clear()
       updateVersion(version: Constants.version)
@@ -110,7 +110,7 @@ private extension Storage {
         break
       }
     }
-    updateVersion(version: Constants.version)
+    updateVersion(version: version)
     updateClearStorageOnReinstall(value: clearStorageOnReinstall)
   }
   

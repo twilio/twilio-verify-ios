@@ -27,7 +27,9 @@ class TwilioVerifyAdapter {
     #if DEBUG
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
-    twilioVerify = try builder.build()
+    twilioVerify = try builder.setClearStorageOnReinstall(
+      UserDefaults.standard.bool(forKey: SettingsViewController.AppSetting.clearStorage.rawValue)
+    ).build()
   }
 }
 
