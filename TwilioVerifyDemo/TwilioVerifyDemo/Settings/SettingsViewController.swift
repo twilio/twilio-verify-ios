@@ -12,30 +12,33 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
   enum AppSetting: String, CaseIterable {
     case clearStorage
-    case storageVersion
+    case previousClearStorage
+    case currentVersion
 
     var description: String {
       switch self {
         case .clearStorage:
           return "Clear Storage"
-        case .storageVersion:
+        case .previousClearStorage:
+          return "Previous Clear Storage"
+        case .currentVersion:
           return "Storage Version"
       }
     }
 
     var type: SettingType {
       switch self {
-        case .clearStorage:
-          return .bool
-        case .storageVersion:
-          return .text
+        case .clearStorage: return .bool
+        case .previousClearStorage: return .bool
+        case .currentVersion: return .int
       }
     }
   }
 
   enum SettingType {
     case bool
-    case text
+    case string
+    case int
   }
 
   @objc func editTextSetting(sender: UIButton) {
@@ -44,12 +47,20 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
     alertController.addTextField { [weak self] textfield in
       textfield.placeholder = "Type"
-      textfield.text = self?.settingValue(setting)
+      if let value = self?.settingValue(setting) as? String {
+        textfield.text = value
+      } else if let value = self?.settingValue(setting) as? Int {
+        textfield.text = value.description
+      }
     }
 
     alertController.addAction(.init(title: "Accept", style: .default, handler: { [weak self] _ in
       let text = alertController.textFields?.first?.text
-      self?.updateSetting(setting, with: text)
+      if setting.type == .int {
+        self?.updateSetting(setting, with: Int(text ?? .init()))
+      } else {
+        self?.updateSetting(setting, with: text)
+      }
       alertController.dismiss(animated: true)
     }))
 
@@ -65,11 +76,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     updateSetting(setting, with: sender.isOn)
   }
 
-  private func updateSetting(_ setting: AppSetting, with value: Bool) {
-    UserDefaults.standard.setValue(value, forKey: setting.rawValue)
-  }
-
-  private func updateSetting(_ setting: AppSetting, with value: String?) {
+  private func updateSetting(_ setting: AppSetting, with value: Any?) {
     UserDefaults.standard.setValue(value, forKey: setting.rawValue)
   }
 
@@ -77,7 +84,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     return UserDefaults.standard.bool(forKey: setting.rawValue)
   }
 
-  private func settingValue(_ setting: AppSetting) -> String? {
+  private func settingValue(_ setting: AppSetting) -> Any? {
     return UserDefaults.standard.string(forKey: setting.rawValue)
   }
 
@@ -97,7 +104,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         switchAccessory.isOn = settingValue(setting)
         switchAccessory.tag = indexPath.row
         switchAccessory.addTarget(self, action: #selector(didChangeSetting(sender:)), for: .touchUpInside)
-      case .text:
+      case .string, .int:
         let button = UIButton(type: .roundedRect)
         button.tag = indexPath.row
         button.setTitle("Edit", for: .normal)
