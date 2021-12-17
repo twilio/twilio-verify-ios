@@ -110,7 +110,7 @@ private extension Storage {
         break
       }
     }
-    updateVersion(version: Constants.version)
+    updateVersion(version: version)
     updateClearStorageOnReinstall(value: clearStorageOnReinstall)
   }
   
@@ -145,7 +145,7 @@ private extension Storage {
     guard let clearStorageOnReinstallValue = value.description.data(using: .utf8) else {
       return
     }
-    try? secureStorage.save(clearStorageOnReinstallValue, withKey: Constants.clearStorageOnReinstallKey, withServiceName: nil)
+    try? secureStorage.save(clearStorageOnReinstallValue, withKey: Constants.clearStorageOnReinstallKey, withServiceName: Constants.service)
   }
 }
 
