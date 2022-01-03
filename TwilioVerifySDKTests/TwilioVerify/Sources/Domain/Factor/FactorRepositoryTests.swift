@@ -506,6 +506,13 @@ class FactorRepositoryTests: XCTestCase {
   }
   
   func testClearLocalStorage_withError_shouldThrowError() {
+    let factor1ExpectedSid = "sid123"
+    let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
+    let factorData1 = try! JSONEncoder().encode(factor1)
+    factorMapper.expectedData = factorData1
+    storage.factorsData = [factorData1]
+    storage.errorRemoving = TestError.operationFailed
+    storage.expectedSid = factor1ExpectedSid
     storage.errorClearing = TestError.operationFailed
     XCTAssertThrowsError(try factorRepository.clearLocalStorage(), "Clear should throw") { error in
       XCTAssertEqual((error as! TestError), TestError.operationFailed)
@@ -513,6 +520,11 @@ class FactorRepositoryTests: XCTestCase {
   }
   
   func testClearLocalStorage_withoutErrors_shouldClearSecureStorage() {
+    let factor1ExpectedSid = "sid123"
+    let factor1 = Constants.generateFactor(withSid: factor1ExpectedSid)
+    let factorData1 = try! JSONEncoder().encode(factor1)
+    factorMapper.expectedData = factorData1
+    storage.factorsData = [factorData1]
     XCTAssertNoThrow(try factorRepository.clearLocalStorage(), "Clear should not throw")
   }
 }

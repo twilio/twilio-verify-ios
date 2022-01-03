@@ -21,11 +21,11 @@ import Foundation
 
 ///:nodoc:
 public protocol SecureStorageProvider {
-  func save(_ data: Data, withKey key: String) throws
+  func save(_ data: Data, withKey key: String, withServiceName service: String?) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
-  func getAll() throws -> [Data]
-  func clear() throws
+  func getAll(withServiceName service: String?) throws -> [Data]
+  func clear(withServiceName service: String?) throws
 }
 
 ///:nodoc:
@@ -46,9 +46,11 @@ public class SecureStorage {
 }
 
 extension SecureStorage: SecureStorageProvider {
-  public func save(_ data: Data, withKey key: String) throws {
+  public func save(_ data: Data, withKey key: String, withServiceName service: String?) throws {
     Logger.shared.log(withLevel: .info, message: "Saving \(key)")
-    let query = keychainQuery.save(data: data, withKey: key)
+    let deleteQuery = keychainQuery.delete(withKey: key)
+    keychain.deleteItem(withQuery: deleteQuery)
+    let query = keychainQuery.save(data: data, withKey: key, withServiceName: service)
     let status = keychain.addItem(withQuery: query)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
@@ -73,9 +75,9 @@ extension SecureStorage: SecureStorageProvider {
     }
   }
   
-  public func getAll() throws -> [Data] {
+  public func getAll(withServiceName service: String?) throws -> [Data] {
     Logger.shared.log(withLevel: .info, message: "Getting all values")
-    let query = keychainQuery.getAll()
+    let query = keychainQuery.getAll(withServiceName: service)
     do {
       let result = try keychain.copyItemMatching(query: query)
       guard let resultArray = result as? [Any] else {
@@ -106,10 +108,10 @@ extension SecureStorage: SecureStorageProvider {
     }
   }
   
-  public func clear() throws {
+  public func clear(withServiceName service: String?) throws {
     Logger.shared.log(withLevel: .info, message: "Clearing storage")
-    if try !getAll().isEmpty {
-      let query = keychainQuery.deleteItems()
+    if try !getAll(withServiceName: service).isEmpty {
+      let query = keychainQuery.deleteItems(withServiceName: service)
       let status = keychain.deleteItem(withQuery: query)
       guard status == errSecSuccess else {
         let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
