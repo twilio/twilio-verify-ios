@@ -53,7 +53,7 @@ class NetworkErrorTests: XCTestCase {
     ] as [String: Any]
     
     do {
-      try JSONSerialization.data(
+      let data = try JSONSerialization.data(
         withJSONObject: testObject,
         options: []
       )
