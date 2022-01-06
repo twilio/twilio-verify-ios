@@ -19,7 +19,7 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+public enum NetworkError: LocalizedError {
   case invalidURL
   case invalidBody
   case invalidResponse(errorResponse: Data)
@@ -28,7 +28,7 @@ enum NetworkError: LocalizedError {
 }
 
 extension NetworkError {
-  var errorDescription: String? {
+  public var errorDescription: String? {
     switch self {
       case .invalidURL:
         return "Invalid URL"
@@ -58,6 +58,23 @@ extension NetworkError {
         return failureResponse
       default:
         return nil
+    }
+  }
+  
+  static func tryConvertDataToAPIError(
+    _ data: Data
+  ) -> APIError? {
+    do {
+      return try JSONDecoder().decode(
+        APIError.self,
+        from: data
+      )
+    } catch let error {
+      Logger.shared.log(
+        withLevel: .networking,
+        message: "Unable to convert error data to Verify API error, details: \(error.localizedDescription)"
+      )
+      return nil
     }
   }
 }

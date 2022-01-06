@@ -30,7 +30,7 @@ class BaseAPIClient {
   func validateFailureResponse(withError error: Error, retries: Int, retryBlock: (Int) -> (), failure: @escaping FailureBlock) {
     guard retries > 0, let networkError = error as? NetworkError,
       case .failureStatusCode = networkError,
-      networkError.failureResponse?.responseCode == Constants.unauthorized,
+      networkError.failureResponse?.statusCode == Constants.unauthorized,
       let date = networkError.failureResponse?.headers.first(where: { ($0.key as? String)?.compare(Constants.dateHeaderKey, options: .caseInsensitive) == .orderedSame })?.value as? String else {
         failure(error)
         return
