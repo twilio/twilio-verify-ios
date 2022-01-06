@@ -36,7 +36,7 @@ extension URLSession {
       }
       Logger.shared.log(withLevel: .networking, message: "Response code: \(response.statusCode)")
       guard response.statusCode < 300 else {
-        let failureResponse = FailureResponse(responseCode: response.statusCode, errorData: data, headers: response.allHeaderFields)
+        let failureResponse = FailureResponse(statusCode: response.statusCode, errorData: data, headers: response.allHeaderFields)
         Logger.shared.log(withLevel: .networking, message: "Error body: \(String(data: data, encoding: .utf8))")
         result(.failure(NetworkError.failureStatusCode(failureResponse: failureResponse)))
         return
@@ -48,8 +48,19 @@ extension URLSession {
   }
 }
 
-internal struct FailureResponse {
-  let responseCode: Int
-  let errorData: Data
-  let headers: [AnyHashable: Any]
+public struct APIError: Codable {
+  public let code: Int
+  public let message: String
+  public let moreInfo: String?
+  
+  private enum CodingKeys: String, CodingKey {
+    case code, message, moreInfo = "more_info"
+  }
+}
+
+public struct FailureResponse {
+  public let statusCode: Int
+  public let errorData: Data
+  public let headers: [AnyHashable: Any]
+  public lazy var apiError: APIError? = NetworkError.tryConvertDataToAPIError(errorData)
 }

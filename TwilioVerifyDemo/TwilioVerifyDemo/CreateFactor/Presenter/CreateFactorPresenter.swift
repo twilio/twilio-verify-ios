@@ -43,6 +43,28 @@ class CreateFactorPresenter {
     self.twilioVerify = twilioVerify
     self.accessTokensAPI = accessTokensAPI
   }
+  
+  /// This method is intended to demonstrate how to access to
+  /// Verify API errors, such custom response codes and details.
+  /// See https://www.twilio.com/docs/api/errors
+  /// - Parameter error: Create Factor result error
+  private func retrieveAPIError(
+    with error: TwilioVerifyError
+  ) -> String? {
+    let apiError = error.originalError as? NetworkError
+    
+    if case let .failureStatusCode(response) = apiError {
+      // Gets server response code
+      var errorResponse = response
+      
+      if let code = errorResponse.apiError?.code,
+         let message = errorResponse.apiError?.message {
+        return "Code: \(code) - \(message)"
+      }
+    }
+    
+    return nil
+  }
 }
 
 extension CreateFactorPresenter: CreateFactorPresentable {
@@ -86,8 +108,13 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         }
       }) { error in
         guard let strongSelf = self else { return }
+        
+        let errorMessage = strongSelf.retrieveAPIError(
+          with: error
+        ) ?? error.errorMessage
+                
         DispatchQueue.main.async {
-          strongSelf.view?.showAlert(withMessage: error.errorMessage)
+          strongSelf.view?.showAlert(withMessage: errorMessage)
         }
       }
     }) {[weak self] error in

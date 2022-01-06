@@ -78,6 +78,7 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		97E44E5D27864AAC0096B9E4 /* NetworkErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E44E5C27864AAC0096B9E4 /* NetworkErrorTests.swift */; };
 		F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02034CA24F9654C00D87AAA /* FactorMigrations.swift */; };
 		F02144F0250AA79B00933B7E /* MigrationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02144EF250AA79B00933B7E /* MigrationMock.swift */; };
 		F0261C4224A26289007881E9 /* ChallengeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */; };
@@ -270,6 +271,7 @@
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		97E44E5C27864AAC0096B9E4 /* NetworkErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorTests.swift; sourceTree = "<group>"; };
 		F02034CA24F9654C00D87AAA /* FactorMigrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMigrations.swift; sourceTree = "<group>"; };
 		F02144EF250AA79B00933B7E /* MigrationMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationMock.swift; sourceTree = "<group>"; };
 		F0261C4124A26289007881E9 /* ChallengeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeAPIClient.swift; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 				2060CFFD24857614001DD494 /* HTTPHeadersTests.swift */,
 				2060CFFF24857976001DD494 /* ParametersTests.swift */,
 				2019ABFE2486F74B009728E4 /* NetworkAdapterTests.swift */,
+				97E44E5C27864AAC0096B9E4 /* NetworkErrorTests.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -986,7 +989,9 @@
 				F2AA3779246F30BE00B9388F /* Products */,
 				F2AA37AE246F314000B9388F /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		F2AA3779246F30BE00B9388F /* Products */ = {
 			isa = PBXGroup;
@@ -1333,6 +1338,7 @@
 				2086796324ABD45E00D1F0B9 /* ChallengeFacadeMock.swift in Sources */,
 				20C710C6248A9C3100B0F448 /* AuthenticationMock.swift in Sources */,
 				F08379A024AE7A37003F18DD /* ChallengeListMapperTests.swift in Sources */,
+				97E44E5D27864AAC0096B9E4 /* NetworkErrorTests.swift in Sources */,
 				20E3BB21248984C000BC90DE /* FactorAPIClientTests.swift in Sources */,
 				F207BBB82490209900688E5C /* SecureStorageMock.swift in Sources */,
 				2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */,

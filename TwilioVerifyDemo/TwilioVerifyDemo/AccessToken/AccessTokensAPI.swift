@@ -17,7 +17,7 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+enum AccessTokenAPIError: LocalizedError {
   
   case invalidURL
   case invalidBody
@@ -52,11 +52,11 @@ class AccessTokensAPIClient: AccessTokensAPI {
   
   func accessTokens(at url: String, identity: String, success: @escaping (AccessTokenResponse) -> (), failure: @escaping (Error) -> ()) {
     guard let url = URL(string: url) else {
-      failure(NetworkError.invalidURL)
+      failure(AccessTokenAPIError.invalidURL)
       return
     }
     guard let parameters = try? JSONSerialization.data(withJSONObject: ["identity": identity], options: []) else {
-      failure(NetworkError.invalidData)
+      failure(AccessTokenAPIError.invalidData)
       return
     }
     
@@ -71,12 +71,12 @@ class AccessTokensAPIClient: AccessTokensAPI {
         return
       }
       guard response != nil else {
-        failure(NetworkError.invalidResponse)
+        failure(AccessTokenAPIError.invalidResponse)
         return
       }
       guard let data = data,
             let response = try? JSONDecoder().decode(AccessTokenResponse.self, from: data) else {
-        failure(NetworkError.invalidData)
+        failure(AccessTokenAPIError.invalidData)
         return
       }
       success(response)

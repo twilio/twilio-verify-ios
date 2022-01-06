@@ -197,6 +197,30 @@ Key Storage | 60405 | Exception while storing/loading key pairs
 Initialization | 60406 | Exception while initializing an object
 Authentication Token | 60407 | Exception while generating token
 
+### Getting Verify API errors
+You can control Verify API error codes listed [here](https://www.twilio.com/docs/api/errors) by following the next example:
+
+```swift
+
+twilioVerify.createFactor(withPayload: payload, success: { factor in
+  // Success
+}) { error in
+  let apiError = error.originalError as? NetworkError
+    
+  if case let .failureStatusCode(response) = apiError {
+    // Gets server response code
+    var errorResponse = response
+    
+    if let code = errorResponse.apiError?.code,
+        let message = errorResponse.apiError?.message {
+      print("Code: \(code) - \(message)")
+    }
+  }
+}
+```
+
+Check an example [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50)
+
 <a name='UpdatePushToken'></a>
 
 ## Update factor's push token

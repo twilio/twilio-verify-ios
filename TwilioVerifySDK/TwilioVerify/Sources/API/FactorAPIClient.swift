@@ -91,7 +91,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
               self.validateFailureResponse(withError: error, retries: retries, retryBlock: deleteFactor, failure: failure)
               return
           }
-          switch networkError.failureResponse?.responseCode {
+          switch networkError.failureResponse?.statusCode {
             case BaseAPIClient.Constants.notFound:
               success()
             case BaseAPIClient.Constants.unauthorized:
