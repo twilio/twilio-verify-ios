@@ -72,7 +72,7 @@ extension NetworkError {
     } catch let error {
       Logger.shared.log(
         withLevel: .networking,
-        message: "Unable to convert error data to server response, details: \(error.localizedDescription)"
+        message: "Unable to convert error data to Verify API error, details: \(error.localizedDescription)"
       )
       return nil
     }

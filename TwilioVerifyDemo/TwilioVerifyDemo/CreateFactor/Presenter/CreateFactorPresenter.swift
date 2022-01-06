@@ -54,7 +54,7 @@ class CreateFactorPresenter {
     let apiError = error.originalError as? NetworkError
     
     if case let .failureStatusCode(response) = apiError {
-      // Gets server response code
+      // Gets Verify API error response
       var errorResponse = response
       
       if let code = errorResponse.apiError?.code,
