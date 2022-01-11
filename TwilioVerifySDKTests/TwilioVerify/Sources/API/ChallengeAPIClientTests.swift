@@ -448,7 +448,7 @@ extension ChallengeAPIClientTests {
       config: Config(credentialSid: Constants.credentialSid)
     )
     static let failureResponse = FailureResponse(
-      responseCode: 401,
+      statusCode: 401,
       errorData: "error".data(using: .utf8)!,
       headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
   }

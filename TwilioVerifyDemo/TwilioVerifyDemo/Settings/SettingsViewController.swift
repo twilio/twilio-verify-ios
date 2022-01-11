@@ -7,20 +7,20 @@
 //
 
 import UIKit
+import TwilioVerifySDK
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+  
+  let storage = SecureStorage()
 
   enum AppSetting: String, CaseIterable {
     case clearStorage
-    case previousClearStorage
     case currentVersion
 
     var description: String {
       switch self {
         case .clearStorage:
           return "Clear Storage"
-        case .previousClearStorage:
-          return "Previous Clear Storage"
         case .currentVersion:
           return "Storage Version"
       }
@@ -29,15 +29,32 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var type: SettingType {
       switch self {
         case .clearStorage: return .bool
-        case .previousClearStorage: return .bool
         case .currentVersion: return .int
+      }
+    }
+    
+    func toData(value: Any) -> Data {
+      switch type {
+        case .bool: return (value as! Bool).description.data(using: .utf8)!
+        case .int: return withUnsafeBytes(of: (value as! Int).bigEndian) { Data($0) }
+      }
+    }
+    
+    func fromData(data: Data?) -> Any? {
+      guard let data = data else {
+        return nil
+      }
+      switch type {
+        case .bool: return Bool(String(decoding: data, as: UTF8.self))
+        case .int: return data.withUnsafeBytes {
+            $0.load(as: Int.self).bigEndian
+          }
       }
     }
   }
 
   enum SettingType {
     case bool
-    case string
     case int
   }
 
@@ -76,16 +93,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     updateSetting(setting, with: sender.isOn)
   }
 
-  private func updateSetting(_ setting: AppSetting, with value: Any?) {
-    UserDefaults.standard.setValue(value, forKey: setting.rawValue)
-  }
-
-  private func settingValue(_ setting: AppSetting) -> Bool {
-    return UserDefaults.standard.bool(forKey: setting.rawValue)
+  private func updateSetting(_ setting: AppSetting, with value: Any) {
+    try? storage.save(setting.toData(value: value), withKey: setting.rawValue, withServiceName: "test")
+    //UserDefaults.standard.setValue(value, forKey: setting.rawValue)
   }
 
   private func settingValue(_ setting: AppSetting) -> Any? {
-    return UserDefaults.standard.string(forKey: setting.rawValue)
+    //return UserDefaults.standard.bool(forKey: setting.rawValue)
+    return setting.fromData(data: try? storage.get(setting.rawValue))
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,10 +116,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
       case .bool:
         let switchAccessory = UISwitch(frame: .zero)
         cell.accessoryView = switchAccessory
-        switchAccessory.isOn = settingValue(setting)
+        switchAccessory.isOn = settingValue(setting) as? Bool ?? false
         switchAccessory.tag = indexPath.row
         switchAccessory.addTarget(self, action: #selector(didChangeSetting(sender:)), for: .touchUpInside)
-      case .string, .int:
+      case .int:
         let button = UIButton(type: .roundedRect)
         button.tag = indexPath.row
         button.setTitle("Edit", for: .normal)

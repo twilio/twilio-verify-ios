@@ -1,3 +1,17 @@
+# 1.3.0 (2021-11-30)
+
+### Features
+- Support notification platform none to allow not sending push token. Factors with notification platform none will not receive push notifications for challenges and polling should be implemented to get pending challenges ([e40a267](https://github.com/twilio/twilio-verify-ios/commit/e40a2675c46c5712b9e4d9440261d93753dfc03f))
+
+### Documentation
+- Update documentation to use new sample backend ([bae60b8](https://github.com/twilio/twilio-verify-ios/commit/bae60b87df5ac32ea7fb3e14fc28caf6236352ab))
+- Improve persisting factors after a reinstall documentation (#166) ([df16896](https://github.com/twilio/twilio-verify-ios/commit/df16896a4e0bed01f9212c0c08c4b148b81b00b5))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.0 MB
+
+
 # 1.2.0 (2021-09-20)
 
 ### Features

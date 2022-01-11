@@ -33,22 +33,22 @@ import Foundation
  */
 public enum TwilioVerifyError: LocalizedError {
   
-  ///An error occurred while calling the API.
+  /// An error occurred while calling the API.
   case networkError(error: NSError)
-  ///An error occurred while mapping an entity.
+  /// An error occurred while mapping an entity.
   case mapperError(error: NSError)
-  ///An error occurred while storing/loading an entity.
+  /// An error occurred while storing/loading an entity.
   case storageError(error: NSError)
-  ///An error occurred while loading input.
+  /// An error occurred while loading input.
   case inputError(error: NSError)
-  ///An error occurred while storing/loading keypairs.
+  /// An error occurred while storing/loading keypairs.
   case keyStorageError(error: NSError)
-  ///An error occurred while initializing a class.
+  /// An error occurred while initializing a class.
   case initializationError(error: NSError)
-  ///An error occurred while generating a token.
+  /// An error occurred while generating a token.
   case authenticationTokenError(error: NSError)
   
-  ///Associated reason of the error
+  /// Associated reason of the error
   public var originalError: NSError {
     switch self {
       case .networkError(let error),

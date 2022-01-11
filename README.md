@@ -27,6 +27,8 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Contributing](#Contributing)
+* [License](#License)
 
 <a name='About'></a>
 
@@ -61,7 +63,7 @@ None
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> 1.2.0'
+pod 'TwilioVerify', '~> 1.3.0'
 ```
 
 ### Carthage
@@ -69,10 +71,10 @@ pod 'TwilioVerify', '~> 1.2.0'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "twilio/twilio-verify-ios" -> 1.2.0
+github "twilio/twilio-verify-ios" -> 1.3.0
 ```
 
-Since version `1.2.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
+Since version `1.3.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
 
 ### Swift Package Manager
 
@@ -82,7 +84,7 @@ Once you have your Swift package set up, adding TwilioVerify as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "1.2.0"))
+    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "1.3.0"))
 ]
 ```
 
@@ -100,7 +102,7 @@ If you want to receive challenges as push notifications, you should register You
 The SDK should be used from a Swift class.
 See an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift)
 
-Since version `1.2.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
+Since version `1.3.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
 
 ---
 
@@ -127,10 +129,15 @@ You can enable the option "Silently approve challenges" for a factor. After enab
 
 ## Running the Sample backend
 
-* Clone this repo: https://github.com/twilio/verify-push-sample-backend
 * Configure a [Push Credential](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-push-credential) for the sample app, using the same APNs configuration
 * Configure a [Verify Service](https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-verify-service-and-add-the-push-credential), using the Push Credential for the sample app
-* Run the steps in the [README file](https://github.com/twilio/verify-push-sample-backend/blob/master/README.md)
+* Go to: https://www.twilio.com/code-exchange/verify-push-backend
+* Use the `Quick Deploy to Twilio` option
+  - You should log in to your Twilio account
+  - Enter the Verify Service Sid you created above, you can find it [here](https://www.twilio.com/console/verify/services)
+  - Deploy the application
+  - Press `Go to live application`
+  - You will see the start page. Copy the url and replace `index.html` with `access-token`.(e.g. https://verify-push-backend-xxxxx.twil.io/access-token). This will be your `Access Token generation URL`
 
 <a name='UsingSampleApp'></a>
 
@@ -139,7 +146,7 @@ You can enable the option "Silently approve challenges" for a factor. After enab
 ### Adding a factor
 * Press Create factor in the factor list (click on the +, top right)
 * Enter the identity to use. This value should be an UUID that identifies the user to prevent PII information use
-* Enter the Access token URL (Access token generation URL, including the path, e.g. https://yourapp.ngrok.io/accessTokens)
+* Enter the Access token URL (Access token generation URL, including the path, e.g. https://verify-push-backend-xxxxx.twil.io/access-token)
 * Press Create factor
 * Copy the factor Sid
 
@@ -189,6 +196,30 @@ Input | 60404 | Exception while loading input
 Key Storage | 60405 | Exception while storing/loading key pairs
 Initialization | 60406 | Exception while initializing an object
 Authentication Token | 60407 | Exception while generating token
+
+### Getting Verify API errors
+You can control Verify API error codes listed [here](https://www.twilio.com/docs/api/errors) by following the next example:
+
+```swift
+
+twilioVerify.createFactor(withPayload: payload, success: { factor in
+  // Success
+}) { error in
+  let apiError = error.originalError as? NetworkError
+    
+  if case let .failureStatusCode(response) = apiError {
+    // Gets Verify API error response
+    var errorResponse = response
+    
+    if let code = errorResponse.apiError?.code,
+        let message = errorResponse.apiError?.message {
+      print("Code: \(code) - \(message)")
+    }
+  }
+}
+```
+
+Check an example [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50)
 
 <a name='UpdatePushToken'></a>
 
@@ -240,7 +271,7 @@ By default, the created factors and key pairs will not persist in the device aft
 
 ---
 **NOTE**
-This may change in future iOS versions, but it will keep working for iOS 14 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
+This may change in future iOS versions, but it will keep working for iOS 15 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.
 
 ---
 
@@ -252,3 +283,16 @@ let twilioVerify = try builder.build()
 ```
 
 The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in [Update factor's push token](#UpdatePushToken)
+
+The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
+> Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
+
+<a name='Contributing'></a>
+
+## Contributing
+This project welcomes contributions. Please check out our [Contributing guide](./CONTRIBUTING.md) to learn more on how to get started.
+
+<a name='License'></a>
+
+## License
+[Apache © Twilio Inc.](./LICENSE)
