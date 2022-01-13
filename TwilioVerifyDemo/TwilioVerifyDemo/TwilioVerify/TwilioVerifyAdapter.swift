@@ -28,7 +28,10 @@ class TwilioVerifyAdapter {
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
     let storage = SecureStorage()
-    let data = try storage.get(SettingsViewController.AppSetting.clearStorage.rawValue)
+    guard let data = try? storage.get(SettingsViewController.AppSetting.clearStorage.rawValue) else {
+      twilioVerify = try builder.build()
+      return
+    }
     let clearStorageOnReinstall = Bool(String(decoding: data, as: UTF8.self))
     twilioVerify = try builder.setClearStorageOnReinstall(clearStorageOnReinstall ?? false).build()
   }

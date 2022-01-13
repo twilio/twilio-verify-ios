@@ -94,12 +94,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   private func updateSetting(_ setting: AppSetting, with value: Any) {
-    try? storage.save(setting.toData(value: value), withKey: setting.rawValue, withServiceName: "test")
-    //UserDefaults.standard.setValue(value, forKey: setting.rawValue)
+    try? storage.save(setting.toData(value: value), withKey: setting.rawValue, withServiceName: nil)
   }
 
   private func settingValue(_ setting: AppSetting) -> Any? {
-    //return UserDefaults.standard.bool(forKey: setting.rawValue)
     return setting.fromData(data: try? storage.get(setting.rawValue))
   }
 
