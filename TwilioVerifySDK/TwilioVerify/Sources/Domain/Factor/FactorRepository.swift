@@ -126,6 +126,13 @@ extension FactorRepository: FactorProvider {
   }
   
   func clearLocalStorage() throws {
-    try storage.clear()
+    do {
+      try getAll().forEach { factor in
+        try delete(factor)
+      }
+    } catch {
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      try storage.clear()
+    }
   }
 }

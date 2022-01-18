@@ -76,7 +76,7 @@ class KeychainQueryTests: XCTestCase {
   
   func testSaveData_withKey_shouldReturnValidQuery() {
     let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias)
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: Constants.service)
     let keyClass = query[kSecClass as String] as! CFString
     let label = query[kSecAttrAccount as String] as! String
     let access = query[kSecAttrAccessible as String] as! CFString
@@ -100,7 +100,7 @@ class KeychainQueryTests: XCTestCase {
   }
   
   func testGetAllData_shouldReturnValidQuery() {
-    let query = keychainQuery.getAll()
+    let query = keychainQuery.getAll(withServiceName: nil)
     let keyClass = query[kSecClass as String] as! CFString
     let returnAttributes = query[kSecReturnAttributes as String] as! CFBoolean
     let returnData = query[kSecReturnData as String] as! CFBoolean
@@ -118,25 +118,24 @@ class KeychainQueryTests: XCTestCase {
     let query = keychainQuery.delete(withKey: Constants.alias)
     let keyClass = query[kSecClass as String] as! CFString
     let label = query[kSecAttrAccount as String] as! String
-    let access = query[kSecAttrAccessible as String] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
   
   func testDeleteItems_shouldReturnValidQuery() {
-    let query = keychainQuery.deleteItems()
+    let query = keychainQuery.deleteItems(withServiceName: Constants.service)
     let keyClass = query[kSecClass as String] as! CFString
-    let access = query[kSecAttrAccessible as String] as! CFString
+    let service = query[kSecAttrService as String] as! String
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+    XCTAssertEqual(service, Constants.service)
   }
 }
 
 private extension KeychainQueryTests {
   struct Constants {
     static let alias = "signerAlias"
+    static let service = "service"
   }
 }

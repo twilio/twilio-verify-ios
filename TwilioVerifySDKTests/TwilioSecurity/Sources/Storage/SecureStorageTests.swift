@@ -41,8 +41,9 @@ class SecureStorageTests: XCTestCase {
     let key = "key"
     let expectedErrorCode = errSecDuplicateItem
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25299.)"
+    keychain.deleteItemStatus = errSecSuccess
     keychain.addItemStatus = [expectedErrorCode]
-    XCTAssertThrowsError(try storage.save(data, withKey: key), "Save should throw") { error in
+    XCTAssertThrowsError(try storage.save(data, withKey: key, withServiceName: "service"), "Save should throw") { error in
       let thrownError = error as NSError
       XCTAssertEqual(
         thrownError.code,
@@ -66,7 +67,8 @@ class SecureStorageTests: XCTestCase {
     let data = "data".data(using: .utf8)!
     let key = "key"
     keychain.addItemStatus = [errSecSuccess]
-    XCTAssertNoThrow(try storage.save(data, withKey: key), "Save should not throw")
+    keychain.deleteItemStatus = errSecSuccess
+    XCTAssertNoThrow(try storage.save(data, withKey: key, withServiceName: "service"), "Save should not throw")
   }
   
   func testGet_valueExistsForKey_shouldReturnValue() {
@@ -97,7 +99,7 @@ class SecureStorageTests: XCTestCase {
     let valueData2 = [kSecValueData as String: expectedData2]
     var data: [Data?]!
     keychain.keys = [[valueData1, valueData2] as AnyObject]
-    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertNoThrow(data = try storage.getAll(withServiceName: nil), "Get all should not throw")
     XCTAssertEqual(data.first, expectedData1, "Data should be \(expectedData1) but was \(data!.first!!)")
     XCTAssertEqual(data.last, expectedData2, "Data should be \(expectedData2) but was \(data!.last!!)")
   }
@@ -105,7 +107,7 @@ class SecureStorageTests: XCTestCase {
   func testGetAllData_withoutDataSaved_shouldReturnEmptyArray() {
     var data: [Data?]!
     keychain.keys = ["data".data(using: .utf8)! as AnyObject]
-    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertNoThrow(data = try storage.getAll(withServiceName: nil), "Get all should not throw")
     XCTAssertTrue(data.isEmpty)
   }
   
@@ -126,13 +128,13 @@ class SecureStorageTests: XCTestCase {
     let valueData2 = [kSecValueData as String: expectedData2]
     keychain.keys = [[valueData2] as AnyObject]
     keychain.deleteItemStatus = errSecSuccess
-    XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
+    XCTAssertNoThrow(try storage.clear(withServiceName: "service"), "Clear should not throw")
     XCTAssertTrue(keychain.callOrder.contains(.deleteItem), "Delete should be called")
   }
   
   func testClear_noItems_shouldNotClearKeychain() {
     keychain.error = NSError(domain: "No items", code: Int(errSecItemNotFound), userInfo: nil)
-    XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
+    XCTAssertNoThrow(try storage.clear(withServiceName: "service"), "Clear should not throw")
     XCTAssertFalse(keychain.callOrder.contains(.deleteItem), "Delete should not be called")
   }
   
@@ -142,7 +144,7 @@ class SecureStorageTests: XCTestCase {
     let valueData2 = [kSecValueData as String: expectedData2]
     keychain.keys = [[valueData2] as AnyObject]
     keychain.deleteItemStatus = errSecItemNotFound
-    XCTAssertThrowsError(try storage.clear(), "Clear should throw") { error in
+    XCTAssertThrowsError(try storage.clear(withServiceName: "service"), "Clear should throw") { error in
       let thrownError = error as NSError
       XCTAssertEqual(
         thrownError.code,

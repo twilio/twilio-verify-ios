@@ -66,7 +66,7 @@ extension Storage: StorageProvider {
   }
   
   func save(_ data: Data, withKey key: String) throws {
-    try secureStorage.save(data, withKey: key)
+    try secureStorage.save(data, withKey: key, withServiceName: Constants.service)
   }
   
   func get(_ key: String) throws -> Data {
@@ -74,7 +74,7 @@ extension Storage: StorageProvider {
   }
   
   func getAll() throws -> [Data] {
-    try secureStorage.getAll()
+    try secureStorage.getAll(withServiceName: nil)
   }
   
   func removeValue(for key: String) throws {
@@ -82,7 +82,7 @@ extension Storage: StorageProvider {
   }
   
   func clear() throws {
-    try secureStorage.clear()
+    try secureStorage.clear(withServiceName: Constants.service)
   }
 }
 
@@ -92,9 +92,12 @@ private extension Storage {
     guard currentVersion < version else {
       return
     }
-    if currentVersion == Constants.noVersion && clearStorageOnReinstall {
+    let previousClearStorageOnReinstall = previousClearStorageOnReinstallValue()
+    if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall != nil {
+      try? clearItemsWithoutService()
       try clear()
       updateVersion(version: Constants.version)
+      updateClearStorageOnReinstall(value: clearStorageOnReinstall)
       return
     }
     for migration in migrations {
@@ -107,6 +110,8 @@ private extension Storage {
         break
       }
     }
+    updateVersion(version: version)
+    updateClearStorageOnReinstall(value: clearStorageOnReinstall)
   }
   
   func applyMigration(_ migration: Migration) throws {
@@ -120,6 +125,28 @@ private extension Storage {
   func updateVersion(version: Int) {
     userDefaults.set(version, forKey: Constants.currentVersionKey)
   }
+  
+  func clearItemsWithoutService() throws {
+    let migration = AddKeychainServiceToFactors(secureStorage: secureStorage)
+    let migrationResult = migration.migrate(data: try secureStorage.getAll(withServiceName: Constants.service))
+    for result in migrationResult {
+      try removeValue(for: result.key)
+    }
+  }
+  
+  func previousClearStorageOnReinstallValue() -> Bool? {
+    guard let clearStorageOnReinstallValue = try? get(Constants.clearStorageOnReinstallKey) else {
+      return nil
+    }
+    return Bool(String(decoding: clearStorageOnReinstallValue, as: UTF8.self))
+  }
+  
+  func updateClearStorageOnReinstall(value: Bool) {
+    guard let clearStorageOnReinstallValue = value.description.data(using: .utf8) else {
+      return
+    }
+    try? secureStorage.save(clearStorageOnReinstallValue, withKey: Constants.clearStorageOnReinstallKey, withServiceName: Constants.service)
+  }
 }
 
 extension Storage {
@@ -127,5 +154,7 @@ extension Storage {
     static let currentVersionKey = "currentVersion"
     static let version = 1
     static let noVersion = 0
+    static let service = "TwilioVerify"
+    static let clearStorageOnReinstallKey = "clearStorageOnReinstall"
   }
 }
