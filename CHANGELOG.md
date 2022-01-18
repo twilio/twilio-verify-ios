@@ -1,3 +1,20 @@
+# 2.0.0 (2022-01-18)
+
+### Bug fixes
+- Clearing storage after reinstall will remove only factors. Previous implementation was removing all the keychain items on reinstall ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052))
+- Improved network error to get Verify API error (#178) ([e6ebbb3](https://github.com/twilio/twilio-verify-ios/commit/e6ebbb36a63537ac38d8cf4e23dbe40b5767582f))
+
+### Documentation
+- add contributing.md ([b9e2acf](https://github.com/twilio/twilio-verify-ios/commit/b9e2acfd0696f67d96b64e3a3d4cb66c9990153d))
+
+### BREAKING CHANGES
+- A reinstall using this version will not clear the SDK storage if the user did not update to this SDK version before ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.0 MB
+
+
 # 1.3.0 (2021-11-30)
 
 ### Features
