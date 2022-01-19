@@ -159,6 +159,8 @@ public class TwilioVerifyBuilder {
   private var jwtGenerator: JwtGenerator
   private var authentication: Authentication
   private var clearStorageOnReinstall: Bool
+  private var accessGroup: String?
+  private var synchronizableStorage: Bool?
   private var loggingServices: [LoggerService]
   
   /// Creates a new instance of TwilioVerifyBuilder
@@ -187,11 +189,28 @@ public class TwilioVerifyBuilder {
     return self
   }
 
+  /// Set the accessGroup that will be used for the Keychain storage.
+  /// - Parameter accessGroup: Used to specify the access group for the [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift)
+  /// of the KeyChain.
+  /// if `nil` the data will be only available in the app, otherwise using a KeyChain group will enable the option to access data from service extensions.
+  public func setAccessGroup(_ accessGroup: String?) -> Self {
+    self.accessGroup = accessGroup
+    return self
+  }
+
+  /// Enables the synchronization through devices for data stored in the KeyChain.
+  /// - Parameter synchronizable: make use of [kSecAttrSynchronizableAny](https://developer.apple.com/documentation/security/ksecattrsynchronizableany).
+  ///  if `nil` the data won't be synchronized through devices.
+  public func setSynchronizableStorage(_ synchronizable: Bool?) -> Self {
+    self.synchronizableStorage = synchronizableStorage
+    return self
+  }
+
   func setURL(_ url: String) -> Self {
     _baseURL = url
     return self
   }
-  
+
   /**
    Enables the default logger
     - Parameters:
@@ -226,6 +245,8 @@ public class TwilioVerifyBuilder {
         .setURL(_baseURL)
         .setAuthentication(authentication)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
+        .setAccessGroup(accessGroup)
+        .setSynchronizableStorage(synchronizableStorage)
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)

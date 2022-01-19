@@ -19,7 +19,7 @@
 
 import Foundation
 
-typealias Query = [String: Any]
+typealias Query = [CFString: Any]
 
 enum KeyAttrClass {
   case `public`
@@ -47,46 +47,67 @@ protocol KeychainQueryProtocol {
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
+
+  // MARK: - Properties
+
+  /// Direct use of [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift),
+  /// when set all methods will make use of it.
+  var accessGroup: String?
+  /// Direct use of [kSecAttrSynchronizable](https://developer.apple.com/documentation/security/ksecattrsynchronizable),
+  /// when set only storing methods will set the value with `kCFBooleanTrue`,
+  /// remaining methods will make use of [kSecAttrSynchronizableAny](https://developer.apple.com/documentation/security/ksecattrsynchronizableany).
+  var synchronizable: Bool?
+
+  // MARK: - Public Methods
+
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query {
-    [kSecClass: kSecClassKey,
-     kSecAttrKeyClass: keyClass.value,
-     kSecAttrLabel: template.alias,
-     kSecReturnRef: true,
-     kSecAttrKeyType: template.algorithm,
-     kSecAttrAccessControl: template.accessControl] as Query
+    properties([
+      kSecClass: kSecClassKey,
+      kSecAttrKeyClass: keyClass.value,
+      kSecAttrLabel: template.alias,
+      kSecReturnRef: true,
+      kSecAttrKeyType: template.algorithm,
+      kSecAttrAccessControl: template.accessControl
+    ])
   }
-  
+
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
-    [kSecClass: kSecClassKey,
-     kSecAttrLabel: alias,
-     kSecValueRef: key,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    properties([
+      kSecClass: kSecClassKey,
+      kSecAttrLabel: alias,
+      kSecValueRef: key,
+      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ], saving: true)
   }
   
   func deleteKey(withAlias alias: String) -> Query {
-    [kSecClass: kSecClassKey,
+    properties([
+     kSecClass: kSecClassKey,
      kSecAttrLabel: alias,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ])
   }
-  
+
   func save(data: Data, withKey key: String, withServiceName service: String?) -> Query {
     var query = [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
     if let service = service {
-      query[kSecAttrService as String] = service
+      query[kSecAttrService] = service
     }
-    return query
+    return properties(query, saving: true)
   }
-  
+
   func getData(withKey key: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key,
-     kSecReturnData: true,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    properties([
+      kSecClass: kSecClassGenericPassword,
+      kSecAttrAccount: key,
+      kSecReturnData: true,
+      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ])
   }
-  
+
   func getAll(withServiceName service: String?) -> Query {
     var query = [kSecClass: kSecClassGenericPassword,
      kSecReturnAttributes: true,
@@ -94,21 +115,43 @@ struct KeychainQuery: KeychainQueryProtocol {
      kSecMatchLimit: kSecMatchLimitAll,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
     if let service = service {
-      query[kSecAttrService as String] = service
+      query[kSecAttrService] = service
     }
-    return query
+    return properties(query)
   }
-  
+
   func delete(withKey key: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key] as Query
+    properties([
+      kSecClass: kSecClassGenericPassword,
+      kSecAttrAccount: key
+    ])
   }
-  
+
   func deleteItems(withServiceName service: String?) -> Query {
     var query = [kSecClass: kSecClassGenericPassword] as Query
     if let service = service {
-      query[kSecAttrService as String] = service
+      query[kSecAttrService] = service
     }
-    return query
+    return properties(query)
+  }
+
+  // MARK: - Private Methods
+
+  func properties(_ properties: Query, saving: Bool = false) -> Query {
+    var properties = properties
+
+    if let accessGroup = accessGroup {
+      properties[kSecAttrAccessGroup] = accessGroup
+    }
+
+    if let synchronizable = synchronizable, synchronizable {
+      if saving {
+        properties[kSecAttrSynchronizable] = kCFBooleanTrue
+      } else {
+        properties[kSecAttrSynchronizable] = kSecAttrSynchronizableAny
+      }
+    }
+
+    return properties
   }
 }
