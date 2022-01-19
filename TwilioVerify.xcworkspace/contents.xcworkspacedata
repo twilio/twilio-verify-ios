@@ -8,6 +8,9 @@
       location = "group:TwilioVerifyDemo/TwilioVerifyDemo.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:TwilioVerifyDemoCache">
+   </FileRef>
+   <FileRef
       location = "group:TwilioVerifySDK.xcodeproj">
    </FileRef>
 </Workspace>

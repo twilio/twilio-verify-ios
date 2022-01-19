@@ -17,16 +17,17 @@
 
 import Foundation
 import TwilioVerifySDK
+import TwilioVerifyDemoCache
 
 protocol ChallengeDetailPresentable {
-  var challenge: Challenge! {get}
+  var challenge: AppChallenge! {get}
   func fetchChallengeDetails()
   func updateChallenge(withStatus status: ChallengeStatus)
 }
 
 class ChallengeDetailPresenter {
   
-  var challenge: Challenge! {
+  var challenge: AppChallenge! {
     didSet {
       view?.updateView()
     }
@@ -45,6 +46,13 @@ class ChallengeDetailPresenter {
     self.twilioVerify = twilioVerify
     self.challengeSid = challengeSid
     self.factorSid = factorSid
+    
+    // Call cache to check for pending challenges. (TwilioVerifyDemoCache)
+    if !ChallengesCache.storedChallenges.isEmpty {
+      print(ChallengesCache.storedChallenges)
+      // Delete cached factor: ChallengesCache.deleteStoredChallenge(ChallengesCache.storedChallenges[0])
+    }
+    
     fetchChallengeDetails()
   }
 }
@@ -53,7 +61,7 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
   func fetchChallengeDetails() {
     twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
-      strongSelf.challenge = challenge
+      strongSelf.challenge = challenge.toAppChallenge()
     }) { [weak self] error in
       guard let strongSelf = self else { return }
       strongSelf.view?.showAlert(withMessage: error.errorMessage)

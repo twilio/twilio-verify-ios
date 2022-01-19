@@ -18,7 +18,7 @@
 import UIKit
 import TwilioVerifySDK
 
-protocol ChallengeDetailView: class {
+protocol ChallengeDetailView: AnyObject {
   func updateView()
   func showAlert(withMessage message: String)
 }
