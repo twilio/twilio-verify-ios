@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
+		8638059C2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */; };
 		97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */; };
 		97B7832E26F102F80066CFD1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832D26F102F80066CFD1 /* AppModel.swift */; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainAccessGroupHelper.swift; sourceTree = "<group>"; };
 		97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushChallengePayloadData.swift; sourceTree = "<group>"; };
 		97B7832D26F102F80066CFD1 /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				F2CC678F24B5077B000CB11E /* View */,
 				F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */,
 				97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */,
+				8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				F275353024A51CAD005A5605 /* UIColor+Extensions.swift in Sources */,
 				F275354C24A53229005A5605 /* AccessTokensAPI.swift in Sources */,
 				F297F61F24A5435300294A0D /* AccessTokenResponse.swift in Sources */,
+				8638059C2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift in Sources */,
 				F2AA37C3246F323C00B9388F /* AppDelegate.swift in Sources */,
 				F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */,
 				F2B6537F24BF7AA900C6D70C /* DateFormatter+Extensions.swift in Sources */,
