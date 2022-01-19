@@ -18,6 +18,10 @@
 import Foundation
 import TwilioVerifySDK
 
+private enum Constants {
+  static var accessGroup: String? { KeyChainAccessGroupHelper.getAccessGroupInfo()?.rawValue }
+}
+
 class TwilioVerifyAdapter {
   
   private var twilioVerify: TwilioVerify
@@ -27,7 +31,10 @@ class TwilioVerifyAdapter {
     #if DEBUG
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
-    twilioVerify = try builder.build()
+    twilioVerify = try builder
+      .setAccessGroup(Constants.accessGroup)
+      .setSynchronizableStorage(true)
+      .build()
   }
 }
 
