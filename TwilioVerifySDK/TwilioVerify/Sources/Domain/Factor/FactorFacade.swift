@@ -115,6 +115,8 @@ extension FactorFacade {
     private var url: String!
     private var authentication: Authentication!
     private var clearStorageOnReinstall = true
+    private var accessGroup: String?
+    private var synchronizableStorage: Bool?
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider
@@ -140,10 +142,21 @@ extension FactorFacade {
       self.clearStorageOnReinstall = clearStorageOnReinstall
       return self
     }
+
+    public func setAccessGroup(_ accessGroup: String?) -> Self {
+      self.accessGroup = accessGroup
+      return self
+    }
+
+    public func setSynchronizableStorage(_ synchronizable: Bool?) -> Self {
+      self.synchronizableStorage = synchronizableStorage
+      return self
+    }
     
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
-      let secureStorage = SecureStorage()
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup, synchronizable: synchronizableStorage)
+      let secureStorage = SecureStorage(keychainQuery: keychainQuery)
       let factorMigrations = FactorMigrations()
       let storage = try Storage(secureStorage: secureStorage, migrations: factorMigrations.migrations(), clearStorageOnReinstall: clearStorageOnReinstall)
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
