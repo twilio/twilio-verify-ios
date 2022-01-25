@@ -19,10 +19,14 @@ import UserNotifications
 import TwilioVerifySDK
 import TwilioVerifyDemoCache
 
-class NotificationService: UNNotificationServiceExtension {
+final class NotificationService: UNNotificationServiceExtension {
+
+  // MARK: - Properties
   
   var contentHandler: ((UNNotificationContent) -> Void)?
   var bestAttemptContent: UNMutableNotificationContent?
+
+  // MARK: - Override Methods
   
   override func didReceive(
     _ request: UNNotificationRequest,
@@ -30,32 +34,58 @@ class NotificationService: UNNotificationServiceExtension {
   ) {
     self.contentHandler = contentHandler
     bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-    
-    if let bestAttemptContent = bestAttemptContent {
-      // Modify the notification content here...
-      bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-      
-      // Retrieve challenge from TwilioSDK and save it on TwilioVerifyDemoCache
-      // Use extension method `toAppChallenge()` to convert the one retrieved from the SDK
-      let testChallenge = AppChallenge(
-        sid: "sid3",
-        challengeDetails: AppChallengeDetails(message: .init(), fields: []),
-        hiddenDetails: nil,
-        factorSid: "factorSid",
-        status: .pending,
-        updatedAt: Date(),
-        expirationDate: Date()
-      )
-      
-      ChallengesCache.save(challenge: testChallenge)
-      
-      contentHandler(bestAttemptContent)
+
+    guard
+      let bestAttemptContent = bestAttemptContent,
+      let challengeSid = bestAttemptContent.userInfo["challenge_sid"] as? String,
+      let factorSid = bestAttemptContent.userInfo["factor_sid"] as? String,
+      let twilioVerify = try? TwilioVerifyBuilder().build()
+    else {
+      return
     }
+
+    let group = DispatchGroup()
+
+    group.enter()
+    storeChallengeDetails(
+      twilioVerify: twilioVerify,
+      challengeSid: challengeSid,
+      factorSid: factorSid
+    ) { didSucceed in
+      if didSucceed {
+        bestAttemptContent.subtitle = "Pending Challenge"
+      }
+      group.leave()
+    }
+
+    group.wait()
+    contentHandler(bestAttemptContent)
   }
   
   override func serviceExtensionTimeWillExpire() {
-    if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
+    if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
       contentHandler(bestAttemptContent)
+    }
+  }
+
+  // MARK: - Private Methods
+
+  func storeChallengeDetails(
+    twilioVerify: TwilioVerify,
+    challengeSid: String,
+    factorSid: String,
+    completionHandler: @escaping (Bool) -> Void
+  ) {
+    twilioVerify.getChallenge(
+      challengeSid: challengeSid,
+      factorSid: factorSid
+    ) { challenge in
+      ChallengesCache.save(challenge: challenge.toAppChallenge())
+      NSLog("Challenge Stored Successfully")
+      completionHandler(true)
+    } failure: { error in
+      NSLog("Challenge Error: %@", error.localizedDescription)
+      completionHandler(false)
     }
   }
 }

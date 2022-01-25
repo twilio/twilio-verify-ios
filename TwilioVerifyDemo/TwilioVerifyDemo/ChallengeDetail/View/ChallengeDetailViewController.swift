@@ -43,6 +43,7 @@ class ChallengeDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    presenter?.loadChallenge()
   }
   
   override func viewWillAppear(_ animated: Bool) {

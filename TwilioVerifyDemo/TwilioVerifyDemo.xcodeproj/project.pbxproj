@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
+		8638059C2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */; };
 		97AC071D2797704300752055 /* TwilioVerifyDemoCache in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC071C2797704300752055 /* TwilioVerifyDemoCache */; };
 		97AC07252797764400752055 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AC07242797764400752055 /* NotificationService.swift */; };
 		97AC07292797764400752055 /* NotificationExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 97AC07222797764400752055 /* NotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		97AC072F2797767600752055 /* TwilioVerifyDemoCache in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC072E2797767600752055 /* TwilioVerifyDemoCache */; };
 		97AC07312797771700752055 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC07302797771700752055 /* TwilioVerifySDK */; };
-		8638059C2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */; };
 		97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */; };
 		97B7832E26F102F80066CFD1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832D26F102F80066CFD1 /* AppModel.swift */; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
@@ -74,11 +74,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainAccessGroupHelper.swift; sourceTree = "<group>"; };
 		9728E78627985D6800CC1CCA /* NotificationExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationExtension.entitlements; sourceTree = "<group>"; };
 		97AC07222797764400752055 /* NotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		97AC07242797764400752055 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		97AC07262797764400752055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8638059B2788DC4A00418FCC /* KeyChainAccessGroupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainAccessGroupHelper.swift; sourceTree = "<group>"; };
 		97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushChallengePayloadData.swift; sourceTree = "<group>"; };
 		97B7832D26F102F80066CFD1 /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
