@@ -87,12 +87,23 @@ extension Storage: StorageProvider {
 }
 
 private extension Storage {
+  var isAppExtension: Bool {
+    return Bundle.main.bundlePath.hasSuffix(".appex")
+  }
+
   func checkMigrations(_ migrations: [Migration], clearStorageOnReinstall: Bool) throws {
+    if isAppExtension {
+      NSLog("Migrations are not available for app extensions.")
+      return
+    }
+
     var currentVersion = userDefaults.integer(forKey: Constants.currentVersionKey)
     guard currentVersion < version else {
       return
     }
+
     let previousClearStorageOnReinstall = previousClearStorageOnReinstallValue()
+
     if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall != nil {
       try? clearItemsWithoutService()
       try clear()
@@ -100,6 +111,7 @@ private extension Storage {
       updateClearStorageOnReinstall(value: clearStorageOnReinstall)
       return
     }
+
     for migration in migrations {
       if migration.startVersion < currentVersion {
         continue
@@ -110,6 +122,7 @@ private extension Storage {
         break
       }
     }
+
     updateVersion(version: version)
     updateClearStorageOnReinstall(value: clearStorageOnReinstall)
   }

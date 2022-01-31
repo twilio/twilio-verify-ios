@@ -31,10 +31,7 @@ class TwilioVerifyAdapter {
     #if DEBUG
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
-    twilioVerify = try builder
-      .setAccessGroup(Constants.accessGroup)
-      .setSynchronizableStorage(true)
-      .build()
+    twilioVerify = try builder.build()
   }
 }
 

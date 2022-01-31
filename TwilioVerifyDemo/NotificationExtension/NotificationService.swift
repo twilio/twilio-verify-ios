@@ -25,6 +25,7 @@ final class NotificationService: UNNotificationServiceExtension {
   
   var contentHandler: ((UNNotificationContent) -> Void)?
   var bestAttemptContent: UNMutableNotificationContent?
+  private lazy var twilioVerify: TwilioVerify? = try? TwilioVerifyBuilder().build()
 
   // MARK: - Override Methods
   
@@ -38,28 +39,20 @@ final class NotificationService: UNNotificationServiceExtension {
     guard
       let bestAttemptContent = bestAttemptContent,
       let challengeSid = bestAttemptContent.userInfo["challenge_sid"] as? String,
-      let factorSid = bestAttemptContent.userInfo["factor_sid"] as? String,
-      let twilioVerify = try? TwilioVerifyBuilder().build()
+      let factorSid = bestAttemptContent.userInfo["factor_sid"] as? String
     else {
       return
     }
 
-    let group = DispatchGroup()
-
-    group.enter()
     storeChallengeDetails(
-      twilioVerify: twilioVerify,
       challengeSid: challengeSid,
       factorSid: factorSid
     ) { didSucceed in
       if didSucceed {
         bestAttemptContent.subtitle = "Pending Challenge"
       }
-      group.leave()
+      contentHandler(bestAttemptContent)
     }
-
-    group.wait()
-    contentHandler(bestAttemptContent)
   }
   
   override func serviceExtensionTimeWillExpire() {
@@ -70,13 +63,12 @@ final class NotificationService: UNNotificationServiceExtension {
 
   // MARK: - Private Methods
 
-  func storeChallengeDetails(
-    twilioVerify: TwilioVerify,
+  private func storeChallengeDetails(
     challengeSid: String,
     factorSid: String,
     completionHandler: @escaping (Bool) -> Void
   ) {
-    twilioVerify.getChallenge(
+    twilioVerify?.getChallenge(
       challengeSid: challengeSid,
       factorSid: factorSid
     ) { challenge in
