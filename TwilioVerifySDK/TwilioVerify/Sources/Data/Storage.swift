@@ -87,7 +87,18 @@ extension Storage: StorageProvider {
 }
 
 private extension Storage {
+
+  var isAppExtension: Bool {
+    return Bundle.main.bundlePath.hasSuffix(Constants.appExtension)
+  }
+
   func checkMigrations(_ migrations: [Migration], clearStorageOnReinstall: Bool) throws {
+
+    if isAppExtension {
+      NSLog("Migrations are not available for app extensions.")
+      return
+    }
+
     var currentVersion = userDefaults.integer(forKey: Constants.currentVersionKey)
     guard currentVersion < version else {
       return
@@ -156,5 +167,6 @@ extension Storage {
     static let noVersion = 0
     static let service = "TwilioVerify"
     static let clearStorageOnReinstallKey = "clearStorageOnReinstall"
+    static let appExtension = ".appex"
   }
 }
