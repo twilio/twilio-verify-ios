@@ -18,7 +18,7 @@
 import UIKit
 import TwilioVerifySDK
 
-protocol ChallengeDetailView: class {
+protocol ChallengeDetailView: AnyObject {
   func updateView()
   func showAlert(withMessage message: String)
 }
@@ -43,6 +43,7 @@ class ChallengeDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    presenter?.loadChallenge()
   }
   
   override func viewWillAppear(_ animated: Bool) {
