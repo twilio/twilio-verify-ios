@@ -29,9 +29,14 @@ protocol KeyStorage {
 class KeyStorageAdapter {
   
   private let keyManager: KeyManagerProtocol
+  private let accessGroup: String?
   
-  init(keyManager: KeyManagerProtocol = KeyManager()) {
+  init(
+    keyManager: KeyManagerProtocol = KeyManager(),
+    accessGroup: String? = nil
+  ) {
     self.keyManager = keyManager
+    self.accessGroup = accessGroup
   }
 }
 
@@ -77,6 +82,6 @@ extension KeyStorageAdapter: KeyStorage {
 
 private extension KeyStorageAdapter {
   func signerTemplate(withAlias alias: String, shouldExist: Bool = true) throws -> SignerTemplate {
-    return try ECP256SignerTemplate(withAlias: alias, shouldExist: shouldExist)
+    return try ECP256SignerTemplate(withAlias: alias, shouldExist: shouldExist, accessGroup: accessGroup)
   }
 }

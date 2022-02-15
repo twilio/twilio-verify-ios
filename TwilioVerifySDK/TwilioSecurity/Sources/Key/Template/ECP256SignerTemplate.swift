@@ -27,17 +27,28 @@ public struct ECP256SignerTemplate {
   public var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   public var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
   public var accessControl: SecAccessControl
+  public var accessGroup: String?
   
-  public init(withAlias alias: String, shouldExist: Bool) throws {
-    try self.init(withAlias: alias, shouldExist: shouldExist, keychain: Keychain())
+  public init(
+    withAlias alias: String,
+    shouldExist: Bool,
+    accessGroup: String? = nil
+  ) throws {
+    try self.init(withAlias: alias, shouldExist: shouldExist, accessGroup: accessGroup, keychain: Keychain())
   }
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
-  init(withAlias alias: String, shouldExist: Bool, keychain: KeychainProtocol = Keychain()) throws {
+  init(
+    withAlias alias: String,
+    shouldExist: Bool,
+    accessGroup: String? = nil,
+    keychain: KeychainProtocol = Keychain()
+  ) throws {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
+    self.accessGroup = accessGroup
     do {
       self.accessControl = try keychain.accessControl(withProtection: Constants.accessControlProtection, flags: Constants.accessControlFlags)
       self.parameters = try createSignerParameters(keychain)
@@ -50,11 +61,17 @@ extension ECP256SignerTemplate: SignerTemplate {
 
 extension ECP256SignerTemplate {
   func createSignerParameters(_ keychain: KeychainProtocol) throws -> [String: Any] {
-    let privateParameters = [kSecAttrLabel: alias,
+    var privateParameters = [kSecAttrLabel: alias,
                              kSecAttrIsPermanent: true,
-                             kSecAttrAccessControl: accessControl] as [String: Any]
-    let publicParameters = [kSecAttrLabel: alias,
-                            kSecAttrAccessControl: accessControl] as [String: Any]
+                             kSecAttrAccessControl: accessControl] as [CFString: Any]
+    var publicParameters = [kSecAttrLabel: alias,
+                            kSecAttrAccessControl: accessControl] as [CFString: Any]
+
+    if let accessGroup = accessGroup {
+      privateParameters[kSecAttrAccessGroup] = accessGroup
+      publicParameters[kSecAttrAccessGroup] = accessGroup
+    }
+
     var parameters = [kSecAttrKeyType: algorithm,
                       kSecPrivateKeyAttrs: privateParameters,
                       kSecPublicKeyAttrs: publicParameters,

@@ -78,6 +78,9 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		86D6268727B5ADAB00A8B341 /* Storage+AccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */; };
+		86D6268C27B5C1A200A8B341 /* StorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268B27B5C1A200A8B341 /* StorageProvider.swift */; };
+		86D6268E27B5C22900A8B341 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268D27B5C22900A8B341 /* Migration.swift */; };
 		97E44E5D27864AAC0096B9E4 /* NetworkErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E44E5C27864AAC0096B9E4 /* NetworkErrorTests.swift */; };
 		F02034CB24F9654C00D87AAA /* FactorMigrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02034CA24F9654C00D87AAA /* FactorMigrations.swift */; };
 		F02144F0250AA79B00933B7E /* MigrationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02144EF250AA79B00933B7E /* MigrationMock.swift */; };
@@ -271,6 +274,9 @@
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AccessGroup.swift"; sourceTree = "<group>"; };
+		86D6268B27B5C1A200A8B341 /* StorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProvider.swift; sourceTree = "<group>"; };
+		86D6268D27B5C22900A8B341 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		97E44E5C27864AAC0096B9E4 /* NetworkErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorTests.swift; sourceTree = "<group>"; };
 		F02034CA24F9654C00D87AAA /* FactorMigrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMigrations.swift; sourceTree = "<group>"; };
 		F02144EF250AA79B00933B7E /* MigrationMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationMock.swift; sourceTree = "<group>"; };
@@ -728,7 +734,10 @@
 				F07B6F4E2492C9A800948FB1 /* JWT */,
 				F207BBAF249000CF00688E5C /* KeyStorage.swift */,
 				F207BBB124901A6900688E5C /* Storage.swift */,
+				86D6268B27B5C1A200A8B341 /* StorageProvider.swift */,
+				86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */,
 				2017297724D0A3190029493D /* DateProvider.swift */,
+				86D6268D27B5C22900A8B341 /* Migration.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1251,6 +1260,8 @@
 				2093572724870CAF008FDBCC /* VerifyFactorPayload.swift in Sources */,
 				F0261C4424A263F1007881E9 /* APIConstants.swift in Sources */,
 				F27A340424CF8B6600A8053D /* KeyManager.swift in Sources */,
+				86D6268727B5ADAB00A8B341 /* Storage+AccessGroup.swift in Sources */,
+				86D6268E27B5C22900A8B341 /* Migration.swift in Sources */,
 				2017297624D0A2D70029493D /* BaseAPIClient.swift in Sources */,
 				F08379A224AE7BBE003F18DD /* ChallengeListDTO.swift in Sources */,
 				F27A340B24CF8B7800A8053D /* Template.swift in Sources */,
@@ -1277,6 +1288,7 @@
 				20DCEA902486F1EA0017947B /* Response.swift in Sources */,
 				20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */,
 				20A08846249019BC00701CCC /* FactorRepository.swift in Sources */,
+				86D6268C27B5C1A200A8B341 /* StorageProvider.swift in Sources */,
 				F27A340624CF8B6D00A8053D /* KeyPair.swift in Sources */,
 				2093573A24871390008FDBCC /* Challenge.swift in Sources */,
 				F20353DF249C22690067DA73 /* TwilioVerifyManager.swift in Sources */,

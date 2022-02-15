@@ -278,7 +278,7 @@ class KeychainTests: XCTestCase {
     var keyObject: AnyObject!
     var query = Constants.saveKeyQuery
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    query[kSecValueRef as String] = pair.publicKey
+    query[kSecValueRef] = pair.publicKey
     var status = SecItemAdd(query as CFDictionary, nil)
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
     XCTAssertNoThrow(keyObject = try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should return a key")
@@ -307,7 +307,7 @@ class KeychainTests: XCTestCase {
     var pair: KeyPair!
     var query = Constants.saveKeyQuery
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    query[kSecValueRef as String] = pair.publicKey
+    query[kSecValueRef] = pair.publicKey
     SecItemAdd(query as CFDictionary, nil)
     let status = keychain.deleteItem(withQuery: Constants.keyQuery)
     XCTAssertEqual(status, errSecSuccess)

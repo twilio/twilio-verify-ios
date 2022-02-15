@@ -111,18 +111,13 @@ extension FactorFacade {
   class Builder {
     
     private var networkProvider: NetworkProvider!
-    private var keyStorage: KeyStorage!
     private var url: String!
     private var authentication: Authentication!
     private var clearStorageOnReinstall = true
+    private var accessGroup: String?
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider
-      return self
-    }
-    
-    func setKeyStorage(_ keyStorage: KeyStorage) -> Self {
-      self.keyStorage = keyStorage
       return self
     }
     
@@ -140,14 +135,29 @@ extension FactorFacade {
       self.clearStorageOnReinstall = clearStorageOnReinstall
       return self
     }
-    
+
+    public func setAccessGroup(_ accessGroup: String?) -> Self {
+      self.accessGroup = accessGroup
+      return self
+    }
+
+    private func userDefaults() -> UserDefaults {
+      if let accessGroup = accessGroup, let userDefaults = UserDefaults(suiteName: accessGroup) {
+        return userDefaults
+      } else {
+        return UserDefaults.standard
+      }
+    }
+
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
-      let secureStorage = SecureStorage()
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
+      let userDefaults = userDefaults()
+      let secureStorage = SecureStorage(keychainQuery: keychainQuery)
       let factorMigrations = FactorMigrations()
-      let storage = try Storage(secureStorage: secureStorage, migrations: factorMigrations.migrations(), clearStorageOnReinstall: clearStorageOnReinstall)
+      let storage = try Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: factorMigrations.migrations(), clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
-      let factory = PushFactory(repository: repository, keyStorage: keyStorage)
+      let factory = PushFactory(repository: repository, keyStorage: KeyStorageAdapter(keyManager: KeyManager(keychainQuery: keychainQuery), accessGroup: accessGroup))
       return FactorFacade(factory: factory, repository: repository)
     }
   }
