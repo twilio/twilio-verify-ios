@@ -175,8 +175,14 @@ private extension Storage {
       case .toAccessGroup:
         guard let accessGroup = accessGroup else { return }
         let factors = getAllFactors(using: factorMapper)
-        updateFactors(factors, with: accessGroup)
-        storedAccessGroup = accessGroup
+
+        do {
+          try updateFactors(factors, with: accessGroup)
+          storedAccessGroup = accessGroup
+        } catch {
+          Logger.shared.log(withLevel: .error, message: "Factors Migration Failed due to: \(error)")
+        }
+
         lastAccessGroup = accessGroup
       case .fromAccessGroup:
         lastAccessGroup = storedAccessGroup

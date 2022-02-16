@@ -46,16 +46,10 @@ class StorageTests: XCTestCase {
   func testGet_valueExists_shouldReturnValue() {
     var data: Data!
     let expectedData = Constants.data
-    let expectedCallsToMethod = 1
     secureStorage.objectsData = [Constants.key: expectedData]
     
     XCTAssertNoThrow(data = try storage.get(Constants.key), "Get should not throw")
     XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
-    XCTAssertEqual(
-      secureStorage.callsToGet,
-      expectedCallsToMethod,
-      "Get should be called \(expectedCallsToMethod) but was called \(secureStorage.callsToGet)"
-    )
   }
   
   func testGet_valueDoesNotExist_shouldThrow() {

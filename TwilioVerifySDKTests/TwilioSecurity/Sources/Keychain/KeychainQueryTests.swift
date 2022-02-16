@@ -146,20 +146,6 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertNil(accessGroup)
   }
 
-  func testGetItem_withSynchronizable_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(synchronizable: true)
-    let query = keychainQuery.getData(withKey: Constants.alias)
-    let keyClass = query[kSecClass] as! CFString
-    let label = query[kSecAttrAccount] as! String
-    let access = query[kSecAttrAccessible] as! CFString
-    let synchronizable = query[kSecAttrSynchronizable] as! CFString
-
-    XCTAssertEqual(keyClass, kSecClassGenericPassword)
-    XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-    XCTAssertEqual(synchronizable, kSecAttrSynchronizableAny)
-  }
-
   func testSaveItem_withAccessGroup_shouldReturnValidQuery() {
     keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup)
     let expectedData = "data".data(using: .utf8)!
@@ -175,44 +161,6 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
     XCTAssertEqual(data, expectedData)
     XCTAssertEqual(accessGroup, Constants.accessGroup)
-  }
-
-  func testSaveItem_withAccessGroupAndSynchronizable_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, synchronizable: true)
-    let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
-    let keyClass = query[kSecClass] as! CFString
-    let label = query[kSecAttrAccount] as! String
-    let access = query[kSecAttrAccessible] as! CFString
-    let data = query[kSecValueData] as! Data
-    let accessGroup = query[kSecAttrAccessGroup] as! String
-    let synchronizable = query[kSecAttrSynchronizable] as! Bool
-
-    XCTAssertEqual(keyClass, kSecClassGenericPassword)
-    XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-    XCTAssertEqual(data, expectedData)
-    XCTAssertEqual(accessGroup, Constants.accessGroup)
-    XCTAssertTrue(synchronizable)
-  }
-
-  func testSaveItem_withAccessGroupAndSynchronizableOnFalse_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, synchronizable: false)
-    let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
-    let keyClass = query[kSecClass] as! CFString
-    let label = query[kSecAttrAccount] as! String
-    let access = query[kSecAttrAccessible] as! CFString
-    let data = query[kSecValueData] as! Data
-    let accessGroup = query[kSecAttrAccessGroup] as! String
-    let synchronizable = query[kSecAttrSynchronizable] as? Bool
-
-    XCTAssertEqual(keyClass, kSecClassGenericPassword)
-    XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-    XCTAssertEqual(data, expectedData)
-    XCTAssertEqual(accessGroup, Constants.accessGroup)
-    XCTAssertNil(synchronizable)
   }
 }
 

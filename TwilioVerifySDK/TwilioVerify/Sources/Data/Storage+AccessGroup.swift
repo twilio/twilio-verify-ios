@@ -27,6 +27,10 @@ extension Storage {
     case toAccessGroup, fromAccessGroup
   }
 
+  enum Errors: Error {
+    case osStatus(Int)
+  }
+
   // MARK: - Factors
 
   /// Returns all the stored factors excluding parameters such as accountService or accessGroup.
@@ -65,8 +69,8 @@ extension Storage {
   func updateFactors(
     _ factors: [Factor],
     with accessGroup: String
-  ) {
-    factors.forEach { factor in
+  ) throws {
+    try factors.forEach { factor in
       let query = [
         kSecClass: kSecClassGenericPassword,
         kSecAttrAccount: factor.sid,
@@ -77,15 +81,16 @@ extension Storage {
         kSecAttrAccessGroup: accessGroup
       ] as CFDictionary
 
-      let status = SecItemUpdate(query , attributes)
+      let status = SecItemUpdate(query, attributes)
 
       if status == errSecSuccess {
         Logger.shared.log(withLevel: .debug, message: "AccessGroup for factor: \(factor.sid) modified successfully")
       } else {
         Logger.shared.log(withLevel: .debug, message: "Unable to add accessGroup to factor: \(factor.sid) due to status: \(status)")
+        throw Errors.osStatus(Int(status))
       }
 
-      updateKeys(for: factor, with: accessGroup)
+      try updateKeys(for: factor, with: accessGroup)
     }
   }
 
@@ -93,7 +98,7 @@ extension Storage {
   private func updateKeys(
     for factor: Factor,
     with accessGroup: String
-  ) {
+  ) throws {
     guard
       let factor = factor as? PushFactor,
       let keyPairAlias = factor.keyPairAlias,
@@ -114,12 +119,13 @@ extension Storage {
       kSecAttrAccessGroup: accessGroup
     ] as CFDictionary
 
-    let status = SecItemUpdate(query , attributes)
+    let status = SecItemUpdate(query, attributes)
 
     if status == errSecSuccess {
       Logger.shared.log(withLevel: .debug, message: "Update keyPairs for factor: \(factor.sid) ")
     } else {
       Logger.shared.log(withLevel: .debug, message: "Unable to add accessGroup to for keyPairs factor: \(factor.sid) due to status: \(status)")
+      throw Errors.osStatus(Int(status))
     }
   }
 
@@ -135,9 +141,9 @@ extension Storage {
 
     switch direction {
       case .toAccessGroup:
-        sharedUserDefaults?.set(userDefaults.object(forKey: key) , forKey: key)
+        sharedUserDefaults?.set(userDefaults.object(forKey: key), forKey: key)
       case .fromAccessGroup:
-        userDefaults.set(sharedUserDefaults?.object(forKey: key) , forKey: key)
+        userDefaults.set(sharedUserDefaults?.object(forKey: key), forKey: key)
     }
   }
 }
