@@ -78,6 +78,7 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		86649FCD27BD4A7D0006D320 /* Storage+AccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */; };
 		86D6268727B5ADAB00A8B341 /* Storage+AccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */; };
 		86D6268C27B5C1A200A8B341 /* StorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268B27B5C1A200A8B341 /* StorageProvider.swift */; };
 		86D6268E27B5C22900A8B341 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268D27B5C22900A8B341 /* Migration.swift */; };
@@ -274,6 +275,7 @@
 		20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDTO.swift; sourceTree = "<group>"; };
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AccessGroupTests.swift"; sourceTree = "<group>"; };
 		86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AccessGroup.swift"; sourceTree = "<group>"; };
 		86D6268B27B5C1A200A8B341 /* StorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProvider.swift; sourceTree = "<group>"; };
 		86D6268D27B5C22900A8B341 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 				F207BBB424901E8D00688E5C /* StorageTests.swift */,
 				F207BBB92490320D00688E5C /* KeyStorageAdapterTests.swift */,
 				2017297924D0A41E0029493D /* DateProviderTests.swift */,
+				86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1402,6 +1405,7 @@
 				2017297A24D0A41E0029493D /* DateProviderTests.swift in Sources */,
 				F02144F0250AA79B00933B7E /* MigrationMock.swift in Sources */,
 				F27A33EB24CF898D00A8053D /* ECP256SignerTemplateTests.swift in Sources */,
+				86649FCD27BD4A7D0006D320 /* Storage+AccessGroupTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
