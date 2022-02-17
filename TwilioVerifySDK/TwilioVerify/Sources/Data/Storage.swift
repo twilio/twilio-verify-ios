@@ -29,6 +29,7 @@ class Storage {
 
   init(
     secureStorage: SecureStorageProvider,
+    keychain: KeychainProtocol,
     userDefaults: UserDefaults = .standard,
     factorMapper: FactorMapperProtocol = FactorMapper(),
     migrations: [Migration],
@@ -38,7 +39,7 @@ class Storage {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
     self.factorMapper = factorMapper
-    checkAccessGroupMigration(for: accessGroup)
+    checkAccessGroupMigration(for: accessGroup, using: keychain)
     try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }
 }
@@ -152,7 +153,8 @@ private extension Storage {
   }
 
   func checkAccessGroupMigration(
-    for accessGroup: String?
+    for accessGroup: String?,
+    using keychain: KeychainProtocol
   ) {
     if isAppExtension {
       Logger.shared.log(withLevel: .debug, message: "Migrations are not available for app extensions.")
@@ -174,10 +176,10 @@ private extension Storage {
     switch migrationDirection {
       case .toAccessGroup:
         guard let accessGroup = accessGroup else { return }
-        let factors = getAllFactors(using: factorMapper)
+        let factors = getAllFactors(using: factorMapper, keychain: keychain)
 
         do {
-          try updateFactors(factors, with: accessGroup)
+          try updateFactors(factors, with: accessGroup, keychain: keychain)
           storedAccessGroup = accessGroup
         } catch {
           Logger.shared.log(withLevel: .error, message: "Factors Migration Failed due to: \(error)")

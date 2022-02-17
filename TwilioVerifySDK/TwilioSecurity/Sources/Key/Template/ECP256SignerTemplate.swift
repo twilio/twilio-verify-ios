@@ -37,7 +37,7 @@ extension ECP256SignerTemplate: SignerTemplate {
     self.shouldExist = shouldExist
     self.parameters = [:]
     do {
-      self.parameters = try createSignerParameters()
+      self.parameters = createSignerParameters()
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
@@ -46,7 +46,7 @@ extension ECP256SignerTemplate: SignerTemplate {
 }
 
 extension ECP256SignerTemplate {
-  func createSignerParameters() throws -> [String: Any] {
+  func createSignerParameters() -> [String: Any] {
     let privateParameters = [
       kSecAttrLabel: alias,
       kSecAttrIsPermanent: true

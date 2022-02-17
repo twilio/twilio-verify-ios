@@ -112,7 +112,7 @@ extension FactorFacade {
     
     private var networkProvider: NetworkProvider!
     private var keyStorage: KeyStorage!
-    private var keyChain: Keychain!
+    private var keychain: Keychain!
     private var url: String!
     private var authentication: Authentication!
     private var clearStorageOnReinstall = true
@@ -129,8 +129,8 @@ extension FactorFacade {
       return self
     }
 
-    func setKeychain(_ keyChain: Keychain) -> Self {
-      self.keyChain = keyChain
+    func setKeychain(_ keychain: Keychain) -> Self {
+      self.keychain = keychain
       return self
     }
 
@@ -162,9 +162,9 @@ extension FactorFacade {
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
       let keychainQuery = KeychainQuery(accessGroup: accessGroup)
-      let secureStorage = SecureStorage(keychain: keyChain, keychainQuery: keychainQuery)
-      let factorMigrations = FactorMigrations().migrations()
-      let storage = try Storage(secureStorage: secureStorage, userDefaults: userDefaults, migrations: factorMigrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
+      let secureStorage = SecureStorage(keychain: keychain, keychainQuery: keychainQuery)
+      let migrations = FactorMigrations().migrations()
+      let storage = try Storage(secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
       return FactorFacade(factory: factory, repository: repository)

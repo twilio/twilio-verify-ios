@@ -2,7 +2,7 @@
 //  Storage+AccessGroupTests.swift
 //  TwilioVerifySDKTests
 //
-//  Copyright © 2020 Twilio.
+//  Copyright © 2022 Twilio.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ class StorageAccessGroupTests: XCTestCase {
   var secureStorage = SecureStorageMock()
   var userDefaults: UserDefaults!
   var factorMapper: FactorMapperMock!
+  var keychainMock: KeychainMock!
   var storage: StorageProvider!
 
   enum Errors: Error {
@@ -42,18 +43,31 @@ class StorageAccessGroupTests: XCTestCase {
       serviceSid: "serviceSid",
       identity: "identity",
       createdAt: Date(),
-      config: Config(credentialSid: "123")
+      config: Config(credentialSid: "123"),
+      keyPairAlias: "keyPair123"
     )
   }
 
-  func setUp(accessGroup: String?) {
+  func setUp(
+    accessGroup: String?,
+    keyChainKeys: [AnyObject]? = nil,
+    expectedFactor: Data? = nil,
+    updateStatus: [OSStatus]? = nil
+  ) {
     userDefaults = UserDefaults(suiteName: #file)
     userDefaults.removePersistentDomain(forName: #file)
+
     factorMapper = .init()
-    factorMapper.error = Errors.empty
+    factorMapper.error = expectedFactor == nil ? Errors.empty : nil
+    factorMapper.expectedData = expectedFactor
+    keychainMock = .init()
+    keychainMock.error = keyChainKeys == nil ? Errors.empty : nil
+    keychainMock.keys = keyChainKeys
+    keychainMock.updateItemStatus = updateStatus
 
     storage = try? Storage(
       secureStorage: secureStorage,
+      keychain: keychainMock,
       userDefaults: userDefaults,
       factorMapper: factorMapper,
       migrations: [],
@@ -77,9 +91,15 @@ class StorageAccessGroupTests: XCTestCase {
     }
 
     try? storage.save(expectedFactorData, withKey: factor.sid)
+    let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When
-    setUp(accessGroup: expectedAccessGroup)
+    setUp(
+      accessGroup: expectedAccessGroup,
+      keyChainKeys: [[factorDataDict] as AnyObject],
+      expectedFactor: expectedFactorData,
+      updateStatus: [errSecSuccess, errSecSuccess]
+    )
 
     // Then
     guard let factorData = try? storage.get(factor.sid) else {
@@ -113,9 +133,15 @@ class StorageAccessGroupTests: XCTestCase {
     }
 
     try? storage.save(expectedFactorData, withKey: factor.sid)
+    let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When
-    setUp(accessGroup: nil)
+    setUp(
+      accessGroup: nil,
+      keyChainKeys: [[factorDataDict] as AnyObject],
+      expectedFactor: expectedFactorData,
+      updateStatus: [errSecSuccess, errSecSuccess]
+    )
 
     // Then
     guard let factorData = try? storage.get(factor.sid) else {

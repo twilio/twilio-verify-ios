@@ -41,16 +41,13 @@ class AuthenticationProvider {
   
   private let jwtGenerator: JwtGeneratorProtocol
   private let dateProvider: DateProvider
-  private let accessGroup: String?
   
   init(
     withJwtGenerator jwtGenerator: JwtGeneratorProtocol,
-    dateProvider: DateProvider,
-    accessGroup: String? = nil
+    dateProvider: DateProvider
   ) {
     self.jwtGenerator = jwtGenerator
     self.dateProvider = dateProvider
-    self.accessGroup = accessGroup
   }
 }
 

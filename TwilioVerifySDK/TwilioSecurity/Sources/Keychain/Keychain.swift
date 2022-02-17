@@ -27,6 +27,7 @@ protocol KeychainProtocol {
   func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair
   func copyItemMatching(query: Query) throws -> AnyObject
   func addItem(withQuery query: Query) -> OSStatus
+  func updateItem(withQuery query: Query, attributes: CFDictionary) -> OSStatus
   @discardableResult func deleteItem(withQuery query: Query) -> OSStatus
 }
 
@@ -113,6 +114,11 @@ class Keychain: KeychainProtocol {
     deleteItem(withQuery: query)
     Logger.shared.log(withLevel: .debug, message: "Added item for \(query)")
     return SecItemAdd(query as CFDictionary, nil)
+  }
+
+  func updateItem(withQuery query: Query, attributes: CFDictionary) -> OSStatus {
+    Logger.shared.log(withLevel: .debug, message: "Update item for \(query)")
+    return SecItemUpdate(query as CFDictionary, attributes)
   }
   
   @discardableResult

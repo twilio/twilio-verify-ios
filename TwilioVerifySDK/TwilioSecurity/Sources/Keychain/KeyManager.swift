@@ -31,10 +31,15 @@ public class KeyManager {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  public convenience init(accessGroup: String?) {
-    self.init(withKeychain: Keychain(accessGroup: accessGroup), keychainQuery: KeychainQuery(accessGroup: accessGroup))
+  public convenience init(
+    accessGroup: String?
+  ) {
+    self.init(
+      withKeychain: Keychain(accessGroup: accessGroup),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup)
+    )
   }
-  
+
   init(
     withKeychain keychain: KeychainProtocol,
     keychainQuery: KeychainQueryProtocol

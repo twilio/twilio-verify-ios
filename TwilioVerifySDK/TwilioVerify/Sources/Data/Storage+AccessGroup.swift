@@ -2,7 +2,7 @@
 //  StorageProvider+AccessGroup.swift
 //  TwilioVerifySDK
 //
-//  Copyright © 2020 Twilio.
+//  Copyright © 2022 Twilio.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -35,19 +35,18 @@ extension Storage {
 
   /// Returns all the stored factors excluding parameters such as accountService or accessGroup.
   func getAllFactors(
-    using factorMapper: FactorMapperProtocol
+    using factorMapper: FactorMapperProtocol,
+    keychain: KeychainProtocol
   ) -> [Factor] {
-    let query: CFDictionary = [
+    let query: Query = [
       kSecClass: kSecClassGenericPassword,
       kSecReturnAttributes: true,
       kSecReturnData: true,
       kSecMatchLimit: kSecMatchLimitAll,
       kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    ] as CFDictionary
+    ]
 
-    var result: AnyObject?
-
-    guard SecItemCopyMatching(query, &result) == errSecSuccess else {
+    guard let result = try? keychain.copyItemMatching(query: query) else {
       Logger.shared.log(withLevel: .error, message: "Failed to obtain stored Factors.")
       return []
     }
@@ -68,62 +67,64 @@ extension Storage {
   /// Update Stored Factors with an specified kSecAttrAccessGroup
   func updateFactors(
     _ factors: [Factor],
-    with accessGroup: String
+    with accessGroup: String,
+    keychain: KeychainProtocol
   ) throws {
     try factors.forEach { factor in
-      let query = [
+      let query: Query = [
         kSecClass: kSecClassGenericPassword,
         kSecAttrAccount: factor.sid,
         kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-      ] as CFDictionary
+      ]
 
       let attributes: CFDictionary = [
         kSecAttrAccessGroup: accessGroup
       ] as CFDictionary
 
-      let status = SecItemUpdate(query, attributes)
+      let status = keychain.updateItem(withQuery: query, attributes: attributes)
 
       if status == errSecSuccess {
         Logger.shared.log(withLevel: .debug, message: "AccessGroup for factor: \(factor.sid) modified successfully")
       } else {
-        Logger.shared.log(withLevel: .debug, message: "Unable to add accessGroup to factor: \(factor.sid) due to status: \(status)")
+        Logger.shared.log(withLevel: .error, message: "Unable to add accessGroup to factor: \(factor.sid) due to status: \(status)")
         throw Errors.osStatus(Int(status))
       }
 
-      try updateKeys(for: factor, with: accessGroup)
+      try updateKeys(for: factor, with: accessGroup, keychain: keychain)
     }
   }
 
   /// Update keyPairs with the specified accessGroup for a factor
   private func updateKeys(
     for factor: Factor,
-    with accessGroup: String
+    with accessGroup: String,
+    keychain: KeychainProtocol
   ) throws {
     guard
       let factor = factor as? PushFactor,
       let keyPairAlias = factor.keyPairAlias,
       let template = try? ECP256SignerTemplate(withAlias: keyPairAlias, shouldExist: true)
     else {
-      Logger.shared.log(withLevel: .debug, message: "Unable to update keyPairs for factor: \(factor.sid)")
+      Logger.shared.log(withLevel: .error, message: "Unable to update keyPairs for factor: \(factor.sid)")
       return
     }
 
-    let query = [
+    let query: Query = [
       kSecClass: kSecClassKey,
       kSecAttrLabel: template.alias,
       kSecAttrKeyType: template.algorithm
-    ] as CFDictionary
+    ]
 
     let attributes: CFDictionary = [
       kSecAttrAccessGroup: accessGroup
     ] as CFDictionary
 
-    let status = SecItemUpdate(query, attributes)
+    let status = keychain.updateItem(withQuery: query, attributes: attributes)
 
     if status == errSecSuccess {
       Logger.shared.log(withLevel: .debug, message: "Update keyPairs for factor: \(factor.sid) ")
     } else {
-      Logger.shared.log(withLevel: .debug, message: "Unable to add accessGroup to for keyPairs factor: \(factor.sid) due to status: \(status)")
+      Logger.shared.log(withLevel: .error, message: "Unable to add accessGroup to for keyPairs factor: \(factor.sid) due to status: \(status)")
       throw Errors.osStatus(Int(status))
     }
   }

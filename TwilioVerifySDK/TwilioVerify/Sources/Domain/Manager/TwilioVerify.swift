@@ -156,7 +156,6 @@ public class TwilioVerifyBuilder {
   private var _baseURL: String
   private var clearStorageOnReinstall: Bool
   private var accessGroup: String?
-  private var synchronizableStorage: Bool?
   private var loggingServices: [LoggerService]
   
   /// Creates a new instance of TwilioVerifyBuilder
@@ -215,13 +214,8 @@ public class TwilioVerifyBuilder {
     loggingServices.append(service)
     return self
   }
-  
-  /**
-  Buids an instance of TwilioVerifyManager
-   - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
-   - Returns: An instance of `TwilioVerify`.
-  */
 
+  /// Set the UserDefaults group that will be used to store configurations
   private func userDefaults() -> UserDefaults {
     if let accessGroup = accessGroup, let userDefaults = UserDefaults(suiteName: accessGroup) {
       return userDefaults
@@ -230,6 +224,11 @@ public class TwilioVerifyBuilder {
     }
   }
 
+  /**
+   Buids an instance of TwilioVerifyManager
+   - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
+   - Returns: An instance of `TwilioVerify`.
+   */
   public func build() throws -> TwilioVerify {
     do {
       loggingServices.forEach { Logger.shared.addService($0) }
@@ -237,7 +236,7 @@ public class TwilioVerifyBuilder {
       let keyChain = Keychain(accessGroup: accessGroup)
       let keyStorage = KeyStorageAdapter(keyManager: KeyManager(withKeychain: keyChain, keychainQuery: keychainQuery))
       let jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner(withKeyStorage: keyStorage))
-      let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, dateProvider: DateAdapter(userDefaults: userDefaults()), accessGroup: accessGroup)
+      let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, dateProvider: DateAdapter(userDefaults: userDefaults()))
       let factorFacade = try FactorFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setURL(_baseURL)
