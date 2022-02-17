@@ -102,7 +102,7 @@ extension Storage {
     guard
       let factor = factor as? PushFactor,
       let keyPairAlias = factor.keyPairAlias,
-      let template = try? ECP256SignerTemplate(withAlias: keyPairAlias, shouldExist: true, accessGroup: accessGroup)
+      let template = try? ECP256SignerTemplate(withAlias: keyPairAlias, shouldExist: true)
     else {
       Logger.shared.log(withLevel: .debug, message: "Unable to update keyPairs for factor: \(factor.sid)")
       return
@@ -111,8 +111,7 @@ extension Storage {
     let query = [
       kSecClass: kSecClassKey,
       kSecAttrLabel: template.alias,
-      kSecAttrKeyType: template.algorithm,
-      kSecAttrAccessControl: template.accessControl
+      kSecAttrKeyType: template.algorithm
     ] as CFDictionary
 
     let attributes: CFDictionary = [

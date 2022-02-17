@@ -54,6 +54,10 @@ struct KeychainQuery: KeychainQueryProtocol {
   /// when set all methods will make use of it.
   var accessGroup: String?
 
+  init(accessGroup: String?) {
+    self.accessGroup = accessGroup
+  }
+
   // MARK: - Public Methods
 
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query {
@@ -62,8 +66,7 @@ struct KeychainQuery: KeychainQueryProtocol {
       kSecAttrKeyClass: keyClass.value,
       kSecAttrLabel: template.alias,
       kSecReturnRef: true,
-      kSecAttrKeyType: template.algorithm,
-      kSecAttrAccessControl: template.accessControl
+      kSecAttrKeyType: template.algorithm
     ])
   }
 

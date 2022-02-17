@@ -29,7 +29,7 @@ class KeyManagerTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    keyManager = KeyManager(withKeychain: keychain)
+    keyManager = KeyManager(withKeychain: keychain, keychainQuery: KeychainQuery(accessGroup: nil))
   }
   
   func testKey_withoutMatches_shouldThrow() {

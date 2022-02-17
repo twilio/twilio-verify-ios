@@ -30,10 +30,10 @@ class KeychainQueryTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    XCTAssertNoThrow(signer = try ECP256SignerTemplate(withAlias: Constants.alias,
-                                                       shouldExist: false,
-                                                       keychain: keychain))
-    keychainQuery = KeychainQuery()
+    XCTAssertNoThrow(
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false)
+    )
+    keychainQuery = KeychainQuery(accessGroup: nil)
   }
   
   func testKey_withPrivateKey_shouldReturnValidQuery() {
@@ -133,7 +133,7 @@ class KeychainQueryTests: XCTestCase {
   }
 
   func testGetItem_withOutAccessGroup_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery()
+    keychainQuery = KeychainQuery(accessGroup: nil)
     let query = keychainQuery.getData(withKey: Constants.alias)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String

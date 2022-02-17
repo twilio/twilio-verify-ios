@@ -154,7 +154,6 @@ public protocol TwilioVerify {
 public class TwilioVerifyBuilder {
   private var networkProvider: NetworkProvider
   private var _baseURL: String
-  private var jwtGenerator: JwtGenerator
   private var clearStorageOnReinstall: Bool
   private var accessGroup: String?
   private var synchronizableStorage: Bool?
@@ -163,7 +162,6 @@ public class TwilioVerifyBuilder {
   /// Creates a new instance of TwilioVerifyBuilder
   public init() {
     networkProvider = NetworkAdapter()
-    jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
     _baseURL = baseURL
     clearStorageOnReinstall = true
     loggingServices = []
@@ -223,16 +221,32 @@ public class TwilioVerifyBuilder {
    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
    - Returns: An instance of `TwilioVerify`.
   */
+
+  private func userDefaults() -> UserDefaults {
+    if let accessGroup = accessGroup, let userDefaults = UserDefaults(suiteName: accessGroup) {
+      return userDefaults
+    } else {
+      return UserDefaults.standard
+    }
+  }
+
   public func build() throws -> TwilioVerify {
     do {
       loggingServices.forEach { Logger.shared.addService($0) }
-      let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, accessGroup: accessGroup)
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
+      let keyChain = Keychain(accessGroup: accessGroup)
+      let keyStorage = KeyStorageAdapter(keyManager: KeyManager(withKeychain: keyChain, keychainQuery: keychainQuery))
+      let jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner(withKeyStorage: keyStorage))
+      let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, dateProvider: DateAdapter(userDefaults: userDefaults()), accessGroup: accessGroup)
       let factorFacade = try FactorFacade.Builder()
         .setNetworkProvider(networkProvider)
         .setURL(_baseURL)
         .setAuthentication(authentication)
+        .setKeychain(keyChain)
+        .setKeyStorage(keyStorage)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
         .setAccessGroup(accessGroup)
+        .setUserDefaults(userDefaults())
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)
@@ -240,7 +254,6 @@ public class TwilioVerifyBuilder {
         .setURL(_baseURL)
         .setAuthentication(authentication)
         .setFactorFacade(factorFacade)
-        .setAccessGroup(accessGroup)
         .build()
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {

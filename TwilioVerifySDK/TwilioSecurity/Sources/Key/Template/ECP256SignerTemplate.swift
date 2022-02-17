@@ -26,32 +26,18 @@ public struct ECP256SignerTemplate {
   public var parameters: [String: Any]
   public var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   public var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
-  public var accessControl: SecAccessControl
-  public var accessGroup: String?
-  
-  public init(
-    withAlias alias: String,
-    shouldExist: Bool,
-    accessGroup: String? = nil
-  ) throws {
-    try self.init(withAlias: alias, shouldExist: shouldExist, accessGroup: accessGroup, keychain: Keychain())
-  }
 }
 
 extension ECP256SignerTemplate: SignerTemplate {
-  init(
+  public init(
     withAlias alias: String,
-    shouldExist: Bool,
-    accessGroup: String? = nil,
-    keychain: KeychainProtocol = Keychain()
+    shouldExist: Bool
   ) throws {
     self.alias = alias
     self.shouldExist = shouldExist
     self.parameters = [:]
-    self.accessGroup = accessGroup
     do {
-      self.accessControl = try keychain.accessControl(withProtection: Constants.accessControlProtection, flags: Constants.accessControlFlags)
-      self.parameters = try createSignerParameters(keychain)
+      self.parameters = try createSignerParameters()
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
@@ -60,22 +46,22 @@ extension ECP256SignerTemplate: SignerTemplate {
 }
 
 extension ECP256SignerTemplate {
-  func createSignerParameters(_ keychain: KeychainProtocol) throws -> [String: Any] {
-    var privateParameters = [kSecAttrLabel: alias,
-                             kSecAttrIsPermanent: true,
-                             kSecAttrAccessControl: accessControl] as [CFString: Any]
-    var publicParameters = [kSecAttrLabel: alias,
-                            kSecAttrAccessControl: accessControl] as [CFString: Any]
+  func createSignerParameters() throws -> [String: Any] {
+    let privateParameters = [
+      kSecAttrLabel: alias,
+      kSecAttrIsPermanent: true
+    ] as [CFString: Any]
 
-    if let accessGroup = accessGroup {
-      privateParameters[kSecAttrAccessGroup] = accessGroup
-      publicParameters[kSecAttrAccessGroup] = accessGroup
-    }
+    let publicParameters = [
+      kSecAttrLabel: alias
+    ] as [CFString: Any]
 
-    var parameters = [kSecAttrKeyType: algorithm,
-                      kSecPrivateKeyAttrs: privateParameters,
-                      kSecPublicKeyAttrs: publicParameters,
-                      kSecAttrKeySizeInBits: Constants.keySize] as [String: Any]
+    var parameters = [
+      kSecAttrKeyType: algorithm,
+      kSecPrivateKeyAttrs: privateParameters,
+      kSecPublicKeyAttrs: publicParameters,
+      kSecAttrKeySizeInBits: Constants.keySize
+    ] as [String: Any]
     
     if isSecureEnclaveAvailable() {
       parameters[kSecAttrTokenID as String] = kSecAttrTokenIDSecureEnclave
@@ -89,7 +75,5 @@ extension ECP256SignerTemplate {
   
   struct Constants {
     static let keySize = 256
-    static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
   }
 }

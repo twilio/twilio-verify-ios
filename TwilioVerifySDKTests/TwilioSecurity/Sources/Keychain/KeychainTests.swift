@@ -27,7 +27,7 @@ class KeychainTests: XCTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    keychain = Keychain()
+    keychain = Keychain(accessGroup: nil)
   }
   
   override func tearDown() {
@@ -250,7 +250,7 @@ class KeychainTests: XCTestCase {
     let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
     let data = "data".data(using: .utf8)!
-    let query = KeychainQuery().save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
+    let query = KeychainQuery(accessGroup: nil).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
     let status = keychain.addItem(withQuery: query)
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
     XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in

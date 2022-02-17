@@ -28,7 +28,7 @@ class Storage {
   private let factorMapper: FactorMapperProtocol
 
   init(
-    secureStorage: SecureStorageProvider = SecureStorage(),
+    secureStorage: SecureStorageProvider,
     userDefaults: UserDefaults = .standard,
     factorMapper: FactorMapperProtocol = FactorMapper(),
     migrations: [Migration],

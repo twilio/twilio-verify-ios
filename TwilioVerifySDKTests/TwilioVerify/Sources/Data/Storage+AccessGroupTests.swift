@@ -29,6 +29,10 @@ class StorageAccessGroupTests: XCTestCase {
   var factorMapper: FactorMapperMock!
   var storage: StorageProvider!
 
+  enum Errors: Error {
+    case empty
+  }
+
   var factor: Factor {
     PushFactor(
       status: .unverified,
@@ -46,6 +50,7 @@ class StorageAccessGroupTests: XCTestCase {
     userDefaults = UserDefaults(suiteName: #file)
     userDefaults.removePersistentDomain(forName: #file)
     factorMapper = .init()
+    factorMapper.error = Errors.empty
 
     storage = try? Storage(
       secureStorage: secureStorage,
@@ -55,6 +60,8 @@ class StorageAccessGroupTests: XCTestCase {
       clearStorageOnReinstall: false,
       accessGroup: accessGroup
     )
+
+    factorMapper.error = nil
   }
 
   func testInitWithoutPreviousAccessGroupShouldMigrateToAccessGroup() {

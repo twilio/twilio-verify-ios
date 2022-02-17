@@ -100,7 +100,6 @@ extension ChallengeFacade {
     private var factorFacade: FactorFacadeProtocol!
     private var url: String!
     private var authentication: Authentication!
-    private var accessGroup: String?
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider
@@ -126,16 +125,11 @@ extension ChallengeFacade {
       self.authentication = authentication
       return self
     }
-
-    func setAccessGroup(_ accessGroup: String?) -> Self {
-      self.accessGroup = accessGroup
-      return self
-    }
     
     func build() -> ChallengeFacadeProtocol {
       let challengeAPIClient = ChallengeAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
       let repository = ChallengeRepository(apiClient: challengeAPIClient)
-      let pushChallengeProcessor = PushChallengeProcessor(challengeProvider: repository, jwtGenerator: jwtGenerator, accessGroup: accessGroup)
+      let pushChallengeProcessor = PushChallengeProcessor(challengeProvider: repository, jwtGenerator: jwtGenerator)
       return ChallengeFacade(pushChallengeProcessor: pushChallengeProcessor, factorFacade: factorFacade, repository: repository)
     }
   }

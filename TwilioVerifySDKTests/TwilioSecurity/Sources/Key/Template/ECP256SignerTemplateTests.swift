@@ -32,12 +32,12 @@ class ECP256SignerTemplateTests: XCTestCase {
   }
   
   func testCreateSigner_shouldMatchExpectedParameters() {
-      XCTAssertNoThrow(signer = try ECP256SignerTemplate(withAlias: Constants.alias,
-                                                         shouldExist: shouldExist,
-                                                         keychain: keychain))
+      XCTAssertNoThrow(
+        signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+      )
+
       let privateKeyAttrs = signer.parameters[kSecPrivateKeyAttrs as String] as! [String: Any]
       let publicKeyAttrs = signer.parameters[kSecPublicKeyAttrs as String] as! [String: Any]
-      var expectedAccessControl: SecAccessControl!
     
       XCTAssertEqual(Constants.alias,
                      signer.alias,
@@ -69,19 +69,57 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(Constants.alias,
                      publicKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(publicKeyAttrs[kSecAttrLabel as String] as! String)")
-      XCTAssertNoThrow(expectedAccessControl = try keychain.accessControl(withProtection: ECP256SignerTemplate.Constants.accessControlProtection,
-                                                                          flags: ECP256SignerTemplate.Constants.accessControlFlags))
-      XCTAssertEqual(expectedAccessControl,
-                     (privateKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl),
-                     "Secure Access control should be \(expectedAccessControl!) but was \(privateKeyAttrs[kSecAttrAccessControl as String] as! SecAccessControl)")
   }
-  
-  func testCreateSigner_shouldThrowError() {
-    keychain.error = TestError.operationFailed
-    XCTAssertThrowsError(try ECP256SignerTemplate(withAlias: Constants.alias,
-                                                  shouldExist: shouldExist,
-                                                  keychain: keychain))
+
+  func testAccessControlForTemplate() {
+    // Given
+    let keyChain = Keychain(accessGroup: nil)
+
+    XCTAssertNoThrow(
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+    )
+
+    // When
+
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+      XCTFail("Unavailable to cast parameters to Query")
+      return
+    }
+
+    let privateKeyAttrs = keyPairParameters[kSecPrivateKeyAttrs] as! [CFString: Any]
+    let publicKeyAttrs = keyPairParameters[kSecPublicKeyAttrs] as! [CFString: Any]
+
+    XCTAssertNotNil(privateKeyAttrs[kSecAttrAccessControl])
+    XCTAssertNotNil(publicKeyAttrs[kSecAttrAccessControl])
+    XCTAssertNil(privateKeyAttrs[kSecAttrAccessGroup])
+    XCTAssertNil(publicKeyAttrs[kSecAttrAccessGroup])
   }
+
+  func testAccessControlAndAccessGroupForTemplate() {
+    // Given
+    let expectedAccessGroup = "myAccessGroup.com"
+    let keyChain = Keychain(accessGroup: expectedAccessGroup)
+
+    XCTAssertNoThrow(
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+    )
+
+    // When
+
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+      XCTFail("Unavailable to cast parameters to Query")
+      return
+    }
+
+    let privateKeyAttrs = keyPairParameters[kSecPrivateKeyAttrs] as! [CFString: Any]
+    let publicKeyAttrs = keyPairParameters[kSecPublicKeyAttrs] as! [CFString: Any]
+
+    XCTAssertNotNil(privateKeyAttrs[kSecAttrAccessControl])
+    XCTAssertNotNil(publicKeyAttrs[kSecAttrAccessControl])
+    XCTAssertEqual(privateKeyAttrs[kSecAttrAccessGroup] as? String, expectedAccessGroup)
+    XCTAssertEqual(publicKeyAttrs[kSecAttrAccessGroup] as? String, expectedAccessGroup)
+  }
+
 }
 
 private extension ECP256SignerTemplateTests {

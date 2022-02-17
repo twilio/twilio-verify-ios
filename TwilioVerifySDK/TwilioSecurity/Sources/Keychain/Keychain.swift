@@ -42,6 +42,12 @@ extension KeychainProtocol {
 }
 
 class Keychain: KeychainProtocol {
+  let accessGroup: String?
+
+  init(accessGroup: String?) {
+    self.accessGroup = accessGroup
+  }
+
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     var keychainError: Unmanaged<CFError>?
     guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &keychainError) else {
@@ -81,6 +87,7 @@ class Keychain: KeychainProtocol {
   
   func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair {
     var publicKey, privateKey: SecKey?
+    let parameters = addAccessGroupToKeyPairs(parameters: parameters)
     let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
@@ -112,5 +119,38 @@ class Keychain: KeychainProtocol {
   func deleteItem(withQuery query: Query) -> OSStatus {
     Logger.shared.log(withLevel: .debug, message: "Deleted item for \(query)")
     return SecItemDelete(query as CFDictionary)
+  }
+
+  func addAccessGroupToKeyPairs(parameters: [String: Any]) -> CFDictionary {
+    var customParameters = parameters as Query
+
+    guard
+      var privateParameters = customParameters[kSecPrivateKeyAttrs] as? Query,
+      var publicParameters = customParameters[kSecPublicKeyAttrs] as? Query,
+      let accessControl = try? accessControl(
+        withProtection: Constants.accessControlProtection,
+        flags: Constants.accessControlFlags
+      )
+    else {
+      return parameters as CFDictionary
+    }
+
+    privateParameters[kSecAttrAccessControl] = accessControl
+    publicParameters[kSecAttrAccessControl] = accessControl
+
+    if let accessGroup = accessGroup {
+      privateParameters[kSecAttrAccessGroup] = accessGroup
+      publicParameters[kSecAttrAccessGroup] = accessGroup
+    }
+
+    customParameters[kSecPrivateKeyAttrs] = privateParameters
+    customParameters[kSecPublicKeyAttrs] = publicParameters
+
+    return customParameters as CFDictionary
+  }
+
+  enum Constants {
+    static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
   }
 }

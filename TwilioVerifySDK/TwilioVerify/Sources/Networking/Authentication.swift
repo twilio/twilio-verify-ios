@@ -44,8 +44,8 @@ class AuthenticationProvider {
   private let accessGroup: String?
   
   init(
-    withJwtGenerator jwtGenerator: JwtGeneratorProtocol = JwtGenerator(),
-    dateProvider: DateProvider = DateAdapter(),
+    withJwtGenerator jwtGenerator: JwtGeneratorProtocol,
+    dateProvider: DateProvider,
     accessGroup: String? = nil
   ) {
     self.jwtGenerator = jwtGenerator
@@ -79,7 +79,7 @@ private extension AuthenticationProvider {
     guard let alias = factor.keyPairAlias else {
       throw AuthenticationError.invalidKeyPair
     }
-    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, accessGroup: accessGroup)
+    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
     return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate)
   }
   

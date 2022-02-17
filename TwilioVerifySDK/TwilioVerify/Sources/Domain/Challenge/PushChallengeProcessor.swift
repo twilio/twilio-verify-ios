@@ -28,16 +28,13 @@ class PushChallengeProcessor {
   
   private let challengeProvider: ChallengeProvider
   private let jwtGenerator: JwtGeneratorProtocol
-  private let accessGroup: String?
   
   init(
     challengeProvider: ChallengeProvider,
-    jwtGenerator: JwtGeneratorProtocol = JwtGenerator(),
-    accessGroup: String? = nil
+    jwtGenerator: JwtGeneratorProtocol
   ) {
     self.challengeProvider = challengeProvider
     self.jwtGenerator = jwtGenerator
-    self.accessGroup = accessGroup
   }
 }
 
@@ -85,7 +82,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
       }
       var signerTemplate: SignerTemplate
       do {
-        signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, accessGroup: strongSelf.accessGroup)
+        signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.keyStorageError(error: error as NSError))
