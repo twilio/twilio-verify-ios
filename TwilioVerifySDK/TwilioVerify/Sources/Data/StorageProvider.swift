@@ -28,24 +28,59 @@ protocol StorageProvider {
   func clear() throws
 }
 
+/// Workaround to store primitive data types below iOS 13 using Codable
+private struct EncodableStruct<T>: Codable where T: Codable {
+  let wrapped: T
+}
+
 extension StorageProvider {
-  func value<Value: Decodable>(for key: String) -> Value? {
-    guard let data = try? get(key) else { return nil }
-    return try? JSONDecoder().decode(Value.self, from: data)
+  func value<Value: Codable>(for key: String) -> Value? {
+    do {
+      let data = try get(key)
+      return try JSONDecoder().decode(EncodableStruct<Value>.self, from: data).wrapped
+    } catch {
+      Logger.shared.log(
+        withLevel: .error,
+        message: "Unable return value for key: \(key), due to error \(error)"
+      )
+      return nil
+    }
   }
 
   func value(for key: String) -> Bool? {
-    guard let data = try? get(key) else { return nil }
-    return Bool(String(decoding: data, as: UTF8.self))
+    do {
+      let data = try get(key)
+      return Bool(String(decoding: data, as: UTF8.self))
+    } catch {
+      Logger.shared.log(
+        withLevel: .error,
+        message: "Unable return value for key: \(key), due to error \(error)"
+      )
+      return nil
+    }
   }
 
-  func setValue<Value: Encodable>(_ value: Value, for key: String) {
-    guard let data = try? JSONEncoder().encode(value) else { return }
-    try? save(data, withKey: key)
+  func setValue<Value: Codable>(_ value: Value, for key: String) {
+    do {
+      let data = try JSONEncoder().encode(EncodableStruct(wrapped: value))
+      try save(data, withKey: key)
+    } catch {
+      Logger.shared.log(
+        withLevel: .error,
+        message: "Unable to store value for key: \(key), due to error \(error)"
+      )
+    }
   }
 
   func setValue(_ value: Bool, for key: String) {
-    guard let data = value.description.data(using: .utf8) else { return }
-    try? save(data, withKey: key)
+    do {
+      guard let data = value.description.data(using: .utf8) else { return }
+      try save(data, withKey: key)
+    } catch {
+      Logger.shared.log(
+        withLevel: .error,
+        message: "Unable to store value for key: \(key), due to error \(error)"
+      )
+    }
   }
 }
