@@ -47,7 +47,7 @@ extension StorageProvider {
     }
   }
 
-  func value(for key: String) -> Bool? {
+  func bool(for key: String) -> Bool? {
     do {
       let data = try get(key)
       return Bool(String(decoding: data, as: UTF8.self))
@@ -72,9 +72,14 @@ extension StorageProvider {
     }
   }
 
-  func setValue(_ value: Bool, for key: String) {
+  func setBool(_ bool: Bool?, for key: String) {
     do {
-      guard let data = value.description.data(using: .utf8) else { return }
+      guard
+        let bool = bool,
+        let data = bool.description.data(using: .utf8)
+      else {
+        return
+      }
       try save(data, withKey: key)
     } catch {
       Logger.shared.log(

@@ -287,6 +287,25 @@ The push token will change after the reinstall. Update the push token to receive
 The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
 > Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
 
+<a name='NotificationExtension'></a>
+
+## Setting up a Notification Extension
+The [Notification Extension](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) is an App Extension that allows developers to modify or process the content of a remote notification before it is delivered to the user.
+
+> Follow Apple's Modifying Content in Newly Delivered Notifications guide to create a Notification Extension.
+
+To be able to use the Verify SDK in Notification Extensions, it is necessary to use [App Groups](https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps), this will allow the App Extension to be able to read the KeyChain storage from the application. Otherwise, the SDK will not be able to read any of the stored Factors or Challenges in the Notification Extension.
+
+```swift
+let builder = TwilioVerifyBuilder().setClearStorageOnReinstall(false)
+let twilioVerify = try builder.setAccessGroup("group.com.example.AppSuite").build()
+```
+> Use the *setAccessGroup* method to set up the app group used for keychain access.
+
+Take into consideration that the Notification Extension only lives for a period of time of approximately 30 seconds, so if by some reason the App Extension does not process the remote notification content before that period expires, it will display the original content instead.
+
+> See the [Notification Extension](https://github.com/twilio/twilio-verify-ios/tree/feature/notificationExtension) branch to check the example of an implementation using the Notification Extension & the SDK in the VerifyDemoApp.
+
 <a name='Contributing'></a>
 
 ## Contributing

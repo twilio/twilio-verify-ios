@@ -84,7 +84,7 @@ private extension Storage {
 
   var storedCurrentVersion: Int {
     get { userDefaults.integer(forKey: Constants.currentVersionKey) }
-    set { userDefaults.set(version, forKey: Constants.currentVersionKey) }
+    set { userDefaults.set(newValue, forKey: Constants.currentVersionKey) }
   }
 
   var storedAccessGroup: String? {
@@ -93,8 +93,8 @@ private extension Storage {
   }
 
   var storedClearOnReinstall: Bool? {
-    get { value(for: Constants.clearStorageOnReinstallKey) }
-    set { setValue(newValue, for: Constants.clearStorageOnReinstallKey) }
+    get { bool(for: Constants.clearStorageOnReinstallKey) }
+    set { setBool(newValue, for: Constants.clearStorageOnReinstallKey) }
   }
 
   // MARK: Methods
@@ -182,7 +182,13 @@ private extension Storage {
           try updateFactors(factors, with: accessGroup, keychain: keychain)
           storedAccessGroup = accessGroup
         } catch {
-          Logger.shared.log(withLevel: .error, message: "Factors Migration Failed due to: \(error)")
+          Logger.shared.log(
+            withLevel: .error,
+            message: """
+              Factors migration to AccessGroup failed due to: \(error).
+              Other apps/extensions may not be able to use factors
+            """
+          )
         }
 
         lastAccessGroup = accessGroup

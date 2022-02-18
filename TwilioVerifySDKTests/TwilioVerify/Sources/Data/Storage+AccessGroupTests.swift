@@ -115,6 +115,7 @@ class StorageAccessGroupTests: XCTestCase {
     }
 
     XCTAssertEqual(storage.value(for: "accessGroup"), expectedAccessGroup)
+    XCTAssertEqual(storage.bool(for: "clearStorageOnReinstall"), false)
     XCTAssertEqual(userDefaults.value(forKey: "currentVersion") as? Int, 1)
     XCTAssertEqual(retrieveFactor.friendlyName, factor.friendlyName)
   }
@@ -156,7 +157,9 @@ class StorageAccessGroupTests: XCTestCase {
       return
     }
 
-    XCTAssertEqual(storage.value(for: "accessGroup"), nil)
+    let accessGroup: String? = storage.value(for: "accessGroup")
+    XCTAssertEqual(accessGroup, nil)
+    XCTAssertEqual(storage.bool(for: "clearStorageOnReinstall"), false)
     XCTAssertEqual(userDefaults.value(forKey: "currentVersion") as? Int, 1)
     XCTAssertEqual(retrieveFactor.friendlyName, factor.friendlyName)
   }

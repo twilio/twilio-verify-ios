@@ -39,14 +39,25 @@ class PushChallengeProcessor {
 }
 
 extension PushChallengeProcessor: PushChallengeProcessorProtocol {
-  func getChallenge(withSid sid: String, withFactor factor: PushFactor, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func getChallenge(
+    withSid sid: String,
+    withFactor factor: PushFactor,
+    success: @escaping ChallengeSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     Logger.shared.log(withLevel: .info, message: "Getting challenge \(sid) with factor \(factor.sid)")
     challengeProvider.get(withSid: sid, withFactor: factor, success: success, failure: { error in
       failure(TwilioVerifyError.inputError(error: error as NSError))
     })
   }
   
-  func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateChallenge(
+    withSid sid: String,
+    withFactor factor: PushFactor,
+    status: ChallengeStatus,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     Logger.shared.log(withLevel: .info, message: "Updating challenge \(sid) with factor \(factor.sid) to new status \(status)")
     getChallenge(withSid: sid, withFactor: factor, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
@@ -111,7 +122,12 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
 }
 
 private extension PushChallengeProcessor {
-  func generateSignature(withSignatureFields signatureFields: [String], withResponse response: [String: Any], status: ChallengeStatus, signerTemplate: SignerTemplate) throws -> String {
+  func generateSignature(
+    withSignatureFields signatureFields: [String],
+    withResponse response: [String: Any],
+    status: ChallengeStatus,
+    signerTemplate: SignerTemplate
+  ) throws -> String {
     var payload = try signatureFields.reduce(into: [String: Any]()) { result, key in
       guard let value = response[key] else {
         let error = InputError.invalidInput(field: "value in response")

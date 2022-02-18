@@ -164,7 +164,8 @@ extension FactorFacade {
       let keychainQuery = KeychainQuery(accessGroup: accessGroup)
       let secureStorage = SecureStorage(keychain: keychain, keychainQuery: keychainQuery)
       let migrations = FactorMigrations().migrations()
-      let storage = try Storage(secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
+      let storage = try Storage(secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
+                                migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
       return FactorFacade(factory: factory, repository: repository)
