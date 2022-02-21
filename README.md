@@ -27,6 +27,7 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Notification Extension](#NotificationExtension)
 * [Contributing](#Contributing)
 * [License](#License)
 
