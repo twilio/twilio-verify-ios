@@ -62,7 +62,7 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
   
-  ///Brief description of the error, indicates at which layer the error ocurred
+  /// Brief description of the error, indicates at which layer the error ocurred
   public var errorDescription: String? {
     switch self {
       case .networkError:
@@ -112,13 +112,50 @@ public enum TwilioVerifyError: LocalizedError {
   }
 }
 
-enum InputError: LocalizedError {
+/**
+ Exception types returned as cause for a [TwilioVerifyException] and [InputError] code on validation errors.
+ - errorDescription: message associated message of the exception.
+ */
+public enum InputError: Error, LocalizedError {
   case invalidInput(field: String)
+  case invalidPayloadException
+  case expiredChallengeException
+  case alreadyUpdatedChallengeException
+  case notUpdatedChallengeException
+  case invalidChallengeException
+  case emptyChallengeSidException
+  case invalidUpdateChallengePayloadException(factorType: FactorType)
+  case emptyFactorSidException
+  case wrongFactorException
+  case invalidFactorException
+  case signatureFieldsException
   
-  var errorDescription: String? {
+  public var errorDescription: String? {
     switch self {
       case .invalidInput(let field):
         return "Invalid input: \(field)"
+      case .invalidPayloadException:
+        return "Payload format is not valid"
+      case .expiredChallengeException:
+        return "Expired challenge can not be updated"
+      case .alreadyUpdatedChallengeException:
+        return "Responded challenge can not be updated"
+      case .notUpdatedChallengeException:
+        return "Challenge was not updated"
+      case .invalidChallengeException:
+        return "Invalid challenge for received factor"
+      case .emptyChallengeSidException:
+        return "Empty challenge sid"
+      case .invalidUpdateChallengePayloadException(let factorType):
+        return "Invalid update challenge payload for factor \(factorType)"
+      case .emptyFactorSidException:
+        return "Empty factor sid"
+      case .wrongFactorException:
+        return "Wrong factor for challenge"
+      case .invalidFactorException:
+        return "Invalid factor"
+      case .signatureFieldsException:
+        return "Signature fields or response not set"
     }
   }
 }

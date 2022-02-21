@@ -195,7 +195,11 @@ class ChallengeFacadeTests: XCTestCase {
   func testUpdateChallenge_withInvalidPayload_shouldFail() {
     let expectation = self.expectation(description: "testUpdateChallenge_withInvalidPayload_shouldFail")
     factorFacade.factor = Constants.expectedFactor
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.invalidUpdateChallengePayloadException(
+        factorType: .push
+      ) as NSError
+    )
     var error: TwilioVerifyError!
     challengeFacade.update(withPayload: Constants.fakeUpdateChallengePayload, success: {
       XCTFail()

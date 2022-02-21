@@ -143,8 +143,12 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "wrong factor for challenge").errorDescription,
-                   "Error should be \(InputError.invalidInput) but was \(error!)")
+        
+    XCTAssertEqual(
+      (error as? InputError)?.errorDescription,
+      InputError.wrongFactorException.errorDescription,
+      "Error should be \(InputError.wrongFactorException) but was \(error!)"
+    )
   }
 
   func testUpdateChallenge_withValidResponse_shouldSucced() {
@@ -194,8 +198,11 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "invalid factor").errorDescription,
-                   "Error should be \(InputError.invalidInput) but was \(error!)")
+    XCTAssertEqual(
+      (error as? InputError)?.errorDescription,
+      InputError.invalidFactorException.errorDescription,
+      "Error should be \(InputError.invalidFactorException) but was \(error!)"
+    )
   }
 
   func testUpdateChallenge_withExpiredStatus_shouldFail() {
@@ -210,8 +217,40 @@ class ChallengeRepositoryTests: XCTestCase {
       failureExpectation.fulfill()
     }
     wait(for: [failureExpectation], timeout: 5)
-    XCTAssertEqual((error as! InputError).errorDescription, InputError.invalidInput(field: "responded or expired challenge can not be updated").errorDescription,
-                   "Error should be \(InputError.invalidInput) but was \(error!)")
+    XCTAssertEqual(
+      (error as? InputError)?.errorDescription,
+      InputError.expiredChallengeException.errorDescription,
+      "Error should be \(InputError.expiredChallengeException) but was \(error!)"
+    )
+  }
+  
+  func testUpdateChallenge_withNoUpdatingChallenge_shouldFail() {
+    let failureExpectation = expectation(description: .init())
+    let factorChallenge = generateFactorChallenge(
+      withStatus: .denied,
+      withFactor: generateFactor()
+    )
+    
+    let expectedError: InputError = .alreadyUpdatedChallengeException
+    var retrievedError: InputError?
+    
+    challengeRepository.update(
+      factorChallenge,
+      payload: Constants.payload,
+      success: { _ in XCTFail() },
+      failure: {
+        retrievedError = $0 as? InputError
+        failureExpectation.fulfill()
+      }
+    )
+    
+    wait(for: [failureExpectation], timeout: 5)
+    
+    XCTAssertNotNil(retrievedError)
+    XCTAssertEqual(
+      retrievedError?.localizedDescription,
+      expectedError.localizedDescription
+    )
   }
 }
 
