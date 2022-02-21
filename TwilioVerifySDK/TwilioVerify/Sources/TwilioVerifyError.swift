@@ -113,7 +113,7 @@ public enum TwilioVerifyError: LocalizedError {
 }
 
 /**
- Error types returned as cause for a [TwilioVerifyError] and [InputError] code on validation errors.
+ Error types returned as cause for a `TwilioVerifyError` and `InputError` code on validation errors.
  - errorDescription: message associated message of the error.
  */
 public enum InputError: Error, LocalizedError {
