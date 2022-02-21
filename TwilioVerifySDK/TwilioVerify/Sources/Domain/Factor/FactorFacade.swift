@@ -43,7 +43,7 @@ class FactorFacade {
 extension FactorFacade: FactorFacadeProtocol {
   func createFactor(withPayload payload: FactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? PushFactorPayload else {
-      let error: InputError = .invalidPayloadException
+      let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.inputError(error: error as NSError))
       return
@@ -59,13 +59,13 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? VerifyPushFactorPayload else {
-      let error: InputError = .invalidPayloadException
+      let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     guard !payload.sid.isEmpty else {
-      let error: InputError = .emptyFactorSidException
+      let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error as NSError))
     }
@@ -74,13 +74,13 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? UpdatePushFactorPayload else {
-      let error: InputError = .invalidPayloadException
+      let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(TwilioVerifyError.inputError(error: error as NSError))
       return
     }
     guard !payload.sid.isEmpty else {
-      let error: InputError = .emptyFactorSidException
+      let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error as NSError))
     }
@@ -89,7 +89,7 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard !sid.isEmpty else {
-      let error: InputError = .emptyFactorSidException
+      let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error as NSError))
     }
@@ -111,7 +111,7 @@ extension FactorFacade: FactorFacadeProtocol {
   
   func delete(withSid sid: String, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard !sid.isEmpty else {
-      let error: InputError = .emptyFactorSidException
+      let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error as NSError))
     }

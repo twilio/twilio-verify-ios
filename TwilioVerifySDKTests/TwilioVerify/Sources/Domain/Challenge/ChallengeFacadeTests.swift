@@ -55,6 +55,40 @@ class ChallengeFacadeTests: XCTestCase {
                    "Challenge should be \(Constants.expectedChallenge) but was \(challenge!)")
   }
   
+  func testGetChallenge_withInvalidSID_shouldFail() {
+    let expectation = expectation(description: .init())
+    let expectedError: TwilioVerifyError = .inputError(
+      error: InputError.emptyChallengeSid as NSError
+    )
+    var errorRetrieved: TwilioVerifyError?
+    
+    challengeFacade.get(
+      withSid: .init(),
+      withFactorSid: Constants.factorSid,
+      success: { _ in XCTFail() },
+      failure: { errorResponse in
+        errorRetrieved = errorResponse
+        expectation.fulfill()
+    })
+      
+    wait(for: [expectation], timeout: 3)
+    
+    XCTAssertEqual(
+      errorRetrieved?.localizedDescription,
+      expectedError.localizedDescription
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.code,
+      expectedError.code
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.originalError,
+      expectedError.originalError
+    )
+  }
+  
   func testGetChallenge_withFailureResponse_shouldFail() {
     let expectation = self.expectation(description: "testGetChallenge_withFailureResponse_shouldFail")
     factorFacade.factor = Constants.expectedFactor
@@ -196,7 +230,7 @@ class ChallengeFacadeTests: XCTestCase {
     let expectation = self.expectation(description: "testUpdateChallenge_withInvalidPayload_shouldFail")
     factorFacade.factor = Constants.expectedFactor
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.invalidUpdateChallengePayloadException(
+      error: InputError.invalidUpdateChallengePayload(
         factorType: .push
       ) as NSError
     )

@@ -37,7 +37,7 @@ class FactorFacadeTests: XCTestCase {
   func testCreateFactor_withInvalidInput_shouldFail() {
     let expectation = self.expectation(description: "testCreateFactor_withInvalidInput_shouldFail")
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.invalidPayloadException as NSError
+      error: InputError.invalidPayload as NSError
     )
     var error: TwilioVerifyError!
     let fakePayload = FakeFactorPayload(
@@ -65,7 +65,7 @@ class FactorFacadeTests: XCTestCase {
   func testCreateFactor_withInvalidFactorSID_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.emptyFactorSidException as NSError
+      error: InputError.emptyFactorSid as NSError
     )
     
     var error: TwilioVerifyError?
@@ -101,7 +101,7 @@ class FactorFacadeTests: XCTestCase {
   func testGetFactor_withInvalidFactorSID_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.emptyFactorSidException as NSError
+      error: InputError.emptyFactorSid as NSError
     )
     
     var errorRetrieved: TwilioVerifyError?
@@ -136,7 +136,7 @@ class FactorFacadeTests: XCTestCase {
   func testDeleteFactor_withInvalidSID_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.emptyFactorSidException as NSError
+      error: InputError.emptyFactorSid as NSError
     )
     
     var errorRetrieved: TwilioVerifyError?
@@ -224,7 +224,7 @@ class FactorFacadeTests: XCTestCase {
   func testVerifyFactor_withInvalidInput_shouldFail() {
     let expectation = self.expectation(description: "testVerifyFactor_withInvalidInput_shouldFail")
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.invalidPayloadException as NSError
+      error: InputError.invalidPayload as NSError
     )
     var error: TwilioVerifyError!
     let fakePayload = FakeVerifyPushFactorPayload(sid: Constants.serviceSid)
@@ -330,7 +330,7 @@ class FactorFacadeTests: XCTestCase {
   func testUpdateFactor_withInvalidInput_shouldFail() {
     let expectation = self.expectation(description: "testUpdateFactor_withInvalidInput_shouldFail")
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.invalidPayloadException as NSError
+      error: InputError.invalidPayload as NSError
     )
     var error: TwilioVerifyError!
     let fakePayload = FakeUpdateFactorPayload(sid: Constants.serviceSid)

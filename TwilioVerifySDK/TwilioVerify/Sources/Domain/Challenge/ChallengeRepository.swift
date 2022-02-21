@@ -49,7 +49,7 @@ extension ChallengeRepository: ChallengeProvider {
                                                                 ($0.key as? String)?.compare(Constants.signatureFieldsHeader, options: .caseInsensitive) == .orderedSame
                                                                }?.value as? String)
         if challenge.factorSid != factor.sid {
-          let error: InputError = .wrongFactorException
+          let error: InputError = .wrongFactor
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
           return
@@ -65,24 +65,24 @@ extension ChallengeRepository: ChallengeProvider {
   
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
     guard let factorChallenge = challenge as? FactorChallenge else {
-      let error: InputError = .invalidChallengeException
+      let error: InputError = .invalidChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return
     }
     guard let factor = factorChallenge.factor else {
-      let error: InputError = .invalidFactorException
+      let error: InputError = .invalidFactor
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return
     }
     if factorChallenge.status == .expired {
-      let error: InputError = .expiredChallengeException
+      let error: InputError = .expiredChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(error)
     }
     guard factorChallenge.status == .pending else {
-      let error: InputError = .alreadyUpdatedChallengeException
+      let error: InputError = .alreadyUpdatedChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return

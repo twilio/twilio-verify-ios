@@ -113,48 +113,48 @@ public enum TwilioVerifyError: LocalizedError {
 }
 
 /**
- Exception types returned as cause for a [TwilioVerifyException] and [InputError] code on validation errors.
- - errorDescription: message associated message of the exception.
+ Error types returned as cause for a [TwilioVerifyError] and [InputError] code on validation errors.
+ - errorDescription: message associated message of the error.
  */
 public enum InputError: Error, LocalizedError {
   case invalidInput(field: String)
-  case invalidPayloadException
-  case expiredChallengeException
-  case alreadyUpdatedChallengeException
-  case notUpdatedChallengeException
-  case invalidChallengeException
-  case emptyChallengeSidException
-  case invalidUpdateChallengePayloadException(factorType: FactorType)
-  case emptyFactorSidException
-  case wrongFactorException
-  case invalidFactorException
-  case signatureFieldsException
+  case invalidPayload
+  case expiredChallenge
+  case alreadyUpdatedChallenge
+  case notUpdatedChallenge
+  case invalidChallenge
+  case emptyChallengeSid
+  case invalidUpdateChallengePayload(factorType: FactorType)
+  case emptyFactorSid
+  case wrongFactor
+  case invalidFactor
+  case signatureFields
   
   public var errorDescription: String? {
     switch self {
       case .invalidInput(let field):
         return "Invalid input: \(field)"
-      case .invalidPayloadException:
+      case .invalidPayload:
         return "Payload format is not valid"
-      case .expiredChallengeException:
+      case .expiredChallenge:
         return "Expired challenge can not be updated"
-      case .alreadyUpdatedChallengeException:
+      case .alreadyUpdatedChallenge:
         return "Responded challenge can not be updated"
-      case .notUpdatedChallengeException:
+      case .notUpdatedChallenge:
         return "Challenge was not updated"
-      case .invalidChallengeException:
+      case .invalidChallenge:
         return "Invalid challenge for received factor"
-      case .emptyChallengeSidException:
+      case .emptyChallengeSid:
         return "Empty challenge sid"
-      case .invalidUpdateChallengePayloadException(let factorType):
+      case .invalidUpdateChallengePayload(let factorType):
         return "Invalid update challenge payload for factor \(factorType)"
-      case .emptyFactorSidException:
+      case .emptyFactorSid:
         return "Empty factor sid"
-      case .wrongFactorException:
+      case .wrongFactor:
         return "Wrong factor for challenge"
-      case .invalidFactorException:
+      case .invalidFactor:
         return "Invalid factor"
-      case .signatureFieldsException:
+      case .signatureFields:
         return "Signature fields or response not set"
     }
   }

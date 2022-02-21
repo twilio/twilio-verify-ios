@@ -41,7 +41,7 @@ class ChallengeFacade {
 extension ChallengeFacade: ChallengeFacadeProtocol {
   func get(withSid sid: String, withFactorSid factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard !sid.isEmpty else {
-      let error: InputError = .emptyChallengeSidException
+      let error: InputError = .emptyChallengeSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(.inputError(error: error as NSError))
     }
@@ -89,7 +89,7 @@ private extension ChallengeFacade {
   private func updatePushChallenge(updateChallengePayload: UpdateChallengePayload, factor: PushFactor, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock
   ) {
     guard let payload = updateChallengePayload as? UpdatePushChallengePayload else {
-      let error: InputError = .invalidUpdateChallengePayloadException(
+      let error: InputError = .invalidUpdateChallengePayload(
         factorType: factor.type
       )
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -97,7 +97,7 @@ private extension ChallengeFacade {
       return
     }
     guard !updateChallengePayload.challengeSid.isEmpty else {
-      let error: InputError = .emptyChallengeSidException
+      let error: InputError = .emptyChallengeSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error as NSError))
     }

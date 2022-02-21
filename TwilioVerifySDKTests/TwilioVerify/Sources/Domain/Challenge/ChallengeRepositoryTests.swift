@@ -146,8 +146,8 @@ class ChallengeRepositoryTests: XCTestCase {
         
     XCTAssertEqual(
       (error as? InputError)?.errorDescription,
-      InputError.wrongFactorException.errorDescription,
-      "Error should be \(InputError.wrongFactorException) but was \(error!)"
+      InputError.wrongFactor.errorDescription,
+      "Error should be \(InputError.wrongFactor) but was \(error!)"
     )
   }
 
@@ -200,8 +200,8 @@ class ChallengeRepositoryTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
     XCTAssertEqual(
       (error as? InputError)?.errorDescription,
-      InputError.invalidFactorException.errorDescription,
-      "Error should be \(InputError.invalidFactorException) but was \(error!)"
+      InputError.invalidFactor.errorDescription,
+      "Error should be \(InputError.invalidFactor) but was \(error!)"
     )
   }
 
@@ -219,8 +219,8 @@ class ChallengeRepositoryTests: XCTestCase {
     wait(for: [failureExpectation], timeout: 5)
     XCTAssertEqual(
       (error as? InputError)?.errorDescription,
-      InputError.expiredChallengeException.errorDescription,
-      "Error should be \(InputError.expiredChallengeException) but was \(error!)"
+      InputError.expiredChallenge.errorDescription,
+      "Error should be \(InputError.expiredChallenge) but was \(error!)"
     )
   }
   
@@ -231,7 +231,7 @@ class ChallengeRepositoryTests: XCTestCase {
       withFactor: generateFactor()
     )
     
-    let expectedError: InputError = .alreadyUpdatedChallengeException
+    let expectedError: InputError = .alreadyUpdatedChallenge
     var retrievedError: InputError?
     
     challengeRepository.update(

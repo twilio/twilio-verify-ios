@@ -122,7 +122,7 @@ class PushChallengeProcessorTests: XCTestCase {
   func testUpdate_withNoUpdatingChallenge_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError: TwilioVerifyError = .inputError(
-      error: InputError.notUpdatedChallengeException as NSError
+      error: InputError.notUpdatedChallenge as NSError
     )
 
     var errorRetrieved: TwilioVerifyError?
@@ -165,7 +165,7 @@ class PushChallengeProcessorTests: XCTestCase {
   func testUpdate_withExpiredChallenge_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError: TwilioVerifyError = .inputError(
-      error: InputError.expiredChallengeException as NSError
+      error: InputError.expiredChallenge as NSError
     )
 
     var errorRetrieved: TwilioVerifyError?
@@ -204,7 +204,7 @@ class PushChallengeProcessorTests: XCTestCase {
   func testUpdate_withChallengeAlreadyUpdated_shouldFail() {
     let expectation = expectation(description: .init())
     let expectedError: TwilioVerifyError = .inputError(
-      error: InputError.alreadyUpdatedChallengeException as NSError
+      error: InputError.alreadyUpdatedChallenge as NSError
     )
 
     var errorRetrieved: TwilioVerifyError?
@@ -294,7 +294,7 @@ class PushChallengeProcessorTests: XCTestCase {
       expirationDate: Date())
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.invalidChallengeException as NSError
+      error: InputError.invalidChallenge as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
@@ -335,7 +335,7 @@ class PushChallengeProcessorTests: XCTestCase {
       factor: factor)
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.wrongFactorException as NSError
+      error: InputError.wrongFactor as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
@@ -411,7 +411,7 @@ class PushChallengeProcessorTests: XCTestCase {
       response: Constants.response)
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.signatureFieldsException as NSError
+      error: InputError.signatureFields as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
@@ -445,7 +445,7 @@ class PushChallengeProcessorTests: XCTestCase {
       response: Constants.response)
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.signatureFieldsException as NSError
+      error: InputError.signatureFields as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
@@ -479,7 +479,7 @@ class PushChallengeProcessorTests: XCTestCase {
       response: nil)
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.signatureFieldsException as NSError
+      error: InputError.signatureFields as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
@@ -513,7 +513,7 @@ class PushChallengeProcessorTests: XCTestCase {
       response: [:])
     challengeProvider.challenge = challenge
     let expectedError = TwilioVerifyError.inputError(
-      error: InputError.signatureFieldsException as NSError
+      error: InputError.signatureFields as NSError
     )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
