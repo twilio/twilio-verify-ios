@@ -221,6 +221,23 @@ twilioVerify.createFactor(withPayload: payload, success: { factor in
 
 Check an example [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50)
 
+### Getting the error cause
+You can get the cause for an error accesing the associated error
+```swift
+twilioVerify.updateChallenge(withPayload: payload, success: {
+  // Success
+},failure: { error in
+  if case .inputError(let detail) = error, let inputError = detail as? InputError {
+    switch inputError {
+      // Handle other cases here, in this example expired challenge case
+      case .expiredChallenge: return
+      default: return
+    }
+  }
+})
+```
+You can find the associated errors for validations [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyError.swift#L119)
+
 <a name='UpdatePushToken'></a>
 
 ## Update factor's push token

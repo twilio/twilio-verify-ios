@@ -48,13 +48,25 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
     getChallenge(withSid: sid, withFactor: factor, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
       guard let factorChallenge = challenge as? FactorChallenge else {
-        let error = InputError.invalidInput(field: "challenge")
+        let error: InputError = .invalidChallenge
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       guard factorChallenge.factor is PushFactor, factorChallenge.factor?.sid == factor.sid else {
-        let error = InputError.invalidInput(field: "factor for challenge")
+        let error: InputError = .wrongFactor
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
+        return
+      }
+      if factorChallenge.status == .expired {
+        let error: InputError = .expiredChallenge
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        failure(TwilioVerifyError.inputError(error: error as NSError))
+        return
+      }
+      if factorChallenge.status != .pending {
+        let error: InputError = .alreadyUpdatedChallenge
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.inputError(error: error as NSError))
         return
@@ -66,13 +78,13 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
         return
       }
       guard let signatureFields = factorChallenge.signatureFields, !signatureFields.isEmpty else {
-        let error = InputError.invalidInput(field: "Signature fields")
+        let error: InputError = .signatureFields
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.inputError(error: error as NSError))
         return
       }
       guard let response = factorChallenge.response, !response.isEmpty else {
-        let error = InputError.invalidInput(field: "challenge response")
+        let error: InputError = .signatureFields
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.inputError(error: error as NSError))
         return
@@ -92,7 +104,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
           if updatedChallenge.status == status {
             success()
           } else {
-            let error = InputError.invalidInput(field: "Challenge was not updated")
+            let error: InputError = .notUpdatedChallenge
             Logger.shared.log(withLevel: .error, message: error.localizedDescription)
             failure(TwilioVerifyError.inputError(error: error as NSError))
           }
