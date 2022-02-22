@@ -298,15 +298,20 @@ The [Notification Extension](https://developer.apple.com/documentation/usernotif
 To be able to use the Verify SDK in Notification Extensions, it is necessary to use [App Groups](https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps), this will allow the App Extension to be able to read the KeyChain storage from the application. Otherwise, the SDK will not be able to read any of the stored Factors or Challenges in the Notification Extension.
 
 ```swift
-let builder = TwilioVerifyBuilder().setClearStorageOnReinstall(false)
+let builder = TwilioVerifyBuilder()
 let twilioVerify = try builder.setAccessGroup("group.com.example.AppSuite").build()
 ```
-> Use the *setAccessGroup* method to set up the app group used for keychain access.
+> Use the **setAccessGroup** method to set up the app group used for keychain access.
 
 Take into consideration that the Notification Extension only lives for a period of time of approximately 30 seconds, so if by some reason the App Extension does not process the remote notification content before that period expires, it will display the original content instead.
 
 > See the [Notification Extension](https://github.com/twilio/twilio-verify-ios/tree/feature/notificationExtension) branch to check the example of an implementation using the Notification Extension & the SDK in the VerifyDemoApp.
+---
+**Sharing Factors using App Groups**
 
+While setting up the **setAccessGroup** configuration for the first time, the factors data will migrate to use the **kSecAttrAccessGroup** Keychain's attribute. If the migration fails, error logs will be sent instead of throwing an error during initialization, the data will remain available for the main application but may not be available for App Extensions.
+
+---
 <a name='Contributing'></a>
 
 ## Contributing
