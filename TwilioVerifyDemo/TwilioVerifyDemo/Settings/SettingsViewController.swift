@@ -11,7 +11,7 @@ import TwilioVerifySDK
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
-  let storage = SecureStorage()
+  let storage = SecureStorage(accessGroup: nil)
 
   enum AppSetting: String, CaseIterable {
     case clearStorage
