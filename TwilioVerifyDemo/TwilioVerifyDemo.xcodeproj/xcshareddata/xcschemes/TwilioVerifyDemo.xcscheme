@@ -20,6 +20,20 @@
                ReferencedContainer = "container:TwilioVerifyDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TwilioVerifyDemoCache"
+               BuildableName = "TwilioVerifyDemoCache"
+               BlueprintName = "TwilioVerifyDemoCache"
+               ReferencedContainer = "container:../TwilioVerifyDemoCache">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

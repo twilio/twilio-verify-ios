@@ -17,21 +17,22 @@
 
 import Foundation
 import TwilioVerifySDK
+import TwilioVerifyDemoCache
 
 protocol ChallengeDetailPresentable {
-  var challenge: Challenge! {get}
-  func fetchChallengeDetails()
+  var challenge: AppChallenge! {get}
+  func loadChallenge()
   func updateChallenge(withStatus status: ChallengeStatus)
 }
 
 class ChallengeDetailPresenter {
   
-  var challenge: Challenge! {
+  private(set) var challenge: AppChallenge! {
     didSet {
       view?.updateView()
     }
   }
-  
+
   private weak var view: ChallengeDetailView?
   private let twilioVerify: TwilioVerify
   private let challengeSid: String
@@ -45,7 +46,6 @@ class ChallengeDetailPresenter {
     self.twilioVerify = twilioVerify
     self.challengeSid = challengeSid
     self.factorSid = factorSid
-    fetchChallengeDetails()
   }
   
   private func getErrorMessage(
@@ -61,10 +61,19 @@ class ChallengeDetailPresenter {
 }
 
 extension ChallengeDetailPresenter: ChallengeDetailPresentable {
+  func loadChallenge() {
+    if let storedChallenge = ChallengesCache.storedChallenges.first(where: {$0.sid == challengeSid }) {
+      challenge = storedChallenge
+      ChallengesCache.deleteStoredChallenge(storedChallenge)
+    } else {
+      fetchChallengeDetails()
+    }
+  }
+
   func fetchChallengeDetails() {
     twilioVerify.getChallenge(challengeSid: challengeSid, factorSid: factorSid, success: { [weak self] challenge in
       guard let strongSelf = self else { return }
-      strongSelf.challenge = challenge
+      strongSelf.challenge = challenge.toAppChallenge()
     }) { [weak self] error in
       guard let self = self else { return }
       self.view?.showAlert(withMessage: self.getErrorMessage(from: error))
