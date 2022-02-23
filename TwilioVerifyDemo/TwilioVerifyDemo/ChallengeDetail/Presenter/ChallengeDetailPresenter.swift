@@ -47,6 +47,17 @@ class ChallengeDetailPresenter {
     self.factorSid = factorSid
     fetchChallengeDetails()
   }
+  
+  private func getErrorMessage(
+    from error: TwilioVerifyError
+  ) -> String {
+    if case .inputError(let detail) = error,
+        let inputError = detail as? InputError,
+        let errorDescription = inputError.errorDescription {
+      return "\(error.localizedDescription). \(errorDescription)"
+    }
+    return error.localizedDescription
+  }
 }
 
 extension ChallengeDetailPresenter: ChallengeDetailPresentable {
@@ -55,8 +66,8 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
       guard let strongSelf = self else { return }
       strongSelf.challenge = challenge
     }) { [weak self] error in
-      guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.errorMessage)
+      guard let self = self else { return }
+      self.view?.showAlert(withMessage: self.getErrorMessage(from: error))
     }
   }
   
@@ -70,8 +81,8 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
       guard let strongSelf = self else { return }
       strongSelf.fetchChallengeDetails()
     }) { [weak self] error in
-      guard let strongSelf = self else { return }
-      strongSelf.view?.showAlert(withMessage: error.errorMessage)
+      guard let self = self else { return }
+      self.view?.showAlert(withMessage: self.getErrorMessage(from: error))
     }
   }
 }

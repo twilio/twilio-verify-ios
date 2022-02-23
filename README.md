@@ -27,6 +27,7 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Notification Extension](#NotificationExtension)
 * [Contributing](#Contributing)
 * [License](#License)
 
@@ -63,7 +64,7 @@ None
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> 1.3.0'
+pod 'TwilioVerify', '~> 2.0.0'
 ```
 
 ### Carthage
@@ -71,10 +72,10 @@ pod 'TwilioVerify', '~> 1.3.0'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "twilio/twilio-verify-ios" -> 1.3.0
+github "twilio/twilio-verify-ios" -> 2.0.0
 ```
 
-Since version `1.3.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
+Since version `2.0.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
 
 ### Swift Package Manager
 
@@ -84,7 +85,7 @@ Once you have your Swift package set up, adding TwilioVerify as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "1.3.0"))
+    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "2.0.0"))
 ]
 ```
 
@@ -102,7 +103,7 @@ If you want to receive challenges as push notifications, you should register You
 The SDK should be used from a Swift class.
 See an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift)
 
-Since version `1.3.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
+Since version `2.0.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
 
 ---
 
@@ -221,6 +222,23 @@ twilioVerify.createFactor(withPayload: payload, success: { factor in
 
 Check an example [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50)
 
+### Getting the error cause
+You can get the cause for an error accesing the associated error
+```swift
+twilioVerify.updateChallenge(withPayload: payload, success: {
+  // Success
+},failure: { error in
+  if case .inputError(let detail) = error, let inputError = detail as? InputError {
+    switch inputError {
+      // Handle other cases here, in this example expired challenge case
+      case .expiredChallenge: return
+      default: return
+    }
+  }
+})
+```
+You can find the associated errors for validations [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyError.swift#L119)
+
 <a name='UpdatePushToken'></a>
 
 ## Update factor's push token
@@ -287,6 +305,30 @@ The push token will change after the reinstall. Update the push token to receive
 The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
 > Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
 
+<a name='NotificationExtension'></a>
+
+## Setting up a Notification Extension
+The [Notification Extension](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) is an App Extension that allows developers to modify or process the content of a remote notification before it is delivered to the user.
+
+> Follow Apple's Modifying Content in Newly Delivered Notifications guide to create a Notification Extension.
+
+To be able to use the Verify SDK in Notification Extensions, it is necessary to use [App Groups](https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps), this will allow the App Extension to be able to read the KeyChain storage from the application. Otherwise, the SDK will not be able to read any of the stored Factors or Challenges in the Notification Extension.
+
+```swift
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.setAccessGroup("group.com.example.AppSuite").build()
+```
+> Use the **setAccessGroup** method to set up the app group used for keychain access.
+
+Take into consideration that the Notification Extension only lives for a period of time of approximately 30 seconds, so if by some reason the App Extension does not process the remote notification content before that period expires, it will display the original content instead.
+
+> See the [Notification Extension](https://github.com/twilio/twilio-verify-ios/tree/feature/notificationExtension) branch to check the example of an implementation using the Notification Extension & the SDK in the VerifyDemoApp.
+---
+**Sharing Factors using App Groups**
+
+While setting up the **setAccessGroup** configuration for the first time, the factors data will migrate to use the **kSecAttrAccessGroup** Keychain's attribute. If the migration fails, error logs will be sent instead of throwing an error during initialization, the data will remain available for the main application but may not be available for App Extensions.
+
+---
 <a name='Contributing'></a>
 
 ## Contributing

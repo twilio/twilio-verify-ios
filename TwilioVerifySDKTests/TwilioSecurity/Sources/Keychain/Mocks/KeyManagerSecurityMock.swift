@@ -26,15 +26,17 @@ class KeyManagerSecurityMock {
   var signerKeyPair: KeyPair!
   private let keychain: KeychainProtocol
   
-  required init(withKeychain keychain: KeychainProtocol = KeychainMock(),
-                keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+  required init(
+    withKeychain keychain: KeychainProtocol = KeychainMock(),
+    keychainQuery: KeychainQueryProtocol = KeychainQuery(accessGroup: nil)
+  ) {
     self.keychain = keychain
   }
 }
 
 extension KeyManagerSecurityMock: KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate) throws -> Signer {
-    return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm)
+    return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm, keychain: keychain)
   }
   
   func deleteKey(withAlias alias: String) throws {

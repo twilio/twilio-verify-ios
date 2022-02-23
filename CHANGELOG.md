@@ -1,7 +1,24 @@
+# 2.0.0 (2022-01-18)
+
+### Bug fixes
+- Clearing storage after reinstall will remove only factors. Previous implementation was removing all the keychain items on reinstall ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052))
+- Improved network error to get Verify API error (#178) ([e6ebbb3](https://github.com/twilio/twilio-verify-ios/commit/e6ebbb36a63537ac38d8cf4e23dbe40b5767582f))
+
+### Documentation
+- add contributing.md ([b9e2acf](https://github.com/twilio/twilio-verify-ios/commit/b9e2acfd0696f67d96b64e3a3d4cb66c9990153d))
+
+### KNOWN ISSUE
+- A reinstall using this version will not clear the SDK storage if the user did not update to this SDK version before the uninstall ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052)). This may (not) be a concern depending on your implementation
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.0 MB
+
+
 # 1.3.0 (2021-11-30)
 
 ### Features
-- Support notification platform none to allow not sending push token. Factors with notification platform none will not receive push notifications for challenges and polling should be implemented to get pending challenges ([e40a267](https://github.com/twilio/twilio-verify-ios/commit/e40a2675c46c5712b9e4d9440261d93753dfc03f))
+- Support notification platform 'none' to allow not sending push token. Factors with notification platform 'none' will not receive push notifications for challenges and polling should be implemented to get pending challenges ([e40a267](https://github.com/twilio/twilio-verify-ios/commit/e40a2675c46c5712b9e4d9440261d93753dfc03f))
 
 ### Documentation
 - Update documentation to use new sample backend ([bae60b8](https://github.com/twilio/twilio-verify-ios/commit/bae60b87df5ac32ea7fb3e14fc28caf6236352ab))

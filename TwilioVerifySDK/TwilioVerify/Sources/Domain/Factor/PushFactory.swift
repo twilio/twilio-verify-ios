@@ -49,7 +49,7 @@ class PushFactory {
   private let repository: FactorProvider
   private let keyStorage: KeyStorage
   
-  init(repository: FactorProvider, keyStorage: KeyStorage = KeyStorageAdapter()) {
+  init(repository: FactorProvider, keyStorage: KeyStorage) {
     self.repository = repository
     self.keyStorage = keyStorage
   }

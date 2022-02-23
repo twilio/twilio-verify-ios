@@ -62,7 +62,7 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
   
-  ///Brief description of the error, indicates at which layer the error ocurred
+  /// Brief description of the error, indicates at which layer the error ocurred
   public var errorDescription: String? {
     switch self {
       case .networkError:
@@ -112,13 +112,50 @@ public enum TwilioVerifyError: LocalizedError {
   }
 }
 
-enum InputError: LocalizedError {
+/**
+ Error types returned as cause for a `TwilioVerifyError` and `InputError` code on validation errors.
+ - errorDescription: message associated message of the error.
+ */
+public enum InputError: Error, LocalizedError {
   case invalidInput(field: String)
+  case invalidPayload
+  case expiredChallenge
+  case alreadyUpdatedChallenge
+  case notUpdatedChallenge
+  case invalidChallenge
+  case emptyChallengeSid
+  case invalidUpdateChallengePayload(factorType: FactorType)
+  case emptyFactorSid
+  case wrongFactor
+  case invalidFactor
+  case signatureFields
   
-  var errorDescription: String? {
+  public var errorDescription: String? {
     switch self {
       case .invalidInput(let field):
         return "Invalid input: \(field)"
+      case .invalidPayload:
+        return "Payload format is not valid"
+      case .expiredChallenge:
+        return "Expired challenge can not be updated"
+      case .alreadyUpdatedChallenge:
+        return "Responded challenge can not be updated"
+      case .notUpdatedChallenge:
+        return "Challenge was not updated"
+      case .invalidChallenge:
+        return "Invalid challenge for received factor"
+      case .emptyChallengeSid:
+        return "Empty challenge sid"
+      case .invalidUpdateChallengePayload(let factorType):
+        return "Invalid update challenge payload for factor \(factorType)"
+      case .emptyFactorSid:
+        return "Empty factor sid"
+      case .wrongFactor:
+        return "Wrong factor for challenge"
+      case .invalidFactor:
+        return "Invalid factor"
+      case .signatureFields:
+        return "Signature fields or response not set"
     }
   }
 }

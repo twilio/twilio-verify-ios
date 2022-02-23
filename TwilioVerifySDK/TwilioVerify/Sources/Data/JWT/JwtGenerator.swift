@@ -27,7 +27,7 @@ class JwtGenerator {
   
   private let jwtSigner: JwtSignerProtocol
   
-  init(withJwtSigner jwtSigner: JwtSignerProtocol = JwtSigner()) {
+  init(withJwtSigner jwtSigner: JwtSignerProtocol) {
     self.jwtSigner = jwtSigner
   }
 }
