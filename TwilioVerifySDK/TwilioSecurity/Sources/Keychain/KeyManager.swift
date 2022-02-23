@@ -31,12 +31,19 @@ public class KeyManager {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  public convenience init() {
-    self.init(withKeychain: Keychain(), keychainQuery: KeychainQuery())
+  public convenience init(
+    accessGroup: String?
+  ) {
+    self.init(
+      withKeychain: Keychain(accessGroup: accessGroup),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup)
+    )
   }
-  
-  init(withKeychain keychain: KeychainProtocol = Keychain(),
-       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+
+  init(
+    withKeychain keychain: KeychainProtocol,
+    keychainQuery: KeychainQueryProtocol
+  ) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
@@ -111,7 +118,7 @@ extension KeyManager: KeyManagerProtocol {
         throw error
       }
     }
-    return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
+    return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm, keychain: keychain)
   }
   
   public func deleteKey(withAlias alias: String) throws {    

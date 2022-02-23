@@ -30,19 +30,19 @@ class KeychainQueryTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    XCTAssertNoThrow(signer = try ECP256SignerTemplate(withAlias: Constants.alias,
-                                                       shouldExist: false,
-                                                       keychain: keychain))
-    keychainQuery = KeychainQuery()
+    XCTAssertNoThrow(
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false)
+    )
+    keychainQuery = KeychainQuery(accessGroup: nil)
   }
   
   func testKey_withPrivateKey_shouldReturnValidQuery() {
     let expectedKeyClass = kSecAttrKeyClassPrivate
     let query = keychainQuery.key(withTemplate: signer, class: .private)
-    let keyClass = query[kSecAttrKeyClass as String] as! CFString
-    let label = query[kSecAttrLabel as String] as! String
-    let keyType = query[kSecAttrKeyType as String] as! CFString
-    
+    let keyClass = query[kSecAttrKeyClass] as! CFString
+    let label = query[kSecAttrLabel] as! String
+    let keyType = query[kSecAttrKeyType] as! CFString
+
     XCTAssertEqual(keyClass, expectedKeyClass)
     XCTAssertEqual(label, Constants.alias)
     XCTAssertEqual(keyType, kSecAttrKeyTypeECSECPrimeRandom)
@@ -51,10 +51,10 @@ class KeychainQueryTests: XCTestCase {
   func testKey_withPublicKey_shouldReturnValidQuery() {
     let expectedKeyClass = kSecAttrKeyClassPublic
     let query = keychainQuery.key(withTemplate: signer, class: .public)
-    let keyClass = query[kSecAttrKeyClass as String] as! CFString
-    let label = query[kSecAttrLabel as String] as! String
-    let keyType = query[kSecAttrKeyType as String] as! CFString
-    
+    let keyClass = query[kSecAttrKeyClass] as! CFString
+    let label = query[kSecAttrLabel] as! String
+    let keyType = query[kSecAttrKeyType] as! CFString
+
     XCTAssertEqual(keyClass, expectedKeyClass)
     XCTAssertEqual(label, Constants.alias)
     XCTAssertEqual(keyType, kSecAttrKeyTypeECSECPrimeRandom)
@@ -65,9 +65,9 @@ class KeychainQueryTests: XCTestCase {
     let expectedClass = kSecClassKey
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     let query = keychainQuery.saveKey(pair.privateKey, withAlias: Constants.alias)
-    let secClass = query[kSecClass as String] as! CFString
-    let label = query[kSecAttrLabel as String] as! String
-    let key = query[kSecValueRef as String] as! SecKey
+    let secClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrLabel] as! String
+    let key = query[kSecValueRef] as! SecKey
     
     XCTAssertEqual(secClass, expectedClass)
     XCTAssertEqual(label, Constants.alias)
@@ -77,10 +77,10 @@ class KeychainQueryTests: XCTestCase {
   func testSaveData_withKey_shouldReturnValidQuery() {
     let expectedData = "data".data(using: .utf8)!
     let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: Constants.service)
-    let keyClass = query[kSecClass as String] as! CFString
-    let label = query[kSecAttrAccount as String] as! String
-    let access = query[kSecAttrAccessible as String] as! CFString
-    let data = query[kSecValueData as String] as! Data
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
+    let access = query[kSecAttrAccessible] as! CFString
+    let data = query[kSecValueData] as! Data
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
@@ -90,9 +90,9 @@ class KeychainQueryTests: XCTestCase {
   
   func testGetData_withKey_shouldReturnValidQuery() {
     let query = keychainQuery.getData(withKey: Constants.alias)
-    let keyClass = query[kSecClass as String] as! CFString
-    let label = query[kSecAttrAccount as String] as! String
-    let access = query[kSecAttrAccessible as String] as! CFString
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
+    let access = query[kSecAttrAccessible] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
@@ -101,11 +101,11 @@ class KeychainQueryTests: XCTestCase {
   
   func testGetAllData_shouldReturnValidQuery() {
     let query = keychainQuery.getAll(withServiceName: nil)
-    let keyClass = query[kSecClass as String] as! CFString
-    let returnAttributes = query[kSecReturnAttributes as String] as! CFBoolean
-    let returnData = query[kSecReturnData as String] as! CFBoolean
-    let matchLimit = query[kSecMatchLimit as String] as! CFString
-    let access = query[kSecAttrAccessible as String] as! CFString
+    let keyClass = query[kSecClass] as! CFString
+    let returnAttributes = query[kSecReturnAttributes] as! CFBoolean
+    let returnData = query[kSecReturnData] as! CFBoolean
+    let matchLimit = query[kSecMatchLimit] as! CFString
+    let access = query[kSecAttrAccessible] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertTrue(returnAttributes as! Bool)
@@ -116,8 +116,8 @@ class KeychainQueryTests: XCTestCase {
   
   func testDelete_withKey_shouldReturnValidQuery() {
     let query = keychainQuery.delete(withKey: Constants.alias)
-    let keyClass = query[kSecClass as String] as! CFString
-    let label = query[kSecAttrAccount as String] as! String
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
@@ -125,11 +125,42 @@ class KeychainQueryTests: XCTestCase {
   
   func testDeleteItems_shouldReturnValidQuery() {
     let query = keychainQuery.deleteItems(withServiceName: Constants.service)
-    let keyClass = query[kSecClass as String] as! CFString
-    let service = query[kSecAttrService as String] as! String
+    let keyClass = query[kSecClass] as! CFString
+    let service = query[kSecAttrService] as! String
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(service, Constants.service)
+  }
+
+  func testGetItem_withOutAccessGroup_shouldReturnValidQuery() {
+    keychainQuery = KeychainQuery(accessGroup: nil)
+    let query = keychainQuery.getData(withKey: Constants.alias)
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
+    let access = query[kSecAttrAccessible] as! CFString
+    let accessGroup = query[kSecAttrAccessGroup] as? String
+
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+    XCTAssertNil(accessGroup)
+  }
+
+  func testSaveItem_withAccessGroup_shouldReturnValidQuery() {
+    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup)
+    let expectedData = "data".data(using: .utf8)!
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
+    let access = query[kSecAttrAccessible] as! CFString
+    let data = query[kSecValueData] as! Data
+    let accessGroup = query[kSecAttrAccessGroup] as! String
+
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+    XCTAssertEqual(data, expectedData)
+    XCTAssertEqual(accessGroup, Constants.accessGroup)
   }
 }
 
@@ -137,5 +168,6 @@ private extension KeychainQueryTests {
   struct Constants {
     static let alias = "signerAlias"
     static let service = "service"
+    static let accessGroup = "teamID.com.myAccessGroup"
   }
 }

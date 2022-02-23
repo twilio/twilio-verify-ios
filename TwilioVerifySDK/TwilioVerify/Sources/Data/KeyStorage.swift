@@ -30,7 +30,7 @@ class KeyStorageAdapter {
   
   private let keyManager: KeyManagerProtocol
   
-  init(keyManager: KeyManagerProtocol = KeyManager()) {
+  init(keyManager: KeyManagerProtocol) {
     self.keyManager = keyManager
   }
 }
