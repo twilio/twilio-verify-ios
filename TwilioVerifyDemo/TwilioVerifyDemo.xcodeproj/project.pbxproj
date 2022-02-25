@@ -10,6 +10,11 @@
 		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
 		86D0ECA7276C2347008CB30E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0ECA5276C2347008CB30E /* SettingsViewController.swift */; };
 		86D0ECA8276C2347008CB30E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86D0ECA6276C2347008CB30E /* SettingsViewController.xib */; };
+		97AC071D2797704300752055 /* TwilioVerifyDemoCache in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC071C2797704300752055 /* TwilioVerifyDemoCache */; };
+		97AC07252797764400752055 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AC07242797764400752055 /* NotificationService.swift */; };
+		97AC07292797764400752055 /* NotificationExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 97AC07222797764400752055 /* NotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		97AC072F2797767600752055 /* TwilioVerifyDemoCache in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC072E2797767600752055 /* TwilioVerifyDemoCache */; };
+		97AC07312797771700752055 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 97AC07302797771700752055 /* TwilioVerifySDK */; };
 		97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */; };
 		97B7832E26F102F80066CFD1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832D26F102F80066CFD1 /* AppModel.swift */; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
@@ -39,6 +44,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		97AC07272797764400752055 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2AA37B7246F323C00B9388F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97AC07212797764400752055;
+			remoteInfo = NotificationExtension;
+		};
 		F2AA37D6246F323F00B9388F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2AA37B7246F323C00B9388F /* Project object */;
@@ -48,9 +60,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		97AC072D2797764400752055 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				97AC07292797764400752055 /* NotificationExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		86D0ECA5276C2347008CB30E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		86D0ECA6276C2347008CB30E /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		9728E78627985D6800CC1CCA /* NotificationExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationExtension.entitlements; sourceTree = "<group>"; };
+		97AC07222797764400752055 /* NotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		97AC07242797764400752055 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		97AC07262797764400752055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushChallengePayloadData.swift; sourceTree = "<group>"; };
 		97B7832D26F102F80066CFD1 /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
@@ -89,11 +119,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		97AC071F2797764400752055 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97AC07312797771700752055 /* TwilioVerifySDK in Frameworks */,
+				97AC072F2797767600752055 /* TwilioVerifyDemoCache in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2AA37BC246F323C00B9388F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */,
+				97AC071D2797704300752055 /* TwilioVerifyDemoCache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +154,16 @@
 				86D0ECA6276C2347008CB30E /* SettingsViewController.xib */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		97AC07232797764400752055 /* NotificationExtension */ = {
+			isa = PBXGroup;
+			children = (
+				9728E78627985D6800CC1CCA /* NotificationExtension.entitlements */,
+				97AC07242797764400752055 /* NotificationService.swift */,
+				97AC07262797764400752055 /* Info.plist */,
+			);
+			path = NotificationExtension;
 			sourceTree = "<group>";
 		};
 		F24C243524B6143D00C1B92C /* ChallengeDetail */ = {
@@ -226,6 +276,7 @@
 				F0C5C5E625BF17C8006CCD8E /* twilio-verify-ios */,
 				F2AA37C1246F323C00B9388F /* TwilioVerifyDemo */,
 				F2AA37D8246F323F00B9388F /* TwilioVerifyDemoTests */,
+				97AC07232797764400752055 /* NotificationExtension */,
 				F2AA37C0246F323C00B9388F /* Products */,
 				F2AA37E4246F325800B9388F /* Frameworks */,
 			);
@@ -238,6 +289,7 @@
 			children = (
 				F2AA37BF246F323C00B9388F /* TwilioVerifyDemo.app */,
 				F2AA37D5246F323F00B9388F /* TwilioVerifyDemoTests.xctest */,
+				97AC07222797764400752055 /* NotificationExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -331,6 +383,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		97AC07212797764400752055 /* NotificationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 97AC072A2797764400752055 /* Build configuration list for PBXNativeTarget "NotificationExtension" */;
+			buildPhases = (
+				97AC071E2797764400752055 /* Sources */,
+				97AC071F2797764400752055 /* Frameworks */,
+				97AC07202797764400752055 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationExtension;
+			packageProductDependencies = (
+				97AC072E2797767600752055 /* TwilioVerifyDemoCache */,
+				97AC07302797771700752055 /* TwilioVerifySDK */,
+			);
+			productName = NotificationExtension;
+			productReference = 97AC07222797764400752055 /* NotificationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		F2AA37BE246F323C00B9388F /* TwilioVerifyDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2AA37DE246F323F00B9388F /* Build configuration list for PBXNativeTarget "TwilioVerifyDemo" */;
@@ -338,14 +411,17 @@
 				F2AA37BB246F323C00B9388F /* Sources */,
 				F2AA37BC246F323C00B9388F /* Frameworks */,
 				F2AA37BD246F323C00B9388F /* Resources */,
+				97AC072D2797764400752055 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				97AC07282797764400752055 /* PBXTargetDependency */,
 			);
 			name = TwilioVerifyDemo;
 			packageProductDependencies = (
 				860BB68B262A018A00E021C9 /* TwilioVerifySDK */,
+				97AC071C2797704300752055 /* TwilioVerifyDemoCache */,
 			);
 			productName = TwilioVerifyDemo;
 			productReference = F2AA37BF246F323C00B9388F /* TwilioVerifyDemo.app */;
@@ -375,10 +451,13 @@
 		F2AA37B7246F323C00B9388F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Twilio;
 				TargetAttributes = {
+					97AC07212797764400752055 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					F2AA37BE246F323C00B9388F = {
 						CreatedOnToolsVersion = 11.4.1;
 					};
@@ -403,11 +482,19 @@
 			targets = (
 				F2AA37BE246F323C00B9388F /* TwilioVerifyDemo */,
 				F2AA37D4246F323F00B9388F /* TwilioVerifyDemoTests */,
+				97AC07212797764400752055 /* NotificationExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		97AC07202797764400752055 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2AA37BD246F323C00B9388F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -431,6 +518,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		97AC071E2797764400752055 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97AC07252797764400752055 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2AA37BB246F323C00B9388F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -470,6 +565,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		97AC07282797764400752055 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 97AC07212797764400752055 /* NotificationExtension */;
+			targetProxy = 97AC07272797764400752055 /* PBXContainerItemProxy */;
+		};
 		F2AA37D7246F323F00B9388F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2AA37BE246F323C00B9388F /* TwilioVerifyDemo */;
@@ -497,6 +597,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		97AC072B2797764400752055 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = NotificationExtension/NotificationExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Twilio. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyDemo.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "$(EXT_PROVISIONING_PROFILE_SPECIFIER)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		97AC072C2797764400752055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = NotificationExtension/NotificationExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Twilio. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyDemo.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "$(EXT_PROVISIONING_PROFILE_SPECIFIER)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		F2AA37DC246F323F00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -620,6 +780,7 @@
 		F2AA37DF246F323F00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TwilioVerifyDemo/TwilioVerifyDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -634,7 +795,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "$(APP_PROVISIONING_PROFILE_SPECIFIER)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -643,6 +804,7 @@
 		F2AA37E0246F323F00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TwilioVerifyDemo/TwilioVerifyDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -657,7 +819,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "$(APP_PROVISIONING_PROFILE_SPECIFIER)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -669,7 +831,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TwilioVerifyDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -690,7 +852,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TwilioVerifyDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -708,6 +870,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		97AC072A2797764400752055 /* Build configuration list for PBXNativeTarget "NotificationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97AC072B2797764400752055 /* Debug */,
+				97AC072C2797764400752055 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F2AA37BA246F323C00B9388F /* Build configuration list for PBXProject "TwilioVerifyDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -739,6 +910,18 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		860BB68B262A018A00E021C9 /* TwilioVerifySDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TwilioVerifySDK;
+		};
+		97AC071C2797704300752055 /* TwilioVerifyDemoCache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TwilioVerifyDemoCache;
+		};
+		97AC072E2797767600752055 /* TwilioVerifyDemoCache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TwilioVerifyDemoCache;
+		};
+		97AC07302797771700752055 /* TwilioVerifySDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TwilioVerifySDK;
 		};

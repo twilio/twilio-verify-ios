@@ -16,6 +16,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
   enum AppSetting: String, CaseIterable {
     case clearStorage
     case currentVersion
+    case useAccessGroup
 
     var description: String {
       switch self {
@@ -23,6 +24,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
           return "Clear Storage"
         case .currentVersion:
           return "Storage Version"
+      case .useAccessGroup:
+        return "Use access group"
       }
     }
 
@@ -30,6 +33,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
       switch self {
         case .clearStorage: return .bool
         case .currentVersion: return .int
+        case .useAccessGroup: return .bool
       }
     }
     

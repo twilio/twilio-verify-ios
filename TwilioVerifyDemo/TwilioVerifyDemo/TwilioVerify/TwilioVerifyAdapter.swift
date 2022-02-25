@@ -28,12 +28,23 @@ class TwilioVerifyAdapter {
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
     let storage = SecureStorage(accessGroup: nil)
-    guard let data = try? storage.get(SettingsViewController.AppSetting.clearStorage.rawValue) else {
+    guard let clearStorageOnReinstallData = try? storage.get(SettingsViewController.AppSetting.clearStorage.rawValue) else {
       twilioVerify = try builder.build()
       return
     }
-    let clearStorageOnReinstall = Bool(String(decoding: data, as: UTF8.self))
-    twilioVerify = try builder.setClearStorageOnReinstall(clearStorageOnReinstall ?? false).build()
+    guard let useAccessGroupData = try? storage.get(SettingsViewController.AppSetting.useAccessGroup.rawValue) else {
+      twilioVerify = try builder.build()
+      return
+    }
+    let clearStorageOnReinstall = Bool(String(decoding: clearStorageOnReinstallData, as: UTF8.self))
+    let useAccessGroup = Bool(String(decoding: useAccessGroupData, as: UTF8.self)) ?? true
+    #warning("Please provide the Access Group for your app here and in the NotificationService.swift")
+    if useAccessGroup {
+      builder = builder.setAccessGroup("group.twilio.TwilioVerifyDemo")
+    }
+    twilioVerify = try builder
+      .setClearStorageOnReinstall(clearStorageOnReinstall ?? false)
+      .build()
   }
 }
 
