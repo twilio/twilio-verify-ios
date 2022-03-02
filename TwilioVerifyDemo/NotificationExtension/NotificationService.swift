@@ -26,23 +26,9 @@ final class NotificationService: UNNotificationServiceExtension {
   var contentHandler: ((UNNotificationContent) -> Void)?
   var bestAttemptContent: UNMutableNotificationContent?
 
-  private var accessGroup: String {
-    get {
-      let storage = SecureStorage(accessGroup: nil)
-      guard let useAccessGroupData = try? storage.get("useAccessGroup") else {
-        return ""
-      }
-      let useAccessGroup = Bool(String(decoding: useAccessGroupData, as: UTF8.self)) ?? true
-      guard useAccessGroup else {
-        return ""
-      }
-      #warning("Please provide the Access Group for your app")
-      return "group.twilio.TwilioVerifyDemo"
-    }
-  }
-  
+  #warning("Please provide the Access Group for your app")
   private lazy var twilioVerify: TwilioVerify? = try? TwilioVerifyBuilder()
-    .setAccessGroup(accessGroup)
+    .setAccessGroup("group.twilio.TwilioVerifyDemo")
     .build()
 
   // MARK: - Override Methods
