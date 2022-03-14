@@ -328,6 +328,21 @@ Take into consideration that the Notification Extension only lives for a period 
 
 While setting up the **setAccessGroup** configuration for the first time, the factors data will migrate to use the **kSecAttrAccessGroup** Keychain's attribute. If the migration fails, error logs will be sent instead of throwing an error during initialization, the data will remain available for the main application but may not be available for App Extensions.
 
+**Stop Sharing Factors from App Groups**
+
+By removing the **App Group** from the **setAccessGroup** configuration, new factors will not be shared via the **Keychain** app groups. 
+
+```swift
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.build()
+```
+
+To stop sharing existing factors created with **App Groups**, uncheck the **App Group** from the **App/App Extension** configuration in Xcode, as follow:
+
+**App/App Extension** -> **App Groups** -> Uncheck **App Group**
+
+> This will restrict access to the factors and will not affect the main application in which the data was initially created.
+
 ---
 <a name='Contributing'></a>
 
