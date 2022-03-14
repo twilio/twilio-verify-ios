@@ -190,11 +190,6 @@ public class TwilioVerifyBuilder {
     return self
   }
 
-  func setURL(_ url: String) -> Self {
-    _baseURL = url
-    return self
-  }
-
   /**
    Enables the default logger
     - Parameters:
