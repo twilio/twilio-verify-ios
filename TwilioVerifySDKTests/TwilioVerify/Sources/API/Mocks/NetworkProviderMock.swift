@@ -22,7 +22,7 @@ import XCTest
 
 // swiftlint:disable force_cast
 class NetworkProviderMock: NetworkProvider {
-  var response: Response?
+  var response: NetworkResponse?
   var responses: [Any]?
   var error: Error?
   private(set) var callsToExecute = 0
@@ -37,8 +37,8 @@ class NetworkProviderMock: NetworkProvider {
     if let response = responses?[callsToExecute] {
       callsToExecute += 1
       switch response {
-        case is Response:
-          success(response as! Response)
+        case is NetworkResponse:
+          success(response as! NetworkResponse)
         case is Error:
           failure(response as! Error)
         default:

@@ -30,7 +30,6 @@ class TwilioVerifyTests: XCTestCase {
     try super.setUpWithError()
     networkProvider = NetworkProviderMock()
     twilioVerify = try! TwilioVerifyBuilder()
-                        .setURL("https://twilio.com")
                         .setNetworkProvider(networkProvider)
                         .setClearStorageOnReinstall(true)
                         .enableDefaultLoggingService(withLevel: .all)
@@ -47,7 +46,7 @@ class TwilioVerifyTests: XCTestCase {
     let expectedResponse: [String: Any] = [Constants.sidKey: Constants.expectedFactorSid,
                                            Constants.statusKey: FactorStatus.verified.rawValue]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
+    networkProvider.response = NetworkResponse(data: data, headers: [:])
     let factorPayload = VerifyPushFactorPayload(sid: Constants.expectedFactorSid)
     var pushFactor: PushFactor!
     twilioVerify.verifyFactor(withPayload: factorPayload, success: { factor in
@@ -74,7 +73,7 @@ class TwilioVerifyTests: XCTestCase {
                                            Constants.configKey: [Constants.credentialSidKey: Constants.credentialSidValue],
                                            Constants.dateCreatedKey: Constants.dateCreatedValue]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
+    networkProvider.response = NetworkResponse(data: data, headers: [:])
     let payload = UpdatePushFactorPayload(sid: Constants.expectedFactorSid, pushToken: Constants.pushToken)
     var pushFactor: PushFactor!
     twilioVerify.updateFactor(withPayload: payload, success: { factor in
@@ -93,7 +92,7 @@ class TwilioVerifyTests: XCTestCase {
     createFactor()
     let expectation = self.expectation(description: "testGetChallenge_shouldSucceed")
     let data = try! JSONSerialization.data(withJSONObject: Constants.expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
+    networkProvider.response = NetworkResponse(data: data, headers: [:])
     var challenge: FactorChallenge!
     twilioVerify.getChallenge(challengeSid: Constants.expectedSidValue, factorSid: Constants.expectedFactorSid, success: { response in
       challenge = response as? FactorChallenge
@@ -162,9 +161,9 @@ class TwilioVerifyTests: XCTestCase {
     let dataGetChallenge = try! JSONSerialization.data(withJSONObject: Constants.expectedResponse, options: .prettyPrinted)
     let dataUpdateChallenge = try! JSONSerialization.data(withJSONObject: expectedUpdateResponse, options: .prettyPrinted)
     networkProvider.response = nil
-    networkProvider.responses = [Response(data: dataGetChallenge, headers: [ChallengeRepository.Constants.signatureFieldsHeader: Constants.statusKey]),
-                                 Response(data: Data(), headers: [:]),
-                                 Response(data: dataUpdateChallenge, headers: [:])]
+    networkProvider.responses = [NetworkResponse(data: dataGetChallenge, headers: [ChallengeRepository.Constants.signatureFieldsHeader: Constants.statusKey]),
+                                 NetworkResponse(data: Data(), headers: [:]),
+                                 NetworkResponse(data: dataUpdateChallenge, headers: [:])]
     twilioVerify.updateChallenge(withPayload: Constants.updatePushChallengePayload, success: {
       expectation.fulfill()
     }) { _ in
@@ -204,7 +203,7 @@ class TwilioVerifyTests: XCTestCase {
     let expectedResponse = [Constants.challengesKey: challenges,
                             Constants.metadataKey: metadata] as [String: Any]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
+    networkProvider.response = NetworkResponse(data: data, headers: [:])
     var challengeList: ChallengeList!
     twilioVerify.getAllChallenges(withPayload: Constants.challengeListPayload, success: { response in
       challengeList = response
@@ -334,7 +333,7 @@ private extension TwilioVerifyTests {
                                            Constants.configKey: [Constants.credentialSidKey: Constants.credentialSidValue],
                                            Constants.dateCreatedKey: Constants.dateCreatedValue]
     let data = try! JSONSerialization.data(withJSONObject: expectedResponse, options: .prettyPrinted)
-    networkProvider.response = Response(data: data, headers: [:])
+    networkProvider.response = NetworkResponse(data: data, headers: [:])
     let accessToken = """
               eyJjdHkiOiJ0d2lsaW8tZnBhO3Y9MSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJTSz
               AwMTBjZDc5Yzk4NzM1ZTBjZDliYjQ5NjBlZjYyZmI4IiwiZXhwIjoxNTgzOTM3NjY0LCJncmFudHMiOnsidmVyaW
