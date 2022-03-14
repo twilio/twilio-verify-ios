@@ -60,7 +60,7 @@
 		20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A92FD52481CF6200A9E8E7 /* Parameters.swift */; };
 		20B8A3ED24855841003F69EB /* URLRequestBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A3EC24855841003F69EB /* URLRequestBuilderTests.swift */; };
 		20B8A3EF248559F2003F69EB /* RequestHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */; };
-		20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkProvider.swift */; };
+		20C0B19B2486DB640041E67F /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0B19A2486DB640041E67F /* NetworkAdapter.swift */; };
 		20C36FEA24914ABE00DF6C0E /* FactorAPIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FE924914ABE00DF6C0E /* FactorAPIClientMock.swift */; };
 		20C36FEC24914B1800DF6C0E /* StorageProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */; };
 		20C36FEF24914B7C00DF6C0E /* FactorMapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */; };
@@ -256,7 +256,7 @@
 		20A92FD52481CF6200A9E8E7 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		20B8A3EC24855841003F69EB /* URLRequestBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilderTests.swift; sourceTree = "<group>"; };
 		20B8A3EE248559F2003F69EB /* RequestHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelperTests.swift; sourceTree = "<group>"; };
-		20C0B19A2486DB640041E67F /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
+		20C0B19A2486DB640041E67F /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		20C36FE924914ABE00DF6C0E /* FactorAPIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorAPIClientMock.swift; sourceTree = "<group>"; };
 		20C36FEB24914B1800DF6C0E /* StorageProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProviderMock.swift; sourceTree = "<group>"; };
 		20C36FEE24914B7C00DF6C0E /* FactorMapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorMapperMock.swift; sourceTree = "<group>"; };
@@ -542,7 +542,7 @@
 				20A92FCF2481B98A00A9E8E7 /* BasicAuthorization.swift */,
 				20A92FD32481C9E000A9E8E7 /* HTTPHeaders.swift */,
 				20A92FD52481CF6200A9E8E7 /* Parameters.swift */,
-				20C0B19A2486DB640041E67F /* NetworkProvider.swift */,
+				20C0B19A2486DB640041E67F /* NetworkAdapter.swift */,
 				20E3BB1D24896C3000BC90DE /* Authentication.swift */,
 				97EAF4A327D7FE47003501A9 /* NetworkProvider+Models.swift */,
 			);
@@ -1310,7 +1310,7 @@
 				20E5157A24A3B2DA00A467FC /* ChallengeMapper.swift in Sources */,
 				F207BBB224901A6900688E5C /* Storage.swift in Sources */,
 				20A92FD62481CF6200A9E8E7 /* Parameters.swift in Sources */,
-				20C0B19B2486DB640041E67F /* NetworkProvider.swift in Sources */,
+				20C0B19B2486DB640041E67F /* NetworkAdapter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
