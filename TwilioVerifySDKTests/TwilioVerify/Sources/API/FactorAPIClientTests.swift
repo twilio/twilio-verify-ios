@@ -39,7 +39,7 @@ class FactorAPIClientTests: XCTestCase {
   func testCreateFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken)
@@ -112,7 +112,7 @@ class FactorAPIClientTests: XCTestCase {
   func testVerifyFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
@@ -126,9 +126,9 @@ class FactorAPIClientTests: XCTestCase {
   func testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
-    var response: Response!
+    var response: NetworkResponse!
     factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { result in
       response = result
       expectation.fulfill()
@@ -204,7 +204,7 @@ class FactorAPIClientTests: XCTestCase {
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     factorAPIClient.delete(Constants.factor, success: {
       expectation.fulfill()
     }) { _ in
@@ -230,7 +230,7 @@ class FactorAPIClientTests: XCTestCase {
   func testDeleteFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testDeleteFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     factorAPIClient.delete(Constants.factor, success: {
       expectation.fulfill()
@@ -294,7 +294,7 @@ class FactorAPIClientTests: XCTestCase {
   func testUpdateFactor_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
@@ -308,9 +308,9 @@ class FactorAPIClientTests: XCTestCase {
   func testUpdateFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testUpdateFactor_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
-    var response: Response!
+    var response: NetworkResponse!
     factorAPIClient.update(Constants.factor, updateFactorDataPayload: Constants.updateFactorDataPayload, success: { result in
       response = result
       expectation.fulfill()

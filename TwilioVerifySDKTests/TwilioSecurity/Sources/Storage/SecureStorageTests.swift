@@ -29,7 +29,7 @@ class SecureStorageTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    storage = SecureStorage(keychain: keychain)
+    storage = SecureStorage(keychain: keychain, keychainQuery: KeychainQuery(accessGroup: nil))
   }
   
   override func tearDownWithError() throws {

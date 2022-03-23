@@ -23,6 +23,32 @@ import XCTest
 @testable import TwilioVerifySDK
 
 class NetworkErrorTests: XCTestCase {
+  func testAPIError_fromLocalError_shouldSerializeToServerError() {
+    let expectedCode = 500
+    let expectedMessage = "error"
+    let expectedInfo = "web error"
+    
+    let error = APIError(
+      code: expectedCode,
+      message: expectedMessage,
+      moreInfo: expectedInfo
+    )
+
+    do {
+      let data = try JSONEncoder().encode(error)
+      let jsonData = (try JSONSerialization.jsonObject(
+        with: data,
+        options: []
+      ) as? [String: Any]) ?? [:]
+      
+      XCTAssertEqual(jsonData["code"] as? Int, expectedCode)
+      XCTAssertEqual(jsonData["message"] as? String, expectedMessage)
+      XCTAssertEqual(jsonData["more_info"] as? String, expectedInfo)
+    } catch {
+      XCTFail("Unable to convert test data, check syntax")
+    }
+  }
+  
   func testDataConversion_toServerError_shouldSucceeded() {
     let testObject = [
       "code": 1234,

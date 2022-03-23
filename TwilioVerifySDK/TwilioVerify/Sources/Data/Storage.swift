@@ -19,46 +19,32 @@
 
 import Foundation
 
-protocol StorageProvider {
-  var version: Int { get }
-  func save(_ data: Data, withKey key: String) throws
-  func get(_ key: String) throws -> Data
-  func removeValue(for key: String) throws
-  func getAll() throws -> [Data]
-  func clear() throws
-}
-
-struct Entry {
-  let key: String
-  let value: Data
-}
-
-protocol Migration {
-  var startVersion: Int { get }
-  var endVersion: Int { get }
-  /**
-   Perform a migration from startVersion to endVersion. Take into account that migrations could be performed for newer versions
-   when reinstalling (when clearStorageOnReinstall is false), so validate that the data needs the migration.
-   
-   - Returns:returns an array of data that needs to be migrated, adding/removing fields, etc. Empty to skip the migration.
-  */
-  func migrate(data: [Data]) -> [Entry]
-}
+// MARK: - Storage
 
 class Storage {
-  
+
   private let secureStorage: SecureStorageProvider
   private let userDefaults: UserDefaults
-  
-  init(secureStorage: SecureStorageProvider = SecureStorage(),
-       userDefaults: UserDefaults = .standard,
-       migrations: [Migration],
-       clearStorageOnReinstall: Bool = true) throws {
+  private let factorMapper: FactorMapperProtocol
+
+  init(
+    secureStorage: SecureStorageProvider,
+    keychain: KeychainProtocol,
+    userDefaults: UserDefaults = .standard,
+    factorMapper: FactorMapperProtocol = FactorMapper(),
+    migrations: [Migration],
+    clearStorageOnReinstall: Bool = true,
+    accessGroup: String? = nil
+  ) throws {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
+    self.factorMapper = factorMapper
+    checkAccessGroupMigration(for: accessGroup, using: keychain)
     try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }
 }
+
+// MARK: - StorageProvider Implementation
 
 extension Storage: StorageProvider {
   var version: Int {
@@ -86,20 +72,55 @@ extension Storage: StorageProvider {
   }
 }
 
+// MARK: - Storage Migrations Implementation
+
 private extension Storage {
+
+  // MARK: Properties
+
+  var isAppExtension: Bool {
+    return Bundle.main.bundlePath.hasSuffix(Constants.appExtensionSuffix)
+  }
+
+  var storedCurrentVersion: Int {
+    get { userDefaults.integer(forKey: Constants.currentVersionKey) }
+    set { userDefaults.set(newValue, forKey: Constants.currentVersionKey) }
+  }
+
+  var storedAccessGroup: String? {
+    get { value(for: Constants.accessGroup) }
+    set { setValue(newValue, for: Constants.accessGroup) }
+  }
+
+  var storedClearOnReinstall: Bool? {
+    get { bool(for: Constants.clearStorageOnReinstallKey) }
+    set { setBool(newValue, for: Constants.clearStorageOnReinstallKey) }
+  }
+
+  // MARK: Methods
+
   func checkMigrations(_ migrations: [Migration], clearStorageOnReinstall: Bool) throws {
-    var currentVersion = userDefaults.integer(forKey: Constants.currentVersionKey)
+    if isAppExtension {
+      Logger.shared.log(withLevel: .debug, message: "Migrations are not available for app extensions.")
+      return
+    }
+
+    var currentVersion = storedCurrentVersion
+    let accessGroup = storedAccessGroup
+
     guard currentVersion < version else {
       return
     }
-    let previousClearStorageOnReinstall = previousClearStorageOnReinstallValue()
-    if currentVersion == Constants.noVersion && clearStorageOnReinstall && previousClearStorageOnReinstall != nil {
+
+    if currentVersion == Constants.noVersion && clearStorageOnReinstall && storedClearOnReinstall != nil {
       try? clearItemsWithoutService()
       try clear()
-      updateVersion(version: Constants.version)
-      updateClearStorageOnReinstall(value: clearStorageOnReinstall)
+      storedCurrentVersion = Constants.version
+      storedClearOnReinstall = clearStorageOnReinstall
+      storedAccessGroup = accessGroup
       return
     }
+
     for migration in migrations {
       if migration.startVersion < currentVersion {
         continue
@@ -110,8 +131,9 @@ private extension Storage {
         break
       }
     }
-    updateVersion(version: version)
-    updateClearStorageOnReinstall(value: clearStorageOnReinstall)
+
+    storedCurrentVersion = version
+    storedClearOnReinstall = clearStorageOnReinstall
   }
   
   func applyMigration(_ migration: Migration) throws {
@@ -119,11 +141,7 @@ private extension Storage {
     for result in migrationResult {
       try save(result.value, withKey: result.key)
     }
-    updateVersion(version: migration.endVersion)
-  }
-  
-  func updateVersion(version: Int) {
-    userDefaults.set(version, forKey: Constants.currentVersionKey)
+    storedCurrentVersion = migration.endVersion
   }
   
   func clearItemsWithoutService() throws {
@@ -133,19 +151,56 @@ private extension Storage {
       try removeValue(for: result.key)
     }
   }
-  
-  func previousClearStorageOnReinstallValue() -> Bool? {
-    guard let clearStorageOnReinstallValue = try? get(Constants.clearStorageOnReinstallKey) else {
-      return nil
-    }
-    return Bool(String(decoding: clearStorageOnReinstallValue, as: UTF8.self))
-  }
-  
-  func updateClearStorageOnReinstall(value: Bool) {
-    guard let clearStorageOnReinstallValue = value.description.data(using: .utf8) else {
+
+  func checkAccessGroupMigration(
+    for accessGroup: String?,
+    using keychain: KeychainProtocol
+  ) {
+    if isAppExtension {
+      Logger.shared.log(withLevel: .debug, message: "Migrations are not available for app extensions.")
       return
     }
-    try? secureStorage.save(clearStorageOnReinstallValue, withKey: Constants.clearStorageOnReinstallKey, withServiceName: Constants.service)
+
+    let migrationDirection: MigrationDirection
+
+    switch (storedAccessGroup != nil, accessGroup != nil) {
+      case (false, true): migrationDirection = .toAccessGroup
+      case (true, false): migrationDirection = .fromAccessGroup
+      default: return
+    }
+
+    Logger.shared.log(withLevel: .debug, message: "Migrating Factors in direction: \(migrationDirection)")
+
+    var lastAccessGroup: String?
+
+    switch migrationDirection {
+      case .toAccessGroup:
+        guard let accessGroup = accessGroup else { return }
+        let factors = getAllFactors(using: factorMapper, keychain: keychain)
+
+        do {
+          try updateFactors(factors, with: accessGroup, keychain: keychain)
+          storedAccessGroup = accessGroup
+        } catch {
+          Logger.shared.log(
+            withLevel: .error,
+            message: """
+              Factors migration to AccessGroup failed due to: \(error).
+              Other apps/extensions may not be able to use factors
+            """
+          )
+        }
+
+        lastAccessGroup = accessGroup
+      case .fromAccessGroup:
+        lastAccessGroup = storedAccessGroup
+        try? removeValue(for: Constants.accessGroup)
+    }
+
+    Logger.shared.log(withLevel: .debug, message: "Migrating UserDefaults in direction: \(migrationDirection)")
+
+    migrate(key: Constants.currentVersionKey, direction: migrationDirection, with: lastAccessGroup)
+    migrate(key: Constants.timeCorrection, direction: migrationDirection, with: lastAccessGroup)
   }
 }
 
@@ -156,5 +211,8 @@ extension Storage {
     static let noVersion = 0
     static let service = "TwilioVerify"
     static let clearStorageOnReinstallKey = "clearStorageOnReinstall"
+    static let accessGroup = "accessGroup"
+    static let timeCorrection = "timeCorrection"
+    static let appExtensionSuffix = ".appex"
   }
 }

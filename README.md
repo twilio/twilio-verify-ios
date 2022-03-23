@@ -27,6 +27,7 @@
 * [Delete a factor](#DeleteFactor)
 * [Clear local storage](#ClearLocalStorage)
 * [Reinstall and persist factors](#Reinstall)
+* [Notification Extension](#NotificationExtension)
 * [Contributing](#Contributing)
 * [License](#License)
 
@@ -221,6 +222,23 @@ twilioVerify.createFactor(withPayload: payload, success: { factor in
 
 Check an example [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50)
 
+### Getting the error cause
+You can get the cause for an error accesing the associated error
+```swift
+twilioVerify.updateChallenge(withPayload: payload, success: {
+  // Success
+},failure: { error in
+  if case .inputError(let detail) = error, let inputError = detail as? InputError {
+    switch inputError {
+      // Handle other cases here, in this example expired challenge case
+      case .expiredChallenge: return
+      default: return
+    }
+  }
+})
+```
+You can find the associated errors for validations [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyError.swift#L119)
+
 <a name='UpdatePushToken'></a>
 
 ## Update factor's push token
@@ -287,6 +305,45 @@ The push token will change after the reinstall. Update the push token to receive
 The SDK is using [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly) to [save factors and keypairs](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63). According to Apple, 
 > Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
 
+<a name='NotificationExtension'></a>
+
+## Setting up a Notification Extension
+The [Notification Extension](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) is an App Extension that allows developers to modify or process the content of a remote notification before it is delivered to the user.
+
+> Follow Apple's Modifying Content in Newly Delivered Notifications guide to create a Notification Extension.
+
+To be able to use the Verify SDK in Notification Extensions, it is necessary to use [App Groups](https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps), this will allow the App Extension to be able to read the KeyChain storage from the application. Otherwise, the SDK will not be able to read any of the stored Factors or Challenges in the Notification Extension.
+
+```swift
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.setAccessGroup("group.com.example.AppSuite").build()
+```
+> Use the **setAccessGroup** method to set up the app group used for keychain access.
+
+Take into consideration that the Notification Extension only lives for a period of time of approximately 30 seconds, so if by some reason the App Extension does not process the remote notification content before that period expires, it will display the original content instead.
+
+> See the [Notification Extension](https://github.com/twilio/twilio-verify-ios/tree/feature/notificationExtension) branch to check the example of an implementation using the Notification Extension & the SDK in the VerifyDemoApp.
+---
+**Sharing Factors using App Groups**
+
+While setting up the **setAccessGroup** configuration for the first time, the factors data will migrate to use the **kSecAttrAccessGroup** Keychain's attribute. If the migration fails, error logs will be sent instead of throwing an error during initialization, the data will remain available for the main application but may not be available for App Extensions.
+
+**Stop Sharing Factors from App Groups**
+
+By removing the **App Group** from the **setAccessGroup** configuration, new factors will not be shared via the **Keychain** app groups. 
+
+```swift
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.build()
+```
+
+To stop sharing existing factors created with **App Groups**, uncheck the **App Group** from the **App/App Extension** configuration in Xcode, as follow:
+
+**App/App Extension** -> **App Groups** -> Uncheck **App Group**
+
+> This will restrict access to the factors and will not affect the main application in which the data was initially created.
+
+---
 <a name='Contributing'></a>
 
 ## Contributing

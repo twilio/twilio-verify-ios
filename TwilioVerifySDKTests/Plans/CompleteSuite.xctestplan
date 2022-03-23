@@ -12,9 +12,9 @@
     "codeCoverage" : {
       "targets" : [
         {
-          "containerPath" : "container:TwilioVerify.xcodeproj",
+          "containerPath" : "container:TwilioVerifySDK.xcodeproj",
           "identifier" : "F2AA3777246F30BE00B9388F",
-          "name" : "TwilioVerify"
+          "name" : "TwilioVerifySDK"
         }
       ]
     },

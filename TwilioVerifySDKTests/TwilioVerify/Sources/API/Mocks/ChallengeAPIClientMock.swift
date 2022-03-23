@@ -38,7 +38,7 @@ extension ChallengeAPIClientMock: ChallengeAPIClientProtocol {
       return
     }
     if sid == expectedChallengeSid, factor.sid == expectedFactor.sid {
-      success(Response(data: challengeData, headers: headers))
+      success(NetworkResponse(data: challengeData, headers: headers))
       return
     }
     fatalError("Expected params not set")
@@ -50,7 +50,7 @@ extension ChallengeAPIClientMock: ChallengeAPIClientProtocol {
       return
     }
     if challenge.sid == expectedChallenge.sid, authPayload == expectedPayload {
-      success(Response(data: challengeData, headers: headers))
+      success(NetworkResponse(data: challengeData, headers: headers))
       return
     }
     fatalError("Expected params not set")
