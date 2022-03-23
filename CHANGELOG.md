@@ -1,3 +1,25 @@
+# 2.1.0 (2022-03-23)
+
+### Features
+- Improve input error to provide reason of failure ([75684e3](https://github.com/twilio/twilio-verify-ios/commit/75684e33fb43f5d97a9d49ea11c4ee5882efebe6))
+- Support notification extension by providing a method to configure an access group for keychain access ([0307d47](https://github.com/twilio/twilio-verify-ios/commit/0307d478e851ddee7e698ae03678695d1c0f326c))
+
+### Bug fixes
+- Make NetworkProvider's models public to allow creating a custom provider ([3b745ca](https://github.com/twilio/twilio-verify-ios/commit/3b745caa903e8ca9d35b952c74d47fcd48b5ea78))
+
+### Building system
+- Update xcode version ([abab855](https://github.com/twilio/twilio-verify-ios/commit/abab855a08d472b3fcdc315273fbd170a83b1f97))
+- Gemfile.lock to reduce vulnerabilities (#193) ([176db65](https://github.com/twilio/twilio-verify-ios/commit/176db651cd91d8758f48b58f5493bfbe05dae373))
+- Update gemfile lock ([69f4566](https://github.com/twilio/twilio-verify-ios/commit/69f456604897ce4e3992d8e8866419719cf0532b))
+
+### Documentation
+- Setting up a Notification Extension ([3fd1807](https://github.com/twilio/twilio-verify-ios/commit/3fd18074e4143aca40898a0e5b1383230e8761d3))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
 # 2.0.0 (2022-01-18)
 
 ### Bug fixes
