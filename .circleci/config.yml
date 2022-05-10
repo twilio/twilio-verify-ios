@@ -178,12 +178,14 @@ jobs:
     steps:
       - unit_tests:
           test_plan: CompleteSuite
+    parallelism: 4
 
   Integration Tests Single Device:
     executor: macos_executor
     steps:
       - integration_tests:
           test_plan: IntegrationSuite
+    parallelism: 4
 
   Integration Tests All Devices:
     executor: macos_executor
@@ -191,12 +193,14 @@ jobs:
       - integration_tests:
           test_plan: IntegrationSuite
           ftl_devices: all
+    parallelism: 4
 
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
     steps:
       - test:
           scheme: TwilioVerifyDemo
+    parallelism: 4
 
   Build TwilioVerify:
     executor: macos_executor
