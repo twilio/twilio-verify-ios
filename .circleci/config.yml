@@ -26,28 +26,28 @@ commands:
           command: |
             echo "system" > .ruby-version
             chruby system
-            
+
   store_scan_artifacts:
     steps:
       - store_artifacts:
           path: ~/Library/Logs/scan
           destination: scan-logs
-  
+
   store_test_output:
     steps:
       - store_artifacts:
-            path: "./fastlane/Test Output"
-            destination: scan-test-output    
-  
+          path: "./fastlane/Test Output"
+          destination: scan-test-output
+
   store_scan_results:
     steps:
       - store_test_results:
-            path: "./fastlane/Test Output"
-  
+          path: "./fastlane/Test Output"
+
   store_frameworks:
     steps:
       - store_artifacts:
-            path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
+          path: "./AppSizer/AppSizer/Frameworks/TwilioVerify.zip"
 
   configure_google_service_account:
     steps:
@@ -74,7 +74,7 @@ commands:
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
-  
+
   integration_tests:
     parameters:
       test_plan:
@@ -106,9 +106,9 @@ commands:
       - run:
           name: "Zip Framework"
           command: |
-                  cd Products/xcframeworks/release
-                  zip -r ~/Desktop/<< parameters.artifact >>.framework.zip << parameters.artifact >>.xcframework
-                  cp -r << parameters.artifact >>.xcframework ~/Desktop/
+            cd Products/xcframeworks/release
+            zip -r ~/Desktop/<< parameters.artifact >>.framework.zip << parameters.artifact >>.xcframework
+            cp -r << parameters.artifact >>.xcframework ~/Desktop/
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
           destination: << parameters.artifact >>.framework.zip
@@ -128,8 +128,7 @@ commands:
       - run:
           name: "Copy Frameworks"
           command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-      - run:
-          ls -al ./AppSizer/AppSizer/Frameworks/
+      - run: ls -al ./AppSizer/AppSizer/Frameworks/
       - run:
           name: "Build AppSizer App"
           command: bundle exec fastlane build_app_sizer
@@ -142,7 +141,7 @@ commands:
           root: ~/Desktop
           paths:
             - SizeImpact.md
-  
+
   release:
     steps:
       - checkout
@@ -158,7 +157,7 @@ commands:
     parameters:
       env:
         description: environment name (DEV, STAGE, PROD)
-        type: string     
+        type: string
       base_url:
         description: API base URL
         type: string
@@ -173,15 +172,6 @@ jobs:
       - checkout
       - setup
       - configure_gcloud_app_distribution_service
-      - distribute_debug_sample_app:
-          env: "DEV"
-          base_url: $DEV_URL
-      - distribute_debug_sample_app:
-          env: "STAGE"
-          base_url: $STAGE_URL
-      - distribute_debug_sample_app:
-          env: "PROD"
-          base_url: $PROD_URL
 
   Unit Tests and Lint:
     executor: macos_executor
@@ -223,7 +213,7 @@ jobs:
     executor: macos_executor
     steps:
       - release
-     
+
 workflows:
   build_and_test:
     jobs:
@@ -243,14 +233,15 @@ workflows:
             - Build TwilioVerify
       - Distribute debug sample app:
           requires:
-           - Build TwilioVerify
+            - Build TwilioVerify
           filters:
-           branches:
-             only:
-               - /feature.*/
-               - /release.*/
-               - /hotfix.*/
-               - dev              
+            branches:
+              only:
+                - /feature.*/
+                - /cmejia.*/
+                - /release.*/
+                - /hotfix.*/
+                - dev
       - Release SDK:
           requires:
             - Size report
@@ -260,4 +251,4 @@ workflows:
                 - main
       # TODO: Enable this job when the target have tests otherwise the job will fail
       #- TwilioVerifyDemo Unit Tests
-      # Uncomment this part when all the steps to release a new version are done      
+      # Uncomment this part when all the steps to release a new version are done
