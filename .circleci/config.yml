@@ -234,14 +234,6 @@ workflows:
       - Distribute debug sample app:
           requires:
             - Build TwilioVerify
-          filters:
-            branches:
-              only:
-                - /feature.*/
-                - /cmejia.*/
-                - /release.*/
-                - /hotfix.*/
-                - dev
       - Release SDK:
           requires:
             - Size report
