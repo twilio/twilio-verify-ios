@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'xcpretty'
-gem 'fastlane', '>= 2.178.0'
+gem 'fastlane', '>= 2.187.0'
 gem 'filesize'
 gem 'plist'
 gem 'jazzy', '>= 0.13.6'
