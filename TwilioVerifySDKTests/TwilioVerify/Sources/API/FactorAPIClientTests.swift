@@ -96,8 +96,8 @@ class FactorAPIClientTests: XCTestCase {
     
     factorAPIClient.create(withPayload: createFactorPayload, success: {_ in }, failure: {_ in })
     
-    XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
-                   "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
+    XCTAssertEqual(networkProvider.urlRequest?.url?.absoluteString, expectedURL,
+                   "URL should be \(expectedURL) but was \(networkProvider.urlRequest?.url?.absoluteString)")
     XCTAssertEqual(networkProvider.urlRequest!.httpMethod, HTTPMethod.post.value,
                    "HTTP method should be \(HTTPMethod.post.value) but was \(networkProvider.urlRequest!.httpMethod!)")
     XCTAssertEqual(networkProvider.urlRequest!.allHTTPHeaderFields![HTTPHeader.Constant.contentType], MediaType.urlEncoded.value,

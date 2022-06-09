@@ -29,5 +29,5 @@ struct FactorMock: Factor {
   let identity: String
   let type: FactorType
   let createdAt: Date
-  var metadata: [String : String]?
+  var metadata: [String: String]?
 }
