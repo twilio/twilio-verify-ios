@@ -44,6 +44,7 @@ struct FakeFactor: Factor {
   var identity: String
   var type: FactorType
   var createdAt: Date
+  var metadata: [String : String]?
 }
 
 struct FakeUpdateChallengePayload: UpdateChallengePayload {

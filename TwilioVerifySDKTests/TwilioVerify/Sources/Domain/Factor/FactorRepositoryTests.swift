@@ -44,7 +44,8 @@ class FactorRepositoryTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
-      accessToken: Constants.accessToken)
+      accessToken: Constants.accessToken,
+      metadata: nil)
     let factor = Constants.generateFactor()
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
@@ -83,7 +84,8 @@ class FactorRepositoryTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
-      accessToken: Constants.accessToken)
+      accessToken: Constants.accessToken,
+      metadata: nil)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
     factorRepository.create(withPayload: factorPayload, success: { _ in
@@ -105,7 +107,8 @@ class FactorRepositoryTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
-      accessToken: Constants.accessToken)
+      accessToken: Constants.accessToken,
+      metadata: nil)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
@@ -129,7 +132,8 @@ class FactorRepositoryTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
-      accessToken: Constants.accessToken)
+      accessToken: Constants.accessToken,
+      metadata: nil)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = factor
@@ -157,7 +161,8 @@ class FactorRepositoryTests: XCTestCase {
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
-      accessToken: Constants.accessToken)
+      accessToken: Constants.accessToken,
+      metadata: nil)
     let factorData = try! JSONEncoder().encode(factor)
     factorAPIClient.factorData = factorData
     factorMapper.expectedFactor = factor

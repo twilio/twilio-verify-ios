@@ -85,7 +85,7 @@ private extension FactorMapper {
       
       let pushFactor = PushFactor(status: pushFactorDTO.status, sid: pushFactorDTO.sid, friendlyName: pushFactorDTO.friendlyName,
                                   accountSid: pushFactorDTO.accountSid, serviceSid: serviceSid, identity: identity,
-                                  createdAt: date, config: config)
+                                  createdAt: date, config: config, metadata: pushFactorDTO.metadata)
       return pushFactor
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)

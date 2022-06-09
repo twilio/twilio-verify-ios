@@ -42,7 +42,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = Constants.fakeFactor
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -65,7 +65,7 @@ class PushFactoryTests: XCTestCase {
     keyStorage.errorCreatingKey = TestError.operationFailed
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -89,7 +89,7 @@ class PushFactoryTests: XCTestCase {
     repository.error = TestError.operationFailed
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName,
-                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         serviceSid: Constants.serviceSid, identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -114,7 +114,7 @@ class PushFactoryTests: XCTestCase {
     repository.error = TestError.operationFailed
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
-                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -139,7 +139,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = Constants.factor
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
-                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -165,7 +165,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = Constants.factor
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
-                         identity: Constants.identity, pushToken: Constants.pushToken, success: { _ in
+                         identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -188,7 +188,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = Constants.factor
     
     factory.createFactor(withAccessToken: Constants.accessToken, friendlyName: Constants.friendlyName, serviceSid: Constants.serviceSid,
-                         identity: Constants.identity, pushToken: Constants.pushToken, success: { factor in
+                         identity: Constants.identity, pushToken: Constants.pushToken, metadata: nil, success: { factor in
       pushFactor = (factor as! PushFactor)
       expectation.fulfill()
     }) { _ in
@@ -634,6 +634,7 @@ class PushFactoryTests: XCTestCase {
       serviceSid: serviceSid,
       identity: identity,
       pushToken: nil,
+      metadata: nil,
       success: { factor in
         XCTAssertEqual(factor.serviceSid, serviceSid)
         XCTAssertEqual(factor.friendlyName, friendlyName)

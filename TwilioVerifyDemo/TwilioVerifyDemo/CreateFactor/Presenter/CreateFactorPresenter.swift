@@ -152,12 +152,14 @@ private extension CreateFactorPresenter {
                     success: @escaping FactorSuccessBlock,
                     failure: @escaping TwilioVerifyErrorBlock) {
     
+    let metadata = ["os": "iOS"]
     let payload = PushFactorPayload(
       friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
       identity: accessToken.identity,
       pushToken: devicePushToken,
-      accessToken: accessToken.token
+      accessToken: accessToken.token,
+      metadata: metadata
     )
     
     twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
