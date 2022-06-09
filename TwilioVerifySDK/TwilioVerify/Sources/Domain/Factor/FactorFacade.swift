@@ -53,6 +53,7 @@ extension FactorFacade: FactorFacadeProtocol {
                          serviceSid: payload.serviceSid,
                          identity: payload.identity,
                          pushToken: payload.pushToken,
+                         metadata: payload.metadata,
                          success: success,
                          failure: failure)
   }

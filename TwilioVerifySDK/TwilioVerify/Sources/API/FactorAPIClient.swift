@@ -149,6 +149,10 @@ private extension FactorAPIClient {
     body.append(contentsOf: createFactorPayload.config.map { config in
       Parameter(name: "\(Constants.configKey).\(config.key)", value: config.value)
     })
+    let encoder = JSONEncoder()
+    if let metadata = createFactorPayload.metadata, let jsonData = try? encoder.encode(metadata), let jsonString = String(data: jsonData, encoding: .utf8) {
+      body.append(Parameter(name: Constants.metadataKey, value: jsonString))
+    }
     
     return body
   }
@@ -194,6 +198,7 @@ extension FactorAPIClient {
     static let bindingKey = "Binding"
     static let configKey = "Config"
     static let authPayloadKey = "AuthPayload"
+    static let metadataKey = "Metadata"
     static let createFactorURL = "Services/\(APIConstants.serviceSidPath)/Entities/\(APIConstants.identityPath)/Factors"
     static let verifyFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"
     static let deleteFactorURL = "\(createFactorURL)/\(APIConstants.factorSidPath)"

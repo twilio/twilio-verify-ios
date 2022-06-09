@@ -26,6 +26,7 @@ struct PushFactorDTO: Codable {
   let accountSid: String
   var createdAt: String
   let config: ConfigDTO
+  let metadata: [String: String]?
   
   enum CodingKeys: String, CodingKey {
     case status
@@ -34,6 +35,7 @@ struct PushFactorDTO: Codable {
     case accountSid = "account_sid"
     case createdAt = "date_created"
     case config
+    case metadata
   }
 }
 

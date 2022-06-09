@@ -25,6 +25,7 @@ protocol PushFactoryProtocol {
                     serviceSid: String,
                     identity: String,
                     pushToken: String?,
+                    metadata: [String: String]?,
                     success: @escaping FactorSuccessBlock,
                     failure: @escaping TwilioVerifyErrorBlock)
   
@@ -57,7 +58,7 @@ class PushFactory {
 
 extension PushFactory: PushFactoryProtocol {
   func createFactor(withAccessToken accessToken: String, friendlyName: String, serviceSid: String,
-                    identity: String, pushToken: String?,
+                    identity: String, pushToken: String?, metadata: [String: String]?,
                     success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     do {
       Logger.shared.log(withLevel: .info, message: "Creating push factor \(friendlyName)")
@@ -68,7 +69,7 @@ extension PushFactory: PushFactoryProtocol {
       let payload = CreateFactorPayload(friendlyName: friendlyName, type: .push,
                                         serviceSid: serviceSid, identity: identity,
                                         config: config, binding: binding,
-                                        accessToken: accessToken)
+                                        accessToken: accessToken, metadata: metadata)
         
       Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
       
