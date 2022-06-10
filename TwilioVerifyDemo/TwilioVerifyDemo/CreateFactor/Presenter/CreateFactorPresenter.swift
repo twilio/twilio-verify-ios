@@ -90,11 +90,13 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       
       let devicePushToken = pushNotificationEnabled ? strongSelf.pushToken : nil
       let factorName = "\(identity)'s Factor"
+      let metadata = !pushNotificationEnabled ? ["os": "iOS"] : nil
       
       strongSelf.createFactor(
         response,
         withFactorName: factorName,
         devicePushToken: devicePushToken,
+        metadata: metadata,
         success: { factor in
             
         strongSelf.verify(factor, success: { _ in
@@ -149,6 +151,7 @@ private extension CreateFactorPresenter {
   func createFactor(_ accessToken: AccessTokenResponse,
                     withFactorName factorName: String,
                     devicePushToken: String?,
+                    metadata: [String: String]?,
                     success: @escaping FactorSuccessBlock,
                     failure: @escaping TwilioVerifyErrorBlock) {
     
