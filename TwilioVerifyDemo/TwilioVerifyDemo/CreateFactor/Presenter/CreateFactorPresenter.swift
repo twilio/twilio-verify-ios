@@ -155,7 +155,6 @@ private extension CreateFactorPresenter {
                     success: @escaping FactorSuccessBlock,
                     failure: @escaping TwilioVerifyErrorBlock) {
     
-    let metadata = ["os": "iOS"]
     let payload = PushFactorPayload(
       friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
