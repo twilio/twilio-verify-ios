@@ -59,6 +59,16 @@ public struct ChallengeDetails {
   public let fields: [Detail]
   ///Date attached by the customer only received if the service has `includeDate` turned on
   public let date: Date?
+  
+  public init(
+    message: String,
+    fields: [Detail],
+    date: Date?
+  ) {
+    self.message = message
+    self.fields = fields
+    self.date = date
+  }
 }
 
 ///Describes the information of a **Challenge Detail**
@@ -67,4 +77,12 @@ public struct Detail: Codable {
   public let label: String
   ///Detail's description
   public let value: String
+  
+  public init(
+    label: String,
+    value: String
+  ) {
+    self.label = label
+    self.value = value
+  }
 }
