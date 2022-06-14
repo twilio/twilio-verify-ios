@@ -82,7 +82,7 @@ class CreateFactorTests: XCTestCase {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in
       XCTFail()
@@ -113,7 +113,7 @@ class CreateFactorTests: XCTestCase {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.createFactor(withPayload: Constants.factorPayload, success: { _ in
       XCTFail()

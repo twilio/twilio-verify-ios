@@ -91,7 +91,7 @@ public class KeyManager {
     }
     
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeyManagerError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -124,7 +124,7 @@ extension KeyManager: KeyManagerProtocol {
   public func deleteKey(withAlias alias: String) throws {    
     let status = keychain.deleteItem(withQuery: keychainQuery.deleteKey(withAlias: alias))
     guard status == errSecSuccess || status == errSecItemNotFound else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeyManagerError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }

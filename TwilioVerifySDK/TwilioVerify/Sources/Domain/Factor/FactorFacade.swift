@@ -45,7 +45,7 @@ extension FactorFacade: FactorFacadeProtocol {
     guard let payload = payload as? PushFactorPayload else {
       let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
       return
     }
     factory.createFactor(withAccessToken: payload.accessToken,
@@ -62,13 +62,13 @@ extension FactorFacade: FactorFacadeProtocol {
     guard let payload = payload as? VerifyPushFactorPayload else {
       let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
       return
     }
     guard !payload.sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(TwilioVerifyError.inputError(error: error as NSError))
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     factory.verifyFactor(withSid: payload.sid, success: success, failure: failure)
   }
@@ -77,13 +77,13 @@ extension FactorFacade: FactorFacadeProtocol {
     guard let payload = payload as? UpdatePushFactorPayload else {
       let error: InputError = .invalidPayload
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
       return
     }
     guard !payload.sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(TwilioVerifyError.inputError(error: error as NSError))
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     factory.updateFactor(withSid: payload.sid, withPushToken: payload.pushToken, success: success, failure: failure)
   }
@@ -92,12 +92,12 @@ extension FactorFacade: FactorFacadeProtocol {
     guard !sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(TwilioVerifyError.inputError(error: error as NSError))
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     do {
       success(try repository.get(withSid: sid))
     } catch {
-      failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") as NSError))
+      failure(TwilioVerifyError.storageError(error: StorageError.error("Factor not found") ))
     }
   }
   
@@ -106,7 +106,7 @@ extension FactorFacade: FactorFacadeProtocol {
       let factors = try repository.getAll()
       success(factors)
     } catch {
-      failure(TwilioVerifyError.storageError(error: error as NSError))
+      failure(TwilioVerifyError.storageError(error: error))
     }
   }
   
@@ -114,7 +114,7 @@ extension FactorFacade: FactorFacadeProtocol {
     guard !sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(TwilioVerifyError.inputError(error: error as NSError))
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     factory.deleteFactor(withSid: sid, success: success, failure: failure)
   }

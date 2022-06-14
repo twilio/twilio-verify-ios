@@ -47,7 +47,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
   ) {
     Logger.shared.log(withLevel: .info, message: "Getting challenge \(sid) with factor \(factor.sid)")
     challengeProvider.get(withSid: sid, withFactor: factor, success: success, failure: { error in
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
     })
   }
   
@@ -64,43 +64,43 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
       guard let factorChallenge = challenge as? FactorChallenge else {
         let error: InputError = .invalidChallenge
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       guard factorChallenge.factor is PushFactor, factorChallenge.factor?.sid == factor.sid else {
         let error: InputError = .wrongFactor
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       if factorChallenge.status == .expired {
         let error: InputError = .expiredChallenge
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       if factorChallenge.status != .pending {
         let error: InputError = .alreadyUpdatedChallenge
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       guard let alias = factor.keyPairAlias else {
         let error = StorageError.error("Alias not found")
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.storageError(error: error as NSError))
+        failure(TwilioVerifyError.storageError(error: error))
         return
       }
       guard let signatureFields = factorChallenge.signatureFields, !signatureFields.isEmpty else {
         let error: InputError = .signatureFields
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       guard let response = factorChallenge.response, !response.isEmpty else {
         let error: InputError = .signatureFields
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
         return
       }
       var signerTemplate: SignerTemplate
@@ -108,7 +108,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
         signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.keyStorageError(error: error as NSError))
+        failure(TwilioVerifyError.keyStorageError(error: error))
         return
       }
       do {
@@ -120,14 +120,14 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
           } else {
             let error: InputError = .notUpdatedChallenge
             Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-            failure(TwilioVerifyError.inputError(error: error as NSError))
+            failure(TwilioVerifyError.inputError(error: error))
           }
         }, failure: { error in
-          failure(TwilioVerifyError.inputError(error: error as NSError))
+          failure(TwilioVerifyError.inputError(error: error))
         })
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        failure(TwilioVerifyError.inputError(error: error as NSError))
+        failure(TwilioVerifyError.inputError(error: error))
       }
     }, failure: failure)
   }

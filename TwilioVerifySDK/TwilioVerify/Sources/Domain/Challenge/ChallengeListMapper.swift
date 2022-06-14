@@ -51,7 +51,7 @@ extension ChallengeListMapper: ChallengeListMapperProtocol {
       return challengeList
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.mapperError(error: error as NSError)
+      throw TwilioVerifyError.mapperError(error: error)
     }
   }
 }

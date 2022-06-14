@@ -252,7 +252,7 @@ public class TwilioVerifyBuilder {
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.initializationError(error: error as NSError)
+      throw TwilioVerifyError.initializationError(error: error)
     }
   }
 }

@@ -79,7 +79,7 @@ class AuthenticationProviderTests: XCTestCase {
     let expectedDate = 1595358902
     dateProvider.currentTime = expectedDate
     XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, AuthenticationError.invalidKeyPair as NSError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError as! AuthenticationError, AuthenticationError.invalidKeyPair)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidKeyPair.errorDescription)
     }
   }
@@ -95,7 +95,7 @@ class AuthenticationProviderTests: XCTestCase {
       type: .push,
       createdAt: Date())
     XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, AuthenticationError.invalidFactor as NSError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError as! AuthenticationError, AuthenticationError.invalidFactor)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidFactor.errorDescription)
     }
   }

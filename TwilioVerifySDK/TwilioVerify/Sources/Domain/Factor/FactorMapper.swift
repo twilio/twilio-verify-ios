@@ -32,7 +32,7 @@ class FactorMapper: FactorMapperProtocol {
     let serviceSid = factorPayload.serviceSid
     let identity = factorPayload.identity
     guard !serviceSid.isEmpty, !identity.isEmpty else {
-      throw TwilioVerifyError.mapperError(error: MapperError.invalidArgument as NSError)
+      throw TwilioVerifyError.mapperError(error: MapperError.invalidArgument )
     }
     
     var factor: Factor
@@ -89,7 +89,7 @@ private extension FactorMapper {
       return pushFactor
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.mapperError(error: error as NSError)
+      throw TwilioVerifyError.mapperError(error: error)
     }
   }
 }

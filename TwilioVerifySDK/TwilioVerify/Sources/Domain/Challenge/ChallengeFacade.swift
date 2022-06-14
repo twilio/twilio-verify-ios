@@ -43,7 +43,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
     guard !sid.isEmpty else {
       let error: InputError = .emptyChallengeSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(.inputError(error: error as NSError))
+      return failure(.inputError(error: error))
     }
     factorFacade.get(withSid: factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
@@ -54,7 +54,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
         default:
           let error =  InputError.invalidInput(field: "invalid factor")
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(TwilioVerifyError.inputError(error: error as NSError))
+          failure(TwilioVerifyError.inputError(error: error))
       }
     }, failure: failure)
   }
@@ -69,7 +69,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
         default:
           let error = InputError.invalidInput(field: "invalid factor")
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(TwilioVerifyError.inputError(error: error as NSError))
+          failure(TwilioVerifyError.inputError(error: error))
       }
     }, failure: failure)
   }
@@ -79,7 +79,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
       guard let strongSelf = self else { return }
       strongSelf.repository.getAll(for: factor, status: challengeListPayload.status,
                                    pageSize: challengeListPayload.pageSize, order: challengeListPayload.order, pageToken: challengeListPayload.pageToken, success: success) { error in
-        failure(TwilioVerifyError.networkError(error: error as NSError))
+        failure(TwilioVerifyError.networkError(error: error))
       }
     }, failure: failure)
   }
@@ -93,13 +93,13 @@ private extension ChallengeFacade {
         factorType: factor.type
       )
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
       return
     }
     guard !updateChallengePayload.challengeSid.isEmpty else {
       let error: InputError = .emptyChallengeSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      return failure(TwilioVerifyError.inputError(error: error as NSError))
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     pushChallengeProcessor.updateChallenge(withSid: payload.challengeSid, withFactor: factor, status: payload.status, success: success, failure: failure)
   }
