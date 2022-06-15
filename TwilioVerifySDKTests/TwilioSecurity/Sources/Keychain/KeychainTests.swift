@@ -38,23 +38,24 @@ class KeychainTests: XCTestCase {
   func testAccessControl_withInvalidProtection_shouldThrow() {
     let expectedErrorCode = -50
     let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "SecAccessControl: invalid protection: -50"
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - SecAccessControl: invalid protection: )"
     
     XCTAssertThrowsError(
       try keychain.accessControl(withProtection: String() as CFString),
-      "Access Control sohuld throw",
-      { error in
+      "Access Control should throw", { error in
         
         guard let thrownError = error as? KeychainError,
-              case .invalidProtection(let code) = thrownError else {
+              case .errorCreatingAccessControl(let cause) = thrownError else {
           XCTFail("Unexpected error received")
           return
         }
-        
+
+        let causeError = cause as NSError
+
         XCTAssertEqual(
-          code,
+          causeError.code,
           expectedErrorCode,
-          "Error code should be \(expectedErrorCode), but was \(code)"
+          "Error code should be \(expectedErrorCode), but was \(causeError.code)"
         )
         XCTAssertEqual(
           thrownError.domain,
@@ -99,15 +100,17 @@ class KeychainTests: XCTestCase {
     ) { error in
       
       guard let thrownError = error as? KeychainError,
-            case .algorithmNotSupported(let code) = thrownError else {
+            case .algorithmNotSupported(let cause) = thrownError else {
         XCTFail("Unexpected error received")
         return
       }
+
+      let causeError = cause as NSError
       
       XCTAssertEqual(
-        code,
+        causeError.code,
         expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(code)"
+        "Error code should be \(expectedErrorCode), but was \(causeError.code)"
       )
       XCTAssertEqual(
         thrownError.domain,

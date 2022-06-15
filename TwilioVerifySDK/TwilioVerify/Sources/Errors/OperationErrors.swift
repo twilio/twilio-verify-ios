@@ -30,8 +30,9 @@ enum KeychainError: OperationError {
   case unableToGeneratePublicKey
   case unableToGeneratePrivateKey
   case invalidStatusCode(code: Int)
+  case errorCreatingAccessControl(cause: Error)
   case invalidProtection(code: Int)
-  case algorithmNotSupported(code: Int)
+  case algorithmNotSupported(cause: Error)
   
   var errorDescription: String? {
     switch self {
@@ -41,6 +42,8 @@ enum KeychainError: OperationError {
         return secAccessControlError(code: code)
       case .algorithmNotSupported(let code):
         return "Keychain: algorithm not supported, error code: \(code)"
+      case .errorCreatingAccessControl(let cause):
+        return cause.localizedDescription
       default:
         return String(describing: self)
     }
@@ -50,7 +53,8 @@ enum KeychainError: OperationError {
     switch self {
       case .invalidProtection,
           .invalidStatusCode,
-          .algorithmNotSupported:
+          .algorithmNotSupported,
+          .errorCreatingAccessControl:
         return NSOSStatusErrorDomain
       default:
         return String()

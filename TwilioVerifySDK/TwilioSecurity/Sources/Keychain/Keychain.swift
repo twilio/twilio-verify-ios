@@ -53,10 +53,10 @@ class Keychain: KeychainProtocol {
     var keychainError: Unmanaged<CFError>?
     
     guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &keychainError) else {
-      var error: Error = KeychainError.unexpectedError
+      var error: KeychainError = .unexpectedError
 
       if let accessControlError = (keychainError?.takeRetainedValue() as? Error) {
-        error = KeychainError.invalidProtection(code: accessControlError._code)
+        error = .errorCreatingAccessControl(cause: accessControlError)
       }
       
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -71,10 +71,10 @@ class Keychain: KeychainProtocol {
     var keychainError: Unmanaged<CFError>?
     
     guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError) else {
-      var error: Error = KeychainError.unexpectedError
+      var error: KeychainError = .unexpectedError
   
       if let accessControlError = (keychainError?.takeRetainedValue() as? Error) {
-        error = KeychainError.algorithmNotSupported(code: accessControlError._code)
+        error = .algorithmNotSupported(cause: accessControlError)
       }
       
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
