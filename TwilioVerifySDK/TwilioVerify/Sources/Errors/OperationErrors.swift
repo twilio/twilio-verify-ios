@@ -40,7 +40,7 @@ enum KeychainError: OperationError {
       case .invalidProtection(let code):
         return secAccessControlError(code: code)
       case .algorithmNotSupported(let code):
-        return secAccessControlError(code: code)
+        return "Keychain: algorithm not supported, error code: \(code)"
       default:
         return String(describing: self)
     }
