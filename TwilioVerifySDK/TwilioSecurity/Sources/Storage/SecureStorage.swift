@@ -34,6 +34,10 @@ public class SecureStorage {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
 
+  private enum Errors: Error {
+    case operationFailed
+  }
+
   public convenience init(accessGroup: String?) {
     self.init(
       keychain: Keychain(accessGroup: accessGroup),
@@ -69,7 +73,7 @@ extension SecureStorage: SecureStorageProvider {
     Logger.shared.log(withLevel: .info, message: "Getting \(key)")
     let query = keychainQuery.getData(withKey: key)
     do {
-      let result = try keychain.copyItemMatching(query: query)
+      let result: AnyObject = try retry { try keychain.copyItemMatching(query: query) }
       // swiftlint:disable:next force_cast
       let data = result as! Data
       Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
@@ -84,7 +88,7 @@ extension SecureStorage: SecureStorageProvider {
     Logger.shared.log(withLevel: .info, message: "Getting all values")
     let query = keychainQuery.getAll(withServiceName: service)
     do {
-      let result = try keychain.copyItemMatching(query: query)
+      let result: AnyObject = try retry { try keychain.copyItemMatching(query: query) }
       guard let resultArray = result as? [Any] else {
         return []
       }
@@ -128,5 +132,28 @@ extension SecureStorage: SecureStorageProvider {
         throw error
       }
     }
+  }
+
+  private func retry<T>(
+    tries: Int = 3,
+    block: () throws -> T
+  ) throws -> T {
+    var tries: Int = tries
+    var catchedError: Error?
+    repeat {
+      do {
+        tries -= 1
+        let result = try block()
+        return result
+      } catch {
+        catchedError = error
+        Logger.shared.log(
+            withLevel: .error,
+            message: error.localizedDescription
+        )
+      }
+    } while tries > 0
+
+    throw catchedError ?? Errors.operationFailed
   }
 }
