@@ -73,8 +73,8 @@ class Keychain: KeychainProtocol {
     guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError) else {
       var error: KeychainError = .unexpectedError
   
-      if let accessControlError = (keychainError?.takeRetainedValue() as? Error) {
-        error = .createSignatureError(cause: accessControlError)
+      if let createSignatureError = (keychainError?.takeRetainedValue() as? Error) {
+        error = .createSignatureError(cause: createSignatureError)
       }
       
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
