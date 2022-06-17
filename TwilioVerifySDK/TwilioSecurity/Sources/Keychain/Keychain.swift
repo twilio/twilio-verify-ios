@@ -74,7 +74,7 @@ class Keychain: KeychainProtocol {
       var error: KeychainError = .unexpectedError
   
       if let accessControlError = (keychainError?.takeRetainedValue() as? Error) {
-        error = .algorithmNotSupported(cause: accessControlError)
+        error = .createSignatureError(cause: accessControlError)
       }
       
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)

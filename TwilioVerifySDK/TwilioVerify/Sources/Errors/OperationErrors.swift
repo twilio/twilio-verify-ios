@@ -32,16 +32,16 @@ enum KeychainError: OperationError {
   case invalidStatusCode(code: Int)
   case errorCreatingAccessControl(cause: Error)
   case invalidProtection(code: Int)
-  case algorithmNotSupported(cause: Error)
+  case createSignatureError(cause: Error)
   
   var errorDescription: String? {
     switch self {
       case .invalidStatusCode(let code):
         return String.invalidStatusCode(code)
       case .invalidProtection(let code):
-        return secAccessControlError(code: code)
-      case .algorithmNotSupported(let code):
-        return "Keychain: algorithm not supported, error code: \(code)"
+        return "SecAccessControl: invalid protection: \(code)"
+      case .createSignatureError(let cause):
+        return "Keychain: error creating signature: \(cause.localizedDescription)"
       case .errorCreatingAccessControl(let cause):
         return cause.localizedDescription
       default:
@@ -53,16 +53,12 @@ enum KeychainError: OperationError {
     switch self {
       case .invalidProtection,
           .invalidStatusCode,
-          .algorithmNotSupported,
+          .createSignatureError,
           .errorCreatingAccessControl:
         return NSOSStatusErrorDomain
       default:
-        return String()
+        return "Domain not available"
     }
-  }
-  
-  private func secAccessControlError(code: Int) -> String {
-    "SecAccessControl: invalid protection: \(code)"
   }
 }
 

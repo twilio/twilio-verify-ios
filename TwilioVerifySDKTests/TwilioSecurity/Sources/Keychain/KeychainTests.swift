@@ -100,7 +100,7 @@ class KeychainTests: XCTestCase {
     ) { error in
       
       guard let thrownError = error as? KeychainError,
-            case .algorithmNotSupported(let cause) = thrownError else {
+            case .createSignatureError(let cause) = thrownError else {
         XCTFail("Unexpected error received")
         return
       }
