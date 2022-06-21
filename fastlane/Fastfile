@@ -18,6 +18,10 @@ platform :ios do
 
   desc "Runs unit tests"
   lane :unit_tests do |options|
+    build_universal_framework()
+    export_release_xcframework()
+    build_swift_package()
+    pod_lib_lint(verbose: true, allow_warnings: true)
     test_plan = options[:test_plan]
     scan(
       scheme: "TwilioVerifySDK",
@@ -61,7 +65,7 @@ platform :ios do
       gcp_project: 'twilio-firebase-266721',
       timeout_sec: 300,
       devices: ftl_devices,
-      ios_xc_test_args: { xcodeVersion: '13.4.1' }
+      ios_xc_test_args: { xcodeVersion: '13.3.1' }
     )
   end
 
