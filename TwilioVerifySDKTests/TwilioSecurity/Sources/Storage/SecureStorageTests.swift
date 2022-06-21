@@ -197,10 +197,10 @@ class SecureStorageTests: XCTestCase {
     let key = "key"
     var data: Data?
     keychain.error = TestError.operationFailed
-    keychain.keys = [expectedData as AnyObject, expectedData as AnyObject , expectedData as AnyObject]
+    keychain.keys = [expectedData as AnyObject, expectedData as AnyObject, expectedData as AnyObject]
 
     keychain.copyItemMitmatchingHandler = { [weak self] in
-      if self?.keychain.callsToCopyItemMatching == 1 {
+      if self?.keychain.callsToCopyItemMatching == 0 {
         self?.keychain.error = nil
         expectation.fulfill()
       }

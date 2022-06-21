@@ -69,8 +69,14 @@ class Keychain: KeychainProtocol {
   
   func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data {
     var keychainError: Unmanaged<CFError>?
-    
-    guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError) else {
+
+    let signature: CFData? = retry {
+      SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError)
+    } validation: { signature in
+      signature != nil
+    }
+
+    guard let signature = signature else {
       var error: KeychainError = .unexpectedError
   
       if let createSignatureError = (keychainError?.takeRetainedValue() as? Error) {
@@ -139,7 +145,12 @@ class Keychain: KeychainProtocol {
   
   func copyItemMatching(query: Query) throws -> AnyObject {
     var result: AnyObject?
-    let status = SecItemCopyMatching(query as CFDictionary, &result)
+
+    let status: OSStatus = retry {
+      SecItemCopyMatching(query as CFDictionary, &result)
+    } validation: { status in
+      status == errSecSuccess
+    }
 
     guard status == errSecSuccess else {
       let error: KeychainError = .invalidStatusCode(code: Int(status))
@@ -199,6 +210,29 @@ class Keychain: KeychainProtocol {
     customParameters[kSecPublicKeyAttrs] = publicParameters
 
     return customParameters as CFDictionary
+  }
+
+  private func retry<T>(
+    tries: Int = 2,
+    block: () -> T,
+    validation: ((T) -> Bool)? = nil
+  ) -> T {
+    var tries: Int = tries
+    repeat {
+      tries -= 1
+      let result = block()
+      if let validation = validation {
+        if validation(result) {
+          return result
+        } else {
+          break
+        }
+      } else {
+        return result
+      }
+    } while tries > 0
+
+    return block()
   }
 
   enum Constants {
