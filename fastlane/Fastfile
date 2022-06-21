@@ -18,10 +18,6 @@ platform :ios do
 
   desc "Runs unit tests"
   lane :unit_tests do |options|
-    build_universal_framework()
-    export_release_xcframework()
-    build_swift_package()
-    pod_lib_lint(verbose: true, allow_warnings: true)
     test_plan = options[:test_plan]
     scan(
       scheme: "TwilioVerifySDK",
