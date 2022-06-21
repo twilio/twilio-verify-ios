@@ -35,6 +35,7 @@ struct CreateFactorPayload: FactorDataPayload {
   let config: [String: String]
   let binding: [String: String]
   let accessToken: String
+  let metadata: [String: String]?
 }
 
 struct UpdateFactorDataPayload: FactorDataPayload {

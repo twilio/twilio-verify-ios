@@ -30,6 +30,7 @@ struct PushFactor: Factor, Codable {
   let createdAt: Date
   let config: Config
   var keyPairAlias: String?
+  var metadata: [String: String]?
 }
 
 struct Config: Codable {
