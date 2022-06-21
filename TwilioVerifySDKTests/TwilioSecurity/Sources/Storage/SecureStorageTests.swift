@@ -40,21 +40,32 @@ class SecureStorageTests: XCTestCase {
     let data = "data".data(using: .utf8)!
     let key = "key"
     let expectedErrorCode = errSecDuplicateItem
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25299.)"
+    let expectedLocalizedDescription = "Invalid status code operation received: -25299"
     keychain.deleteItemStatus = errSecSuccess
     keychain.addItemStatus = [expectedErrorCode]
-    XCTAssertThrowsError(try storage.save(data, withKey: key, withServiceName: "service"), "Save should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try storage.save(data, withKey: key, withServiceName: "service"),
+      "Save should throw"
+    ) { error in
+      guard let thrownError = error as? SecureStorageError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         Int(expectedErrorCode),
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+
       XCTAssertEqual(
         thrownError.domain,
         NSOSStatusErrorDomain,
         "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
+      
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,
@@ -139,23 +150,34 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testClear_itemsExistAndDeleteStatusError_shouldThrowError() {
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    let expectedLocalizedDescription = "Invalid status code operation received: -25300"
     let expectedData2 = "data2".data(using: .utf8)!
     let valueData2 = [kSecValueData as String: expectedData2]
     keychain.keys = [[valueData2] as AnyObject]
     keychain.deleteItemStatus = errSecItemNotFound
-    XCTAssertThrowsError(try storage.clear(withServiceName: "service"), "Clear should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try storage.clear(withServiceName: "service"),
+      "Clear should throw"
+    ) { error in
+      guard let thrownError = error as? SecureStorageError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         Int(errSecItemNotFound),
-        "Error code should be \(errSecItemNotFound), but was \(thrownError.code)"
+        "Error code should be \(errSecItemNotFound), but was \(code)"
       )
+
       XCTAssertEqual(
         thrownError.domain,
         NSOSStatusErrorDomain,
         "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
+      
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,

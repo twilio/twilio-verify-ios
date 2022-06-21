@@ -58,7 +58,7 @@ extension SecureStorage: SecureStorageProvider {
     let query = keychainQuery.save(data: data, withKey: key, withServiceName: service)
     let status = keychain.addItem(withQuery: query)
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: SecureStorageError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -94,6 +94,10 @@ extension SecureStorage: SecureStorageProvider {
       Logger.shared.log(withLevel: .info, message: "Return all values")
       return objectsData
     } catch {
+      if case .invalidStatusCode(let code) = (error as? KeychainError),
+          case code = Int(errSecItemNotFound) {
+        return []
+      }
       if (error as NSError).code == Int(errSecItemNotFound) {
         return []
       }
@@ -107,7 +111,7 @@ extension SecureStorage: SecureStorageProvider {
     let query = keychainQuery.delete(withKey: key)
     let status = keychain.deleteItem(withQuery: query)
     guard status == errSecSuccess || status == errSecItemNotFound else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: SecureStorageError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -119,7 +123,7 @@ extension SecureStorage: SecureStorageProvider {
       let query = keychainQuery.deleteItems(withServiceName: service)
       let status = keychain.deleteItem(withQuery: query)
       guard status == errSecSuccess else {
-        let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+        let error: SecureStorageError = .invalidStatusCode(code: Int(status))
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         throw error
       }

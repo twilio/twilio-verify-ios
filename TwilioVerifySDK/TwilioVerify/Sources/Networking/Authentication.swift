@@ -64,7 +64,7 @@ extension AuthenticationProvider: Authentication {
       }
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
+      throw TwilioVerifyError.authenticationTokenError(error: error)
     }
   }
 }

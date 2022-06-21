@@ -71,7 +71,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: "anotherSid", success: {
       XCTFail()
@@ -96,7 +96,7 @@ class DeleteFactorTests: BaseFactorTests {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       XCTFail()
