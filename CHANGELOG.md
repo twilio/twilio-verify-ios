@@ -1,3 +1,16 @@
+# 2.2.0 (2022-06-22)
+
+### Features
+- Allow sending custom metadata when creating a factor ([4b6e296](https://github.com/twilio/twilio-verify-ios/commit/4b6e296ddf0120e6b04f0139f1f43c0ff4f0c724))
+
+### Building system
+- Update fastlane ([8b2c1fe](https://github.com/twilio/twilio-verify-ios/commit/8b2c1fe7ce8b3a6c85da77c36727a001d5eb3925))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
 # 2.1.0 (2022-03-23)
 
 ### Features
