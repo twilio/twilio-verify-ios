@@ -215,6 +215,7 @@ class Keychain: KeychainProtocol {
   private func retry<T>(
     tries: Int = 2,
     block: () -> T,
+    delay: TimeInterval = 0.1,
     validation: ((T) -> Bool)? = nil
   ) -> T {
     var tries: Int = tries
@@ -225,6 +226,7 @@ class Keychain: KeychainProtocol {
         if validation(result) {
           return result
         } else {
+          Thread.sleep(forTimeInterval: delay)
           break
         }
       } else {
