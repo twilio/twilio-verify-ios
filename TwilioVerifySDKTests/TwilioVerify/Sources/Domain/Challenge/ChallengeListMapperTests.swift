@@ -180,8 +180,8 @@ class ChallengeListMapperTests: XCTestCase {
     XCTAssertThrowsError(try mapper.fromAPI(withData: challengeListData), "Mapping from API should throw") { failure in
       error = failure as? TwilioVerifyError
     }
-    XCTAssertEqual(error.errorDescription, TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription,
-                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed as NSError).errorDescription!) but was \(error.errorDescription!)")
+    XCTAssertEqual(error.errorDescription, TwilioVerifyError.mapperError(error: TestError.operationFailed).errorDescription,
+                   "Error should be \(TwilioVerifyError.mapperError(error: TestError.operationFailed).errorDescription!) but was \(error.errorDescription!)")
   }
   
   func testFromAPI_withErrorMappingChallengeDTO_shouldThrow() {

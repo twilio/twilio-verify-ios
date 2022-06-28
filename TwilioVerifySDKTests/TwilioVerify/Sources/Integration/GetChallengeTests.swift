@@ -74,7 +74,7 @@ class GetChallengeTests: BaseFactorTests {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.getChallenge(challengeSid: Constants.challengeSid, factorSid: factor!.sid, success: { _ in
       XCTFail()
@@ -105,7 +105,7 @@ class GetChallengeTests: BaseFactorTests {
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.getChallenge(challengeSid: Constants.challengeSid, factorSid: factor!.sid, success: { _ in
       XCTFail()

@@ -59,19 +59,19 @@ class KeyStorageAdapterTests: XCTestCase {
   }
   
   func testSign_errorGettingSigner_shouldThrow() {
-    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.error = TestError.operationFailed
     XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, expectedError.originalError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
   
   func testSign_errorGettingPublicKey_shouldThrow() {
-    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.signer = signer
     signer.error = TestError.operationFailed
     XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, expectedError.originalError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
   
@@ -87,19 +87,19 @@ class KeyStorageAdapterTests: XCTestCase {
   }
   
   func testSignAndEncode_errorGettingSigner_shouldThrow() {
-    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.error = TestError.operationFailed
     XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, expectedError.originalError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
   
   func testSignAndEncode_errorGettingPublicKey_shouldThrow() {
-    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.signer = signer
     signer.error = TestError.operationFailed
     XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
-      XCTAssertEqual((error as! TwilioVerifyError).originalError, expectedError.originalError)
+      XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
   

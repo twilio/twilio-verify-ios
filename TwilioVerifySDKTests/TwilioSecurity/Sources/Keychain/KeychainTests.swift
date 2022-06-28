@@ -38,24 +38,35 @@ class KeychainTests: XCTestCase {
   func testAccessControl_withInvalidProtection_shouldThrow() {
     let expectedErrorCode = -50
     let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - SecAccessControl: invalid protection"
-    XCTAssertThrowsError(try keychain.accessControl(withProtection: String() as CFString), "Access Control sohuld throw", { error in
-      let thrownError = error as NSError
-      XCTAssertEqual(
-        thrownError.code,
-        expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
-      )
-      XCTAssertEqual(
-        thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
-      )
-      XCTAssertTrue(
-        thrownError.localizedDescription.contains(expectedLocalizedDescription),
-        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
-      )
-    })
+    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -50 - SecAccessControl: invalid protection: )"
+    
+    XCTAssertThrowsError(
+      try keychain.accessControl(withProtection: String() as CFString),
+      "Access Control should throw", { error in
+        
+        guard let thrownError = error as? KeychainError,
+              case .errorCreatingAccessControl(let cause) = thrownError else {
+          XCTFail("Unexpected error received")
+          return
+        }
+
+        let causeError = cause as NSError
+
+        XCTAssertEqual(
+          causeError.code,
+          expectedErrorCode,
+          "Error code should be \(expectedErrorCode), but was \(causeError.code)"
+        )
+        XCTAssertEqual(
+          thrownError.domain,
+          expectedErrorDomain,
+          "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        )
+        XCTAssertTrue(
+          thrownError.localizedDescription.contains(expectedLocalizedDescription),
+          "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
+        )
+      })
   }
   
   func testAccessControl_withValidProtection_shouldReturnAccesControl() {
@@ -80,12 +91,26 @@ class KeychainTests: XCTestCase {
     var pair: KeyPair!
     
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    XCTAssertThrowsError(try keychain.sign(withPrivateKey: pair.privateKey, algorithm: .rsaSignatureDigestPKCS1v15SHA256, dataToSign: dataToSign), "") { error in
-      let thrownError = error as NSError
+    
+    XCTAssertThrowsError(
+      try keychain.sign(
+        withPrivateKey: pair.privateKey,
+        algorithm: .rsaSignatureDigestPKCS1v15SHA256,
+        dataToSign: dataToSign), ""
+    ) { error in
+      
+      guard let thrownError = error as? KeychainError,
+            case .createSignatureError(let cause) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
+      let causeError = cause as NSError
+      
       XCTAssertEqual(
-        thrownError.code,
+        causeError.code,
         expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(causeError.code)"
       )
       XCTAssertEqual(
         thrownError.domain,
@@ -190,20 +215,31 @@ class KeychainTests: XCTestCase {
   
   func testGenerateKeyPair_withInvalidParameters_shouldThrow() {
     let expectedErrorCode = -4
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -4.)"
-    XCTAssertThrowsError(try keychain.generateKeyPair(withParameters: [:]), "Generate KeyPair Should throw") { error in
-      let thrownError = error as NSError
+    let expectedLocalizedDescription = "Invalid status code operation received: -4"
+
+    XCTAssertThrowsError(
+      try keychain.generateKeyPair(withParameters: [:]),
+      "Generate KeyPair Should throw"
+    ) { error in
+
+      guard let thrownError = error as? KeychainError,
+              case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
+      
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,
@@ -223,20 +259,30 @@ class KeychainTests: XCTestCase {
   
   func testCopyItemMatching_withoutMatches_shouldThrow() {
     let expectedErrorCode = -25300
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
-    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in
-      let thrownError = error as NSError
+    let expectedLocalizedDescription = "Invalid status code operation received: -25300"
+
+    XCTAssertThrowsError(
+      try keychain.copyItemMatching(query: Constants.keyQuery),
+      "Copy Item matching should throw"
+    ) { error in
+      guard let thrownError = error as? KeychainError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
+      
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,
@@ -247,24 +293,35 @@ class KeychainTests: XCTestCase {
   
   func testCopyItemMatching_withWrongQueryButItemExists_shouldThrow() {
     let expectedErrorCode = -25300
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
-    let expectedLocalizedDescription = "The operation couldn’t be completed. (OSStatus error -25300.)"
+    let expectedLocalizedDescription = "Invalid status code operation received: -25300"
     let data = "data".data(using: .utf8)!
     let query = KeychainQuery(accessGroup: nil).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
     let status = keychain.addItem(withQuery: query)
+
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")
-    XCTAssertThrowsError(try keychain.copyItemMatching(query: Constants.keyQuery), "Copy Item matching should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try keychain.copyItemMatching(query: Constants.keyQuery),
+      "Copy Item matching should throw"
+    ) { error in
+      guard let thrownError = error as? KeychainError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
+
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,

@@ -48,7 +48,7 @@ None
 ## Requirements
 * iOS 10+
 * Swift 5.2
-* Xcode 12.x
+* Xcode 13.x
 
 <a name='Documentation'></a>
 
@@ -238,6 +238,9 @@ twilioVerify.updateChallenge(withPayload: payload, success: {
 })
 ```
 You can find the associated errors for validations [here](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyError.swift#L119)
+
+
+For extra detail, check specific internal operations errors [here](https://github.com/twilio/twilio-verify-ios/tree/main/TwilioVerifySDK/TwilioVerify/Sources/Errors/OperationErrors.swift#L27)
 
 <a name='UpdatePushToken'></a>
 

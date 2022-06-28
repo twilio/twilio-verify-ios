@@ -138,7 +138,7 @@ class TwilioVerifyTests: XCTestCase {
   
   func testDeleteFactor_withoutExistingFactor_shouldFail() {
     let expectation = self.expectation(description: "testDeleteFactor_withoutExistingFactor_shouldFail")
-    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: "anotherSid", success: {
       XCTFail()

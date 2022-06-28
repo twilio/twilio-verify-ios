@@ -51,22 +51,39 @@ class Keychain: KeychainProtocol {
 
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     var keychainError: Unmanaged<CFError>?
+    
     guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &keychainError) else {
-      let error = keychainError!.takeRetainedValue() as Error
+      var error: KeychainError = .unexpectedError
+
+      if let accessControlError = (keychainError?.takeRetainedValue() as? Error) {
+        error = .errorCreatingAccessControl(cause: accessControlError)
+      }
+      
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      
       throw error
     }
+    
     return accessControl
   }
   
   func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data {
     var keychainError: Unmanaged<CFError>?
+    
     guard let signature = SecKeyCreateSignature(key, algorithm, data as CFData, &keychainError) else {
-      let error = keychainError!.takeRetainedValue() as Error
+      var error: KeychainError = .unexpectedError
+  
+      if let createSignatureError = (keychainError?.takeRetainedValue() as? Error) {
+        error = .createSignatureError(cause: createSignatureError)
+      }
+      
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      
       throw error
     }
+    
     Logger.shared.log(withLevel: .debug, message: "Sign data with \(algorithm)")
+    
     return signature as Data
   }
   
@@ -79,7 +96,7 @@ class Keychain: KeychainProtocol {
   func representation(forKey key: SecKey) throws -> Data {
     var keychainError: Unmanaged<CFError>?
     guard let representation = SecKeyCopyExternalRepresentation(key, &keychainError) else {
-      let error = keychainError!.takeRetainedValue() as Error
+      let error = (keychainError?.takeRetainedValue() as? Error) ?? KeychainError.unexpectedError
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -90,23 +107,52 @@ class Keychain: KeychainProtocol {
     var publicKey, privateKey: SecKey?
     let parameters = addAccessGroupToKeyPairs(parameters: parameters)
     let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
+
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeychainError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
-    Logger.shared.log(withLevel: .debug, message: "Generated key pair for parameters \(parameters)")
-    return KeyPair(publicKey: publicKey!, privateKey: privateKey!)
+
+    guard let publicKey = publicKey else {
+      let error: KeychainError = .unableToGeneratePublicKey
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
+    }
+
+    guard let privateKey = privateKey else {
+      let error: KeychainError = .unableToGeneratePrivateKey
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
+    }
+
+    Logger.shared.log(
+      withLevel: .debug,
+      message: "Generated key pair for parameters \(parameters)"
+    )
+
+    return KeyPair(
+      publicKey: publicKey,
+      privateKey: privateKey
+    )
   }
   
   func copyItemMatching(query: Query) throws -> AnyObject {
-    var result: AnyObject!
+    var result: AnyObject?
     let status = SecItemCopyMatching(query as CFDictionary, &result)
+
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeychainError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
+
+    guard let result = result else {
+      let error: KeychainError = .unableToCopyItem
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
+    }
+
     return result
   }
   
