@@ -1,3 +1,13 @@
+# 2.2.1 (2022-06-28)
+
+### Bug fixes
+- NSErrors removed and added new specific errors ([71a1130](https://github.com/twilio/twilio-verify-ios/commit/71a1130f98ce0be978a732db018a519c5ba921c9))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
 # 2.2.0 (2022-06-22)
 
 ### Features
