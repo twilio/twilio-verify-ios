@@ -185,6 +185,53 @@ class SecureStorageTests: XCTestCase {
       )
     }
   }
+
+  func testGet_valueExistsForMultipleTries_shouldReturnValueIfAnyOfTheTriesSucceed() throws {
+    // Given
+    let expectation = expectation(description: "Test multiple tries of storage.Get")
+    guard let expectedData = "data".data(using: .utf8) else {
+      XCTFail("failed to encrypt data")
+      return
+    }
+
+    let key = "key"
+    var data: Data?
+    keychain.error = TestError.operationFailed
+    keychain.keys = [expectedData as AnyObject, expectedData as AnyObject, expectedData as AnyObject]
+
+    keychain.copyItemMitmatchingHandler = { [weak self] in
+      if self?.keychain.callsToCopyItemMatching == 0 {
+        self?.keychain.error = nil
+        expectation.fulfill()
+      }
+    }
+
+    // When
+    XCTAssertNoThrow(data = try storage.get(key), "Get should not throw if the data is retrieve")
+
+    // Then
+    wait(for: [expectation], timeout: 1.0)
+    XCTAssertEqual(data, expectedData, "Data should be \(expectedData) but was \(data)")
+  }
+
+  func testGet_valueExistsForMultipleTries_shouldThrowIfTheErrorPersist() throws {
+    // Given
+    guard let expectedData = "data".data(using: .utf8) else {
+      XCTFail("failed to encrypt data")
+      return
+    }
+
+    let key = "key"
+    var data: Data?
+    keychain.error = TestError.operationFailed
+    keychain.keys = [expectedData as AnyObject]
+
+    // When
+    XCTAssertThrowsError(data = try storage.get(key), "Get should throw if the error persist during retries")
+
+    // Then
+    XCTAssertEqual(data, nil, "Data should be nil")
+  }
 }
 
 private extension SecureStorageTests {
