@@ -1,3 +1,13 @@
+# 2.2.2 (2022-07-13)
+
+### Bug fixes
+- Add retry for keychain operations, preventing 25300 keychain error code ([4f021c7](https://github.com/twilio/twilio-verify-ios/commit/4f021c7d2a650b8b4bb999979256ff9d507a26f7))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
 # 2.2.1 (2022-06-28)
 
 ### Bug fixes
