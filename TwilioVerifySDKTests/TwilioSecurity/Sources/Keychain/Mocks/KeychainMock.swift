@@ -42,10 +42,11 @@ class KeychainMock {
   var deleteItemStatus: OSStatus!
   var keyPair: KeyPair!
   var keys: [AnyObject]!
+  var copyItemMitmatchingHandler: (() -> Void)?
   private(set) var callsToAddItem = 0
   private(set) var callsToUpdateItem = 0
   private(set) var callOrder = [KeychainMethods]()
-  private var callsToCopyItemMatching = -1
+  private(set) var callsToCopyItemMatching = -1
   
 }
 
@@ -90,9 +91,15 @@ extension KeychainMock: KeychainProtocol {
   
   func copyItemMatching(query: Query) throws -> AnyObject {
     callsToCopyItemMatching += 1
+
+    if let copyItemMitmatchingHandler = copyItemMitmatchingHandler {
+      copyItemMitmatchingHandler()
+    }
+
     if let error = error {
       throw error
     }
+
     return keys[callsToCopyItemMatching]
   }
   
