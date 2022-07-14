@@ -18,8 +18,6 @@
 //
 
 import XCTest
-import Foundation
-import LocalAuthentication
 @testable import TwilioVerifySDK
 
 // swiftlint:disable force_cast type_body_length
@@ -331,7 +329,7 @@ class KeychainTests: XCTestCase {
       )
     }
   }
-    
+  
   func testCopyItemMatching_witMatches_shouldReturnKey() {
     var pair: KeyPair!
     var keyObject: AnyObject!
@@ -413,11 +411,5 @@ private extension KeychainTests {
     secItemClasses.forEach {
       SecItemDelete([kSecClass: $0] as CFDictionary)
     }
-  }
-}
-
-extension CFString {
-  var asString: String {
-    self as String
   }
 }
