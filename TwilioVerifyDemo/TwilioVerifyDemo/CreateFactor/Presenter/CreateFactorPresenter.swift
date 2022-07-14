@@ -20,7 +20,12 @@ import Foundation
 import TwilioVerifySDK
 
 protocol CreateFactorPresentable {
-  func create(withIdentity identity: String?, accessTokenURL: String?)
+  func create(
+    withIdentity identity: String?,
+    accessTokenURL: String?,
+    pushNotificationEnabled: Bool
+  )
+    
   func accessTokenURL() -> String?
 }
 
@@ -38,10 +43,37 @@ class CreateFactorPresenter {
     self.twilioVerify = twilioVerify
     self.accessTokensAPI = accessTokensAPI
   }
+  
+  /// This method is intended to demonstrate how to access to
+  /// Verify API errors, such custom response codes and details.
+  /// See https://www.twilio.com/docs/api/errors
+  /// - Parameter error: Create Factor result error
+  private func retrieveAPIError(
+    with error: TwilioVerifyError
+  ) -> String? {
+    let apiError = error.originalError as? NetworkError
+    
+    if case let .failureStatusCode(response) = apiError {
+      // Gets Verify API error response
+      var errorResponse = response
+      
+      if let code = errorResponse.apiError?.code,
+         let message = errorResponse.apiError?.message {
+        return "Code: \(code) - \(message)"
+      }
+    }
+    
+    return nil
+  }
 }
 
 extension CreateFactorPresenter: CreateFactorPresentable {
-  func create(withIdentity identity: String?, accessTokenURL: String?) {
+  func create(
+    withIdentity identity: String?,
+    accessTokenURL: String?,
+    pushNotificationEnabled: Bool
+  ) {
+      
     guard let identity = identity, !identity.isEmpty else {
       view?.showAlert(withMessage: "Invalid Identity")
       return
@@ -50,16 +82,23 @@ extension CreateFactorPresenter: CreateFactorPresentable {
       view?.showAlert(withMessage: "Invalid URL")
       return
     }
-    let deviceToken = pushToken()
-    guard !deviceToken.isEmpty else {
-      view?.showAlert(withMessage: "Invalid device token for push")
-      return
-    }
+
     saveAccessTokenURL(url)
+    
     accessTokensAPI.accessTokens(at: url, identity: identity, success: { [weak self] response in
       guard let strongSelf = self else { return }
+      
+      let devicePushToken = pushNotificationEnabled ? strongSelf.pushToken : nil
       let factorName = "\(identity)'s Factor"
-      strongSelf.createFactor(response, withFactorName: factorName, deviceToken: deviceToken, success: { factor in
+      let metadata = !pushNotificationEnabled ? ["os": "iOS"] : nil
+      
+      strongSelf.createFactor(
+        response,
+        withFactorName: factorName,
+        devicePushToken: devicePushToken,
+        metadata: metadata,
+        success: { factor in
+            
         strongSelf.verify(factor, success: { _ in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
@@ -71,8 +110,13 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         }
       }) { error in
         guard let strongSelf = self else { return }
+        
+        let errorMessage = strongSelf.retrieveAPIError(
+          with: error
+        ) ?? error.errorMessage
+                
         DispatchQueue.main.async {
-          strongSelf.view?.showAlert(withMessage: error.errorMessage)
+          strongSelf.view?.showAlert(withMessage: errorMessage)
         }
       }
     }) {[weak self] error in
@@ -93,28 +137,33 @@ private extension CreateFactorPresenter {
   struct Constants {
     static let accessTokenURLKey = "accessTokenURL"
     static let pushTokenKey = "PushToken"
-    static let dummyPushToken = "0000000000000000000000000000000000000000000000000000000000000000"
   }
   
   func saveAccessTokenURL(_ url: String) {
     UserDefaults.standard.set(url, forKey: Constants.accessTokenURLKey)
   }
   
-  func pushToken() -> String {
-    if TARGET_OS_SIMULATOR == 1 {
-      return Constants.dummyPushToken
-    }
-    return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String ?? String()
+  var pushToken: String? {
+    if TARGET_OS_SIMULATOR == 1 { return nil }
+    return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String
   }
   
-  func createFactor(_ accessToken: AccessTokenResponse, withFactorName factorName: String, deviceToken: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func createFactor(_ accessToken: AccessTokenResponse,
+                    withFactorName factorName: String,
+                    devicePushToken: String?,
+                    metadata: [String: String]?,
+                    success: @escaping FactorSuccessBlock,
+                    failure: @escaping TwilioVerifyErrorBlock) {
+    
     let payload = PushFactorPayload(
       friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
       identity: accessToken.identity,
-      pushToken: deviceToken,
-      accessToken: accessToken.token
+      pushToken: devicePushToken,
+      accessToken: accessToken.token,
+      metadata: metadata
     )
+    
     twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
   }
   

@@ -42,8 +42,10 @@ class AuthenticationProvider {
   private let jwtGenerator: JwtGeneratorProtocol
   private let dateProvider: DateProvider
   
-  init(withJwtGenerator jwtGenerator: JwtGeneratorProtocol = JwtGenerator(),
-       dateProvider: DateProvider = DateAdapter()) {
+  init(
+    withJwtGenerator jwtGenerator: JwtGeneratorProtocol,
+    dateProvider: DateProvider
+  ) {
     self.jwtGenerator = jwtGenerator
     self.dateProvider = dateProvider
   }
@@ -62,7 +64,7 @@ extension AuthenticationProvider: Authentication {
       }
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.authenticationTokenError(error: error as NSError)
+      throw TwilioVerifyError.authenticationTokenError(error: error)
     }
   }
 }

@@ -38,6 +38,8 @@ public protocol Factor {
   var type: FactorType { get }
   ///Indicates the creation date of the Factor.
   var createdAt: Date { get }
+  ///Custom metadata associated with the factor when created. This is added by the Device/SDK directly to allow for the inclusion of device information.
+  var metadata: [String: String]? { get }
 }
 
 ///Describes the verification status of a Factor.

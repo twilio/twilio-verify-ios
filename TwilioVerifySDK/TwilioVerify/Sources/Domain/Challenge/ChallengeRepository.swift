@@ -22,7 +22,8 @@ import Foundation
 protocol ChallengeProvider {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock)
-  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock)
+  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, order: ChallengeListOrder, pageToken: String?,
+              success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock)
 }
 
 class ChallengeRepository {
@@ -48,7 +49,7 @@ extension ChallengeRepository: ChallengeProvider {
                                                                 ($0.key as? String)?.compare(Constants.signatureFieldsHeader, options: .caseInsensitive) == .orderedSame
                                                                }?.value as? String)
         if challenge.factorSid != factor.sid {
-          let error = InputError.invalidInput(field: "wrong factor for challenge")
+          let error: InputError = .wrongFactor
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
           failure(error)
           return
@@ -64,19 +65,24 @@ extension ChallengeRepository: ChallengeProvider {
   
   func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
     guard let factorChallenge = challenge as? FactorChallenge else {
-      let error = InputError.invalidInput(field: "invalid challenge")
+      let error: InputError = .invalidChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return
     }
     guard let factor = factorChallenge.factor else {
-      let error = InputError.invalidInput(field: "invalid factor")
+      let error: InputError = .invalidFactor
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return
     }
+    if factorChallenge.status == .expired {
+      let error: InputError = .expiredChallenge
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      return failure(error)
+    }
     guard factorChallenge.status == .pending else {
-      let error = InputError.invalidInput(field: "responded or expired challenge can not be updated")
+      let error: InputError = .alreadyUpdatedChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       failure(error)
       return
@@ -87,8 +93,9 @@ extension ChallengeRepository: ChallengeProvider {
     }, failure: failure)
   }
   
-  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, pageToken: String?, success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
-    apiClient.getAll(forFactor: factor, status: status?.rawValue, pageSize: pageSize, pageToken: pageToken, success: { [weak self] response in
+  func getAll(for factor: Factor, status: ChallengeStatus?, pageSize: Int, order: ChallengeListOrder, pageToken: String?,
+              success: @escaping (ChallengeList) -> (), failure: @escaping FailureBlock) {
+    apiClient.getAll(forFactor: factor, status: status?.rawValue, pageSize: pageSize, order: order, pageToken: pageToken, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {
         let challengeList = try strongSelf.challengeListMapper.fromAPI(withData: response.data)

@@ -67,11 +67,11 @@ class NetworkAdapterTests: XCTestCase {
     let failureResponse = (error as! NetworkError).failureResponse!
     let expectedError = NetworkError.failureStatusCode(
       failureResponse: FailureResponse(
-        responseCode: statusCode,
+        statusCode: statusCode,
         errorData: expectedDataResponse,
         headers: headersFields))
     XCTAssertEqual((error as! NetworkError).errorDescription, expectedError.errorDescription)
-    XCTAssertEqual(failureResponse.responseCode, statusCode)
+    XCTAssertEqual(failureResponse.statusCode, statusCode)
     XCTAssertEqual(failureResponse.errorData, expectedDataResponse)
     XCTAssertEqual(failureResponse.headers as! [String: String], headersFields)
   }

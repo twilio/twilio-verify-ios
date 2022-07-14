@@ -27,10 +27,10 @@ public typealias ErrorBlock = (Error) -> ()
 
 ///:nodoc:
 public protocol AuthenticatedSecureStorageProvider {
-  func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock)
+  func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock, withServiceName service: String?)
   func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock)
   func removeValue(for key: String) throws
-  func clear() throws
+  func clear(withServiceName service: String?) throws
 }
 
 ///:nodoc:
@@ -49,24 +49,24 @@ public class AuthenticatedSecureStorage {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
 
-  public convenience init() {
-    self.init(keychain: Keychain(), keychainQuery: KeychainQuery())
+  public convenience init(accessGroup: String?) {
+    self.init(keychain: Keychain(accessGroup: accessGroup), keychainQuery: KeychainQuery(accessGroup: accessGroup))
   }
 
-  init(keychain: KeychainProtocol = Keychain(),
-       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+  init(keychain: KeychainProtocol,
+       keychainQuery: KeychainQueryProtocol) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
 }
 
 extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
-  public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock) {
+  public func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock, withServiceName service: String?) {
     evaluatePolicy(for: authenticator, success: {
       do {
         Logger.shared.log(withLevel: .info, message: "Saving \(key)")
         let accessControl = try self.getAccessControl()
-        let query = self.keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: authenticator.context)
+        let query = self.keychainQuery.save(data: data, withKey: key, accessControl: accessControl, context: authenticator.context, withServiceName: service)
         let status = self.keychain.addItem(withQuery: query)
         guard status == errSecSuccess else {
           let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
@@ -75,7 +75,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
           return
         }
         Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
-        self.storeBiometricPolicyState(with: key, with: authenticator.context)
+        self.storeBiometricPolicyState(with: key, with: authenticator.context, withServiceName: service)
         success()
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -127,9 +127,9 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
   }
 
-  public func clear() throws {
+  public func clear(withServiceName service: String?) throws {
     Logger.shared.log(withLevel: .info, message: "Clearing storage")
-    let query = keychainQuery.deleteItems()
+    let query = keychainQuery.deleteItems(withServiceName: service)
     let status = keychain.deleteItem(withQuery: query)
     guard status == errSecSuccess else {
       let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
@@ -196,14 +196,14 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
   }
 
-  private func storeBiometricPolicyState(with key: String, with context: LAContext) {
+  private func storeBiometricPolicyState(with key: String, with context: LAContext, withServiceName service: String?) {
     guard let evaluatePolicyState = context.evaluatedPolicyDomainState else {
       Logger.shared.log(withLevel: .error, message: "Not evaluate policy available")
       return
     }
 
     let policyKey = String(format: Constants.biometricsPolicyState, key)
-    let query = keychainQuery.save(data: evaluatePolicyState, withKey: policyKey)
+    let query = keychainQuery.save(data: evaluatePolicyState, withKey: policyKey, withServiceName: service)
     let status = self.keychain.addItem(withQuery: query)
 
     if status != errSecSuccess {

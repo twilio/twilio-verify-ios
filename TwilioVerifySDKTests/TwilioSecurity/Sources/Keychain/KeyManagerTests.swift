@@ -29,7 +29,7 @@ class KeyManagerTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    keyManager = KeyManager(withKeychain: keychain)
+    keyManager = KeyManager(withKeychain: keychain, keychainQuery: KeychainQuery(accessGroup: nil))
   }
   
   func testKey_withoutMatches_shouldThrow() {
@@ -148,22 +148,32 @@ class KeyManagerTests: XCTestCase {
   func testForceSavePublicKey_withFailureAddingItem_shouldThrow() {
     var pair: KeyPair!
     let expectedErrorCode: OSStatus = -50
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedCallsToAddItem = 1
     let expectedCallOrder = [KeychainMethods.addItem]
+
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     keychain.addItemStatus = [expectedErrorCode]
-    XCTAssertThrowsError(try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias), "Force save public key should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias),
+      "Force save public key should throw"
+    ) { error in
+      guard let thrownError = error as? KeyManagerError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         Int(expectedErrorCode),
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
     }
     XCTAssertEqual(
@@ -181,27 +191,38 @@ class KeyManagerTests: XCTestCase {
   func testForceSavePublicKey_keyAlreadyExistsErrorDeletingKey_shouldThrow() {
     var pair: KeyPair!
     let expectedErrorCode = errSecBadReq
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedCallsToAddItem = 2
     let expectedCallOrder: [KeychainMethods] = [.addItem,
                                                 .deleteItem,
                                                 .addItem]
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+
     keychain.addItemStatus = [errSecDuplicateItem, expectedErrorCode]
     keychain.deleteItemStatus = -50
-    XCTAssertThrowsError(try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias), "Force save public key should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias),
+      "Force save public key should throw"
+    ) { error in
+      guard let thrownError = error as? KeyManagerError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         Int(expectedErrorCode),
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
     }
+
     XCTAssertEqual(
       keychain.callsToAddItem,
       expectedCallsToAddItem,
@@ -293,28 +314,39 @@ class KeyManagerTests: XCTestCase {
   func testSigner_withErrorSavingKey_shouldThrow() {
     var template: SignerTemplate!
     var pair: KeyPair!
-    let expectedErrorDomain = "NSOSStatusErrorDomain"
     let expectedErrorCode: OSStatus = -50
 
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
+
     keychain.error = TestError.operationFailed
     keychain.keyPair = pair
     keychain.addItemStatus = [-50]
+
     XCTAssertNoThrow(
       template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false),
       "Template should be created correclty"
     )
-    XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in
-      let thrownError = error as NSError
+
+    XCTAssertThrowsError(
+      try keyManager.signer(withTemplate: template),
+      "Signer should throw"
+    ) { error in
+      guard let thrownError = error as? KeyManagerError,
+            case .invalidStatusCode(let code) = thrownError else {
+        XCTFail("Unexpected error received")
+        return
+      }
+
       XCTAssertEqual(
-        thrownError.code,
+        code,
         Int(expectedErrorCode),
-        "Error code should be \(expectedErrorCode), but was \(thrownError.code)"
+        "Error code should be \(expectedErrorCode), but was \(code)"
       )
+      
       XCTAssertEqual(
         thrownError.domain,
-        expectedErrorDomain,
-        "Error domain should be \(expectedErrorDomain), but was \(thrownError.domain)"
+        NSOSStatusErrorDomain,
+        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
     }
   }

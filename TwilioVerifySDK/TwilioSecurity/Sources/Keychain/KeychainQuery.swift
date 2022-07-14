@@ -20,7 +20,7 @@
 import Foundation
 import LocalAuthentication
 
-typealias Query = [String: Any]
+typealias Query = [CFString: Any]
 
 enum KeyAttrClass {
   case `public`
@@ -40,82 +40,131 @@ protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
   func deleteKey(withAlias alias: String) -> Query
-  func save(data: Data, withKey key: String) -> Query
-  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext) -> Query
+  func save(data: Data, withKey key: String, withServiceName service: String?) -> Query
+  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext, withServiceName service: String?) -> Query
   func getData(withKey key: String) -> Query
   func getData(withKey key: String, authenticationPrompt: String) -> Query
-  func getAll() -> Query
+  func getAll(withServiceName service: String?) -> Query
   func delete(withKey key: String) -> Query
-  func deleteItems() -> Query
+  func deleteItems(withServiceName service: String?) -> Query
 }
 
 struct KeychainQuery: KeychainQueryProtocol {
-  func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query {
-    [kSecClass: kSecClassKey,
-     kSecAttrKeyClass: keyClass.value,
-     kSecAttrLabel: template.alias,
-     kSecReturnRef: true,
-     kSecAttrKeyType: template.algorithm,
-     kSecAttrAccessControl: template.accessControl] as Query
+
+  // MARK: - Properties
+
+  /// Direct use of [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift),
+  /// when set all methods will make use of it.
+  var accessGroup: String?
+
+  init(accessGroup: String?) {
+    self.accessGroup = accessGroup
   }
-  
+
+  // MARK: - Public Methods
+
+  func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query {
+    properties([
+      kSecClass: kSecClassKey,
+      kSecAttrKeyClass: keyClass.value,
+      kSecAttrLabel: template.alias,
+      kSecReturnRef: true,
+      kSecAttrKeyType: template.algorithm
+    ])
+  }
+
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
-    [kSecClass: kSecClassKey,
-     kSecAttrLabel: alias,
-     kSecValueRef: key,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    properties([
+      kSecClass: kSecClassKey,
+      kSecAttrLabel: alias,
+      kSecValueRef: key,
+      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ])
   }
   
   func deleteKey(withAlias alias: String) -> Query {
-    [kSecClass: kSecClassKey,
+    [
+     kSecClass: kSecClassKey,
      kSecAttrLabel: alias,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ]
   }
-  
-  func save(data: Data, withKey key: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
+
+  func save(data: Data, withKey key: String, withServiceName service: String?) -> Query {
+    var query = [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    if let service = service {
+      query[kSecAttrService] = service
+    }
+    return properties(query)
   }
   
-  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext) -> Query {
-    [kSecClass: kSecClassGenericPassword,
+  func save(data: Data, withKey key: String, accessControl: SecAccessControl, context: LAContext, withServiceName service: String?) -> Query {
+    var query = [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
      kSecAttrAccessControl: accessControl,
      kSecUseAuthenticationContext: context] as Query
+    if let service = service {
+      query[kSecAttrService] = service
+    }
+    return properties(query)
   }
 
   func getData(withKey key: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key,
-     kSecReturnData: true,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    properties([
+      kSecClass: kSecClassGenericPassword,
+      kSecAttrAccount: key,
+      kSecReturnData: true,
+      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ])
   }
   
   func getData(withKey key: String, authenticationPrompt: String) -> Query {
-    [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key,
-     kSecReturnData: true,
-     kSecUseOperationPrompt: authenticationPrompt] as Query
+    properties([
+      kSecClass: kSecClassGenericPassword,
+      kSecAttrAccount: key,
+      kSecReturnData: true,
+      kSecUseOperationPrompt: authenticationPrompt
+    ])
   }
 
-  func getAll() -> Query {
-    [kSecClass: kSecClassGenericPassword,
+  func getAll(withServiceName service: String?) -> Query {
+    var query = [kSecClass: kSecClassGenericPassword,
      kSecReturnAttributes: true,
      kSecReturnData: true,
      kSecMatchLimit: kSecMatchLimitAll,
      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+    if let service = service {
+      query[kSecAttrService] = service
+    }
+    return properties(query)
   }
-  
+
   func delete(withKey key: String) -> Query {
     [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key] as Query
   }
 
-  func deleteItems() -> Query {
-    [kSecClass: kSecClassGenericPassword,
-    kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+  func deleteItems(withServiceName service: String?) -> Query {
+    var query = [kSecClass: kSecClassGenericPassword] as Query
+    if let service = service {
+      query[kSecAttrService] = service
+    }
+    return query
+  }
+
+  // MARK: - Private Methods
+
+  func properties(_ properties: Query) -> Query {
+    var customProperties = properties
+
+    if let accessGroup = accessGroup {
+      customProperties[kSecAttrAccessGroup] = accessGroup
+    }
+
+    return customProperties
   }
 }

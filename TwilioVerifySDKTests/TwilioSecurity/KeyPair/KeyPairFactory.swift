@@ -26,7 +26,7 @@ struct KeyPairFactory {
     var publicKeySec, privateKeySec: SecKey!
     let status = SecKeyGeneratePair(Constants.pairAttributes, &publicKeySec, &privateKeySec)
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeyManagerError = .invalidStatusCode(code: Int(status))
       throw error
     }
     return KeyPair(publicKey: publicKeySec, privateKey: privateKeySec)

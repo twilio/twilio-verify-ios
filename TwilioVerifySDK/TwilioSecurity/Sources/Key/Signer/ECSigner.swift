@@ -32,9 +32,11 @@ class ECSigner {
   private let signatureAlgorithm: SecKeyAlgorithm
   private let keychain: KeychainProtocol
   
-  init(withKeyPair keyPair: KeyPair,
-       signatureAlgorithm: SecKeyAlgorithm,
-       keychain: KeychainProtocol = Keychain()) {
+  init(
+    withKeyPair keyPair: KeyPair,
+    signatureAlgorithm: SecKeyAlgorithm,
+    keychain: KeychainProtocol
+  ) {
     self.keyPair = keyPair
     self.signatureAlgorithm = signatureAlgorithm
     self.keychain = keychain

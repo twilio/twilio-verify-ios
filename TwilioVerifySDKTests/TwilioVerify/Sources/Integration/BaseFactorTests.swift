@@ -41,7 +41,6 @@ class BaseFactorTests: XCTestCase {
     let networkProvider = NetworkAdapter(withSession: urlSession)
     // swiftlint:disable:next force_try
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL("https://twilio.com")
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)

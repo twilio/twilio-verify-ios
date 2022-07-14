@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = 'TwilioVerify'
   s.module_name = 'TwilioVerifySDK'
-  s.version = '1.0.0'
+  s.version = '2.2.2'
   s.license = { :type => 'Apache-2.0', :file => 'LICENSE' }
   s.summary = 'TwilioVerify'
   s.homepage = 'https://github.com/twilio/twilio-verify-ios'

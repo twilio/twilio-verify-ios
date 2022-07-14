@@ -33,23 +33,23 @@ import Foundation
  */
 public enum TwilioVerifyError: LocalizedError {
   
-  ///An error occurred while calling the API.
-  case networkError(error: NSError)
-  ///An error occurred while mapping an entity.
-  case mapperError(error: NSError)
-  ///An error occurred while storing/loading an entity.
-  case storageError(error: NSError)
-  ///An error occurred while loading input.
-  case inputError(error: NSError)
-  ///An error occurred while storing/loading keypairs.
-  case keyStorageError(error: NSError)
-  ///An error occurred while initializing a class.
-  case initializationError(error: NSError)
-  ///An error occurred while generating a token.
-  case authenticationTokenError(error: NSError)
+  /// An error occurred while calling the API.
+  case networkError(error: Error)
+  /// An error occurred while mapping an entity.
+  case mapperError(error: Error)
+  /// An error occurred while storing/loading an entity.
+  case storageError(error: Error)
+  /// An error occurred while loading input.
+  case inputError(error: Error)
+  /// An error occurred while storing/loading keypairs.
+  case keyStorageError(error: Error)
+  /// An error occurred while initializing a class.
+  case initializationError(error: Error)
+  /// An error occurred while generating a token.
+  case authenticationTokenError(error: Error)
   
-  ///Associated reason of the error
-  public var originalError: NSError {
+  /// Associated reason of the error
+  public var originalError: Error {
     switch self {
       case .networkError(let error),
            .mapperError(let error),
@@ -62,7 +62,7 @@ public enum TwilioVerifyError: LocalizedError {
     }
   }
   
-  ///Brief description of the error, indicates at which layer the error ocurred
+  /// Brief description of the error, indicates at which layer the error ocurred
   public var errorDescription: String? {
     switch self {
       case .networkError:
@@ -112,13 +112,50 @@ public enum TwilioVerifyError: LocalizedError {
   }
 }
 
-enum InputError: LocalizedError {
+/**
+ Error types returned as cause for a `TwilioVerifyError` and `InputError` code on validation errors.
+ - errorDescription: message associated message of the error.
+ */
+public enum InputError: Error, LocalizedError {
   case invalidInput(field: String)
+  case invalidPayload
+  case expiredChallenge
+  case alreadyUpdatedChallenge
+  case notUpdatedChallenge
+  case invalidChallenge
+  case emptyChallengeSid
+  case invalidUpdateChallengePayload(factorType: FactorType)
+  case emptyFactorSid
+  case wrongFactor
+  case invalidFactor
+  case signatureFields
   
-  var errorDescription: String? {
+  public var errorDescription: String? {
     switch self {
       case .invalidInput(let field):
         return "Invalid input: \(field)"
+      case .invalidPayload:
+        return "Payload format is not valid"
+      case .expiredChallenge:
+        return "Expired challenge can not be updated"
+      case .alreadyUpdatedChallenge:
+        return "Responded challenge can not be updated"
+      case .notUpdatedChallenge:
+        return "Challenge was not updated"
+      case .invalidChallenge:
+        return "Invalid challenge for received factor"
+      case .emptyChallengeSid:
+        return "Empty challenge sid"
+      case .invalidUpdateChallengePayload(let factorType):
+        return "Invalid update challenge payload for factor \(factorType)"
+      case .emptyFactorSid:
+        return "Empty factor sid"
+      case .wrongFactor:
+        return "Wrong factor for challenge"
+      case .invalidFactor:
+        return "Invalid factor"
+      case .signatureFields:
+        return "Signature fields or response not set"
     }
   }
 }

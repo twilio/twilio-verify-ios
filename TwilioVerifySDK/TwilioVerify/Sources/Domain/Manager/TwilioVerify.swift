@@ -152,21 +152,15 @@ public protocol TwilioVerify {
 /// Builder class that builds an instance of TwilioVerifyManager, which handles all the operations
 /// regarding Factors and Challenges
 public class TwilioVerifyBuilder {
-  
-  private var keyStorage: KeyStorage
   private var networkProvider: NetworkProvider
   private var _baseURL: String
-  private var jwtGenerator: JwtGenerator
-  private var authentication: Authentication
   private var clearStorageOnReinstall: Bool
+  private var accessGroup: String?
   private var loggingServices: [LoggerService]
   
   /// Creates a new instance of TwilioVerifyBuilder
   public init() {
-    keyStorage = KeyStorageAdapter()
     networkProvider = NetworkAdapter()
-    jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner())
-    authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator)
     _baseURL = baseURL
     clearStorageOnReinstall = true
     loggingServices = []
@@ -179,16 +173,23 @@ public class TwilioVerifyBuilder {
     return self
   }
   
-  func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
+  /// Defines if the storage will be cleared after a reinstall
+  /// - Parameter clearStorageOnReinstall: If true, the storage will be cleared after a reinstall, so created factors will not exist in the device anymore.
+  /// If false, created factors will persist in the device. Default value is true
+  public func setClearStorageOnReinstall(_ clearStorageOnReinstall: Bool) -> Self {
     self.clearStorageOnReinstall = clearStorageOnReinstall
     return self
   }
 
-  func setURL(_ url: String) -> Self {
-    _baseURL = url
+  /// Set the accessGroup that will be used for the Keychain storage.
+  /// - Parameter accessGroup: Used to specify the access group for the [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift)
+  /// of the KeyChain.
+  /// if `nil` the data will be only available in the app, otherwise using a KeyChain group will enable the option to access data from service extensions.
+  public func setAccessGroup(_ accessGroup: String?) -> Self {
+    self.accessGroup = accessGroup
     return self
   }
-  
+
   /**
    Enables the default logger
     - Parameters:
@@ -208,21 +209,38 @@ public class TwilioVerifyBuilder {
     loggingServices.append(service)
     return self
   }
-  
+
+  /// Set the UserDefaults group that will be used to store configurations
+  private func userDefaults() -> UserDefaults {
+    if let accessGroup = accessGroup, let userDefaults = UserDefaults(suiteName: accessGroup) {
+      return userDefaults
+    } else {
+      return UserDefaults.standard
+    }
+  }
+
   /**
-  Buids an instance of TwilioVerifyManager
+   Buids an instance of TwilioVerifyManager
    - Throws: `TwilioVerifyError.initializationError` if an error occurred while initializing.
    - Returns: An instance of `TwilioVerify`.
-  */
+   */
   public func build() throws -> TwilioVerify {
     do {
       loggingServices.forEach { Logger.shared.addService($0) }
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
+      let keyChain = Keychain(accessGroup: accessGroup)
+      let keyStorage = KeyStorageAdapter(keyManager: KeyManager(withKeychain: keyChain, keychainQuery: keychainQuery))
+      let jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner(withKeyStorage: keyStorage))
+      let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, dateProvider: DateAdapter(userDefaults: userDefaults()))
       let factorFacade = try FactorFacade.Builder()
         .setNetworkProvider(networkProvider)
-        .setKeyStorage(keyStorage)
         .setURL(_baseURL)
         .setAuthentication(authentication)
+        .setKeychain(keyChain)
+        .setKeyStorage(keyStorage)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
+        .setAccessGroup(accessGroup)
+        .setUserDefaults(userDefaults())
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)
@@ -234,7 +252,7 @@ public class TwilioVerifyBuilder {
       return TwilioVerifyManager(factorFacade: factorFacade, challengeFacade: challengeFacade)
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.initializationError(error: error as NSError)
+      throw TwilioVerifyError.initializationError(error: error)
     }
   }
 }
