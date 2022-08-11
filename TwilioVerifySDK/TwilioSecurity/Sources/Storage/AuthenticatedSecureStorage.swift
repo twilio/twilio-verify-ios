@@ -28,7 +28,7 @@ public typealias ErrorBlock = (Error) -> ()
 ///:nodoc:
 public protocol AuthenticatedSecureStorageProvider {
   func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock, withServiceName service: String?)
-  func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock)
+  func get(_ key: String, authenticator: Authenticator, attempts: Int?, success: @escaping SuccessBlock, failure: @escaping ErrorBlock)
   func removeValue(for key: String) throws
   func clear(withServiceName service: String?) throws
 }
@@ -84,12 +84,26 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }, failure: failure)
   }
 
-  public func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock) {
-    canEvaluatePolicy(for: authenticator, success: {
+  public func get(
+    _ key: String,
+    authenticator: Authenticator,
+    attempts: Int?,
+    success: @escaping SuccessBlock,
+    failure: @escaping ErrorBlock
+  ) {
+    canEvaluatePolicy(for: authenticator, success: { [weak self] in
+      guard let self = self else { return }
       Logger.shared.log(withLevel: .info, message: "Getting \(key)")
       let query = self.keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
       do {
-        let result = try self.keychain.copyItemMatching(query: query)
+        let result: AnyObject
+
+        if let attempts = attempts {
+          result = try self.keychain.copyItemMatching(query: query, attempts: attempts)
+        } else {
+          result = try self.keychain.copyItemMatching(query: query)
+        }
+
         // swiftlint:disable:next force_cast
         let data = result as! Data
         Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
@@ -225,4 +239,16 @@ public protocol Authenticator {
   var context: LAContext { get }
   var localizedAuthenticationPrompt: String { get }
   var localizedReason: String { get }
+}
+
+extension AuthenticatedSecureStorageProvider {
+  func get(
+    _ key: String,
+    authenticator: Authenticator,
+    attempts: Int? = nil,
+    success: @escaping SuccessBlock,
+    failure: @escaping ErrorBlock
+  ) {
+    get(key, authenticator: authenticator, attempts: attempts, success: success, failure: failure)
+  }
 }
