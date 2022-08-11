@@ -39,10 +39,7 @@ extension SecureStorageMock: SecureStorageProvider {
     objectsData[key] = data
   }
   
-  func get(
-    _ key: String,
-    attempts: Int?
-  ) throws -> Data {
+  func get(_ key: String) throws -> Data {
     callsToGet += 1
     if let error = error {
       throw error

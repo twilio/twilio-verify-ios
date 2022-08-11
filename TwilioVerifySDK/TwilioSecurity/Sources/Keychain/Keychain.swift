@@ -221,6 +221,7 @@ class Keychain: KeychainProtocol {
     delay: TimeInterval = 0.1,
     validation: ((T) -> Bool)? = nil
   ) -> T {
+    guard attempts > 0  else { return block() }
     var attempts: Int = attempts
     repeat {
       attempts -= 1

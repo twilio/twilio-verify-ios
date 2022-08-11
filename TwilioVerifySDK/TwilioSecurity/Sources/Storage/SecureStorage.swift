@@ -22,7 +22,7 @@ import Foundation
 ///:nodoc:
 public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String, withServiceName service: String?) throws
-  func get(_ key: String, attempts: Int?) throws -> Data
+  func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll(withServiceName service: String?) throws -> [Data]
   func clear(withServiceName service: String?) throws
@@ -65,21 +65,11 @@ extension SecureStorage: SecureStorageProvider {
     Logger.shared.log(withLevel: .debug, message: "Saved \(key)")
   }
   
-  public func get(
-    _ key: String,
-    attempts: Int?
-  ) throws -> Data {
+  public func get(_ key: String) throws -> Data {
     Logger.shared.log(withLevel: .info, message: "Getting \(key)")
     let query = keychainQuery.getData(withKey: key)
     do {
-      let result: AnyObject
-
-      if let attempts = attempts {
-        result = try keychain.copyItemMatching(query: query, attempts: attempts)
-      } else {
-        result = try keychain.copyItemMatching(query: query)
-      }
-
+      let result = try keychain.copyItemMatching(query: query)
       // swiftlint:disable:next force_cast
       let data = result as! Data
       Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
@@ -138,14 +128,5 @@ extension SecureStorage: SecureStorageProvider {
         throw error
       }
     }
-  }
-}
-
-extension SecureStorageProvider {
-  public func get(
-    _ key: String,
-    attempts: Int? = nil
-  ) throws -> Data {
-    try get(key, attempts: attempts)
   }
 }
