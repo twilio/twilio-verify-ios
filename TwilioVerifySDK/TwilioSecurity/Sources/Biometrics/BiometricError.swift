@@ -45,24 +45,36 @@ public enum BiometricError: Error, LocalizedError {
     // MARK: - Resolution
 
     public static func given(_ error: NSError?) -> Self? {
-        guard let error = error else {
-            return nil
-        }
+      guard let error = error else {
+        return nil
+      }
 
-        switch error.domain {
-            case kLAErrorDomain:
-                return laError(error)
-            case NSOSStatusErrorDomain:
-                return osStatusError(error)
-            default: return nil
-        }
+      switch error.domain {
+        case kLAErrorDomain:
+          return laError(error.code)
+        case NSOSStatusErrorDomain:
+          return osStatusError(error.code)
+        default: return nil
+      }
+    }
+
+    public static func given(_ error: KeychainError) -> Self? {
+      switch error {
+        case .invalidStatusCode(let code) where error.domain == kLAErrorDomain,
+             .invalidProtection(let code) where error.domain == kLAErrorDomain:
+          return laError(code)
+        case .invalidStatusCode(let code) where error.domain == NSOSStatusErrorDomain,
+             .invalidProtection(let code) where error.domain == NSOSStatusErrorDomain:
+          return osStatusError(code)
+        default: return nil
+      }
     }
 
     // MARK: - Private Methods
 
     // swiftlint:disable:next cyclomatic_complexity
-    private static func laError(_ error: NSError) -> Self? {
-        switch LAError.Code(rawValue: error.code) {
+    private static func laError(_ errorCode: Int) -> Self? {
+        switch LAError.Code(rawValue: errorCode) {
             case .appCancel: return .appCancel
             case .authenticationFailed: return .authenticationFailed
             case .invalidContext: return .invalidContext
@@ -78,8 +90,8 @@ public enum BiometricError: Error, LocalizedError {
         }
     }
 
-    private static func osStatusError(_ error: NSError) -> Self? {
-        switch error.code {
+    private static func osStatusError(_ errorCode: Int) -> Self? {
+        switch errorCode {
             case Int(errSecAuthFailed): return .secAuthFailed
             case Int(errSecNotAvailable): return .secNotAvailable
             case Int(errSecReadOnly): return .secReadOnly

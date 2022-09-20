@@ -107,7 +107,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
         }
 
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-        if let biometricError = BiometricError.given(error as NSError) {
+        if let keychainError = error as? KeychainError, let biometricError = BiometricError.given(keychainError) {
           failure(biometricError)
         } else {
           failure(error)
