@@ -20,12 +20,12 @@
 import Foundation
 import LocalAuthentication
 
-///:nodoc:
+///: nodoc:
 public typealias SuccessBlock = (Data) -> ()
-///:nodoc:
+///: nodoc:
 public typealias ErrorBlock = (Error) -> ()
 
-///:nodoc:
+///: nodoc:
 public protocol AuthenticatedSecureStorageProvider {
   func save(_ data: Data, withKey key: String, authenticator: Authenticator, success: @escaping EmptySuccessBlock, failure: @escaping ErrorBlock, withServiceName service: String?)
   func get(_ key: String, authenticator: Authenticator, success: @escaping SuccessBlock, failure: @escaping ErrorBlock)
@@ -33,7 +33,7 @@ public protocol AuthenticatedSecureStorageProvider {
   func clear(withServiceName service: String?) throws
 }
 
-///:nodoc:
+///: nodoc:
 public class AuthenticatedSecureStorage {
 
   public enum Errors: Error, LocalizedError {
@@ -89,7 +89,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
       Logger.shared.log(withLevel: .info, message: "Getting \(key)")
       let query = self.keychainQuery.getData(withKey: key, authenticationPrompt: authenticator.localizedAuthenticationPrompt)
       do {
-        let result = try self.keychain.copyItemMatching(query: query)
+        let result = try self.keychain.copyItemMatching(query: query, attempts: Constants.biomettricAttempts)
         // swiftlint:disable:next force_cast
         let data = result as! Data
         Logger.shared.log(withLevel: .debug, message: "Return value for \(key)")
@@ -218,6 +218,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     static let accessControlFlagsBiometrics: SecAccessControlCreateFlags = .biometryCurrentSet
     static let accessControlFlags: SecAccessControlCreateFlags = .touchIDCurrentSet
     static let biometricsPolicyState: String = "%@.biometricsPolicyState"
+    static let biomettricAttempts: Int = 0
   }
 }
 

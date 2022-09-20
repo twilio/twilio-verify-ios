@@ -89,7 +89,10 @@ extension KeychainMock: KeychainProtocol {
     return keyPair
   }
   
-  func copyItemMatching(query: Query) throws -> AnyObject {
+  func copyItemMatching(
+    query: Query,
+    attempts: Int
+  ) throws -> AnyObject {
     callsToCopyItemMatching += 1
 
     if let copyItemMitmatchingHandler = copyItemMitmatchingHandler {

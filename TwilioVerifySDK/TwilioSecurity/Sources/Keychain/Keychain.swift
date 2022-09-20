@@ -25,7 +25,7 @@ protocol KeychainProtocol {
   func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool
   func representation(forKey key: SecKey) throws -> Data
   func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair
-  func copyItemMatching(query: Query) throws -> AnyObject
+  func copyItemMatching(query: Query, attempts: Int) throws -> AnyObject
   func addItem(withQuery query: Query) -> OSStatus
   func updateItem(withQuery query: Query, attributes: CFDictionary) -> OSStatus
   @discardableResult func deleteItem(withQuery query: Query) -> OSStatus
@@ -143,10 +143,13 @@ class Keychain: KeychainProtocol {
     )
   }
   
-  func copyItemMatching(query: Query) throws -> AnyObject {
+  func copyItemMatching(
+    query: Query,
+    attempts: Int
+  ) throws -> AnyObject {
     var result: AnyObject?
 
-    let status: OSStatus = retry {
+    let status: OSStatus = retry(attempts: attempts) {
       SecItemCopyMatching(query as CFDictionary, &result)
     } validation: { status in
       status == errSecSuccess
@@ -213,14 +216,15 @@ class Keychain: KeychainProtocol {
   }
 
   private func retry<T>(
-    tries: Int = 2,
+    attempts: Int = Constants.defaultAttempts,
     block: () -> T,
     delay: TimeInterval = 0.1,
     validation: ((T) -> Bool)? = nil
   ) -> T {
-    var tries: Int = tries
+    guard attempts > 0  else { return block() }
+    var attempts: Int = attempts
     repeat {
-      tries -= 1
+      attempts -= 1
       let result = block()
       if let validation = validation {
         if validation(result) {
@@ -232,13 +236,23 @@ class Keychain: KeychainProtocol {
       } else {
         return result
       }
-    } while tries > 0
+    } while attempts > 0
 
     return block()
   }
+}
 
-  enum Constants {
-    static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
+private enum Constants {
+  static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+  static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
+  static let defaultAttempts: Int = 2
+}
+
+extension KeychainProtocol {
+  func copyItemMatching(
+    query: Query,
+    attempts: Int = Constants.defaultAttempts
+  ) throws -> AnyObject {
+    return try copyItemMatching(query: query, attempts: attempts)
   }
 }
