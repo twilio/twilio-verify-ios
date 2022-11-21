@@ -3,7 +3,7 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "14.1"
+      xcode: "14.0.1"
 
 commands:
   setup:
