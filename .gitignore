@@ -52,4 +52,4 @@ fastlane/test_output
 fastlane/report.xml
 
 #Sizer
-temp/
+temp/.git/
