@@ -24,7 +24,7 @@ public protocol OperationError: LocalizedError {
   var domain: String { get }
 }
 
-enum KeychainError: OperationError {
+public enum KeychainError: OperationError {
   case unexpectedError
   case unableToCopyItem
   case unableToGeneratePublicKey
@@ -34,7 +34,7 @@ enum KeychainError: OperationError {
   case invalidProtection(code: Int)
   case createSignatureError(cause: Error)
   
-  var errorDescription: String? {
+  public var errorDescription: String? {
     switch self {
       case .invalidStatusCode(let code):
         return String.invalidStatusCode(code)
@@ -49,7 +49,7 @@ enum KeychainError: OperationError {
     }
   }
   
-  var domain: String {
+  public var domain: String {
     switch self {
       case .invalidProtection,
           .invalidStatusCode,

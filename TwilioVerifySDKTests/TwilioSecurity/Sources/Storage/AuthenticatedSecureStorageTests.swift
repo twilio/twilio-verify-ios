@@ -309,6 +309,29 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     }
   }
 
+  func testSave_withBiometricFailure_shouldThrowError() {
+    // Given
+    let biometricsData = "123456".data(using: .utf8)
+    let newBiometricsData = "123456".data(using: .utf8)
+    let expectedError = BiometricError.secItemNotFound
+    let key = "testKey"
+    let data = "testData".data(using: .utf8)
+    let mockContext = MockContext()
+    let authenticator = AuthenticatorMock(context: mockContext)
+    mockContext.evaluatedPolicyDomainStateResult = newBiometricsData
+    keychainMock.keys = [data, biometricsData] as [AnyObject]
+    keychainMock.addItemStatus = [errSecSuccess]
+    keychainMock.error = KeychainError.invalidStatusCode(code: Int(errSecItemNotFound))
+
+    // When
+    testSubject.get(key, authenticator: authenticator) { _ in
+      // Then
+      XCTFail("Get Data should failed, because of biometrics authentication failed")
+    } failure: { error in
+      XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
+    }
+  }
+
   func testSave_withSameBiometrics_shouldSucceed() {
     // Given
     let biometricsData = "123456".data(using: .utf8)
