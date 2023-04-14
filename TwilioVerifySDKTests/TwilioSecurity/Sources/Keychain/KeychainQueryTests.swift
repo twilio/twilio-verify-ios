@@ -33,7 +33,7 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertNoThrow(
       signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false)
     )
-    keychainQuery = KeychainQuery(accessGroup: nil)
+    keychainQuery = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
   }
   
   func testKey_withPrivateKey_shouldReturnValidQuery() {
@@ -92,11 +92,9 @@ class KeychainQueryTests: XCTestCase {
     let query = keychainQuery.getData(withKey: Constants.alias)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
-    let access = query[kSecAttrAccessible] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
   
   func testGetAllData_shouldReturnValidQuery() {
@@ -105,13 +103,11 @@ class KeychainQueryTests: XCTestCase {
     let returnAttributes = query[kSecReturnAttributes] as! CFBoolean
     let returnData = query[kSecReturnData] as! CFBoolean
     let matchLimit = query[kSecMatchLimit] as! CFString
-    let access = query[kSecAttrAccessible] as! CFString
     
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertTrue(returnAttributes as! Bool)
     XCTAssertTrue(returnData as! Bool)
     XCTAssertEqual(matchLimit, kSecMatchLimitAll)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
   }
   
   func testDelete_withKey_shouldReturnValidQuery() {
@@ -133,21 +129,19 @@ class KeychainQueryTests: XCTestCase {
   }
 
   func testGetItem_withOutAccessGroup_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: nil)
+    keychainQuery = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
     let query = keychainQuery.getData(withKey: Constants.alias)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
-    let access = query[kSecAttrAccessible] as! CFString
     let accessGroup = query[kSecAttrAccessGroup] as? String
 
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
-    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
     XCTAssertNil(accessGroup)
   }
 
   func testSaveItem_withAccessGroup_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup)
+    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, attrAccessible: .afterFirstUnlockThisDeviceOnly)
     let expectedData = "data".data(using: .utf8)!
     let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
     let keyClass = query[kSecClass] as! CFString
@@ -159,6 +153,23 @@ class KeychainQueryTests: XCTestCase {
     XCTAssertEqual(keyClass, kSecClassGenericPassword)
     XCTAssertEqual(label, Constants.alias)
     XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+    XCTAssertEqual(data, expectedData)
+    XCTAssertEqual(accessGroup, Constants.accessGroup)
+  }
+
+  func testSaveItem_withAttrAccessible_shouldReturnValidQuery() {
+    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, attrAccessible: .afterFirstUnlock)
+    let expectedData = "data".data(using: .utf8)!
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
+    let keyClass = query[kSecClass] as! CFString
+    let label = query[kSecAttrAccount] as! String
+    let access = query[kSecAttrAccessible] as! CFString
+    let data = query[kSecValueData] as! Data
+    let accessGroup = query[kSecAttrAccessGroup] as! String
+
+    XCTAssertEqual(keyClass, kSecClassGenericPassword)
+    XCTAssertEqual(label, Constants.alias)
+    XCTAssertEqual(access, kSecAttrAccessibleAfterFirstUnlock)
     XCTAssertEqual(data, expectedData)
     XCTAssertEqual(accessGroup, Constants.accessGroup)
   }

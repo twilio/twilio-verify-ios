@@ -34,10 +34,10 @@ public class SecureStorage {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
 
-  public convenience init(accessGroup: String?) {
+  public convenience init(accessGroup: String?, attrAccessible: KeyAttrAccessible) {
     self.init(
-      keychain: Keychain(accessGroup: accessGroup),
-      keychainQuery: KeychainQuery(accessGroup: accessGroup)
+      keychain: Keychain(accessGroup: accessGroup, attrAccessible: attrAccessible),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
     )
   }
 

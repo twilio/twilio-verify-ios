@@ -138,6 +138,7 @@ extension FactorFacade {
     private var authentication: Authentication!
     private var clearStorageOnReinstall = true
     private var accessGroup: String?
+    private var attrAccessible: KeyAttrAccessible = .afterFirstUnlockThisDeviceOnly
     private var userDefaults: UserDefaults!
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -175,6 +176,11 @@ extension FactorFacade {
       return self
     }
 
+    public func setAttrAccessible(_ attrAccessible: KeyAttrAccessible) -> Self {
+      self.attrAccessible = attrAccessible
+      return self
+    }
+
     public func setUserDefaults(_ userDefaults: UserDefaults) -> Self {
       self.userDefaults = userDefaults
       return self
@@ -182,11 +188,14 @@ extension FactorFacade {
 
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
-      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
       let secureStorage = SecureStorage(keychain: keychain, keychainQuery: keychainQuery)
       let migrations = FactorMigrations().migrations()
-      let storage = try Storage(secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
-                                migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
+      let storage = try Storage(
+        secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
+        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup,
+        attrAccessible: attrAccessible
+      )
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
       return FactorFacade(factory: factory, repository: repository)

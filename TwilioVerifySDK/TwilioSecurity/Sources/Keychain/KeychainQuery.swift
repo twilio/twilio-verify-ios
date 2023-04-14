@@ -35,6 +35,20 @@ enum KeyAttrClass {
   }
 }
 
+public enum KeyAttrAccessible {
+  case afterFirstUnlock
+  case afterFirstUnlockThisDeviceOnly
+
+  var value: CFString {
+    switch self {
+      case .afterFirstUnlock:
+        return kSecAttrAccessibleAfterFirstUnlock
+      case .afterFirstUnlockThisDeviceOnly:
+        return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    }
+  }
+}
+
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query
@@ -52,10 +66,12 @@ struct KeychainQuery: KeychainQueryProtocol {
 
   /// Direct use of [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift),
   /// when set all methods will make use of it.
-  var accessGroup: String?
+  let accessGroup: String?
+  let attrAccessible: KeyAttrAccessible
 
-  init(accessGroup: String?) {
+  init(accessGroup: String?, attrAccessible: KeyAttrAccessible) {
     self.accessGroup = accessGroup
+    self.attrAccessible = attrAccessible
   }
 
   // MARK: - Public Methods
@@ -75,15 +91,14 @@ struct KeychainQuery: KeychainQueryProtocol {
       kSecClass: kSecClassKey,
       kSecAttrLabel: alias,
       kSecValueRef: key,
-      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      kSecAttrAccessible: attrAccessible.value
     ])
   }
   
   func deleteKey(withAlias alias: String) -> Query {
     [
      kSecClass: kSecClassKey,
-     kSecAttrLabel: alias,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+     kSecAttrLabel: alias
     ]
   }
 
@@ -91,7 +106,7 @@ struct KeychainQuery: KeychainQueryProtocol {
     var query = [kSecClass: kSecClassGenericPassword,
      kSecAttrAccount: key,
      kSecValueData: data,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+        kSecAttrAccessible: attrAccessible.value] as Query
     if let service = service {
       query[kSecAttrService] = service
     }
@@ -102,8 +117,7 @@ struct KeychainQuery: KeychainQueryProtocol {
     properties([
       kSecClass: kSecClassGenericPassword,
       kSecAttrAccount: key,
-      kSecReturnData: true,
-      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      kSecReturnData: true
     ])
   }
 
@@ -111,8 +125,7 @@ struct KeychainQuery: KeychainQueryProtocol {
     var query = [kSecClass: kSecClassGenericPassword,
      kSecReturnAttributes: true,
      kSecReturnData: true,
-     kSecMatchLimit: kSecMatchLimitAll,
-     kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly] as Query
+     kSecMatchLimit: kSecMatchLimitAll] as Query
     if let service = service {
       query[kSecAttrService] = service
     }

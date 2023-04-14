@@ -73,7 +73,7 @@ class ECP256SignerTemplateTests: XCTestCase {
 
   func testAccessControlForTemplate() {
     // Given
-    let keyChain = Keychain(accessGroup: nil)
+    let keyChain = Keychain(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
 
     XCTAssertNoThrow(
       signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
@@ -98,7 +98,7 @@ class ECP256SignerTemplateTests: XCTestCase {
   func testAccessControlAndAccessGroupForTemplate() {
     // Given
     let expectedAccessGroup = "myAccessGroup.com"
-    let keyChain = Keychain(accessGroup: expectedAccessGroup)
+    let keyChain = Keychain(accessGroup: expectedAccessGroup, attrAccessible: .afterFirstUnlockThisDeviceOnly)
 
     XCTAssertNoThrow(
       signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)

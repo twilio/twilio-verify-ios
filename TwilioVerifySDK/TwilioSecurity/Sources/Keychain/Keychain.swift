@@ -44,9 +44,14 @@ extension KeychainProtocol {
 
 class Keychain: KeychainProtocol {
   let accessGroup: String?
+  let attrAccessible: KeyAttrAccessible
 
-  init(accessGroup: String?) {
+  init(
+    accessGroup: String?,
+    attrAccessible: KeyAttrAccessible
+  ) {
     self.accessGroup = accessGroup
+    self.attrAccessible = attrAccessible
   }
 
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
@@ -191,7 +196,7 @@ class Keychain: KeychainProtocol {
       var privateParameters = customParameters[kSecPrivateKeyAttrs] as? Query,
       var publicParameters = customParameters[kSecPublicKeyAttrs] as? Query,
       let accessControl = try? accessControl(
-        withProtection: Constants.accessControlProtection,
+        withProtection: attrAccessible.value,
         flags: Constants.accessControlFlags
       )
     else {
@@ -238,7 +243,6 @@ class Keychain: KeychainProtocol {
   }
 
   enum Constants {
-    static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
     static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
   }
 }

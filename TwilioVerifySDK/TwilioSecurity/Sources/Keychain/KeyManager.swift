@@ -32,11 +32,12 @@ public class KeyManager {
   private let keychainQuery: KeychainQueryProtocol
   
   public convenience init(
-    accessGroup: String?
+    accessGroup: String?,
+    attrAccessible: KeyAttrAccessible
   ) {
     self.init(
-      withKeychain: Keychain(accessGroup: accessGroup),
-      keychainQuery: KeychainQuery(accessGroup: accessGroup)
+      withKeychain: Keychain(accessGroup: accessGroup, attrAccessible: attrAccessible),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
     )
   }
 

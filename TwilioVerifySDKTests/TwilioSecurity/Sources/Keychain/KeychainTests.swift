@@ -27,7 +27,7 @@ class KeychainTests: XCTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    keychain = Keychain(accessGroup: nil)
+    keychain = Keychain(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
   }
   
   override func tearDown() {
@@ -295,7 +295,7 @@ class KeychainTests: XCTestCase {
     let expectedErrorCode = -25300
     let expectedLocalizedDescription = "Invalid status code operation received: -25300"
     let data = "data".data(using: .utf8)!
-    let query = KeychainQuery(accessGroup: nil).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
+    let query = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
     let status = keychain.addItem(withQuery: query)
 
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")

@@ -43,7 +43,7 @@ extension Storage {
       kSecReturnAttributes: true,
       kSecReturnData: true,
       kSecMatchLimit: kSecMatchLimitAll,
-      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      kSecAttrAccessible: attrAccessible.value
     ]
 
     guard let result = try? keychain.copyItemMatching(query: query) else {
@@ -74,7 +74,7 @@ extension Storage {
       let query: Query = [
         kSecClass: kSecClassGenericPassword,
         kSecAttrAccount: factor.sid,
-        kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        kSecAttrAccessible: attrAccessible.value
       ]
 
       let attributes: CFDictionary = [

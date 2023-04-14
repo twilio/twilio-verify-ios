@@ -28,7 +28,7 @@ class KeyManagerSecurityMock {
   
   required init(
     withKeychain keychain: KeychainProtocol = KeychainMock(),
-    keychainQuery: KeychainQueryProtocol = KeychainQuery(accessGroup: nil)
+    keychainQuery: KeychainQueryProtocol = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
   ) {
     self.keychain = keychain
   }

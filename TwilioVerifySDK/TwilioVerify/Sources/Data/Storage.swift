@@ -26,6 +26,7 @@ class Storage {
   private let secureStorage: SecureStorageProvider
   private let userDefaults: UserDefaults
   private let factorMapper: FactorMapperProtocol
+  let attrAccessible: KeyAttrAccessible
 
   init(
     secureStorage: SecureStorageProvider,
@@ -34,11 +35,13 @@ class Storage {
     factorMapper: FactorMapperProtocol = FactorMapper(),
     migrations: [Migration],
     clearStorageOnReinstall: Bool = true,
-    accessGroup: String? = nil
+    accessGroup: String? = nil,
+    attrAccessible: KeyAttrAccessible
   ) throws {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
     self.factorMapper = factorMapper
+    self.attrAccessible = attrAccessible
     checkAccessGroupMigration(for: accessGroup, using: keychain)
     try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }

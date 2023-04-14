@@ -72,7 +72,8 @@ class StorageAccessGroupTests: XCTestCase {
       factorMapper: factorMapper,
       migrations: [],
       clearStorageOnReinstall: false,
-      accessGroup: accessGroup
+      accessGroup: accessGroup,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
     )
 
     factorMapper.error = nil
