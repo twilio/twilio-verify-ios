@@ -347,6 +347,21 @@ To stop sharing existing factors created with **App Groups**, uncheck the **App 
 > This will restrict access to the factors and will not affect the main application in which the data was initially created.
 
 ---
+
+## Allow Factors migration
+
+By default, all factors are stored using the accessibility attribute [kSecAttrAccessible](https://developer.apple.com/documentation/security/ksecattraccessible) with a value of [kSecAttrAccessibleAlwaysThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessiblealwaysthisdeviceonly). This means that the item stored with this value can be restored to the same device that created a backup, but it isn't migrated when restoring another device's backup data.
+
+To allow [Data migration from iPhone to iPhone](https://support.apple.com/en-us/HT210216) or [Backup restoration](https://support.apple.com/en-us/HT204184) use the following `setAttrAccessible(.afterFirstUnlock)` method to change the accessibility attribute [kSecAttrAccessible](https://developer.apple.com/documentation/security/ksecattraccessible) with a value of [kSecAttrAccessibleAlwaysThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessiblealwaysthisdeviceonly) before build the Twilio Verify instance. For example:
+
+```swift
+var builder = TwilioVerifyBuilder()
+builder = builder.setAttrAccessible(.afterFirstUnlock)
+let twilioVerify = try builder.build()
+```
+
+> More information about the accessibility attribute can be found at [Restricting Keychain Item Accessibility](https://developer.apple.com/documentation/security/keychain_services/keychain_items/restricting_keychain_item_accessibility)
+---
 <a name='Contributing'></a>
 
 ## Contributing

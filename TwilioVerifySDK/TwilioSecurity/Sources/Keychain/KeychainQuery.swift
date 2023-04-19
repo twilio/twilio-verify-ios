@@ -35,20 +35,6 @@ enum KeyAttrClass {
   }
 }
 
-public enum KeyAttrAccessible {
-  case afterFirstUnlock
-  case afterFirstUnlockThisDeviceOnly
-
-  var value: CFString {
-    switch self {
-      case .afterFirstUnlock:
-        return kSecAttrAccessibleAfterFirstUnlock
-      case .afterFirstUnlockThisDeviceOnly:
-        return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    }
-  }
-}
-
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
   func saveKey(_ key: SecKey, withAlias alias: String) -> Query

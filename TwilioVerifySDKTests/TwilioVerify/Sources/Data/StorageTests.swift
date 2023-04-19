@@ -31,7 +31,13 @@ class StorageTests: XCTestCase {
     try super.setUpWithError()
     secureStorage = SecureStorageMock()
     keychainMock = .init()
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, migrations: [], clearStorageOnReinstall: false, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      migrations: [],
+      clearStorageOnReinstall: false,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
   }
   
   func testSave_successfully_shouldNotThrow() {
@@ -99,7 +105,14 @@ class StorageTests: XCTestCase {
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
     secureStorage.objectsData = [Storage.Constants.clearStorageOnReinstallKey: true.description.data(using: .utf8)!]
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: true, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      userDefaults: userDefaults,
+      migrations: [],
+      clearStorageOnReinstall: true,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
     XCTAssertEqual(
       secureStorage.callsToClear,
       expectedCallsToMethod,
@@ -121,7 +134,14 @@ class StorageTests: XCTestCase {
     let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: true, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      userDefaults: userDefaults,
+      migrations: [],
+      clearStorageOnReinstall: true,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
     XCTAssertEqual(
       secureStorage.callsToClear,
       expectedCallsToMethod,
@@ -143,7 +163,14 @@ class StorageTests: XCTestCase {
     let expectedCallsToMethod = 0
     let userDefaults: UserDefaults = .standard
     userDefaults.removeObject(forKey: Storage.Constants.currentVersionKey)
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, userDefaults: userDefaults, migrations: [], clearStorageOnReinstall: false, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      userDefaults: userDefaults,
+      migrations: [],
+      clearStorageOnReinstall: false,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
     XCTAssertEqual(
       secureStorage.callsToClear,
       expectedCallsToMethod,
@@ -158,7 +185,14 @@ class StorageTests: XCTestCase {
     secureStorage.objectsData = [Storage.Constants.clearStorageOnReinstallKey: true.description.data(using: .utf8)!]
     let migrationV0ToV1 = MigrationMock(startVersion: 0, endVersion: 1)
     let migrations = [migrationV0ToV1]
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: true, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      userDefaults: userDefaults,
+      migrations: migrations,
+      clearStorageOnReinstall: true,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
     XCTAssertEqual(
       migrationV0ToV1.callsToMigrate,
       expectedCallsToMethod,
@@ -258,7 +292,14 @@ private extension StorageTests {
   func initStorage(withMigrations migrations: [Migration], withStartVersion startVersion: Int, withEndVersion endVersion: Int) {
     let userDefaults: UserDefaults = .standard
     userDefaults.set(startVersion, forKey: Storage.Constants.currentVersionKey)
-    storage = try! Storage(secureStorage: secureStorage, keychain: keychainMock, userDefaults: userDefaults, migrations: migrations, clearStorageOnReinstall: false, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      userDefaults: userDefaults,
+      migrations: migrations,
+      clearStorageOnReinstall: false,
+      attrAccessible: .afterFirstUnlockThisDeviceOnly
+    )
     let currentVersion = userDefaults.integer(forKey: Storage.Constants.currentVersionKey)
     XCTAssertEqual(
       currentVersion,

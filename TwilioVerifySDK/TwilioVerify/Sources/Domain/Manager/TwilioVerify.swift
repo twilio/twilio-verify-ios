@@ -30,6 +30,23 @@ public typealias FactorListSuccessBlock = ([Factor]) -> ()
 ///:nodoc:
 public typealias EmptySuccessBlock = () -> ()
 
+/// Wrapper for [kSecAttrAccessible](https://developer.apple.com/documentation/security/ksecattraccessible)
+public enum KeyAttrAccessible {
+  /// Wrapper of [kSecAttrAccessibleAfterFirstUnlock](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlock)
+  case afterFirstUnlock
+  /// Wrapper of [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly)
+  case afterFirstUnlockThisDeviceOnly
+
+  var value: CFString {
+    switch self {
+      case .afterFirstUnlock:
+        return kSecAttrAccessibleAfterFirstUnlock
+      case .afterFirstUnlockThisDeviceOnly:
+        return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    }
+  }
+}
+
 ///Describes the available operations to proccess Factors and Challenges
 public protocol TwilioVerify {
   
