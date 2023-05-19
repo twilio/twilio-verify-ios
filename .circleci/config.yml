@@ -3,7 +3,8 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "14.1"
+      xcode: "14.2.0"
+    resource_class: macos.x86.medium.gen2
 
 commands:
   setup:
@@ -17,15 +18,6 @@ commands:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-
-  use_system_ruby:
-    description: "Reset the VMs ruby env to use the system provided ruby for Xcode sake"
-    steps:
-      - run:
-          name: Reset to system ruby
-          command: |
-            echo "system" > .ruby-version
-            chruby system
             
   store_scan_artifacts:
     steps:
@@ -121,7 +113,6 @@ commands:
   build_app_sizer:
     steps:
       - checkout
-      - use_system_ruby
       - setup
       - attach_workspace:
           at: ~/Desktop
