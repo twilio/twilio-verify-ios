@@ -26,7 +26,7 @@ protocol JwtSignerProtocol {
 class JwtSigner {
   private let keyStorage: KeyStorage
   
-  init(withKeyStorage keyStorage: KeyStorage = KeyStorageAdapter()) {
+  init(withKeyStorage keyStorage: KeyStorage) {
     self.keyStorage = keyStorage
   }
 }

@@ -32,7 +32,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
 
   override func setUp() {
     keychainMock = .init()
-    testSubject = .init(keychain: keychainMock, keychainQuery: KeychainQuery())
+    testSubject = .init(keychain: keychainMock, keychainQuery: KeychainQuery(accessGroup: nil))
   }
 
   // MARK: - Save Data
@@ -46,13 +46,13 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.addItemStatus = [errSecSuccess]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) { [self] in
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: { [self] in
       // Then
       XCTAssertEqual(self.keychainMock.callsToAddItem, 1)
       XCTAssertEqual(self.keychainMock.callOrder.first, .addItem)
-    } failure: { error in
+    }, failure: { error in
       XCTFail("Should not retrieve error: \(error.localizedDescription)")
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withValidValuesSavingDataButNotKeyChainAvailable_shouldThrow() {
@@ -65,12 +65,12 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.keys = [nil] as [AnyObject]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       // Then
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual(Optional(expectedError), (error as NSError).code)
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withValidValuesSavingDataButFailedSaved_shouldReturnError() {
@@ -82,12 +82,12 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.addItemStatus = [errSecNotAvailable]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       // Then
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual("Authentication failed", error.localizedDescription)
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withValidValuesButUnexpectedError_shouldReturnError() {
@@ -100,12 +100,12 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.error = expectedError
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       // Then
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withValidValuesSavingDataButFailedSavedAndError_shouldReturnError() {
@@ -118,12 +118,12 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.keys = [nil] as [AnyObject]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       // Then
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
-    }
+    }, withServiceName: "service")
   }
 
   // MARK: - Get Data
@@ -223,7 +223,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
 
     // When
     do {
-      try testSubject.clear()
+      try testSubject.clear(withServiceName: "service")
     } catch {
       XCTFail("Clear should not throw")
     }
@@ -238,7 +238,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
 
     // When
     do {
-      try testSubject.clear()
+      try testSubject.clear(withServiceName: "service")
       XCTFail("Clear should throw")
     } catch {
       XCTAssertEqual(Int(errSecNotAvailable), (error as NSError).code)
@@ -262,12 +262,11 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.keys = [nil] as [AnyObject]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
-      // Then
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withValidValuesSavingDataButUnexpectedError_shouldThrowUnexpectedError() {
@@ -282,12 +281,11 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.keys = [nil] as [AnyObject]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) {
-      // Then
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: {
       XCTFail("Save data should fail, since there is not keychain available")
-    } failure: { error in
+    }, failure: { error in
       XCTAssertEqual(expectedError, error.localizedDescription)
-    }
+    }, withServiceName: "service")
   }
 
   func testSave_withChangedBiometrics_shouldThrowError() {
@@ -296,7 +294,6 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     let newBiometricsData = "098765".data(using: .utf8)
     let expectedError = BiometricError.didChangeBiometrics
     let key = "testKey"
-    let data = "testData".data(using: .utf8)
     let mockContext = MockContext()
     let authenticator = AuthenticatorMock(context: mockContext)
     mockContext.evaluatedPolicyDomainStateResult = newBiometricsData
@@ -307,6 +304,29 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     testSubject.get(key, authenticator: authenticator) { _ in
       // Then
       XCTFail("Get Data should failed, because of biometrics was changed")
+    } failure: { error in
+      XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
+    }
+  }
+
+  func testSave_withBiometricFailure_shouldThrowError() {
+    // Given
+    let biometricsData = "123456".data(using: .utf8)
+    let newBiometricsData = "123456".data(using: .utf8)
+    let expectedError = BiometricError.secItemNotFound
+    let key = "testKey"
+    let data = "testData".data(using: .utf8)
+    let mockContext = MockContext()
+    let authenticator = AuthenticatorMock(context: mockContext)
+    mockContext.evaluatedPolicyDomainStateResult = newBiometricsData
+    keychainMock.keys = [data, biometricsData] as [AnyObject]
+    keychainMock.addItemStatus = [errSecSuccess]
+    keychainMock.error = KeychainError.invalidStatusCode(code: Int(errSecItemNotFound))
+
+    // When
+    testSubject.get(key, authenticator: authenticator) { _ in
+      // Then
+      XCTFail("Get Data should failed, because of biometrics authentication failed")
     } failure: { error in
       XCTAssertEqual(expectedError.localizedDescription, error.localizedDescription)
     }
@@ -345,8 +365,7 @@ class AuthenticatedSecureStorageTests: XCTestCase {
     keychainMock.addItemStatus = [errSecSuccess, errSecSuccess, errSecSuccess, errSecSuccess]
 
     // When
-    testSubject.save(data!, withKey: key, authenticator: authenticator) { [self] in
-      // Then
+    testSubject.save(data!, withKey: key, authenticator: authenticator, success: { [self] in
       XCTAssertEqual(self.keychainMock.callsToAddItem, 2)
       XCTAssertEqual(self.keychainMock.callOrder.first, .addItem)
       testSubject.get(key, authenticator: authenticator) { storedBiometricsData in
@@ -354,8 +373,8 @@ class AuthenticatedSecureStorageTests: XCTestCase {
       } failure: { error in
         XCTFail("Should not retrieve error: \(error.localizedDescription)")
       }
-    } failure: { error in
+    }, failure: { error in
       XCTFail("Should not retrieve error: \(error.localizedDescription)")
-    }
+    }, withServiceName: "service")
   }
 }

@@ -39,7 +39,7 @@ extension KeyStorageMock: KeyStorage {
   
   func sign(withAlias alias: String, message: String) throws -> Data {
     if let error = error {
-      throw TwilioVerifyError.keyStorageError(error: error as NSError)
+      throw TwilioVerifyError.keyStorageError(error: error)
     }
     return signResult
   }

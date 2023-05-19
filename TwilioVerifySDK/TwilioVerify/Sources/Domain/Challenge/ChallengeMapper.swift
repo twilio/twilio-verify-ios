@@ -45,7 +45,7 @@ class ChallengeMapper: ChallengeMapperProtocol {
       return factorChallenge
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.mapperError(error: error as NSError)
+      throw TwilioVerifyError.mapperError(error: error)
     }
   }
   

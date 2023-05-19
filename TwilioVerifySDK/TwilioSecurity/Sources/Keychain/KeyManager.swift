@@ -31,12 +31,19 @@ public class KeyManager {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
   
-  public convenience init() {
-    self.init(withKeychain: Keychain(), keychainQuery: KeychainQuery())
+  public convenience init(
+    accessGroup: String?
+  ) {
+    self.init(
+      withKeychain: Keychain(accessGroup: accessGroup),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup)
+    )
   }
-  
-  init(withKeychain keychain: KeychainProtocol = Keychain(),
-       keychainQuery: KeychainQueryProtocol = KeychainQuery()) {
+
+  init(
+    withKeychain keychain: KeychainProtocol,
+    keychainQuery: KeychainQueryProtocol
+  ) {
     self.keychain = keychain
     self.keychainQuery = keychainQuery
   }
@@ -84,7 +91,7 @@ public class KeyManager {
     }
     
     guard status == errSecSuccess else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeyManagerError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -111,13 +118,13 @@ extension KeyManager: KeyManagerProtocol {
         throw error
       }
     }
-    return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm)
+    return ECSigner(withKeyPair: keyPair, signatureAlgorithm: template.signatureAlgorithm, keychain: keychain)
   }
   
   public func deleteKey(withAlias alias: String) throws {    
     let status = keychain.deleteItem(withQuery: keychainQuery.deleteKey(withAlias: alias))
     guard status == errSecSuccess || status == errSecItemNotFound else {
-      let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: nil)
+      let error: KeyManagerError = .invalidStatusCode(code: Int(status))
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }

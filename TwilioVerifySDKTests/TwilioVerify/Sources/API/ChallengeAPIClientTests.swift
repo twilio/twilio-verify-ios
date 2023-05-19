@@ -40,9 +40,9 @@ class ChallengeAPIClientTests: XCTestCase {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     let expectedHeaders = ["header": "value"]
-    networkProvider.response = Response(data: expectedResponse, headers: expectedHeaders)
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: expectedHeaders)
     let sid = "sid"
-    var apiResponse: Response?
+    var apiResponse: NetworkResponse?
     challengeAPIClient.get(withSid: sid, withFactor: Constants.factor, success: { response in
       apiResponse = response
       successExpectation.fulfill()
@@ -59,9 +59,9 @@ class ChallengeAPIClientTests: XCTestCase {
   func testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testGetChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
-    var response: Response!
+    var response: NetworkResponse!
     challengeAPIClient.get(withSid: "sid", withFactor: Constants.factor, success: { result in
       response = result
       expectation.fulfill()
@@ -133,7 +133,7 @@ class ChallengeAPIClientTests: XCTestCase {
   func testUpdateChallenge_withSuccessResponse_shouldSucceed() {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     let challenge = FactorChallenge(
       sid: Constants.challengeSid,
       challengeDetails: Constants.challengeDetails,
@@ -144,7 +144,7 @@ class ChallengeAPIClientTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date(),
       factor: Constants.factor)
-    var apiResponse: Response?
+    var apiResponse: NetworkResponse?
     challengeAPIClient.update(challenge, withAuthPayload: Constants.authPayload, success: { response in
       apiResponse = response
       successExpectation.fulfill()
@@ -159,9 +159,9 @@ class ChallengeAPIClientTests: XCTestCase {
   func testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testUpdateChallenge_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
-    var response: Response!
+    var response: NetworkResponse!
     challengeAPIClient.update(Constants.challenge, withAuthPayload: Constants.authPayload, success: { result in
       response = result
       expectation.fulfill()
@@ -280,7 +280,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     var error: TestError!
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { _ in
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, order: .asc, pageToken: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReson in
@@ -295,10 +295,10 @@ class ChallengeAPIClientTests: XCTestCase {
   func testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest() {
     let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldSyncTimeAndRedoRequest")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
-    let expectedResponse = Response(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
+    let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
-    var response: Response!
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { result in
+    var response: NetworkResponse!
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, order: .desc, pageToken: nil, success: { result in
       response = result
       expectation.fulfill()
     }) { _ in
@@ -314,7 +314,7 @@ class ChallengeAPIClientTests: XCTestCase {
     let expectation = self.expectation(description: "testGetAll_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { _ in
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, order: .asc, pageToken: nil, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { _ in
@@ -328,15 +328,17 @@ class ChallengeAPIClientTests: XCTestCase {
   
   func testGetAll_withValidParametersWithoutStatusAndPageToken_shouldMatchExpectedParams() {
     let pageSize = 1
+    let order = ChallengeListOrder.asc
     var expectedParams = Parameters()
     expectedParams.addAll([Parameter(name: ChallengeAPIClient.Constants.factorSidKey, value: Constants.factor.sid),
-                           Parameter(name: ChallengeAPIClient.Constants.pageSizeKey, value: pageSize)])
+                           Parameter(name: ChallengeAPIClient.Constants.pageSizeKey, value: pageSize),
+                           Parameter(name: ChallengeAPIClient.Constants.orderKey, value: order.rawValue)])
     
     let expectedURL = "\(Constants.baseURL)\(ChallengeAPIClient.Constants.getChallengesURL)"
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
     
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: pageSize, pageToken: nil, success: { _ in }) { _ in }
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: pageSize, order: order, pageToken: nil, success: { _ in }) { _ in }
     let components = URLComponents(url: networkProvider.urlRequest!.url!, resolvingAgainstBaseURL: true)
     let queryParametersAsString = components!.queryItems!.map { $0.description }.joined(separator: "&")
     let requestURLWithoutQuery = networkProvider.urlRequest!.url!.absoluteString.split(separator: "?").map {String($0)}[0]
@@ -361,9 +363,11 @@ class ChallengeAPIClientTests: XCTestCase {
     let pageSize = 1
     let status = FactorStatus.verified.rawValue
     let pageToken = "pageToken"
+    let order = ChallengeListOrder.desc
     var expectedParams = Parameters()
     expectedParams.addAll([Parameter(name: ChallengeAPIClient.Constants.factorSidKey, value: Constants.factor.sid),
                            Parameter(name: ChallengeAPIClient.Constants.pageSizeKey, value: pageSize),
+                           Parameter(name: ChallengeAPIClient.Constants.orderKey, value: order.rawValue),
                            Parameter(name: ChallengeAPIClient.Constants.statusKey, value: status),
                            Parameter(name: ChallengeAPIClient.Constants.pageTokenKey, value: pageToken)])
     
@@ -371,7 +375,7 @@ class ChallengeAPIClientTests: XCTestCase {
       .replacingOccurrences(of: APIConstants.serviceSidPath, with: Constants.factor.serviceSid)
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
     
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: status, pageSize: pageSize, pageToken: pageToken, success: { _ in }) { _ in }
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: status, pageSize: pageSize, order: order, pageToken: pageToken, success: { _ in }) { _ in }
     let components = URLComponents(url: networkProvider.urlRequest!.url!, resolvingAgainstBaseURL: true)
     let queryParametersAsString = components!.queryItems!.map { $0.description }.joined(separator: "&")
     let requestURLWithoutQuery = networkProvider.urlRequest!.url!.absoluteString.split(separator: "?").map {String($0)}[0]
@@ -395,10 +399,10 @@ class ChallengeAPIClientTests: XCTestCase {
   func testGetAll_withSuccessResponse_shouldSucceed() {
     let expectation = self.expectation(description: "testGetAll_withSuccessResponse_shouldSucceed")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
-    var response: Response!
-    networkProvider.response = Response(data: expectedResponse, headers: [:])
+    var response: NetworkResponse!
+    networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     
-    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, pageToken: nil, success: { result in
+    challengeAPIClient.getAll(forFactor: Constants.factor, status: nil, pageSize: 1, order: .asc, pageToken: nil, success: { result in
       response = result
       expectation.fulfill()
     }) { _ in
@@ -444,7 +448,7 @@ extension ChallengeAPIClientTests {
       config: Config(credentialSid: Constants.credentialSid)
     )
     static let failureResponse = FailureResponse(
-      responseCode: 401,
+      statusCode: 401,
       errorData: "error".data(using: .utf8)!,
       headers: [BaseAPIClient.Constants.dateHeaderKey: "Tue, 21 Jul 2020 17:07:32 GMT"])
   }

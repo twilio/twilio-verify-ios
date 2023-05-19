@@ -35,26 +35,41 @@ class PushChallengeProcessorTests: XCTestCase {
   }
   
   func testGetChallenge_withInvalidInput_shouldFail() {
-    let expectation = self.expectation(description: "testGetChallenge_withInvalidInput_shouldFail")
+    let expectation = expectation(description: "testGetChallenge_withInvalidInput_shouldFail")
     let challengeProviderError = InputError.invalidInput(field: "field")
-    let expectedError = TwilioVerifyError.inputError(error: challengeProviderError as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: challengeProviderError)
     var error: TwilioVerifyError!
     challengeProvider.error = challengeProviderError
     
-    pushChallengeProcessor.getChallenge(withSid: Constants.sid, withFactor: Constants.factor, success: { _ in
-      XCTFail()
-      expectation.fulfill()
-    }) { failureReason in
-      error = failureReason
-      expectation.fulfill()
-    }
+    pushChallengeProcessor.getChallenge(
+      withSid: Constants.sid,
+      withFactor: Constants.factor,
+      success: { _ in
+        XCTFail()
+        expectation.fulfill()
+      }) { failureReason in
+        error = failureReason
+        expectation.fulfill()
+      }
     
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
-    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
-                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.code,
+      expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)"
+    )
+
+    XCTAssertEqual(
+      error.localizedDescription,
+      expectedError.localizedDescription,
+      "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)"
+    )
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testGetChallenge_withValidInput_shouldSucceed() {
@@ -119,12 +134,133 @@ class PushChallengeProcessorTests: XCTestCase {
     waitForExpectations(timeout: 3, handler: nil)
   }
   
+  func testUpdate_withNoUpdatingChallenge_shouldFail() {
+    let expectation = expectation(description: .init())
+    let expectedError: TwilioVerifyError = .inputError(
+      error: InputError.notUpdatedChallenge 
+    )
+
+    var errorRetrieved: TwilioVerifyError?
+    
+    jwtGenerator.jwt = Constants.jwt
+    challengeProvider.challenge = Constants.generateFactorChallenge()
+    challengeProvider.updatedChallenge = Constants.generateFactorChallenge(
+      withStatus: ChallengeStatus.expired
+    )
+    
+    pushChallengeProcessor.updateChallenge(
+      withSid: Constants.sid,
+      withFactor: Constants.factor,
+      status: ChallengeStatus.pending,
+      success: { XCTFail() },
+      failure: { error in
+        errorRetrieved = error
+        expectation.fulfill()
+      }
+    )
+    
+    wait(for: [expectation], timeout: 1)
+    
+    XCTAssertEqual(
+      errorRetrieved?.code,
+      expectedError.code
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.localizedDescription,
+      expectedError.localizedDescription
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError()
+    )
+  }
+  
+  func testUpdate_withExpiredChallenge_shouldFail() {
+    let expectation = expectation(description: .init())
+    let expectedError: TwilioVerifyError = .inputError(
+      error: InputError.expiredChallenge 
+    )
+
+    var errorRetrieved: TwilioVerifyError?
+    
+    challengeProvider.challenge = Constants.generateFactorChallenge(withStatus: .expired)
+
+    pushChallengeProcessor.updateChallenge(
+      withSid: Constants.sid,
+      withFactor: Constants.factor,
+      status: ChallengeStatus.expired,
+      success: { XCTFail() },
+      failure: { error in
+        errorRetrieved = error
+        expectation.fulfill()
+      }
+    )
+    
+    wait(for: [expectation], timeout: 1)
+    
+    XCTAssertEqual(
+      errorRetrieved?.code,
+      expectedError.code
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.localizedDescription,
+      expectedError.localizedDescription
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError()
+    )
+  }
+  
+  func testUpdate_withChallengeAlreadyUpdated_shouldFail() {
+    let expectation = expectation(description: .init())
+    let expectedError: TwilioVerifyError = .inputError(
+      error: InputError.alreadyUpdatedChallenge 
+    )
+
+    var errorRetrieved: TwilioVerifyError?
+    
+    challengeProvider.challenge = Constants.generateFactorChallenge(withStatus: .approved)
+    
+    pushChallengeProcessor.updateChallenge(
+      withSid: Constants.sid,
+      withFactor: Constants.factor,
+      status: ChallengeStatus.approved,
+      success: { XCTFail() },
+      failure: { error in
+        errorRetrieved = error
+        expectation.fulfill()
+      }
+    )
+    
+    wait(for: [expectation], timeout: 1)
+    
+    XCTAssertEqual(
+      errorRetrieved?.code,
+      expectedError.code
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.localizedDescription,
+      expectedError.localizedDescription
+    )
+    
+    XCTAssertEqual(
+      errorRetrieved?.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError()
+    )
+  }
+  
   func testUpdate_withDifferentStatus_shouldFail() {
     let failureExpectation = expectation(description: "Wait for failure response")
     challengeProvider.challenge = Constants.generateFactorChallenge()
     challengeProvider.updatedChallenge = Constants.generateFactorChallenge(withStatus: .approved)
     jwtGenerator.jwt = Constants.jwt
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "field") as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "field") )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .denied, success: {
       XCTFail()
@@ -143,7 +279,7 @@ class PushChallengeProcessorTests: XCTestCase {
     challengeProvider.challenge = Constants.generateFactorChallenge()
     challengeProvider.errorUpdating = TestError.operationFailed
     jwtGenerator.jwt = Constants.jwt
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .denied, success: {
       XCTFail()
@@ -156,8 +292,12 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testUpdate_withInvalidChallenge_shouldFail() {
@@ -172,7 +312,9 @@ class PushChallengeProcessorTests: XCTestCase {
       updatedAt: Date(),
       expirationDate: Date())
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "invalid challenge") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.invalidChallenge 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -185,7 +327,7 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
+    XCTAssertEqual(error.originalError.toEquatableError(), expectedError.originalError.toEquatableError(),
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
@@ -211,7 +353,9 @@ class PushChallengeProcessorTests: XCTestCase {
       expirationDate: Date(),
       factor: factor)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "invalid factor") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.wrongFactor 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -224,7 +368,7 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
+    XCTAssertEqual(error.originalError.toEquatableError(), expectedError.originalError.toEquatableError(),
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
@@ -253,7 +397,7 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: Constants.signatureFields,
       response: Constants.response)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: StorageError.error("Alias not found") )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: factor, status: .approved, success: {
       XCTFail()
@@ -266,7 +410,7 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
+    XCTAssertEqual(error.originalError.toEquatableError(), expectedError.originalError.toEquatableError(),
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
@@ -285,7 +429,9 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: nil,
       response: Constants.response)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "signature fields") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.signatureFields 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -298,7 +444,7 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
+    XCTAssertEqual(error.originalError.toEquatableError(), expectedError.originalError.toEquatableError(),
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
@@ -317,7 +463,9 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: [],
       response: Constants.response)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "signature fields") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.signatureFields 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -330,7 +478,7 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
+    XCTAssertEqual(error.originalError.toEquatableError(), expectedError.originalError.toEquatableError(),
                    "Original error should be \(expectedError.originalError) but was \(error.originalError)")
   }
   
@@ -349,7 +497,9 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: Constants.signatureFields,
       response: nil)
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.signatureFields 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -362,8 +512,12 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testUpdate_withEmptyResponse_shouldFail() {
@@ -381,7 +535,9 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: Constants.signatureFields,
       response: [:])
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.signatureFields 
+    )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -394,8 +550,12 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testUpdate_withResponseWithoutSignatureField_shouldFail() {
@@ -413,28 +573,50 @@ class PushChallengeProcessorTests: XCTestCase {
       signatureFields: ["sid", "factorSid"],
       response: ["sid": "sid123"])
     challengeProvider.challenge = challenge
-    let expectedError = TwilioVerifyError.inputError(error: InputError.invalidInput(field: "challenge response") as NSError)
+
+    let expectedError = TwilioVerifyError.inputError(
+      error: InputError.invalidInput(field: "value in response")
+    )
     var error: TwilioVerifyError!
-    pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
-      XCTFail()
-      expectation.fulfill()
-    }) { failureReason in
-      error = failureReason
-      expectation.fulfill()
-    }
+
+    pushChallengeProcessor.updateChallenge(
+      withSid: Constants.sid,
+      withFactor: Constants.factor,
+      status: .approved,
+      success: {
+        XCTFail()
+        expectation.fulfill()
+      }) { failureReason in
+        error = failureReason
+        expectation.fulfill()
+      }
+
     waitForExpectations(timeout: 3, handler: nil)
-    XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
-    XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
-                   "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.code,
+      expectedError.code,
+      "Error code should be \(expectedError.code) but was \(error.code)"
+    )
+
+    XCTAssertEqual(
+      error.localizedDescription,
+      expectedError.localizedDescription,
+      "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)"
+    )
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testUpdate_withErrorGeneratingSignature_shouldFail() {
     let expectation = self.expectation(description: "testUpdate_withErrorGeneratingSignature_shouldFail")
     challengeProvider.challenge = Constants.generateFactorChallenge()
     jwtGenerator.error = JwtSignerError.invalidFormat
-    let expectedError = TwilioVerifyError.inputError(error: JwtSignerError.invalidFormat as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: JwtSignerError.invalidFormat )
     var error: TwilioVerifyError!
     pushChallengeProcessor.updateChallenge(withSid: Constants.sid, withFactor: Constants.factor, status: .approved, success: {
       XCTFail()
@@ -447,8 +629,12 @@ class PushChallengeProcessorTests: XCTestCase {
     XCTAssertEqual(error.code, expectedError.code, "Error code should be \(expectedError.code) but was \(error.code)")
     XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription,
                    "Error description should be \(expectedError.localizedDescription) but was \(error.localizedDescription)")
-    XCTAssertEqual(error.originalError, expectedError.originalError,
-                   "Original error should be \(expectedError.originalError) but was \(error.originalError)")
+
+    XCTAssertEqual(
+      error.originalError.toEquatableError(),
+      expectedError.originalError.toEquatableError(),
+      "Original error should be \(expectedError.originalError) but was \(error.originalError)"
+    )
   }
   
   func testUpdate_withValidData_shouldGenerateCorrectSignature() {

@@ -40,6 +40,11 @@ class ChallengeFacade {
 
 extension ChallengeFacade: ChallengeFacadeProtocol {
   func get(withSid sid: String, withFactorSid factorSid: String, success: @escaping ChallengeSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+    guard !sid.isEmpty else {
+      let error: InputError = .emptyChallengeSid
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      return failure(.inputError(error: error))
+    }
     factorFacade.get(withSid: factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
       switch factor {
@@ -49,7 +54,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
         default:
           let error =  InputError.invalidInput(field: "invalid factor")
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(TwilioVerifyError.inputError(error: error as NSError))
+          failure(TwilioVerifyError.inputError(error: error))
       }
     }, failure: failure)
   }
@@ -64,7 +69,7 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
         default:
           let error = InputError.invalidInput(field: "invalid factor")
           Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-          failure(TwilioVerifyError.inputError(error: error as NSError))
+          failure(TwilioVerifyError.inputError(error: error))
       }
     }, failure: failure)
   }
@@ -73,20 +78,28 @@ extension ChallengeFacade: ChallengeFacadeProtocol {
     factorFacade.get(withSid: challengeListPayload.factorSid, success: { [weak self] factor in
       guard let strongSelf = self else { return }
       strongSelf.repository.getAll(for: factor, status: challengeListPayload.status,
-                                   pageSize: challengeListPayload.pageSize, pageToken: challengeListPayload.pageToken, success: success) { error in
-        failure(TwilioVerifyError.networkError(error: error as NSError))
+                                   pageSize: challengeListPayload.pageSize, order: challengeListPayload.order, pageToken: challengeListPayload.pageToken, success: success) { error in
+        failure(TwilioVerifyError.networkError(error: error))
       }
     }, failure: failure)
   }
 }
 
 private extension ChallengeFacade {
-  private func updatePushChallenge(updateChallengePayload: UpdateChallengePayload, factor: PushFactor, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  private func updatePushChallenge(updateChallengePayload: UpdateChallengePayload, factor: PushFactor, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock
+  ) {
     guard let payload = updateChallengePayload as? UpdatePushChallengePayload else {
-      let error = InputError.invalidInput(field: "invalid payload")
+      let error: InputError = .invalidUpdateChallengePayload(
+        factorType: factor.type
+      )
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      failure(TwilioVerifyError.inputError(error: error as NSError))
+      failure(TwilioVerifyError.inputError(error: error))
       return
+    }
+    guard !updateChallengePayload.challengeSid.isEmpty else {
+      let error: InputError = .emptyChallengeSid
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      return failure(TwilioVerifyError.inputError(error: error))
     }
     pushChallengeProcessor.updateChallenge(withSid: payload.challengeSid, withFactor: factor, status: payload.status, success: success, failure: failure)
   }

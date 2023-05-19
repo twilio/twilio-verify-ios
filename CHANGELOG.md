@@ -1,3 +1,109 @@
+# 2.2.2 (2022-07-13)
+
+### Bug fixes
+- Add retry for keychain operations, preventing 25300 keychain error code ([4f021c7](https://github.com/twilio/twilio-verify-ios/commit/4f021c7d2a650b8b4bb999979256ff9d507a26f7))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
+# 2.2.1 (2022-06-28)
+
+### Bug fixes
+- NSErrors removed and added new specific errors ([71a1130](https://github.com/twilio/twilio-verify-ios/commit/71a1130f98ce0be978a732db018a519c5ba921c9))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
+# 2.2.0 (2022-06-22)
+
+### Features
+- Allow sending custom metadata when creating a factor ([4b6e296](https://github.com/twilio/twilio-verify-ios/commit/4b6e296ddf0120e6b04f0139f1f43c0ff4f0c724))
+
+### Building system
+- Update fastlane ([8b2c1fe](https://github.com/twilio/twilio-verify-ios/commit/8b2c1fe7ce8b3a6c85da77c36727a001d5eb3925))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
+# 2.1.0 (2022-03-23)
+
+### Features
+- Improve input error to provide reason of failure ([75684e3](https://github.com/twilio/twilio-verify-ios/commit/75684e33fb43f5d97a9d49ea11c4ee5882efebe6))
+- Support notification extension by providing a method to configure an access group for keychain access ([0307d47](https://github.com/twilio/twilio-verify-ios/commit/0307d478e851ddee7e698ae03678695d1c0f326c))
+
+### Bug fixes
+- Make NetworkProvider's models public to allow creating a custom provider ([3b745ca](https://github.com/twilio/twilio-verify-ios/commit/3b745caa903e8ca9d35b952c74d47fcd48b5ea78))
+
+### Building system
+- Update xcode version ([abab855](https://github.com/twilio/twilio-verify-ios/commit/abab855a08d472b3fcdc315273fbd170a83b1f97))
+- Gemfile.lock to reduce vulnerabilities (#193) ([176db65](https://github.com/twilio/twilio-verify-ios/commit/176db651cd91d8758f48b58f5493bfbe05dae373))
+- Update gemfile lock ([69f4566](https://github.com/twilio/twilio-verify-ios/commit/69f456604897ce4e3992d8e8866419719cf0532b))
+
+### Documentation
+- Setting up a Notification Extension ([3fd1807](https://github.com/twilio/twilio-verify-ios/commit/3fd18074e4143aca40898a0e5b1383230e8761d3))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.1 MB
+
+
+# 2.0.0 (2022-01-18)
+
+### Bug fixes
+- Clearing storage after reinstall will remove only factors. Previous implementation was removing all the keychain items on reinstall ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052))
+- Improved network error to get Verify API error (#178) ([e6ebbb3](https://github.com/twilio/twilio-verify-ios/commit/e6ebbb36a63537ac38d8cf4e23dbe40b5767582f))
+
+### Documentation
+- add contributing.md ([b9e2acf](https://github.com/twilio/twilio-verify-ios/commit/b9e2acfd0696f67d96b64e3a3d4cb66c9990153d))
+
+### KNOWN ISSUE
+- A reinstall using this version will not clear the SDK storage if the user did not update to this SDK version before the uninstall ([0cbb442](https://github.com/twilio/twilio-verify-ios/commit/0cbb44230c6bcc044ba9deccdd3acce5a8949052)). This may (not) be a concern depending on your implementation
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.0 MB
+
+
+# 1.3.0 (2021-11-30)
+
+### Features
+- Support notification platform 'none' to allow not sending push token. Factors with notification platform 'none' will not receive push notifications for challenges and polling should be implemented to get pending challenges ([e40a267](https://github.com/twilio/twilio-verify-ios/commit/e40a2675c46c5712b9e4d9440261d93753dfc03f))
+
+### Documentation
+- Update documentation to use new sample backend ([bae60b8](https://github.com/twilio/twilio-verify-ios/commit/bae60b87df5ac32ea7fb3e14fc28caf6236352ab))
+- Improve persisting factors after a reinstall documentation (#166) ([df16896](https://github.com/twilio/twilio-verify-ios/commit/df16896a4e0bed01f9212c0c08c4b148b81b00b5))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 1.0 MB
+
+
+# 1.2.0 (2021-09-20)
+
+### Features
+- Allow persisting factors after a reinstall ([0598808](https://github.com/twilio/twilio-verify-ios/commit/059880871a9d9c7ef97bf025e076e3af0e7e8db7))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
+# 1.1.0 (2021-09-13)
+
+### Features
+- Ordering for challenge list ([86ddbba](https://github.com/twilio/twilio-verify-ios/commit/86ddbbadd51516bdd4853defb4606edefeba71c0))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.4 MB    | 0.9 MB
+
+
 # 1.0.0 (2021-07-26)
 
 ### Features

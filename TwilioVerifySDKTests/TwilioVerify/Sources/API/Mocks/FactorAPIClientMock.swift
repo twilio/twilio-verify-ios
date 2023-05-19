@@ -33,7 +33,7 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       failure(error)
       return
     }
-    success(Response(data: factorData, headers: [:]))
+    success(NetworkResponse(data: factorData, headers: [:]))
   }
   
   func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
@@ -42,7 +42,7 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       return
     }
     if factor.sid == expectedFactorSid {
-      success(Response(data: statusData, headers: [:]))
+      success(NetworkResponse(data: statusData, headers: [:]))
       return
     }
     fatalError("Expected params not set")
@@ -62,7 +62,7 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
       return
     }
     if factor.sid == expectedFactorSid {
-      success(Response(data: statusData, headers: [:]))
+      success(NetworkResponse(data: statusData, headers: [:]))
       return
     }
     fatalError("Expected params not set")

@@ -22,8 +22,7 @@ import Foundation
 
 class SecureStorageMock {
   var error: Error?
-  var operationResult: Data!
-  var objectsData: [Data]!
+  var objectsData: [String: Data] = [:]
   private(set) var callsToSave = 0
   private(set) var callsToGet = 0
   private(set) var callsToRemoveValue = 0
@@ -32,11 +31,12 @@ class SecureStorageMock {
 }
 
 extension SecureStorageMock: SecureStorageProvider {
-  func save(_ data: Data, withKey key: String) throws {
+  func save(_ data: Data, withKey key: String, withServiceName service: String?) throws {
     callsToSave += 1
     if let error = error {
       throw error
     }
+    objectsData[key] = data
   }
   
   func get(_ key: String) throws -> Data {
@@ -44,15 +44,18 @@ extension SecureStorageMock: SecureStorageProvider {
     if let error = error {
       throw error
     }
-    return operationResult
+    guard let value = objectsData[key] else {
+      throw NSError(domain: NSOSStatusErrorDomain, code: Int(1), userInfo: nil)
+    }
+    return value
   }
   
-  func getAll() throws -> [Data] {
+  func getAll(withServiceName service: String?) throws -> [Data] {
     callsToGetAll += 1
     if let error = error {
       throw error
     }
-    return objectsData
+    return Array(objectsData.values)
   }
   
   func removeValue(for key: String) throws {
@@ -60,12 +63,14 @@ extension SecureStorageMock: SecureStorageProvider {
     if let error = error {
       throw error
     }
+    objectsData.removeValue(forKey: key)
   }
   
-  func clear() throws {
+  func clear(withServiceName service: String?) throws {
     callsToClear += 1
     if let error = error {
       throw error
     }
+    objectsData.removeAll()
   }
 }

@@ -44,7 +44,6 @@ class UpdateChallengeTests: BaseFactorTests {
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
@@ -90,12 +89,11 @@ class UpdateChallengeTests: BaseFactorTests {
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
       XCTFail()
@@ -131,12 +129,11 @@ class UpdateChallengeTests: BaseFactorTests {
     let urlSession = URLSessionMock(urlSessionDataTasks: urlSessionTasks)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.inputError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.updateChallenge(withPayload: Constants.generateUpdateChallengePayload(withFactorSid: factor!.sid), success: {
       XCTFail()

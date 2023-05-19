@@ -29,7 +29,6 @@ class DeleteFactorTests: BaseFactorTests {
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
@@ -49,7 +48,6 @@ class DeleteFactorTests: BaseFactorTests {
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
@@ -69,12 +67,11 @@ class DeleteFactorTests: BaseFactorTests {
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.storageError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: "anotherSid", success: {
       XCTFail()
@@ -95,12 +92,11 @@ class DeleteFactorTests: BaseFactorTests {
     let urlSession = URLSessionMock(data: "".data(using: .utf8), httpURLResponse: urlResponse, error: nil)
     let networkProvider = NetworkAdapter(withSession: urlSession)
     let twilioVerify = try! TwilioVerifyBuilder()
-                            .setURL(Constants.url)
                             .setNetworkProvider(networkProvider)
                             .setClearStorageOnReinstall(true)
                             .enableDefaultLoggingService(withLevel: .all)
                             .build()
-    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed as NSError)
+    let expectedError = TwilioVerifyError.networkError(error: TestError.operationFailed)
     var error: TwilioVerifyError!
     twilioVerify.deleteFactor(withSid: factor!.sid, success: {
       XCTFail()

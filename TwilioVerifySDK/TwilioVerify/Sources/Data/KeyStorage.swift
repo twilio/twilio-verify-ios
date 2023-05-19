@@ -30,7 +30,7 @@ class KeyStorageAdapter {
   
   private let keyManager: KeyManagerProtocol
   
-  init(keyManager: KeyManagerProtocol = KeyManager()) {
+  init(keyManager: KeyManagerProtocol) {
     self.keyManager = keyManager
   }
 }
@@ -56,7 +56,7 @@ extension KeyStorageAdapter: KeyStorage {
       return signature
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw TwilioVerifyError.keyStorageError(error: error as NSError)
+      throw TwilioVerifyError.keyStorageError(error: error)
     }
   }
   
