@@ -33,13 +33,13 @@ class JwtGeneratorTests: XCTestCase {
   
   func testGenerateJWT_withFactor_shouldReturnExpectedJWT() {
     var signerTemplate: SignerTemplate!
-    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true), "Signer template should not throw")
+    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false), "Signer template should not throw")
     let header = [JwtGenerator.Constants.algorithmKey: JwtGenerator.Constants.defaultAlg,
                   JwtGenerator.Constants.typeKey: JwtGenerator.Constants.jwtType]
     let payload = ["sub": "sub"]
     jwtSigner.operationresult = Constants.data
     var jwt: String!
-    XCTAssertNoThrow(jwt = try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate), "Jwt generation should not throw")
+    XCTAssertNoThrow(jwt = try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, allowIphoneMigration: false, withSignerTemplate: signerTemplate), "Jwt generation should not throw")
     let jwtParts = jwt.components(separatedBy: ".")
     let encodedHeader = base64UrlSafeToBase64(base64url: jwtParts[0])
     let encodedPayload = base64UrlSafeToBase64(base64url: jwtParts[1])

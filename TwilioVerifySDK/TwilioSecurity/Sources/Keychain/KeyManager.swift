@@ -21,7 +21,7 @@ import Foundation
 
 ///:nodoc:
 public protocol KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate) throws -> Signer
+  func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer
   func deleteKey(withAlias alias: String) throws
 }
 
@@ -32,12 +32,11 @@ public class KeyManager {
   private let keychainQuery: KeychainQueryProtocol
   
   public convenience init(
-    accessGroup: String?,
-    attrAccessible: KeyAttrAccessible
+    accessGroup: String?
   ) {
     self.init(
-      withKeychain: Keychain(accessGroup: accessGroup, attrAccessible: attrAccessible),
-      keychainQuery: KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
+      withKeychain: Keychain(accessGroup: accessGroup),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup)
     )
   }
 
@@ -61,10 +60,16 @@ public class KeyManager {
     }
   }
   
-  func generateKeyPair(withTemplate template: SignerTemplate) throws -> KeyPair {
+  func generateKeyPair(
+    withTemplate template: SignerTemplate,
+    allowIphoneMigration: Bool
+  ) throws -> KeyPair {
     Logger.shared.log(withLevel: .info, message: "Creating signer key pair for: \(template.alias)")
     do {
-      let keyPair = try keychain.generateKeyPair(withParameters: template.parameters)
+      let keyPair = try keychain.generateKeyPair(
+        withParameters: template.parameters,
+        allowIphoneMigration: allowIphoneMigration
+      )
       return keyPair
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -83,8 +88,12 @@ public class KeyManager {
     }
   }
   
-  func forceSavePublicKey(_ key: SecKey, withAlias alias: String) throws {
-    let query = keychainQuery.saveKey(key, withAlias: alias)
+  func forceSavePublicKey(
+    _ key: SecKey,
+    withAlias alias: String,
+    allowIphoneMigration: Bool
+  ) throws {
+    let query = keychainQuery.saveKey(key, withAlias: alias, allowIphoneMigration: allowIphoneMigration)
     var status = keychain.addItem(withQuery: query)
     if status == errSecDuplicateItem {
       status = keychain.deleteItem(withQuery: query)
@@ -100,7 +109,10 @@ public class KeyManager {
 }
 
 extension KeyManager: KeyManagerProtocol {
-  public func signer(withTemplate template: SignerTemplate) throws -> Signer {
+  public func signer(
+    withTemplate template: SignerTemplate,
+    allowIphoneMigration: Bool
+  ) throws -> Signer {
     Logger.shared.log(withLevel: .info, message: "Getting signer for alias: \(template.alias)")
     Logger.shared.log(withLevel: .debug, message: "Getting signer for template: \(template)")
     var keyPair: KeyPair!
@@ -112,8 +124,8 @@ extension KeyManager: KeyManagerProtocol {
         throw error
       }
       do {
-        keyPair = try generateKeyPair(withTemplate: template)
-        try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias)
+        keyPair = try generateKeyPair(withTemplate: template, allowIphoneMigration: allowIphoneMigration)
+        try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias, allowIphoneMigration: allowIphoneMigration)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         throw error

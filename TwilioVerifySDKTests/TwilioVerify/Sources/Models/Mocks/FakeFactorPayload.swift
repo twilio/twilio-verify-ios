@@ -25,14 +25,17 @@ struct FakeFactorPayload: FactorPayload {
   var serviceSid: String
   var identity: String
   var factorType: FactorType
+  var allowIphoneMigration: Bool = false
 }
 
 struct FakeVerifyPushFactorPayload: VerifyFactorPayload {
   let sid: String
+  var allowIphoneMigration: Bool = false
 }
 
 struct FakeUpdateFactorPayload: UpdateFactorPayload {
   let sid: String
+  var allowIphoneMigration: Bool = false
 }
 
 struct FakeFactor: Factor {
@@ -50,4 +53,5 @@ struct FakeFactor: Factor {
 struct FakeUpdateChallengePayload: UpdateChallengePayload {
   var factorSid: String
   var challengeSid: String
+  var allowIphoneMigration: Bool = false
 }

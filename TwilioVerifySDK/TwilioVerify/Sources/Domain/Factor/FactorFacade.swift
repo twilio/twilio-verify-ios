@@ -48,14 +48,18 @@ extension FactorFacade: FactorFacadeProtocol {
       failure(TwilioVerifyError.inputError(error: error))
       return
     }
-    factory.createFactor(withAccessToken: payload.accessToken,
-                         friendlyName: payload.friendlyName,
-                         serviceSid: payload.serviceSid,
-                         identity: payload.identity,
-                         pushToken: payload.pushToken,
-                         metadata: payload.metadata,
-                         success: success,
-                         failure: failure)
+    factory.createFactor(
+      withAccessToken: payload.accessToken,
+      friendlyName: payload.friendlyName,
+      serviceSid: payload.serviceSid,
+      identity: payload.identity,
+      factorType: payload.factorType,
+      allowIphoneMigration: payload.allowIphoneMigration,
+      pushToken: payload.pushToken,
+      metadata: payload.metadata,
+      success: success,
+      failure: failure
+    )
   }
   
   func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
@@ -70,9 +74,9 @@ extension FactorFacade: FactorFacadeProtocol {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    factory.verifyFactor(withSid: payload.sid, success: success, failure: failure)
+    factory.verifyFactor(withSid: payload.sid, allowIphoneMigration: payload.allowIphoneMigration, success: success, failure: failure)
   }
-  
+
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? UpdatePushFactorPayload else {
       let error: InputError = .invalidPayload
@@ -85,7 +89,13 @@ extension FactorFacade: FactorFacadeProtocol {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    factory.updateFactor(withSid: payload.sid, withPushToken: payload.pushToken, success: success, failure: failure)
+
+    factory.updateFactor(
+      withSid: payload.sid,
+      withPushToken: payload.pushToken,
+      success: success,
+      failure: failure
+    )
   }
   
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
@@ -138,7 +148,6 @@ extension FactorFacade {
     private var authentication: Authentication!
     private var clearStorageOnReinstall = true
     private var accessGroup: String?
-    private var attrAccessible: KeyAttrAccessible = .afterFirstUnlockThisDeviceOnly
     private var userDefaults: UserDefaults!
     
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
@@ -176,11 +185,6 @@ extension FactorFacade {
       return self
     }
 
-    public func setAttrAccessible(_ attrAccessible: KeyAttrAccessible) -> Self {
-      self.attrAccessible = attrAccessible
-      return self
-    }
-
     public func setUserDefaults(_ userDefaults: UserDefaults) -> Self {
       self.userDefaults = userDefaults
       return self
@@ -188,13 +192,12 @@ extension FactorFacade {
 
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
-      let keychainQuery = KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
       let secureStorage = SecureStorage(keychain: keychain, keychainQuery: keychainQuery)
       let migrations = FactorMigrations().migrations()
       let storage = try Storage(
         secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
-        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup,
-        attrAccessible: attrAccessible
+        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup
       )
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)

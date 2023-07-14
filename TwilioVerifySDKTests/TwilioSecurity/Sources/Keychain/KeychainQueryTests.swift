@@ -31,9 +31,9 @@ class KeychainQueryTests: XCTestCase {
     try super.setUpWithError()
     keychain = KeychainMock()
     XCTAssertNoThrow(
-      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false)
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false, allowIphoneMigration: false)
     )
-    keychainQuery = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    keychainQuery = KeychainQuery(accessGroup: nil)
   }
   
   func testKey_withPrivateKey_shouldReturnValidQuery() {
@@ -64,7 +64,7 @@ class KeychainQueryTests: XCTestCase {
     var pair: KeyPair!
     let expectedClass = kSecClassKey
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
-    let query = keychainQuery.saveKey(pair.privateKey, withAlias: Constants.alias)
+    let query = keychainQuery.saveKey(pair.privateKey, withAlias: Constants.alias, allowIphoneMigration: false)
     let secClass = query[kSecClass] as! CFString
     let label = query[kSecAttrLabel] as! String
     let key = query[kSecValueRef] as! SecKey
@@ -76,7 +76,7 @@ class KeychainQueryTests: XCTestCase {
   
   func testSaveData_withKey_shouldReturnValidQuery() {
     let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: Constants.service)
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: Constants.service, allowIphoneMigration: false)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
     let access = query[kSecAttrAccessible] as! CFString
@@ -129,7 +129,7 @@ class KeychainQueryTests: XCTestCase {
   }
 
   func testGetItem_withOutAccessGroup_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    keychainQuery = KeychainQuery(accessGroup: nil)
     let query = keychainQuery.getData(withKey: Constants.alias)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
@@ -141,9 +141,9 @@ class KeychainQueryTests: XCTestCase {
   }
 
   func testSaveItem_withAccessGroup_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup)
     let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil, allowIphoneMigration: false)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
     let access = query[kSecAttrAccessible] as! CFString
@@ -158,9 +158,9 @@ class KeychainQueryTests: XCTestCase {
   }
 
   func testSaveItem_withAttrAccessible_shouldReturnValidQuery() {
-    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup, attrAccessible: .afterFirstUnlock)
+    keychainQuery = KeychainQuery(accessGroup: Constants.accessGroup)
     let expectedData = "data".data(using: .utf8)!
-    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil)
+    let query = keychainQuery.save(data: expectedData, withKey: Constants.alias, withServiceName: nil, allowIphoneMigration: true)
     let keyClass = query[kSecClass] as! CFString
     let label = query[kSecAttrAccount] as! String
     let access = query[kSecAttrAccessible] as! CFString

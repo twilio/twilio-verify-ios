@@ -37,9 +37,9 @@ enum KeyAttrClass {
 
 protocol KeychainQueryProtocol {
   func key(withTemplate template: SignerTemplate, class keyClass: KeyAttrClass) -> Query
-  func saveKey(_ key: SecKey, withAlias alias: String) -> Query
+  func saveKey(_ key: SecKey, withAlias alias: String, allowIphoneMigration: Bool) -> Query
   func deleteKey(withAlias alias: String) -> Query
-  func save(data: Data, withKey key: String, withServiceName service: String?) -> Query
+  func save(data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool) -> Query
   func getData(withKey key: String) -> Query
   func getAll(withServiceName service: String?) -> Query
   func delete(withKey key: String) -> Query
@@ -53,11 +53,9 @@ struct KeychainQuery: KeychainQueryProtocol {
   /// Direct use of [kSecAttrAccessGroup](https://developer.apple.com/documentation/security/ksecattraccessgroup?language=swift),
   /// when set all methods will make use of it.
   let accessGroup: String?
-  let attrAccessible: KeyAttrAccessible
 
-  init(accessGroup: String?, attrAccessible: KeyAttrAccessible) {
+  init(accessGroup: String?) {
     self.accessGroup = accessGroup
-    self.attrAccessible = attrAccessible
   }
 
   // MARK: - Public Methods
@@ -72,12 +70,12 @@ struct KeychainQuery: KeychainQueryProtocol {
     ])
   }
 
-  func saveKey(_ key: SecKey, withAlias alias: String) -> Query {
+  func saveKey(_ key: SecKey, withAlias alias: String, allowIphoneMigration: Bool = false) -> Query {
     properties([
       kSecClass: kSecClassKey,
       kSecAttrLabel: alias,
       kSecValueRef: key,
-      kSecAttrAccessible: attrAccessible.value
+      kSecAttrAccessible: attrAccessible(allowIphoneMigration)
     ])
   }
   
@@ -88,11 +86,13 @@ struct KeychainQuery: KeychainQueryProtocol {
     ]
   }
 
-  func save(data: Data, withKey key: String, withServiceName service: String?) -> Query {
-    var query = [kSecClass: kSecClassGenericPassword,
-     kSecAttrAccount: key,
-     kSecValueData: data,
-        kSecAttrAccessible: attrAccessible.value] as Query
+  func save(data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool = false) -> Query {
+    var query = [
+      kSecClass: kSecClassGenericPassword,
+      kSecAttrAccount: key,
+      kSecValueData: data,
+      kSecAttrAccessible: attrAccessible(allowIphoneMigration)
+    ] as Query
     if let service = service {
       query[kSecAttrService] = service
     }
@@ -143,5 +143,9 @@ struct KeychainQuery: KeychainQueryProtocol {
     }
 
     return customProperties
+  }
+
+  func attrAccessible(_ allowIphoneMigration: Bool) -> CFString {
+    allowIphoneMigration ? kSecAttrAccessibleAfterFirstUnlock : kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
   }
 }

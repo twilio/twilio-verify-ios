@@ -35,7 +35,7 @@ public struct UpdatePushChallengePayload: UpdateChallengePayload {
   public let challengeSid: String
   //New status of the Challenge
   public let status: ChallengeStatus
-  
+
   /**
   Creates an **UpdatePushChallengePayload** with the given parameters
   - Parameters:
@@ -43,7 +43,11 @@ public struct UpdatePushChallengePayload: UpdateChallengePayload {
     - challengeSid: Sid of the Challenge to be updated
     - status: New status of the Challenge
   */
-  public init(factorSid: String, challengeSid: String, status: ChallengeStatus) {
+  public init(
+    factorSid: String,
+    challengeSid: String,
+    status: ChallengeStatus
+  ) {
     self.factorSid = factorSid
     self.challengeSid = challengeSid
     self.status = status

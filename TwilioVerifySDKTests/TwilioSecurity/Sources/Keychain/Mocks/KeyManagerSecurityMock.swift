@@ -28,14 +28,14 @@ class KeyManagerSecurityMock {
   
   required init(
     withKeychain keychain: KeychainProtocol = KeychainMock(),
-    keychainQuery: KeychainQueryProtocol = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    keychainQuery: KeychainQueryProtocol = KeychainQuery(accessGroup: nil)
   ) {
     self.keychain = keychain
   }
 }
 
 extension KeyManagerSecurityMock: KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate) throws -> Signer {
+  func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer {
     return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm, keychain: keychain)
   }
   

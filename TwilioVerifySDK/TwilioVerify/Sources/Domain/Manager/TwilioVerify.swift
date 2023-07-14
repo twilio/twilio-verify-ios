@@ -30,23 +30,6 @@ public typealias FactorListSuccessBlock = ([Factor]) -> ()
 ///:nodoc:
 public typealias EmptySuccessBlock = () -> ()
 
-/// Wrapper for [kSecAttrAccessible](https://developer.apple.com/documentation/security/ksecattraccessible)
-public enum KeyAttrAccessible {
-  /// Wrapper of [kSecAttrAccessibleAfterFirstUnlock](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlock)
-  case afterFirstUnlock
-  /// Wrapper of [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly)
-  case afterFirstUnlockThisDeviceOnly
-
-  var value: CFString {
-    switch self {
-      case .afterFirstUnlock:
-        return kSecAttrAccessibleAfterFirstUnlock
-      case .afterFirstUnlockThisDeviceOnly:
-        return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    }
-  }
-}
-
 ///Describes the available operations to proccess Factors and Challenges
 public protocol TwilioVerify {
   
@@ -173,7 +156,6 @@ public class TwilioVerifyBuilder {
   private var _baseURL: String
   private var clearStorageOnReinstall: Bool
   private var accessGroup: String?
-  private var attrAccessible: KeyAttrAccessible = .afterFirstUnlockThisDeviceOnly
   private var loggingServices: [LoggerService]
   
   /// Creates a new instance of TwilioVerifyBuilder
@@ -205,15 +187,6 @@ public class TwilioVerifyBuilder {
   /// if `nil` the data will be only available in the app, otherwise using a KeyChain group will enable the option to access data from service extensions.
   public func setAccessGroup(_ accessGroup: String?) -> Self {
     self.accessGroup = accessGroup
-    return self
-  }
-
-  /// Set the attrAccessible parameter that will be used for Keychain storage.
-  /// - Parameter attrAccessible: Used to specify the security protection of Keychain items [kSecAttrAccessible](https://developer.apple.com/documentation/security/ksecattraccessible)
-  /// The default option is [kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly)
-  /// which means that the Keychain item can only be accessed after the device is unlocked for the first time on the current device and cannot be migrated to another device.
-  public func setAttrAccessible(_ attrAccessible: KeyAttrAccessible) -> Self {
-    self.attrAccessible = attrAccessible
     return self
   }
 
@@ -254,8 +227,8 @@ public class TwilioVerifyBuilder {
   public func build() throws -> TwilioVerify {
     do {
       loggingServices.forEach { Logger.shared.addService($0) }
-      let keychainQuery = KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
-      let keyChain = Keychain(accessGroup: accessGroup, attrAccessible: attrAccessible)
+      let keychainQuery = KeychainQuery(accessGroup: accessGroup)
+      let keyChain = Keychain(accessGroup: accessGroup)
       let keyStorage = KeyStorageAdapter(keyManager: KeyManager(withKeychain: keyChain, keychainQuery: keychainQuery))
       let jwtGenerator = JwtGenerator(withJwtSigner: JwtSigner(withKeyStorage: keyStorage))
       let authentication = AuthenticationProvider(withJwtGenerator: jwtGenerator, dateProvider: DateAdapter(userDefaults: userDefaults()))
@@ -267,7 +240,6 @@ public class TwilioVerifyBuilder {
         .setKeyStorage(keyStorage)
         .setClearStorageOnReinstall(clearStorageOnReinstall)
         .setAccessGroup(accessGroup)
-        .setAttrAccessible(attrAccessible)
         .setUserDefaults(userDefaults())
         .build()
       let challengeFacade = ChallengeFacade.Builder()

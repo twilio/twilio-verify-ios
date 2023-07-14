@@ -20,7 +20,12 @@
 import Foundation
 
 protocol JwtGeneratorProtocol {
-  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String
+  func generateJWT(
+    forHeader header: [String: String],
+    forPayload payload: [String: Any],
+    allowIphoneMigration: Bool,
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> String
 }
 
 class JwtGenerator {
@@ -34,7 +39,12 @@ class JwtGenerator {
 
 extension JwtGenerator: JwtGeneratorProtocol {
   
-  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
+  func generateJWT(
+    forHeader header: [String: String],
+    forPayload payload: [String: Any],
+    allowIphoneMigration: Bool,
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> String {
     var jwtHeader = header
     jwtHeader[Constants.typeKey] = Constants.jwtType
     if signerTemplate is ECP256SignerTemplate {
@@ -43,7 +53,7 @@ extension JwtGenerator: JwtGeneratorProtocol {
     let encodedHeader = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: jwtHeader, options: []))
     let encodedPayload = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: payload, options: []))
     let message = "\(encodedHeader).\(encodedPayload)"
-    let signature = base64EncodedUrlSafeString(withData: try jwtSigner.sign(message: message, withSignerTemplate: signerTemplate))
+    let signature = base64EncodedUrlSafeString(withData: try jwtSigner.sign(message: message, allowIphoneMigration: allowIphoneMigration, withSignerTemplate: signerTemplate))
     return "\(message).\(signature)"
   }
 }

@@ -20,28 +20,40 @@
 import Foundation
 
 protocol PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String,
-                    friendlyName: String,
-                    serviceSid: String,
-                    identity: String,
-                    pushToken: String?,
-                    metadata: [String: String]?,
-                    success: @escaping FactorSuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock)
-  
-  func verifyFactor(withSid sid: String,
-                    success: @escaping FactorSuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock)
-  
-  func updateFactor(withSid sid: String,
-                    withPushToken pushToken: String?,
-                    success: @escaping FactorSuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock)
-  
-  func deleteFactor(withSid sid: String,
-                    success: @escaping EmptySuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock)
-  
+  // swiftlint:disable:next function_parameter_count
+  func createFactor(
+    withAccessToken accessToken: String,
+    friendlyName: String,
+    serviceSid: String,
+    identity: String,
+    factorType: FactorType,
+    allowIphoneMigration: Bool,
+    pushToken: String?,
+    metadata: [String: String]?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+
+  func verifyFactor(
+    withSid sid: String,
+    allowIphoneMigration: Bool,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+
+  func updateFactor(
+    withSid sid: String,
+    withPushToken pushToken: String?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+
+  func deleteFactor(
+    withSid sid: String,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  )
+
   func deleteAllFactors() throws
 }
 
@@ -57,13 +69,23 @@ class PushFactory {
 }
 
 extension PushFactory: PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String, friendlyName: String, serviceSid: String,
-                    identity: String, pushToken: String?, metadata: [String: String]?,
-                    success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  // swiftlint:disable:next function_parameter_count
+  func createFactor(
+    withAccessToken accessToken: String,
+    friendlyName: String,
+    serviceSid: String,
+    identity: String,
+    factorType: FactorType = .push,
+    allowIphoneMigration: Bool = false,
+    pushToken: String?,
+    metadata: [String: String]?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     do {
       Logger.shared.log(withLevel: .info, message: "Creating push factor \(friendlyName)")
       let alias = generateKeyPairAlias()
-      let publicKey = try keyStorage.createKey(withAlias: alias)
+      let publicKey = try keyStorage.createKey(withAlias: alias, allowIphoneMigration: allowIphoneMigration)
       let binding = self.binding(publicKey)
       let config = self.config(withToken: pushToken)
       let payload = CreateFactorPayload(friendlyName: friendlyName, type: .push,
@@ -73,7 +95,7 @@ extension PushFactory: PushFactoryProtocol {
         
       Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
       
-      repository.create(withPayload: payload, success: { [weak self] factor in
+      repository.create(withPayload: payload, allowIphoneMigration: allowIphoneMigration, success: { [weak self] factor in
         guard let strongSelf = self else { return }
         guard var factor = factor as? PushFactor else {
           failure(TwilioVerifyError.networkError(error: NetworkError.invalidData))
@@ -81,7 +103,7 @@ extension PushFactory: PushFactoryProtocol {
         }
         factor.keyPairAlias = alias
         do {
-          let pushFactor = try strongSelf.repository.save(factor)
+          let pushFactor = try strongSelf.repository.save(factor, allowIphoneMigration: allowIphoneMigration)
           success(pushFactor)
         } catch {
           do {
@@ -109,7 +131,12 @@ extension PushFactory: PushFactoryProtocol {
     }
   }
   
-  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func verifyFactor(
+    withSid sid: String,
+    allowIphoneMigration: Bool,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     do {
       Logger.shared.log(withLevel: .info, message: "Verifying push factor \(sid)")
       let factor = try repository.get(withSid: sid)
@@ -121,9 +148,9 @@ extension PushFactory: PushFactoryProtocol {
         failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") ))
         return
       }
-      let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid)
+      let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid, allowIphoneMigration: allowIphoneMigration)
       Logger.shared.log(withLevel: .debug, message: "Verify factor with payload \(payload)")
-      repository.verify(pushFactor, payload: payload, success: success) { error in
+      repository.verify(pushFactor, payload: payload, allowIphoneMigration: allowIphoneMigration, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error))
       }
     } catch {
@@ -136,10 +163,12 @@ extension PushFactory: PushFactoryProtocol {
     }
   }
   
-  func updateFactor(withSid sid: String,
-                    withPushToken pushToken: String?,
-                    success: @escaping FactorSuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock) {
+  func updateFactor(
+    withSid sid: String,
+    withPushToken pushToken: String?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     do {
       Logger.shared.log(withLevel: .info, message: "Updating push factor \(sid)")
       let factor = try repository.get(withSid: sid)

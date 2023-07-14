@@ -21,7 +21,7 @@ import Foundation
 
 ///:nodoc:
 public protocol SecureStorageProvider {
-  func save(_ data: Data, withKey key: String, withServiceName service: String?) throws
+  func save(_ data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll(withServiceName service: String?) throws -> [Data]
@@ -34,10 +34,10 @@ public class SecureStorage {
   private let keychain: KeychainProtocol
   private let keychainQuery: KeychainQueryProtocol
 
-  public convenience init(accessGroup: String?, attrAccessible: KeyAttrAccessible) {
+  public convenience init(accessGroup: String?) {
     self.init(
-      keychain: Keychain(accessGroup: accessGroup, attrAccessible: attrAccessible),
-      keychainQuery: KeychainQuery(accessGroup: accessGroup, attrAccessible: attrAccessible)
+      keychain: Keychain(accessGroup: accessGroup),
+      keychainQuery: KeychainQuery(accessGroup: accessGroup)
     )
   }
 
@@ -51,11 +51,21 @@ public class SecureStorage {
 }
 
 extension SecureStorage: SecureStorageProvider {
-  public func save(_ data: Data, withKey key: String, withServiceName service: String?) throws {
+  public func save(
+    _ data: Data,
+    withKey key: String,
+    withServiceName service: String?,
+    allowIphoneMigration: Bool
+  ) throws {
     Logger.shared.log(withLevel: .info, message: "Saving \(key)")
     let deleteQuery = keychainQuery.delete(withKey: key)
     keychain.deleteItem(withQuery: deleteQuery)
-    let query = keychainQuery.save(data: data, withKey: key, withServiceName: service)
+    let query = keychainQuery.save(
+      data: data,
+      withKey: key,
+      withServiceName: service,
+      allowIphoneMigration: allowIphoneMigration
+    )
     let status = keychain.addItem(withQuery: query)
     guard status == errSecSuccess else {
       let error: SecureStorageError = .invalidStatusCode(code: Int(status))

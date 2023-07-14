@@ -29,7 +29,7 @@ class SecureStorageTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     keychain = KeychainMock()
-    storage = SecureStorage(keychain: keychain, keychainQuery: KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly))
+    storage = SecureStorage(keychain: keychain, keychainQuery: KeychainQuery(accessGroup: nil))
   }
   
   override func tearDownWithError() throws {
@@ -45,7 +45,7 @@ class SecureStorageTests: XCTestCase {
     keychain.addItemStatus = [expectedErrorCode]
 
     XCTAssertThrowsError(
-      try storage.save(data, withKey: key, withServiceName: "service"),
+      try storage.save(data, withKey: key, withServiceName: "service", allowIphoneMigration: false),
       "Save should throw"
     ) { error in
       guard let thrownError = error as? SecureStorageError,
@@ -79,7 +79,7 @@ class SecureStorageTests: XCTestCase {
     let key = "key"
     keychain.addItemStatus = [errSecSuccess]
     keychain.deleteItemStatus = errSecSuccess
-    XCTAssertNoThrow(try storage.save(data, withKey: key, withServiceName: "service"), "Save should not throw")
+    XCTAssertNoThrow(try storage.save(data, withKey: key, withServiceName: "service", allowIphoneMigration: false), "Save should not throw")
   }
   
   func testGet_valueExistsForKey_shouldReturnValue() {

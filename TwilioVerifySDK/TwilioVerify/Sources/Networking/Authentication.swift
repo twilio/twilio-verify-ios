@@ -20,7 +20,7 @@
 import Foundation
 
 protocol Authentication {
-  func generateJWT(forFactor factor: Factor) throws -> String
+  func generateJWT(forFactor factor: Factor, allowIphoneMigration: Bool) throws -> String
 }
 
 enum AuthenticationError: LocalizedError {
@@ -53,12 +53,12 @@ class AuthenticationProvider {
 
 extension AuthenticationProvider: Authentication {
   
-  func generateJWT(forFactor factor: Factor) throws -> String {
+  func generateJWT(forFactor factor: Factor, allowIphoneMigration: Bool) throws -> String {
     do {
       switch factor {
         case is PushFactor:
           // swiftlint:disable:next force_cast
-          return try generateJWT(factor as! PushFactor)
+          return try generateJWT(factor as! PushFactor, allowIphoneMigration: allowIphoneMigration)
         default:
           throw AuthenticationError.invalidFactor
       }
@@ -70,14 +70,14 @@ extension AuthenticationProvider: Authentication {
 }
 
 private extension AuthenticationProvider {
-  func generateJWT(_ factor: PushFactor) throws -> String {
+  func generateJWT(_ factor: PushFactor, allowIphoneMigration: Bool) throws -> String {
     let header = generateHeader(factor)
     let payload = generatePayload(factor)
     guard let alias = factor.keyPairAlias else {
       throw AuthenticationError.invalidKeyPair
     }
-    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
-    return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate)
+    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, allowIphoneMigration: allowIphoneMigration)
+    return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, allowIphoneMigration: allowIphoneMigration, withSignerTemplate: signerTemplate)
   }
   
   func generateHeader(_ factor: PushFactor) -> [String: String] {

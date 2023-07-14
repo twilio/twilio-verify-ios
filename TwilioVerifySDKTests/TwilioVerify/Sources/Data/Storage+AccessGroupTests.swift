@@ -72,8 +72,7 @@ class StorageAccessGroupTests: XCTestCase {
       factorMapper: factorMapper,
       migrations: [],
       clearStorageOnReinstall: false,
-      accessGroup: accessGroup,
-      attrAccessible: .afterFirstUnlockThisDeviceOnly
+      accessGroup: accessGroup
     )
 
     factorMapper.error = nil
@@ -91,7 +90,7 @@ class StorageAccessGroupTests: XCTestCase {
       return
     }
 
-    try? storage.save(expectedFactorData, withKey: factor.sid)
+    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: false)
     let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When
@@ -134,7 +133,7 @@ class StorageAccessGroupTests: XCTestCase {
       return
     }
 
-    try? storage.save(expectedFactorData, withKey: factor.sid)
+    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: false)
     let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When

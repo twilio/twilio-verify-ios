@@ -105,14 +105,20 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
       }
       var signerTemplate: SignerTemplate
       do {
-        signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
+        signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, allowIphoneMigration: false)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.keyStorageError(error: error))
         return
       }
       do {
-        let authPayload = try strongSelf.generateSignature(withSignatureFields: signatureFields, withResponse: response, status: status, signerTemplate: signerTemplate)
+        let authPayload = try strongSelf.generateSignature(
+          withSignatureFields: signatureFields,
+          withResponse: response,
+          status: status,
+          allowIphoneMigration: false,
+          signerTemplate: signerTemplate
+        )
         Logger.shared.log(withLevel: .debug, message: "Update challenge with auth payload \(authPayload)")
         strongSelf.challengeProvider.update(challenge, payload: authPayload, success: { updatedChallenge in
           if updatedChallenge.status == status {
@@ -138,6 +144,7 @@ private extension PushChallengeProcessor {
     withSignatureFields signatureFields: [String],
     withResponse response: [String: Any],
     status: ChallengeStatus,
+    allowIphoneMigration: Bool,
     signerTemplate: SignerTemplate
   ) throws -> String {
     var payload = try signatureFields.reduce(into: [String: Any]()) { result, key in
@@ -150,7 +157,12 @@ private extension PushChallengeProcessor {
     }
     payload[Constants.status] = status.rawValue
     Logger.shared.log(withLevel: .debug, message: "Update challenge with payload \(payload)")
-    return try jwtGenerator.generateJWT(forHeader: [:], forPayload: payload, withSignerTemplate: signerTemplate)
+    return try jwtGenerator.generateJWT(
+      forHeader: [:],
+      forPayload: payload,
+      allowIphoneMigration: allowIphoneMigration,
+      withSignerTemplate: signerTemplate
+    )
   }
 }
 

@@ -27,7 +27,7 @@ class KeychainTests: XCTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    keychain = Keychain(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly)
+    keychain = Keychain(accessGroup: nil)
   }
   
   override func tearDown() {
@@ -218,7 +218,7 @@ class KeychainTests: XCTestCase {
     let expectedLocalizedDescription = "Invalid status code operation received: -4"
 
     XCTAssertThrowsError(
-      try keychain.generateKeyPair(withParameters: [:]),
+      try keychain.generateKeyPair(withParameters: [:], allowIphoneMigration: false),
       "Generate KeyPair Should throw"
     ) { error in
 
@@ -251,7 +251,7 @@ class KeychainTests: XCTestCase {
   func testGenerateKeyPair_withValidParameters_shouldReturnKeyPair() {
     var pair: KeyPair!
     XCTAssertNoThrow(
-      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters()),
+      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters(), allowIphoneMigration: false),
       "Generate KeyPair should return a KeyPair"
     )
     XCTAssertNotNil(pair, "Pair should not be nil")
@@ -295,7 +295,7 @@ class KeychainTests: XCTestCase {
     let expectedErrorCode = -25300
     let expectedLocalizedDescription = "Invalid status code operation received: -25300"
     let data = "data".data(using: .utf8)!
-    let query = KeychainQuery(accessGroup: nil, attrAccessible: .afterFirstUnlockThisDeviceOnly).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
+    let query = KeychainQuery(accessGroup: nil).save(data: data, withKey: Constants.alias, withServiceName: Constants.service)
     let status = keychain.addItem(withQuery: query)
 
     XCTAssertEqual(status, errSecSuccess, "Adding an item should succeed")

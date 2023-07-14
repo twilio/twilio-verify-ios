@@ -55,7 +55,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.expectedSid = factor.sid
     storage.factorData = factorData
     var factorResponse: Factor?
-    factorRepository.create(withPayload: factorPayload, success: { factor in
+    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { factor in
       factorResponse = factor as? PushFactor
       successExpectation.fulfill()
     }) { _ in
@@ -88,7 +88,7 @@ class FactorRepositoryTests: XCTestCase {
       metadata: nil)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
-    factorRepository.create(withPayload: factorPayload, success: { _ in
+    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -113,7 +113,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.fromAPIError = expectedError
-    factorRepository.create(withPayload: factorPayload, success: { _ in
+    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -142,7 +142,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorGetting = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, success: { _ in
+    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -171,7 +171,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorSaving = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, success: { _ in
+    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -211,7 +211,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedStatusData = responseData
 
     var factorResponse: Factor?
-    factorRepository.verify(factor, payload: payload, success: { factor in
+    factorRepository.verify(factor, payload: payload, allowIphoneMigration: false, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
     }) { _ in
@@ -228,7 +228,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
     var error: Error!
-    factorRepository.verify(Constants.generateFactor(), payload: "", success: { _ in
+    factorRepository.verify(Constants.generateFactor(), payload: "", allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -249,7 +249,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.statusData = responseData
     factorMapper.expectedStatusData = responseData
     var error: Error!
-    factorRepository.verify(factor, payload: payload, success: { _ in
+    factorRepository.verify(factor, payload: payload, allowIphoneMigration: false, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -354,7 +354,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.factorData = factorData
     factorMapper.expectedFactor = factor
     factorMapper.expectedData = factorData
-    XCTAssertNoThrow(try factorRepository.save(factor), "Save factor shouldn't throw")
+    XCTAssertNoThrow(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor shouldn't throw")
   }
 
   func testSaveFactor_withStorageError_shouldFail() {
@@ -363,7 +363,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.expectedSid = factor.sid
     storage.errorSaving = expectedError
-    XCTAssertThrowsError(try factorRepository.save(factor), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor should throw") { error in
       XCTAssertEqual((error as! TestError), expectedError)
     }
   }
@@ -374,7 +374,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedFactor = factor
     factorMapper.error = expectedError
     storage.expectedSid = factor.sid
-    XCTAssertThrowsError(try factorRepository.save(factor), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor should throw") { error in
       XCTAssertEqual((error as! MapperError), expectedError)
     }
   }

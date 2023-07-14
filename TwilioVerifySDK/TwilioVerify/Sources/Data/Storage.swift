@@ -26,7 +26,6 @@ class Storage {
   private let secureStorage: SecureStorageProvider
   private let userDefaults: UserDefaults
   private let factorMapper: FactorMapperProtocol
-  let attrAccessible: KeyAttrAccessible
 
   init(
     secureStorage: SecureStorageProvider,
@@ -35,13 +34,11 @@ class Storage {
     factorMapper: FactorMapperProtocol = FactorMapper(),
     migrations: [Migration],
     clearStorageOnReinstall: Bool = true,
-    accessGroup: String? = nil,
-    attrAccessible: KeyAttrAccessible
+    accessGroup: String? = nil
   ) throws {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
     self.factorMapper = factorMapper
-    self.attrAccessible = attrAccessible
     checkAccessGroupMigration(for: accessGroup, using: keychain)
     try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }
@@ -54,8 +51,17 @@ extension Storage: StorageProvider {
     Constants.version
   }
   
-  func save(_ data: Data, withKey key: String) throws {
-    try secureStorage.save(data, withKey: key, withServiceName: Constants.service)
+  func save(
+    _ data: Data,
+    withKey key: String,
+    allowIphoneMigration: Bool = false
+  ) throws {
+    try secureStorage.save(
+      data,
+      withKey: key,
+      withServiceName: Constants.service,
+      allowIphoneMigration: allowIphoneMigration
+    )
   }
   
   func get(_ key: String) throws -> Data {

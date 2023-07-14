@@ -23,6 +23,7 @@ import Foundation
 public struct ECP256SignerTemplate {
   public var alias: String
   public var shouldExist: Bool
+  public var allowIphoneMigration: Bool
   public var parameters: [String: Any]
   public var algorithm = kSecAttrKeyTypeECSECPrimeRandom as String
   public var signatureAlgorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
@@ -31,10 +32,12 @@ public struct ECP256SignerTemplate {
 extension ECP256SignerTemplate: SignerTemplate {
   public init(
     withAlias alias: String,
-    shouldExist: Bool
+    shouldExist: Bool,
+    allowIphoneMigration: Bool
   ) throws {
     self.alias = alias
     self.shouldExist = shouldExist
+    self.allowIphoneMigration = allowIphoneMigration
     self.parameters = [:]
     do {
       self.parameters = createSignerParameters()
@@ -63,7 +66,7 @@ extension ECP256SignerTemplate {
       kSecAttrKeySizeInBits: Constants.keySize
     ] as [String: Any]
     
-    if isSecureEnclaveAvailable() {
+    if isSecureEnclaveAvailable() && allowIphoneMigration == false {
       parameters[kSecAttrTokenID as String] = kSecAttrTokenIDSecureEnclave
     }
     return parameters

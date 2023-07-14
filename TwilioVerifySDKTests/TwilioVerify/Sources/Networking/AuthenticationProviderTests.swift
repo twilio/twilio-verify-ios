@@ -50,7 +50,7 @@ class AuthenticationProviderTests: XCTestCase {
       keyPairAlias: "keyPairAlias")
     let expectedDate = 1595358902
     dateProvider.currentTime = expectedDate
-    XCTAssertNoThrow(jwt = try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should not throw")
+    XCTAssertNoThrow(jwt = try authenticationProvider.generateJWT(forFactor: factor, allowIphoneMigration: false), "Generate JWT should not throw")
     XCTAssertEqual(expectedJWT, jwt, "JWT should be \(expectedJWT) but was \(String(describing: jwt))")
     XCTAssertEqual(factor.config.credentialSid, jwtGenerator.header![AuthenticationProvider.Constants.kidKey],
                    "Credential sid should be \(factor.config.credentialSid) but was \(String(describing: jwtGenerator.header![AuthenticationProvider.Constants.kidKey]))")
@@ -78,7 +78,7 @@ class AuthenticationProviderTests: XCTestCase {
       keyPairAlias: nil)
     let expectedDate = 1595358902
     dateProvider.currentTime = expectedDate
-    XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
+    XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor, allowIphoneMigration: false), "Generate JWT should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError as! AuthenticationError, AuthenticationError.invalidKeyPair)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidKeyPair.errorDescription)
     }
@@ -94,7 +94,7 @@ class AuthenticationProviderTests: XCTestCase {
       identity: "identity",
       type: .push,
       createdAt: Date())
-    XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor), "Generate JWT should throw") { error in
+    XCTAssertThrowsError(try authenticationProvider.generateJWT(forFactor: factor, allowIphoneMigration: false), "Generate JWT should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError as! AuthenticationError, AuthenticationError.invalidFactor)
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as? AuthenticationError)!.errorDescription, AuthenticationError.invalidFactor.errorDescription)
     }
