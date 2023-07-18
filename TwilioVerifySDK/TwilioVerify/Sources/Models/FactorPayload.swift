@@ -19,16 +19,16 @@
 
 import Foundation
 
-///Describes the information required to create a **Factor**.
+/// Describes the information required to create a **Factor**.
 public protocol FactorPayload {
-  ///A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
+  /// A human readable description of this resource, up to 64 characters. For a push factor, this can be the device's name.
   var friendlyName: String { get }
-  ///The unique SID identifier of the Service.
+  /// The unique SID identifier of the Service.
   var serviceSid: String { get }
-  ///Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
-  ///because the systems that will process this attribute assume it is not directly identifying information.
+  /// Identifies the user, should be an UUID you should not use PII (Personal Identifiable Information)
+  /// because the systems that will process this attribute assume it is not directly identifying information.
   var identity: String { get }
-  ///Type of the factor.
+  /// Type of the factor.
   var factorType: FactorType { get }
   /// Allow factor migration from iPhone to iPhone
   var allowIphoneMigration: Bool { get }

@@ -50,7 +50,8 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
       failure(TwilioVerifyError.inputError(error: error))
     })
   }
-  
+
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   func updateChallenge(
     withSid sid: String,
     withFactor factor: PushFactor,

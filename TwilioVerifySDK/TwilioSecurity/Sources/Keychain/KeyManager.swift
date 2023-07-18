@@ -19,13 +19,13 @@
 
 import Foundation
 
-///:nodoc:
+/// :nodoc:
 public protocol KeyManagerProtocol {
   func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer
   func deleteKey(withAlias alias: String) throws
 }
 
-///:nodoc:
+/// :nodoc:
 public class KeyManager {
   
   private let keychain: KeychainProtocol

@@ -19,14 +19,14 @@
 
 import Foundation
 
-///Describes the information required to verify a **Factor**
+/// Describes the information required to verify a **Factor**
 public protocol VerifyFactorPayload {
   /// Factor sid
   var sid: String { get }
   var allowIphoneMigration: Bool { get }
 }
 
-///Describes the information required to verify a **Factor** which type is **Push**
+/// Describes the information required to verify a **Factor** which type is **Push**
 public struct VerifyPushFactorPayload: VerifyFactorPayload {
   /// Factor sid
   public let sid: String
