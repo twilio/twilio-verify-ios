@@ -101,7 +101,11 @@ extension Storage {
     guard
       let factor = factor as? PushFactor,
       let keyPairAlias = factor.keyPairAlias,
-      let template = try? ECP256SignerTemplate(withAlias: keyPairAlias, shouldExist: true, allowIphoneMigration: false)
+      let template = try? ECP256SignerTemplate(
+        withAlias: keyPairAlias,
+        shouldExist: true,
+        allowIphoneMigration: factor.allowIphoneMigration
+      )
     else {
       Logger.shared.log(withLevel: .error, message: "Unable to update keyPairs for factor: \(factor.sid)")
       return

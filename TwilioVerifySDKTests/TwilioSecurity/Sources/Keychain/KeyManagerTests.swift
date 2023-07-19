@@ -109,7 +109,7 @@ class KeyManagerTests: XCTestCase {
       template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
-    XCTAssertThrowsError(try keyManager.generateKeyPair(withTemplate: template, allowIphoneMigration: false), "keyPair should throw") { error in
+    XCTAssertThrowsError(try keyManager.generateKeyPair(withTemplate: template), "keyPair should throw") { error in
       XCTAssertEqual(
         error as! TestError,
         TestError.operationFailed,
@@ -130,7 +130,7 @@ class KeyManagerTests: XCTestCase {
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
-      pair = try keyManager.generateKeyPair(withTemplate: template, allowIphoneMigration: false),
+      pair = try keyManager.generateKeyPair(withTemplate: template),
       "Generate KeyPair should not throw"
     )
     XCTAssertEqual(
@@ -266,7 +266,7 @@ class KeyManagerTests: XCTestCase {
       template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
-    XCTAssertThrowsError(try keyManager.signer(withTemplate: template, allowIphoneMigration: false), "Signer should throw") { error in
+    XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in
       XCTAssertEqual(
         error as! TestError,
         TestError.operationFailed,
@@ -283,7 +283,7 @@ class KeyManagerTests: XCTestCase {
       template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false, allowIphoneMigration: false),
       "Template should be created correclty"
     )
-    XCTAssertThrowsError(try keyManager.signer(withTemplate: template, allowIphoneMigration: false), "Signer should throw") { error in
+    XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in
       XCTAssertEqual(
         error as! TestError,
         TestError.operationFailed,
@@ -305,7 +305,7 @@ class KeyManagerTests: XCTestCase {
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
-      signer = try keyManager.signer(withTemplate: template, allowIphoneMigration: false),
+      signer = try keyManager.signer(withTemplate: template),
       "signer should not throw"
     )
     XCTAssertNotNil(signer, "Signer should not be nil")
@@ -328,7 +328,7 @@ class KeyManagerTests: XCTestCase {
     )
 
     XCTAssertThrowsError(
-      try keyManager.signer(withTemplate: template, allowIphoneMigration: false),
+      try keyManager.signer(withTemplate: template),
       "Signer should throw"
     ) { error in
       guard let thrownError = error as? KeyManagerError,
@@ -364,7 +364,7 @@ class KeyManagerTests: XCTestCase {
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
-      signer = try keyManager.signer(withTemplate: template, allowIphoneMigration: false),
+      signer = try keyManager.signer(withTemplate: template),
       "signer should not throw"
     )
     XCTAssertNotNil(signer, "Signer should not be nil")

@@ -42,7 +42,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     func getChallenge(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: false)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         let request = try URLRequestBuilder(withURL: getChallengeURL(forSid: sid, forFactor: factor), requestHelper: requestHelper)
           .setHTTPMethod(.get)
@@ -61,7 +61,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
   func getAll(forFactor factor: Factor, status: String?, pageSize: Int, order: ChallengeListOrder, pageToken: String?, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     func getAllChallenges(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: false)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         var parameters = [Parameter(name: Constants.factorSidKey, value: factor.sid),
                           Parameter(name: Constants.pageSizeKey, value: pageSize),
@@ -98,7 +98,7 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
           failure(InputError.invalidInput(field: "factor for challenge"))
           return
         }
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: false)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         let request = try URLRequestBuilder(withURL: updateChallengeURL(forSid: challenge.sid, forFactor: factor), requestHelper: requestHelper)
           .setHTTPMethod(.post)

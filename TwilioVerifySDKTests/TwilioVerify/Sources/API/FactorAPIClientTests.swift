@@ -41,6 +41,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -59,6 +60,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -90,6 +92,7 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -132,6 +135,7 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: metadata)
@@ -158,7 +162,7 @@ class FactorAPIClientTests: XCTestCase {
     let successExpectation = expectation(description: "Wait for success response")
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
-    factorAPIClient.verify(Constants.factor, allowIphoneMigration: false, authPayload: Constants.authPayload, success: { response in
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { response in
       XCTAssertEqual(response.data, expectedResponse, "Response should be \(expectedResponse) but was \(response.data)")
       successExpectation.fulfill()
     }) { _ in
@@ -174,7 +178,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedResponse = NetworkResponse(data: "{\"key\":\"value\"}".data(using: .utf8)!, headers: [:])
     networkProvider.responses = [expectedError, expectedResponse]
     var response: NetworkResponse!
-    factorAPIClient.verify(Constants.factor, allowIphoneMigration: false, authPayload: Constants.authPayload, success: { result in
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { result in
       response = result
       expectation.fulfill()
     }) { _ in
@@ -190,7 +194,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectation = self.expectation(description: "testVerifyFactor_withTimeOutOfSync_shouldRetryOnlyAnotherTime")
     let expectedError = NetworkError.failureStatusCode(failureResponse: Constants.failureResponse)
     networkProvider.error = expectedError
-    factorAPIClient.verify(Constants.factor, allowIphoneMigration: false, authPayload: Constants.authPayload, success: { _ in
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { _ in
@@ -206,7 +210,7 @@ class FactorAPIClientTests: XCTestCase {
     let failureExpectation = expectation(description: "Wait for failure response")
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
-    factorAPIClient.verify(Constants.factor, allowIphoneMigration: false, authPayload: Constants.authPayload, success: { _ in
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -224,7 +228,7 @@ class FactorAPIClientTests: XCTestCase {
       .replacingOccurrences(of: APIConstants.identityPath, with: Constants.factor.identity)
       .replacingOccurrences(of: APIConstants.factorSidPath, with: Constants.factor.sid)
     
-    factorAPIClient.verify(Constants.factor, allowIphoneMigration: false, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
+    factorAPIClient.verify(Constants.factor, authPayload: Constants.authPayload, success: {_ in }, failure: {_ in })
     
     XCTAssertEqual(networkProvider.urlRequest!.url!.absoluteString, expectedURL,
                    "URL should be \(expectedURL) but was \(networkProvider.urlRequest!.url!.absoluteString)")
@@ -446,6 +450,7 @@ extension FactorAPIClientTests {
     static let updateFactorDataPayload = UpdateFactorDataPayload(
       friendlyName: friendlyName,
       type: factorType,
+      allowIphoneMigration: false,
       serviceSid: serviceSid,
       identity: identity,
       config: config,
@@ -457,8 +462,10 @@ extension FactorAPIClientTests {
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
-      config: Config(credentialSid: Constants.credentialSid))
+      config: Config(credentialSid: Constants.credentialSid)
+    )
     static let failureResponse = FailureResponse(
       statusCode: 401,
       errorData: "error".data(using: .utf8)!,

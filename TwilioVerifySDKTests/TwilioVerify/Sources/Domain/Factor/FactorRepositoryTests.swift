@@ -41,6 +41,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -55,7 +56,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.expectedSid = factor.sid
     storage.factorData = factorData
     var factorResponse: Factor?
-    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { factor in
+    factorRepository.create(withPayload: factorPayload, success: { factor in
       factorResponse = factor as? PushFactor
       successExpectation.fulfill()
     }) { _ in
@@ -81,6 +82,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -88,7 +90,7 @@ class FactorRepositoryTests: XCTestCase {
       metadata: nil)
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
-    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -104,6 +106,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -113,7 +116,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.factorData = factorData
     let expectedError = MapperError.invalidArgument
     factorMapper.fromAPIError = expectedError
-    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -129,6 +132,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: factor.allowIphoneMigration,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -142,7 +146,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorGetting = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -157,7 +161,7 @@ class FactorRepositoryTests: XCTestCase {
     let factor = Constants.generateFactor()
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
-      type: Constants.pushType,
+      type: Constants.pushType, allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -171,7 +175,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.errorSaving = expectedError
     storage.expectedSid = factor.sid
-    factorRepository.create(withPayload: factorPayload, allowIphoneMigration: false, success: { _ in
+    factorRepository.create(withPayload: factorPayload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { error in
@@ -203,6 +207,7 @@ class FactorRepositoryTests: XCTestCase {
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let expectedFactorData = try! JSONEncoder().encode(expectedFactor)
@@ -211,7 +216,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedStatusData = responseData
 
     var factorResponse: Factor?
-    factorRepository.verify(factor, payload: payload, allowIphoneMigration: false, success: { factor in
+    factorRepository.verify(factor, payload: payload, success: { factor in
       factorResponse = factor
       successExpectation.fulfill()
     }) { _ in
@@ -228,7 +233,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = NetworkError.invalidData
     factorAPIClient.error = expectedError
     var error: Error!
-    factorRepository.verify(Constants.generateFactor(), payload: "", allowIphoneMigration: false, success: { _ in
+    factorRepository.verify(Constants.generateFactor(), payload: "", success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -249,7 +254,7 @@ class FactorRepositoryTests: XCTestCase {
     factorAPIClient.statusData = responseData
     factorMapper.expectedStatusData = responseData
     var error: Error!
-    factorRepository.verify(factor, payload: payload, allowIphoneMigration: false, success: { _ in
+    factorRepository.verify(factor, payload: payload, success: { _ in
       XCTFail()
       failureExpectation.fulfill()
     }) { failureError in
@@ -354,7 +359,7 @@ class FactorRepositoryTests: XCTestCase {
     storage.factorData = factorData
     factorMapper.expectedFactor = factor
     factorMapper.expectedData = factorData
-    XCTAssertNoThrow(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor shouldn't throw")
+    XCTAssertNoThrow(try factorRepository.save(factor), "Save factor shouldn't throw")
   }
 
   func testSaveFactor_withStorageError_shouldFail() {
@@ -363,7 +368,7 @@ class FactorRepositoryTests: XCTestCase {
     let expectedError = TestError.operationFailed
     storage.expectedSid = factor.sid
     storage.errorSaving = expectedError
-    XCTAssertThrowsError(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(factor), "Save factor should throw") { error in
       XCTAssertEqual((error as! TestError), expectedError)
     }
   }
@@ -374,7 +379,7 @@ class FactorRepositoryTests: XCTestCase {
     factorMapper.expectedFactor = factor
     factorMapper.error = expectedError
     storage.expectedSid = factor.sid
-    XCTAssertThrowsError(try factorRepository.save(factor, allowIphoneMigration: false), "Save factor should throw") { error in
+    XCTAssertThrowsError(try factorRepository.save(factor), "Save factor should throw") { error in
       XCTAssertEqual((error as! MapperError), expectedError)
     }
   }
@@ -551,7 +556,7 @@ private extension FactorRepositoryTests {
     static let expectedCredentialSid = "credentialSid123"
     static let updateFactorPayload = UpdateFactorDataPayload(
       friendlyName: Constants.friendlyNameValue,
-      type: Constants.pushType,
+      type: Constants.pushType, allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:],
@@ -563,8 +568,10 @@ private extension FactorRepositoryTests {
         accountSid: Constants.expectedAccountSid,
         serviceSid: Constants.serviceSidValue,
         identity: Constants.identityValue,
+        allowIphoneMigration: false,
         createdAt: Date(),
-        config: Config(credentialSid: Constants.expectedCredentialSid))
+        config: Config(credentialSid: Constants.expectedCredentialSid)
+      )
     }
   }
 }

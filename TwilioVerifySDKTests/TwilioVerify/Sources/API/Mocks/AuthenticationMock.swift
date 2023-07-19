@@ -21,7 +21,7 @@ import XCTest
 @testable import TwilioVerifySDK
 
 class AuthenticationMock: Authentication {
-  func generateJWT(forFactor factor: Factor, allowIphoneMigration: Bool) -> String {
+  func generateJWT(forFactor factor: Factor) -> String {
     ""
   }
 }

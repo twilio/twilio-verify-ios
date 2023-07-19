@@ -38,7 +38,7 @@ class JwtSignerTests: XCTestCase {
                      "Signer template should not throw")
     keyStorage.signResult = Data(base64Encoded: Constants.derSignature)
     var signature: Data!
-    XCTAssertNoThrow(signature = try jwtSigner.sign(message: Constants.message, allowIphoneMigration: false,
+    XCTAssertNoThrow(signature = try jwtSigner.sign(message: Constants.message,
                                                     withSignerTemplate: signerTemplate), "Sign should not throw")
     XCTAssertEqual(Constants.concatSignature, signature.base64EncodedString())
   }
@@ -50,7 +50,7 @@ class JwtSignerTests: XCTestCase {
     var bytes = [UInt8](repeating: 0, count: 1)
     _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
     keyStorage.signResult = Data(bytes)
-    XCTAssertThrowsError(try jwtSigner.sign(message: Constants.message, allowIphoneMigration: false,
+    XCTAssertThrowsError(try jwtSigner.sign(message: Constants.message,
                                             withSignerTemplate: signerTemplate), "Sign should not throw") { error in
                                               XCTAssertEqual((error as! JwtSignerError), JwtSignerError.invalidFormat)
     }

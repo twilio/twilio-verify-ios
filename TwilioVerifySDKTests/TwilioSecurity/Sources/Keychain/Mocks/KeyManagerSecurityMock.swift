@@ -35,7 +35,7 @@ class KeyManagerSecurityMock {
 }
 
 extension KeyManagerSecurityMock: KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer {
+  func signer(withTemplate template: SignerTemplate) throws -> Signer {
     return ECSigner(withKeyPair: signerKeyPair, signatureAlgorithm: template.signatureAlgorithm, keychain: keychain)
   }
   

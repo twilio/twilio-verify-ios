@@ -26,7 +26,7 @@ class KeyManagerMock {
 }
 
 extension KeyManagerMock: KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer {
+  func signer(withTemplate template: SignerTemplate) throws -> Signer {
     if let error = error {
       throw error
     }

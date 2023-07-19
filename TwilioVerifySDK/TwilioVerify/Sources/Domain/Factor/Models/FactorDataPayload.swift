@@ -22,6 +22,7 @@ import Foundation
 protocol FactorDataPayload {
   var friendlyName: String { get }
   var type: FactorType { get }
+  var allowIphoneMigration: Bool { get }
   var serviceSid: String { get }
   var identity: String { get }
   var config: [String: String] { get }
@@ -30,6 +31,7 @@ protocol FactorDataPayload {
 struct CreateFactorPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
+  let allowIphoneMigration: Bool
   let serviceSid: String
   let identity: String
   let config: [String: String]
@@ -41,6 +43,7 @@ struct CreateFactorPayload: FactorDataPayload {
 struct UpdateFactorDataPayload: FactorDataPayload {
   let friendlyName: String
   let type: FactorType
+  let allowIphoneMigration: Bool
   let serviceSid: String
   let identity: String
   let config: [String: String]

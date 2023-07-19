@@ -88,14 +88,20 @@ extension PushFactory: PushFactoryProtocol {
       let publicKey = try keyStorage.createKey(withAlias: alias, allowIphoneMigration: allowIphoneMigration)
       let binding = self.binding(publicKey)
       let config = self.config(withToken: pushToken)
-      let payload = CreateFactorPayload(friendlyName: friendlyName, type: .push,
-                                        serviceSid: serviceSid, identity: identity,
-                                        config: config, binding: binding,
-                                        accessToken: accessToken, metadata: metadata)
-        
+      let payload = CreateFactorPayload(
+        friendlyName: friendlyName,
+        type: .push,
+        allowIphoneMigration: allowIphoneMigration,
+        serviceSid: serviceSid,
+        identity: identity,
+        config: config,
+        binding: binding,
+        accessToken: accessToken,
+        metadata: metadata
+      )
       Logger.shared.log(withLevel: .debug, message: "Create push factor for \(payload)")
       
-      repository.create(withPayload: payload, allowIphoneMigration: allowIphoneMigration, success: { [weak self] factor in
+      repository.create(withPayload: payload, success: { [weak self] factor in
         guard let strongSelf = self else { return }
         guard var factor = factor as? PushFactor else {
           failure(TwilioVerifyError.networkError(error: NetworkError.invalidData))
@@ -103,7 +109,7 @@ extension PushFactory: PushFactoryProtocol {
         }
         factor.keyPairAlias = alias
         do {
-          let pushFactor = try strongSelf.repository.save(factor, allowIphoneMigration: allowIphoneMigration)
+          let pushFactor = try strongSelf.repository.save(factor)
           success(pushFactor)
         } catch {
           do {
@@ -150,7 +156,7 @@ extension PushFactory: PushFactoryProtocol {
       }
       let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid, allowIphoneMigration: allowIphoneMigration)
       Logger.shared.log(withLevel: .debug, message: "Verify factor with payload \(payload)")
-      repository.verify(pushFactor, payload: payload, allowIphoneMigration: allowIphoneMigration, success: success) { error in
+      repository.verify(pushFactor, payload: payload, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error))
       }
     } catch {
@@ -179,6 +185,7 @@ extension PushFactory: PushFactoryProtocol {
       let payload = UpdateFactorDataPayload(
         friendlyName: pushFactor.friendlyName,
         type: pushFactor.type,
+        allowIphoneMigration: factor.allowIphoneMigration,
         serviceSid: pushFactor.serviceSid,
         identity: pushFactor.identity,
         config: config(withToken: pushToken),

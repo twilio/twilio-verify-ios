@@ -19,7 +19,7 @@
 
 import Foundation
 
-///:nodoc:
+/// :nodoc:
 public protocol SecureStorageProvider {
   func save(_ data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool) throws
   func get(_ key: String) throws -> Data
@@ -28,7 +28,7 @@ public protocol SecureStorageProvider {
   func clear(withServiceName service: String?) throws
 }
 
-///:nodoc:
+/// :nodoc:
 public class SecureStorage {
   
   private let keychain: KeychainProtocol

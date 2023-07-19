@@ -21,7 +21,7 @@ import Foundation
 
 protocol FactorAPIClientProtocol {
   func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
-  func verify(_ factor: Factor, allowIphoneMigration: Bool, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
   func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock)
 }
@@ -55,10 +55,10 @@ extension FactorAPIClient: FactorAPIClientProtocol {
     }
   }
   
-  func verify(_ factor: Factor, allowIphoneMigration: Bool, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     func verifyFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: allowIphoneMigration)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         let request = try URLRequestBuilder(withURL: verifyURL(for: factor), requestHelper: requestHelper)
           .setHTTPMethod(.post)
@@ -78,7 +78,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
     func deleteFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: false)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         let request = try URLRequestBuilder(withURL: deleteURL(for: factor), requestHelper: requestHelper)
           .setHTTPMethod(.delete)
@@ -115,7 +115,7 @@ extension FactorAPIClient: FactorAPIClientProtocol {
   func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     func updateFactor(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
-        let authToken = try authentication.generateJWT(forFactor: factor, allowIphoneMigration: false)
+        let authToken = try authentication.generateJWT(forFactor: factor)
         let requestHelper = RequestHelper(authorization: BasicAuthorization(username: APIConstants.jwtAuthenticationUser, password: authToken))
         let request = try URLRequestBuilder(withURL: updateURL(for: factor), requestHelper: requestHelper)
           .setHTTPMethod(.post)

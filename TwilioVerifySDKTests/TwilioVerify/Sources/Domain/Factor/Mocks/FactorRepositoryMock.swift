@@ -34,7 +34,6 @@ class FactorRepositoryMock {
 extension FactorRepositoryMock: FactorProvider {
   func create(
     withPayload payload: CreateFactorPayload,
-    allowIphoneMigration: Bool,
     success: @escaping (Factor) -> (),
     failure: @escaping FailureBlock
   ) {
@@ -48,7 +47,6 @@ extension FactorRepositoryMock: FactorProvider {
   func verify(
     _ factor: Factor,
     payload: String,
-    allowIphoneMigration: Bool,
     success: @escaping FactorSuccessBlock,
     failure: @escaping FailureBlock
   ) {
@@ -104,7 +102,7 @@ extension FactorRepositoryMock: FactorProvider {
     return factor
   }
   
-  func save(_ factor: Factor, allowIphoneMigration: Bool) throws -> Factor {
+  func save(_ factor: Factor) throws -> Factor {
     if let error = saveError {
       throw error
     }

@@ -42,7 +42,7 @@ extension KeyStorageAdapter: KeyStorage {
   ) throws -> String {
     do {
       let template = try signerTemplate(withAlias: alias, allowIphoneMigration: allowIphoneMigration, shouldExist: false)
-      let signer = try keyManager.signer(withTemplate: template, allowIphoneMigration: allowIphoneMigration)
+      let signer = try keyManager.signer(withTemplate: template)
       let publicKey = try signer.getPublic()
       return publicKey.base64EncodedString()
     } catch {
@@ -58,7 +58,7 @@ extension KeyStorageAdapter: KeyStorage {
   ) throws -> Data {
     do {
       let template = try signerTemplate(withAlias: alias, allowIphoneMigration: allowIphoneMigration)
-      let signer = try keyManager.signer(withTemplate: template, allowIphoneMigration: allowIphoneMigration)
+      let signer = try keyManager.signer(withTemplate: template)
       let signature = try signer.sign(message.data(using: .utf8)!)
       return signature
     } catch {

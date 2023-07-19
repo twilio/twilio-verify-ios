@@ -297,6 +297,7 @@ private extension TwilioVerifyTests {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
     static let updatePushChallengePayload = UpdatePushChallengePayload(

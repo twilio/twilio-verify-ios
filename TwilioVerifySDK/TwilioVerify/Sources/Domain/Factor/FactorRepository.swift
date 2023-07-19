@@ -20,14 +20,14 @@
 import Foundation
 
 protocol FactorProvider {
-  func create(withPayload payload: CreateFactorPayload, allowIphoneMigration: Bool, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
-  func verify(_ factor: Factor, payload: String, allowIphoneMigration: Bool, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
+  func create(withPayload payload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
+  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock)
   func delete(_ factor: Factor) throws
   func getAll() throws -> [Factor]
   func get(withSid sid: String) throws -> Factor
-  func save(_ factor: Factor, allowIphoneMigration: Bool) throws -> Factor
+  func save(_ factor: Factor) throws -> Factor
   func clearLocalStorage() throws
 }
 
@@ -45,12 +45,12 @@ class FactorRepository {
 }
 
 extension FactorRepository: FactorProvider {
-  func create(withPayload createFactorPayload: CreateFactorPayload, allowIphoneMigration: Bool, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+  func create(withPayload createFactorPayload: CreateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
     apiClient.create(withPayload: createFactorPayload, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {
         let factor = try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: createFactorPayload)
-        success(try strongSelf.save(factor, allowIphoneMigration: allowIphoneMigration))
+        success(try strongSelf.save(factor))
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
@@ -58,14 +58,14 @@ extension FactorRepository: FactorProvider {
     }, failure: failure)
   }
   
-  func verify(_ factor: Factor, payload: String, allowIphoneMigration: Bool, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
-    apiClient.verify(factor, allowIphoneMigration: allowIphoneMigration, authPayload: payload, success: { [weak self] response in
+  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+    apiClient.verify(factor, authPayload: payload, success: { [weak self] response in
       guard let strongSelf = self else { return }
       do {
         let status = try strongSelf.factorMapper.status(fromData: response.data)
         var updatedFactor = factor
         updatedFactor.status = status
-        success(try strongSelf.save(updatedFactor, allowIphoneMigration: allowIphoneMigration))
+        success(try strongSelf.save(updatedFactor))
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(error)
@@ -122,8 +122,12 @@ extension FactorRepository: FactorProvider {
     return factors
   }
   
-  func save(_ factor: Factor, allowIphoneMigration: Bool) throws -> Factor {
-    try storage.save(factorMapper.toData(factor), withKey: factor.sid, allowIphoneMigration: allowIphoneMigration)
+  func save(_ factor: Factor) throws -> Factor {
+    try storage.save(
+      factorMapper.toData(factor),
+      withKey: factor.sid,
+      allowIphoneMigration: factor.allowIphoneMigration
+    )
     return try get(withSid: factor.sid)
   }
   

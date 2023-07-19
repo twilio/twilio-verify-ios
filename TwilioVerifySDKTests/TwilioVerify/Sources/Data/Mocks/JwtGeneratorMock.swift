@@ -29,7 +29,6 @@ class JwtGeneratorMock: JwtGeneratorProtocol {
   func generateJWT(
     forHeader header: [String: String],
     forPayload payload: [String: Any],
-    allowIphoneMigration: Bool,
     withSignerTemplate signerTemplate: SignerTemplate
   ) throws -> String {
     if let error = error {

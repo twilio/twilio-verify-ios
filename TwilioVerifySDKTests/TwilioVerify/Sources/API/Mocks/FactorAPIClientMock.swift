@@ -42,7 +42,6 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
   
   func verify(
     _ factor: Factor,
-    allowIphoneMigration: Bool,
     authPayload: String,
     success: @escaping SuccessResponseBlock,
     failure: @escaping FailureBlock

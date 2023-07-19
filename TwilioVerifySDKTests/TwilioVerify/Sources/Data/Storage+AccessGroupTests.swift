@@ -42,6 +42,7 @@ class StorageAccessGroupTests: XCTestCase {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "123"),
       keyPairAlias: "keyPair123"
@@ -90,7 +91,7 @@ class StorageAccessGroupTests: XCTestCase {
       return
     }
 
-    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: false)
+    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: factor.allowIphoneMigration)
     let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When
@@ -133,7 +134,7 @@ class StorageAccessGroupTests: XCTestCase {
       return
     }
 
-    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: false)
+    try? storage.save(expectedFactorData, withKey: factor.sid, allowIphoneMigration: factor.allowIphoneMigration)
     let factorDataDict = [kSecValueData as String: expectedFactorData]
 
     // When

@@ -46,6 +46,7 @@ struct FakeFactor: Factor {
   var serviceSid: String
   var identity: String
   var type: FactorType
+  var allowIphoneMigration: Bool = false
   var createdAt: Date
   var metadata: [String: String]?
 }

@@ -21,7 +21,7 @@ import Foundation
 
 /// :nodoc:
 public protocol KeyManagerProtocol {
-  func signer(withTemplate template: SignerTemplate, allowIphoneMigration: Bool) throws -> Signer
+  func signer(withTemplate template: SignerTemplate) throws -> Signer
   func deleteKey(withAlias alias: String) throws
 }
 
@@ -61,14 +61,13 @@ public class KeyManager {
   }
   
   func generateKeyPair(
-    withTemplate template: SignerTemplate,
-    allowIphoneMigration: Bool
+    withTemplate template: SignerTemplate
   ) throws -> KeyPair {
     Logger.shared.log(withLevel: .info, message: "Creating signer key pair for: \(template.alias)")
     do {
       let keyPair = try keychain.generateKeyPair(
         withParameters: template.parameters,
-        allowIphoneMigration: allowIphoneMigration
+        allowIphoneMigration: template.allowIphoneMigration
       )
       return keyPair
     } catch {
@@ -110,8 +109,7 @@ public class KeyManager {
 
 extension KeyManager: KeyManagerProtocol {
   public func signer(
-    withTemplate template: SignerTemplate,
-    allowIphoneMigration: Bool
+    withTemplate template: SignerTemplate
   ) throws -> Signer {
     Logger.shared.log(withLevel: .info, message: "Getting signer for alias: \(template.alias)")
     Logger.shared.log(withLevel: .debug, message: "Getting signer for template: \(template)")
@@ -124,8 +122,8 @@ extension KeyManager: KeyManagerProtocol {
         throw error
       }
       do {
-        keyPair = try generateKeyPair(withTemplate: template, allowIphoneMigration: allowIphoneMigration)
-        try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias, allowIphoneMigration: allowIphoneMigration)
+        keyPair = try generateKeyPair(withTemplate: template)
+        try forceSavePublicKey(keyPair.publicKey, withAlias: template.alias, allowIphoneMigration: template.allowIphoneMigration)
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         throw error

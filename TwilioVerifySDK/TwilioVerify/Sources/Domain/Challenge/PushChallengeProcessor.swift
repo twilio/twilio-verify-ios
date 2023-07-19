@@ -106,7 +106,11 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
       }
       var signerTemplate: SignerTemplate
       do {
-        signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, allowIphoneMigration: false)
+        signerTemplate = try ECP256SignerTemplate(
+          withAlias: alias,
+          shouldExist: true,
+          allowIphoneMigration: factor.allowIphoneMigration
+        )
       } catch {
         Logger.shared.log(withLevel: .error, message: error.localizedDescription)
         failure(TwilioVerifyError.keyStorageError(error: error))
@@ -117,7 +121,7 @@ extension PushChallengeProcessor: PushChallengeProcessorProtocol {
           withSignatureFields: signatureFields,
           withResponse: response,
           status: status,
-          allowIphoneMigration: false,
+          allowIphoneMigration: factor.allowIphoneMigration,
           signerTemplate: signerTemplate
         )
         Logger.shared.log(withLevel: .debug, message: "Update challenge with auth payload \(authPayload)")
@@ -161,7 +165,6 @@ private extension PushChallengeProcessor {
     return try jwtGenerator.generateJWT(
       forHeader: [:],
       forPayload: payload,
-      allowIphoneMigration: allowIphoneMigration,
       withSignerTemplate: signerTemplate
     )
   }

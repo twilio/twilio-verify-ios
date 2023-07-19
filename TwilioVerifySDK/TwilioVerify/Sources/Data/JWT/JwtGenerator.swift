@@ -23,7 +23,6 @@ protocol JwtGeneratorProtocol {
   func generateJWT(
     forHeader header: [String: String],
     forPayload payload: [String: Any],
-    allowIphoneMigration: Bool,
     withSignerTemplate signerTemplate: SignerTemplate
   ) throws -> String
 }
@@ -42,7 +41,6 @@ extension JwtGenerator: JwtGeneratorProtocol {
   func generateJWT(
     forHeader header: [String: String],
     forPayload payload: [String: Any],
-    allowIphoneMigration: Bool,
     withSignerTemplate signerTemplate: SignerTemplate
   ) throws -> String {
     var jwtHeader = header
@@ -53,7 +51,7 @@ extension JwtGenerator: JwtGeneratorProtocol {
     let encodedHeader = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: jwtHeader, options: []))
     let encodedPayload = try base64EncodedUrlSafeString(withData: JSONSerialization.data(withJSONObject: payload, options: []))
     let message = "\(encodedHeader).\(encodedPayload)"
-    let signature = base64EncodedUrlSafeString(withData: try jwtSigner.sign(message: message, allowIphoneMigration: allowIphoneMigration, withSignerTemplate: signerTemplate))
+    let signature = base64EncodedUrlSafeString(withData: try jwtSigner.sign(message: message, withSignerTemplate: signerTemplate))
     return "\(message).\(signature)"
   }
 }
