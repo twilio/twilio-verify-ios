@@ -101,8 +101,7 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         metadata: metadata,
         allowIphoneMigration: allowIphoneMigration,
         success: { factor in
-            
-        strongSelf.verify(factor, allowIphoneMigration: allowIphoneMigration, success: { _ in
+        strongSelf.verify(factor, success: { _ in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
         }) { error in
@@ -175,11 +174,10 @@ private extension CreateFactorPresenter {
   
   func verify(
     _ factor: Factor,
-    allowIphoneMigration: Bool,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   ) {
-    let payload = VerifyPushFactorPayload(sid: factor.sid, allowIphoneMigration: allowIphoneMigration)
+    let payload = VerifyPushFactorPayload(sid: factor.sid)
     twilioVerify.verifyFactor(withPayload: payload, success: success, failure: failure)
   }
 }

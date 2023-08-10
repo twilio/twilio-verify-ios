@@ -69,12 +69,18 @@ extension FactorFacade: FactorFacadeProtocol {
       failure(TwilioVerifyError.inputError(error: error))
       return
     }
+
     guard !payload.sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    factory.verifyFactor(withSid: payload.sid, allowIphoneMigration: payload.allowIphoneMigration, success: success, failure: failure)
+
+    factory.verifyFactor(
+      withSid: payload.sid,
+      success: success,
+      failure: failure
+    )
   }
 
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {

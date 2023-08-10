@@ -22,7 +22,6 @@ import Foundation
 protocol FactorDataPayload {
   var friendlyName: String { get }
   var type: FactorType { get }
-  var allowIphoneMigration: Bool { get }
   var serviceSid: String { get }
   var identity: String { get }
   var config: [String: String] { get }

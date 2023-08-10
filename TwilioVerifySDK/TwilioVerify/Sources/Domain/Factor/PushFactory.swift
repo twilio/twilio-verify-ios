@@ -36,7 +36,6 @@ protocol PushFactoryProtocol {
 
   func verifyFactor(
     withSid sid: String,
-    allowIphoneMigration: Bool,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   )
@@ -69,7 +68,7 @@ class PushFactory {
 }
 
 extension PushFactory: PushFactoryProtocol {
-  // swiftlint:disable:next function_parameter_count
+  // swiftlint:disable:next function_parameter_count function_body_length
   func createFactor(
     withAccessToken accessToken: String,
     friendlyName: String,
@@ -139,7 +138,6 @@ extension PushFactory: PushFactoryProtocol {
   
   func verifyFactor(
     withSid sid: String,
-    allowIphoneMigration: Bool,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   ) {
@@ -154,7 +152,11 @@ extension PushFactory: PushFactoryProtocol {
         failure(TwilioVerifyError.storageError(error: StorageError.error("Alias not found") ))
         return
       }
-      let payload = try keyStorage.signAndEncode(withAlias: alias, message: sid, allowIphoneMigration: allowIphoneMigration)
+      let payload = try keyStorage.signAndEncode(
+        withAlias: alias,
+        message: sid,
+        allowIphoneMigration: pushFactor.allowIphoneMigration
+      )
       Logger.shared.log(withLevel: .debug, message: "Verify factor with payload \(payload)")
       repository.verify(pushFactor, payload: payload, success: success) { error in
         failure(TwilioVerifyError.networkError(error: error))

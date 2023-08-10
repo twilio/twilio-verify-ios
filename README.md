@@ -352,11 +352,11 @@ To stop sharing existing factors created with **App Groups**, uncheck the **App 
 
 By default, all factors are securely stored within the device's [Secure Enclave](https://support.apple.com/guide/security/secure-enclave-sec59b0b31ff/web), which provides a high level of protection against unauthorized access and ensures sensitive data remains encrypted. This default setting restricts the migration of these factors from one iPhone to another, enhancing the overall security of the authentication process.
 
-However, in certain cases, users may want to allow data migration from one iPhone to another or perform backup restoration while retaining their authentication factors. For this purpose, you can use the **allowIphoneMigration** property within the **PushFactorPayload**.
+However, in certain cases, users may want to allow data migration from one iPhone to another or perform backup restoration while retaining their Verify Factors. For this purpose, you can use the **allowIphoneMigration** property within the **PushFactorPayload**.
 
 ### Usage of allowIphoneMigration Property:
 
-When using the One-Time Password (OTP) push-based factor for multi-factor authentication, you can include the **allowIphoneMigration** property in the **PushFactorPayload**. By setting this property to `true`, you enable users to migrate their OTP factors to another iPhone or restore them during backup processes. It's essential to carefully consider the security implications before enabling this option, as it may expose the factors to potential risks during data migration or backup restoration.
+When using the push-based factor for verifying a user, you can include the **allowIphoneMigration** property in the **PushFactorPayload**. By setting this property to `true`, you enable users to migrate their factors to another iPhone or restore them during backup processes. It's essential to carefully consider the security implications before enabling this option, as it may expose the factors to potential risks during data migration or backup restoration.
 
 ### Important Security Considerations:
 

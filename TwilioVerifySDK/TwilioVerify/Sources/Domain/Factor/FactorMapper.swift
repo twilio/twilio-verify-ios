@@ -41,7 +41,6 @@ class FactorMapper: FactorMapperProtocol {
         factor = try toPushFactor(
           serviceSid: serviceSid,
           identity: identity,
-          allowIphoneMigration: factorPayload.allowIphoneMigration,
           data: data
         )
     }
@@ -81,7 +80,6 @@ private extension FactorMapper {
   func toPushFactor(
     serviceSid: String,
     identity: String,
-    allowIphoneMigration: Bool,
     data: Data
   ) throws -> PushFactor {
     do {
@@ -100,7 +98,6 @@ private extension FactorMapper {
         accountSid: pushFactorDTO.accountSid,
         serviceSid: serviceSid,
         identity: identity,
-        allowIphoneMigration: allowIphoneMigration,
         createdAt: date,
         config: config,
         metadata: pushFactorDTO.metadata

@@ -23,14 +23,12 @@ import Foundation
 public protocol VerifyFactorPayload {
   /// Factor sid
   var sid: String { get }
-  var allowIphoneMigration: Bool { get }
 }
 
 /// Describes the information required to verify a **Factor** which type is **Push**
 public struct VerifyPushFactorPayload: VerifyFactorPayload {
   /// Factor sid
   public let sid: String
-  public let allowIphoneMigration: Bool
   
   /**
   Creates a **VerifyPushFactorPayload** with the given parameters
@@ -38,10 +36,8 @@ public struct VerifyPushFactorPayload: VerifyFactorPayload {
     - sid: Factor sid
   */
   public init(
-    sid: String,
-    allowIphoneMigration: Bool = false
+    sid: String
   ) {
     self.sid = sid
-    self.allowIphoneMigration = allowIphoneMigration
   }
 }

@@ -49,7 +49,6 @@ extension PushFactoryMock: PushFactoryProtocol {
   
   func verifyFactor(
     withSid sid: String,
-    allowIphoneMigration: Bool,
     success: @escaping FactorSuccessBlock,
     failure: @escaping TwilioVerifyErrorBlock
   ) {

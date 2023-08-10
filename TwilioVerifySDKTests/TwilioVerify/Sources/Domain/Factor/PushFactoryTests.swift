@@ -219,7 +219,7 @@ class PushFactoryTests: XCTestCase {
     var error: TwilioVerifyError!
     repository.error = TestError.operationFailed
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { _ in
+    factory.verifyFactor(withSid: "sid", success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -241,7 +241,7 @@ class PushFactoryTests: XCTestCase {
     var error: TwilioVerifyError!
     repository.factor = Constants.fakeFactor
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { _ in
+    factory.verifyFactor(withSid: "sid", success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -263,7 +263,7 @@ class PushFactoryTests: XCTestCase {
     var error: TwilioVerifyError!
     repository.factor = Constants.factor
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { _ in
+    factory.verifyFactor(withSid: "sid", success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -288,7 +288,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = factor
     keyStorage.error = TestError.operationFailed
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { _ in
+    factory.verifyFactor(withSid: "sid", success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -314,7 +314,7 @@ class PushFactoryTests: XCTestCase {
     repository.verifyError = TestError.operationFailed
     keyStorage.signResult = Constants.data.data(using: .utf8)!
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { _ in
+    factory.verifyFactor(withSid: "sid", success: { _ in
       XCTFail()
       expectation.fulfill()
     }) { failureReason in
@@ -338,7 +338,7 @@ class PushFactoryTests: XCTestCase {
     repository.factor = factor
     keyStorage.signResult = Constants.data.data(using: .utf8)!
     
-    factory.verifyFactor(withSid: "sid", allowIphoneMigration: false, success: { factor in
+    factory.verifyFactor(withSid: "sid", success: { factor in
       pushFactor = (factor as! PushFactor)
       expectation.fulfill()
     }) { _ in

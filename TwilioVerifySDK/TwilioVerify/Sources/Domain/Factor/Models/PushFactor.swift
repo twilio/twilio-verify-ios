@@ -46,7 +46,7 @@ struct PushFactor: Factor, Codable {
     createdAt: Date,
     config: Config,
     keyPairAlias: String? = nil,
-    metadata: [String : String]? = nil
+    metadata: [String: String]? = nil
   ) {
     self.status = status
     self.sid = sid
@@ -90,8 +90,7 @@ struct PushFactor: Factor, Codable {
     self.createdAt = try container.decode(Date.self, forKey: PushFactor.CodingKeys.createdAt)
     self.config = try container.decode(Config.self, forKey: PushFactor.CodingKeys.config)
     self.keyPairAlias = try container.decodeIfPresent(String.self, forKey: PushFactor.CodingKeys.keyPairAlias)
-    self.metadata = try container.decodeIfPresent([String : String].self, forKey: PushFactor.CodingKeys.metadata)
-
+    self.metadata = try container.decodeIfPresent([String: String].self, forKey: PushFactor.CodingKeys.metadata)
   }
 
   func encode(to encoder: Encoder) throws {
