@@ -62,7 +62,7 @@ platform :ios do
       timeout_sec: 300,
       devices: ftl_devices,
       skip_validation: true,
-      ios_xc_test_args: { xcodeVersion: '14.2' }
+      ios_xc_test_args: { xcodeVersion: '14.3' }
     )
   end
 

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.authors = { 'Twilio' => 'help@twilio.com' }
   s.source = { :git => 'https://github.com/twilio/twilio-verify-ios.git', :tag => s.version }
   s.documentation_url = 'https://twilio.github.io/twilio-verify-ios/latest/'
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   s.swift_version = '5.2'
   s.source_files = 'TwilioVerifySDK/TwilioVerify/**/*.swift', 'TwilioVerifySDK/TwilioSecurity/**/*.swift'
 end
