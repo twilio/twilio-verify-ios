@@ -31,6 +31,8 @@ class FactorMapper: FactorMapperProtocol {
   func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor {
     let serviceSid = factorPayload.serviceSid
     let identity = factorPayload.identity
+    let allowIphoneMigration = factorPayload.allowIphoneMigration
+
     guard !serviceSid.isEmpty, !identity.isEmpty else {
       throw TwilioVerifyError.mapperError(error: MapperError.invalidArgument )
     }
@@ -41,6 +43,7 @@ class FactorMapper: FactorMapperProtocol {
         factor = try toPushFactor(
           serviceSid: serviceSid,
           identity: identity,
+          allowIphoneMigration: allowIphoneMigration,
           data: data
         )
     }
@@ -80,6 +83,7 @@ private extension FactorMapper {
   func toPushFactor(
     serviceSid: String,
     identity: String,
+    allowIphoneMigration: Bool,
     data: Data
   ) throws -> PushFactor {
     do {
@@ -98,6 +102,7 @@ private extension FactorMapper {
         accountSid: pushFactorDTO.accountSid,
         serviceSid: serviceSid,
         identity: identity,
+        allowIphoneMigration: allowIphoneMigration,
         createdAt: date,
         config: config,
         metadata: pushFactorDTO.metadata
