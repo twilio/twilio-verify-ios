@@ -27,8 +27,19 @@ class PushFactoryMock {
 }
 
 extension PushFactoryMock: PushFactoryProtocol {
-  func createFactor(withAccessToken accessToken: String, friendlyName: String, serviceSid: String, identity: String,
-                    pushToken: String?, metadata: [String: String]?, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  // swiftlint:disable:next function_parameter_count
+  func createFactor(
+    withAccessToken accessToken: String,
+    friendlyName: String,
+    serviceSid: String,
+    identity: String,
+    factorType: FactorType,
+    allowIphoneMigration: Bool,
+    pushToken: String?,
+    metadata: [String: String]?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -36,7 +47,11 @@ extension PushFactoryMock: PushFactoryProtocol {
     success(factor)
   }
   
-  func verifyFactor(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func verifyFactor(
+    withSid sid: String,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -44,7 +59,12 @@ extension PushFactoryMock: PushFactoryProtocol {
     success(factor)
   }
   
-  func updateFactor(withSid sid: String, withPushToken pushToken: String?, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateFactor(
+    withSid sid: String,
+    withPushToken pushToken: String?,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     if let error = error {
       failure(error)
       return

@@ -42,8 +42,7 @@ extension Storage {
       kSecClass: kSecClassGenericPassword,
       kSecReturnAttributes: true,
       kSecReturnData: true,
-      kSecMatchLimit: kSecMatchLimitAll,
-      kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      kSecMatchLimit: kSecMatchLimitAll
     ]
 
     guard let result = try? keychain.copyItemMatching(query: query) else {
@@ -73,8 +72,7 @@ extension Storage {
     try factors.forEach { factor in
       let query: Query = [
         kSecClass: kSecClassGenericPassword,
-        kSecAttrAccount: factor.sid,
-        kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        kSecAttrAccount: factor.sid
       ]
 
       let attributes: CFDictionary = [
@@ -103,7 +101,11 @@ extension Storage {
     guard
       let factor = factor as? PushFactor,
       let keyPairAlias = factor.keyPairAlias,
-      let template = try? ECP256SignerTemplate(withAlias: keyPairAlias, shouldExist: true)
+      let template = try? ECP256SignerTemplate(
+        withAlias: keyPairAlias,
+        shouldExist: true,
+        allowIphoneMigration: factor.allowIphoneMigration
+      )
     else {
       Logger.shared.log(withLevel: .error, message: "Unable to update keyPairs for factor: \(factor.sid)")
       return

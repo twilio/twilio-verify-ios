@@ -86,7 +86,12 @@ extension ChallengeAPIClient: ChallengeAPIClientProtocol {
     getAllChallenges()
   }
   
-  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func update(
+    _ challenge: FactorChallenge,
+    withAuthPayload authPayload: String,
+    success: @escaping SuccessResponseBlock,
+    failure: @escaping FailureBlock
+  ) {
     func updateChallenge(retries: Int = BaseAPIClient.Constants.retryTimes) {
       do {
         guard let factor = challenge.factor else {

@@ -28,6 +28,7 @@ struct FactorMock: Factor {
   let serviceSid: String
   let identity: String
   let type: FactorType
+  var allowIphoneMigration: Bool = false
   let createdAt: Date
   var metadata: [String: String]?
 }

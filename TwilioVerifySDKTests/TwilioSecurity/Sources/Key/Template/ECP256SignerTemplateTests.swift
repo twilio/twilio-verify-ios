@@ -33,12 +33,12 @@ class ECP256SignerTemplateTests: XCTestCase {
   
   func testCreateSigner_shouldMatchExpectedParameters() {
       XCTAssertNoThrow(
-        signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+        signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
       )
 
       let privateKeyAttrs = signer.parameters[kSecPrivateKeyAttrs as String] as! [String: Any]
       let publicKeyAttrs = signer.parameters[kSecPublicKeyAttrs as String] as! [String: Any]
-    
+
       XCTAssertEqual(Constants.alias,
                      signer.alias,
                      "Signer alias should be \(Constants.alias) but was \(signer.alias)")
@@ -76,12 +76,12 @@ class ECP256SignerTemplateTests: XCTestCase {
     let keyChain = Keychain(accessGroup: nil)
 
     XCTAssertNoThrow(
-      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
     )
 
     // When
 
-    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters, allowIphoneMigration: false) as? Query else {
       XCTFail("Unavailable to cast parameters to Query")
       return
     }
@@ -101,12 +101,12 @@ class ECP256SignerTemplateTests: XCTestCase {
     let keyChain = Keychain(accessGroup: expectedAccessGroup)
 
     XCTAssertNoThrow(
-      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
     )
 
     // When
 
-    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters, allowIphoneMigration: false) as? Query else {
       XCTFail("Unavailable to cast parameters to Query")
       return
     }

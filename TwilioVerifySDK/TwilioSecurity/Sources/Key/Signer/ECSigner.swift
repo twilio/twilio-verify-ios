@@ -19,7 +19,7 @@
 
 import Foundation
 
-///:nodoc:
+/// :nodoc:
 public protocol Signer {
   func sign(_ data: Data) throws -> Data
   func verify(_ data: Data, withSignature signature: Data) -> Bool

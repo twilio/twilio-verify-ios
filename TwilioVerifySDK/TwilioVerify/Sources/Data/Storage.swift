@@ -51,8 +51,17 @@ extension Storage: StorageProvider {
     Constants.version
   }
   
-  func save(_ data: Data, withKey key: String) throws {
-    try secureStorage.save(data, withKey: key, withServiceName: Constants.service)
+  func save(
+    _ data: Data,
+    withKey key: String,
+    allowIphoneMigration: Bool = false
+  ) throws {
+    try secureStorage.save(
+      data,
+      withKey: key,
+      withServiceName: Constants.service,
+      allowIphoneMigration: allowIphoneMigration
+    )
   }
   
   func get(_ key: String) throws -> Data {

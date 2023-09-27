@@ -378,6 +378,7 @@ private extension TwilioVerifyManagerTests {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
     static let factorPayload = PushFactorPayload(

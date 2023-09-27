@@ -26,7 +26,10 @@ class JwtSignerMock {
 
 extension JwtSignerMock: JwtSignerProtocol {
   
-  func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) -> Data {
+  func sign(
+    message: String,
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) -> Data {
     return operationresult
   }
 }

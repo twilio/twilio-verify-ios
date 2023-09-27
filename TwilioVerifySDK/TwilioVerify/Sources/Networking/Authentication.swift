@@ -76,7 +76,7 @@ private extension AuthenticationProvider {
     guard let alias = factor.keyPairAlias else {
       throw AuthenticationError.invalidKeyPair
     }
-    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true)
+    let signerTemplate = try ECP256SignerTemplate(withAlias: alias, shouldExist: true, allowIphoneMigration: factor.allowIphoneMigration)
     return try jwtGenerator.generateJWT(forHeader: header, forPayload: payload, withSignerTemplate: signerTemplate)
   }
   

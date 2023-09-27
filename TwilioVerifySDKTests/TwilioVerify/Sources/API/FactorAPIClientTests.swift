@@ -41,6 +41,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -59,6 +60,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -90,6 +92,7 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -132,6 +135,7 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: metadata)
@@ -446,6 +450,7 @@ extension FactorAPIClientTests {
     static let updateFactorDataPayload = UpdateFactorDataPayload(
       friendlyName: friendlyName,
       type: factorType,
+      allowIphoneMigration: false,
       serviceSid: serviceSid,
       identity: identity,
       config: config,
@@ -457,8 +462,10 @@ extension FactorAPIClientTests {
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
-      config: Config(credentialSid: Constants.credentialSid))
+      config: Config(credentialSid: Constants.credentialSid)
+    )
     static let failureResponse = FailureResponse(
       statusCode: 401,
       errorData: "error".data(using: .utf8)!,

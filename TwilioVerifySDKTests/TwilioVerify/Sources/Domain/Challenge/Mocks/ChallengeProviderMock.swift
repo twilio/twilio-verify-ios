@@ -37,7 +37,12 @@ extension ChallengeProviderMock: ChallengeProvider {
     success(challenge)
   }
   
-  func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
+  func update(
+    _ challenge: Challenge,
+    payload: String,
+    success: @escaping ChallengeSuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = errorUpdating {
       failure(error)
       return

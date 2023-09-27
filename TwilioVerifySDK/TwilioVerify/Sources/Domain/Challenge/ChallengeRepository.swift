@@ -63,7 +63,12 @@ extension ChallengeRepository: ChallengeProvider {
     }, failure: failure)
   }
   
-  func update(_ challenge: Challenge, payload: String, success: @escaping ChallengeSuccessBlock, failure: @escaping FailureBlock) {
+  func update(
+    _ challenge: Challenge,
+    payload: String,
+    success: @escaping ChallengeSuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     guard let factorChallenge = challenge as? FactorChallenge else {
       let error: InputError = .invalidChallenge
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -87,9 +92,12 @@ extension ChallengeRepository: ChallengeProvider {
       failure(error)
       return
     }
-    apiClient.update(factorChallenge, withAuthPayload: payload, success: { [weak self] _ in
-      guard let strongSelf = self else { return }
-      strongSelf.get(withSid: factorChallenge.sid, withFactor: factor, success: success, failure: failure)
+    apiClient.update(
+      factorChallenge,
+      withAuthPayload: payload,
+      success: { [weak self] _ in
+        guard let strongSelf = self else { return }
+        strongSelf.get(withSid: factorChallenge.sid, withFactor: factor, success: success, failure: failure)
     }, failure: failure)
   }
   

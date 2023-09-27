@@ -218,7 +218,7 @@ class KeychainTests: XCTestCase {
     let expectedLocalizedDescription = "Invalid status code operation received: -4"
 
     XCTAssertThrowsError(
-      try keychain.generateKeyPair(withParameters: [:]),
+      try keychain.generateKeyPair(withParameters: [:], allowIphoneMigration: false),
       "Generate KeyPair Should throw"
     ) { error in
 
@@ -251,7 +251,7 @@ class KeychainTests: XCTestCase {
   func testGenerateKeyPair_withValidParameters_shouldReturnKeyPair() {
     var pair: KeyPair!
     XCTAssertNoThrow(
-      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters()),
+      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters(), allowIphoneMigration: false),
       "Generate KeyPair should return a KeyPair"
     )
     XCTAssertNotNil(pair, "Pair should not be nil")

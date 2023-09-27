@@ -19,15 +19,16 @@
 
 import Foundation
 
-///:nodoc:
+/// :nodoc:
 public protocol Template {
   var alias: String {get}
   var algorithm: String {get}
   var shouldExist: Bool {get}
 }
 
-///:nodoc:
+/// :nodoc:
 public protocol SignerTemplate: Template {
   var signatureAlgorithm: SecKeyAlgorithm {get}
   var parameters: [String: Any] {get}
+  var allowIphoneMigration: Bool { get }
 }

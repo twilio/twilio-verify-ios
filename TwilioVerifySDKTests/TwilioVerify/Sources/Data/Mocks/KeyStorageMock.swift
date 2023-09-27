@@ -30,23 +30,23 @@ class KeyStorageMock {
 }
 
 extension KeyStorageMock: KeyStorage {
-  func createKey(withAlias alias: String) throws -> String {
+  func createKey(withAlias alias: String, allowIphoneMigration: Bool) throws -> String {
     if let error = errorCreatingKey {
       throw error
     }
     return createKeyResult
   }
   
-  func sign(withAlias alias: String, message: String) throws -> Data {
+  func sign(withAlias alias: String, message: String, allowIphoneMigration: Bool) throws -> Data {
     if let error = error {
       throw TwilioVerifyError.keyStorageError(error: error)
     }
     return signResult
   }
   
-  func signAndEncode(withAlias alias: String, message: String) throws -> String {
+  func signAndEncode(withAlias alias: String, message: String, allowIphoneMigration: Bool) throws -> String {
     do {
-      return try sign(withAlias: alias, message: message).base64EncodedString()
+      return try sign(withAlias: alias, message: message, allowIphoneMigration: allowIphoneMigration).base64EncodedString()
     } catch {
       throw error
     }

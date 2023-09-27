@@ -256,6 +256,7 @@ private extension ChallengeListMapperTests {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"))
   }

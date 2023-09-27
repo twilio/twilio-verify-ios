@@ -31,7 +31,7 @@ class SecureStorageMock {
 }
 
 extension SecureStorageMock: SecureStorageProvider {
-  func save(_ data: Data, withKey key: String, withServiceName service: String?) throws {
+  func save(_ data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool) throws {
     callsToSave += 1
     if let error = error {
       throw error

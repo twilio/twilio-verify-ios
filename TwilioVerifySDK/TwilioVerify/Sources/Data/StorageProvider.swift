@@ -21,7 +21,7 @@ import Foundation
 
 protocol StorageProvider {
   var version: Int { get }
-  func save(_ data: Data, withKey key: String) throws
+  func save(_ data: Data, withKey key: String, allowIphoneMigration: Bool) throws
   func get(_ key: String) throws -> Data
   func removeValue(for key: String) throws
   func getAll() throws -> [Data]
@@ -60,10 +60,14 @@ extension StorageProvider {
     }
   }
 
-  func setValue<Value: Codable>(_ value: Value, for key: String) {
+  func setValue<Value: Codable>(
+    _ value: Value,
+    for key: String,
+    allowIphoneMigration: Bool = false
+  ) {
     do {
       let data = try JSONEncoder().encode(EncodableStruct(wrapped: value))
-      try save(data, withKey: key)
+      try save(data, withKey: key, allowIphoneMigration: allowIphoneMigration)
     } catch {
       Logger.shared.log(
         withLevel: .error,
@@ -72,7 +76,11 @@ extension StorageProvider {
     }
   }
 
-  func setBool(_ bool: Bool?, for key: String) {
+  func setBool(
+    _ bool: Bool?,
+    for key: String,
+    allowIphoneMigration: Bool = false
+  ) {
     do {
       guard
         let bool = bool,
@@ -80,7 +88,7 @@ extension StorageProvider {
       else {
         return
       }
-      try save(data, withKey: key)
+      try save(data, withKey: key, allowIphoneMigration: allowIphoneMigration)
     } catch {
       Logger.shared.log(
         withLevel: .error,

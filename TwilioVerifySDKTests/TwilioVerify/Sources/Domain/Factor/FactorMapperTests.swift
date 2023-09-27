@@ -20,7 +20,7 @@
 import XCTest
 @testable import TwilioVerifySDK
 
-// swiftlint:disable force_cast force_try
+// swiftlint:disable force_cast force_try type_body_length
 class FactorMapperTests: XCTestCase {
   
   private var mapper: FactorMapper!
@@ -38,7 +38,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.configKey: [Constants.credentialSidKey: Constants.expectedCredentialSid],
                                                  Constants.dateCreatedKey: Constants.expectedDate]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     var factor: Factor!
     XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
@@ -69,7 +69,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.configKey: config,
                                                  Constants.dateCreatedKey: Constants.expectedDate]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     var factor: Factor!
     XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
@@ -89,7 +89,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.dateCreatedKey: Constants.expectedDate,
                                                  Constants.metadataKey: Constants.expectedMetadata]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     var factor: Factor!
     XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
@@ -108,7 +108,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.configKey: config,
                                                  Constants.dateCreatedKey: Constants.expectedDate]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     var factor: Factor!
     XCTAssertNoThrow(factor = try mapper.fromAPI(withData: data, factorPayload: factorPayload), "Factor mapper should succeed")
@@ -121,7 +121,7 @@ class FactorMapperTests: XCTestCase {
     let expectedFactorResponse = [Constants.friendlyNameKey: Constants.expectedFriendlyName,
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual((error as! TwilioVerifyError).errorDescription, TwilioVerifyError.mapperError(error: NSError()).errorDescription)
@@ -132,7 +132,7 @@ class FactorMapperTests: XCTestCase {
     let expectedFactorResponse = [Constants.friendlyNameKey: Constants.expectedFriendlyName,
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: "",
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: "",
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidArgument)
@@ -143,7 +143,7 @@ class FactorMapperTests: XCTestCase {
     let expectedFactorResponse = [Constants.friendlyNameKey: Constants.expectedFriendlyName,
                                   Constants.accountSidKey: Constants.expectedAccountSid]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: "", config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidArgument)
@@ -158,7 +158,7 @@ class FactorMapperTests: XCTestCase {
                                                  Constants.configKey: [Constants.credentialSidKey: Constants.expectedCredentialSid],
                                                  Constants.dateCreatedKey: "2020/06/01"]
     let data = try! JSONSerialization.data(withJSONObject: expectedFactorResponse, options: .prettyPrinted)
-    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, serviceSid: Constants.serviceSidValue,
+    let factorPayload = CreateFactorPayload(friendlyName: Constants.friendlyNameValue, type: Constants.pushType, allowIphoneMigration: false, serviceSid: Constants.serviceSidValue,
                                             identity: Constants.identityValue, config: [:], binding: [:], accessToken: Constants.accessToken, metadata: nil)
     XCTAssertThrowsError(try mapper.fromAPI(withData: data, factorPayload: factorPayload)) { error in
       XCTAssertEqual(((error as! TwilioVerifyError).originalError as! MapperError), MapperError.invalidDate)
@@ -173,6 +173,7 @@ class FactorMapperTests: XCTestCase {
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid, notificationPlatform: .apn),
       keyPairAlias: Constants.expectedKeyPairAlias)
@@ -240,6 +241,7 @@ class FactorMapperTests: XCTestCase {
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid, notificationPlatform: .apn),
       keyPairAlias: Constants.expectedKeyPairAlias)

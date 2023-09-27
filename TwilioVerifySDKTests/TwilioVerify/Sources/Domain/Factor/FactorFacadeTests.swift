@@ -545,6 +545,7 @@ private extension FactorFacadeTests {
       accountSid: "accountSid",
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Constants.config
     )

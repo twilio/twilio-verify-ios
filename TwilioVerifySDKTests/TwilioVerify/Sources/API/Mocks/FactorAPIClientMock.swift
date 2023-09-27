@@ -28,7 +28,11 @@ class FactorAPIClientMock {
 }
 
 extension FactorAPIClientMock: FactorAPIClientProtocol {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func create(
+    withPayload payload: CreateFactorPayload,
+    success: @escaping SuccessResponseBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -36,7 +40,12 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     success(NetworkResponse(data: factorData, headers: [:]))
   }
   
-  func verify(_ factor: Factor, authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func verify(
+    _ factor: Factor,
+    authPayload: String,
+    success: @escaping SuccessResponseBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -48,7 +57,11 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     fatalError("Expected params not set")
   }
   
-  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+  func delete(
+    _ factor: Factor,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -56,7 +69,12 @@ extension FactorAPIClientMock: FactorAPIClientProtocol {
     success()
   }
   
-  func update(_ factor: Factor, updateFactorDataPayload: UpdateFactorDataPayload, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func update(
+    _ factor: Factor,
+    updateFactorDataPayload: UpdateFactorDataPayload,
+    success: @escaping SuccessResponseBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return

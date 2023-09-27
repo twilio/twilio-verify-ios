@@ -45,6 +45,7 @@ class AuthenticationProviderTests: XCTestCase {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: "keyPairAlias")
@@ -73,6 +74,7 @@ class AuthenticationProviderTests: XCTestCase {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: nil)

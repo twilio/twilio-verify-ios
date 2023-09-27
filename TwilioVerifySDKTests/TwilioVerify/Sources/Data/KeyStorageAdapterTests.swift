@@ -36,7 +36,7 @@ class KeyStorageAdapterTests: XCTestCase {
   
   func testCreateKey_errorGettingSigner_shouldThrow() {
     keyManager.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.createKey(withAlias: Constants.alias), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.createKey(withAlias: Constants.alias, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TestError), TestError.operationFailed)
     }
   }
@@ -44,7 +44,7 @@ class KeyStorageAdapterTests: XCTestCase {
   func testCreateKey_errorGettingPublicKey_shouldThrow() {
     keyManager.signer = signer
     signer.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.createKey(withAlias: Constants.alias), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.createKey(withAlias: Constants.alias, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TestError), TestError.operationFailed)
     }
   }
@@ -54,14 +54,14 @@ class KeyStorageAdapterTests: XCTestCase {
     let expectedKey = Constants.data.base64EncodedString()
     signer.operationresult = Constants.data
     keyManager.signer = signer
-    XCTAssertNoThrow(key = try keyStorage.createKey(withAlias: Constants.alias), "Create key shouldn't throw")
+    XCTAssertNoThrow(key = try keyStorage.createKey(withAlias: Constants.alias, allowIphoneMigration: false), "Create key shouldn't throw")
     XCTAssertEqual(key, expectedKey, "Key should be \(expectedKey) but was \(key!)")
   }
   
   func testSign_errorGettingSigner_shouldThrow() {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
@@ -70,7 +70,7 @@ class KeyStorageAdapterTests: XCTestCase {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.signer = signer
     signer.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.sign(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
@@ -80,7 +80,7 @@ class KeyStorageAdapterTests: XCTestCase {
     signer.operationresult = Constants.data
     keyManager.signer = signer
     XCTAssertNoThrow(
-      signature = try keyStorage.sign(withAlias: Constants.alias, message: Constants.message),
+      signature = try keyStorage.sign(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false),
       "Create key shouldn't throw"
     )
     XCTAssertEqual(signature, Constants.data, "Key should be \(Constants.data) but was \(signature!)")
@@ -89,7 +89,7 @@ class KeyStorageAdapterTests: XCTestCase {
   func testSignAndEncode_errorGettingSigner_shouldThrow() {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
@@ -98,7 +98,7 @@ class KeyStorageAdapterTests: XCTestCase {
     let expectedError = TwilioVerifyError.keyStorageError(error: TestError.operationFailed)
     keyManager.signer = signer
     signer.error = TestError.operationFailed
-    XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message), "Create key should throw") { error in
+    XCTAssertThrowsError(try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false), "Create key should throw") { error in
       XCTAssertEqual((error as! TwilioVerifyError).originalError.toEquatableError(), expectedError.originalError.toEquatableError())
     }
   }
@@ -109,7 +109,7 @@ class KeyStorageAdapterTests: XCTestCase {
     signer.operationresult = Constants.data
     keyManager.signer = signer
     XCTAssertNoThrow(
-      signature = try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message),
+      signature = try keyStorage.signAndEncode(withAlias: Constants.alias, message: Constants.message, allowIphoneMigration: false),
       "Create key shouldn't throw"
     )
     XCTAssertEqual(signature, expectedSignature, "Key should be \(expectedSignature) but was \(signature!)")

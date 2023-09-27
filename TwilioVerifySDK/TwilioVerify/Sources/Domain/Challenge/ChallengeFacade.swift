@@ -101,7 +101,13 @@ private extension ChallengeFacade {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    pushChallengeProcessor.updateChallenge(withSid: payload.challengeSid, withFactor: factor, status: payload.status, success: success, failure: failure)
+    pushChallengeProcessor.updateChallenge(
+      withSid: payload.challengeSid,
+      withFactor: factor,
+      status: payload.status,
+      success: success,
+      failure: failure
+    )
   }
 }
 

@@ -31,6 +31,8 @@ class FactorMapper: FactorMapperProtocol {
   func fromAPI(withData data: Data, factorPayload: FactorDataPayload) throws -> Factor {
     let serviceSid = factorPayload.serviceSid
     let identity = factorPayload.identity
+    let allowIphoneMigration = factorPayload.allowIphoneMigration
+
     guard !serviceSid.isEmpty, !identity.isEmpty else {
       throw TwilioVerifyError.mapperError(error: MapperError.invalidArgument )
     }
@@ -38,7 +40,12 @@ class FactorMapper: FactorMapperProtocol {
     var factor: Factor
     switch factorPayload.type {
       case .push:
-        factor = try toPushFactor(serviceSid: serviceSid, identity: identity, data: data)
+        factor = try toPushFactor(
+          serviceSid: serviceSid,
+          identity: identity,
+          allowIphoneMigration: allowIphoneMigration,
+          data: data
+        )
     }
     return factor
   }
@@ -73,7 +80,12 @@ class FactorMapper: FactorMapperProtocol {
 }
 
 private extension FactorMapper {
-  func toPushFactor(serviceSid: String, identity: String, data: Data) throws -> PushFactor {
+  func toPushFactor(
+    serviceSid: String,
+    identity: String,
+    allowIphoneMigration: Bool,
+    data: Data
+  ) throws -> PushFactor {
     do {
       let pushFactorDTO = try JSONDecoder().decode(PushFactorDTO.self, from: data)
       guard let date = DateFormatter().RFC3339(pushFactorDTO.createdAt) else {
@@ -82,10 +94,19 @@ private extension FactorMapper {
       let notificationPlatform = NotificationPlatform(rawValue: pushFactorDTO.config.notificationPlatform ?? NotificationPlatform.apn.rawValue) ?? .apn
       let config = Config(credentialSid: pushFactorDTO.config.credentialSid,
                           notificationPlatform: notificationPlatform)
-      
-      let pushFactor = PushFactor(status: pushFactorDTO.status, sid: pushFactorDTO.sid, friendlyName: pushFactorDTO.friendlyName,
-                                  accountSid: pushFactorDTO.accountSid, serviceSid: serviceSid, identity: identity,
-                                  createdAt: date, config: config, metadata: pushFactorDTO.metadata)
+
+      let pushFactor = PushFactor(
+        status: pushFactorDTO.status,
+        sid: pushFactorDTO.sid,
+        friendlyName: pushFactorDTO.friendlyName,
+        accountSid: pushFactorDTO.accountSid,
+        serviceSid: serviceSid,
+        identity: identity,
+        allowIphoneMigration: allowIphoneMigration,
+        createdAt: date,
+        config: config,
+        metadata: pushFactorDTO.metadata
+      )
       return pushFactor
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)

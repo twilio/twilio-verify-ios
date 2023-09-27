@@ -381,6 +381,7 @@ class PushChallengeProcessorTests: XCTestCase {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: nil)
@@ -667,6 +668,7 @@ private extension PushChallengeProcessorTests {
       accountSid: "accountSid",
       serviceSid: "serviceSid",
       identity: "identity",
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: "credentialSid"),
       keyPairAlias: "alias")

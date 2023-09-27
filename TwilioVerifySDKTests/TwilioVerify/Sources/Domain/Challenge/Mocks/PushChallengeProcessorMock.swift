@@ -40,7 +40,13 @@ extension PushChallengeProcessorMock: PushChallengeProcessorProtocol {
     fatalError("Expected params not set")
   }
   
-  func updateChallenge(withSid sid: String, withFactor factor: PushFactor, status: ChallengeStatus, success: @escaping EmptySuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func updateChallenge(
+    withSid sid: String,
+    withFactor factor: PushFactor,
+    status: ChallengeStatus,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     if let error = error {
       failure(error)
       return

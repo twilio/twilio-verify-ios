@@ -19,18 +19,18 @@
 
 import Foundation
 
-///Describes the information of a **ChallengeList**
+/// Describes the information of a **ChallengeList**
 public protocol ChallengeList {
-  ///Array of Challenges that matches the parameters of the **ChallengeListPayload** used
+  /// Array of Challenges that matches the parameters of the **ChallengeListPayload** used
   var challenges: [Challenge] { get }
-  ///Metadata returned by the /Challenges endpoint, used to fetch subsequent pages of Challenges
+  /// Metadata returned by the /Challenges endpoint, used to fetch subsequent pages of Challenges
   var metadata: Metadata { get }
 }
 
-///Describes the information of a **ChallengeList**
+/// Describes the information of a **ChallengeList**
 struct FactorChallengeList: ChallengeList {
-  ///Array of Challenges that matches the parameters of the **ChallengeListPayload** used
+  /// Array of Challenges that matches the parameters of the **ChallengeListPayload** used
   let challenges: [Challenge]
-  ///Metadata returned by the /Challenges endpoint, used to fetch subsequent pages of Challenges
+  /// Metadata returned by the /Challenges endpoint, used to fetch subsequent pages of Challenges
   let metadata: Metadata
 }
