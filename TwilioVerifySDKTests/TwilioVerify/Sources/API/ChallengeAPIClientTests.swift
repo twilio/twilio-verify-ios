@@ -444,6 +444,7 @@ extension ChallengeAPIClientTests {
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: Constants.credentialSid)
     )

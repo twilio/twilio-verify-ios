@@ -26,7 +26,11 @@ class JwtGeneratorMock: JwtGeneratorProtocol {
   private(set) var payload: [String: Any]!
   var error: Error?
   
-  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
+  func generateJWT(
+    forHeader header: [String: String],
+    forPayload payload: [String: Any],
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> String {
     if let error = error {
       throw error
     }
