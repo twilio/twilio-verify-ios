@@ -247,11 +247,16 @@ platform :ios do
       type: "adhoc",
       readonly: true
     )
+    match(
+      app_identifier: "com.twilio.TwilioVerifyDemo.NotificationService",
+      type: "adhoc",
+      readonly: true
+    )
     settings_to_override = {
-      :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
-      :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
       :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
-      :CURRENT_PROJECT_VERSION => Time.now.to_i.to_s
+      :CURRENT_PROJECT_VERSION => Time.now.to_i.to_s,
+      :APP_PROVISIONING_PROFILE_SPECIFIER => "match AdHoc com.twilio.TwilioVerifyDemo",
+      :EXT_PROVISIONING_PROFILE_SPECIFIER => "match AdHoc com.twilio.TwilioVerifyDemo.NotificationService",
     }
     gym(
       scheme: "TwilioVerifyDemo",
@@ -260,9 +265,10 @@ platform :ios do
       xcargs: settings_to_override,
       silent: true,
       export_options: {
+        signingStyle: "manual",
         provisioningProfiles: { 
             "com.twilio.TwilioVerifyDemo" => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
-            "com.twilio.verify.HostApp" => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"]
+            "com.twilio.TwilioVerifyDemo.NotificationService" => ENV["TWILIO_VERIFY_DEMO_NOTEXTENSION_PROVISIONING_PROFILE"],
         }
       }
     )

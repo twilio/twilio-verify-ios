@@ -27,7 +27,10 @@ class TwilioVerifyAdapter {
     #if DEBUG
       builder = builder.enableDefaultLoggingService(withLevel: .all)
     #endif
-    twilioVerify = try builder.build()
+    #warning("Please provide the Access Group for your app here and in the NotificationService.swift")
+    twilioVerify = try builder
+      .setAccessGroup("group.twilio.TwilioVerifyDemo")
+      .build()
   }
 }
 
