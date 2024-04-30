@@ -346,6 +346,20 @@ To stop sharing existing factors created with **App Groups**, uncheck the **App 
 
 > This will restrict access to the factors and will not affect the main application in which the data was initially created.
 
+## Privacy Manifest
+
+This document serves as the Privacy Manifest for the Twilio Verify SDK. It outlines the privacy practices implemented in this SDK, providing a comprehensive understanding of how we handle data and respect user privacy.
+
+### Purpose
+
+The primary purpose of this Privacy Manifest is to facilitate developers and organizations in providing Apple with detailed information about the privacy practices employed within this SDK.
+
+### Usage
+
+To use this Privacy Manifest, simply refer to the relevant sections when you need to provide information to Apple or any other interested parties about the privacy practices used in this SDK.
+
+### [Privacy Manifest](TwilioVerifySDK/PrivacyInfo.xcprivacy)
+
 ---
 <a name='Contributing'></a>
 
