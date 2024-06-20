@@ -306,6 +306,7 @@ GEM
     public_suffix (4.0.7)
     racc (1.7.3)
     rake (13.2.1)
+    rb-readline (0.5.5)
     rchardet (1.8.0)
     redcarpet (3.6.0)
     representable (3.2.0)
@@ -378,7 +379,7 @@ DEPENDENCIES
   danger (>= 8.2.3)
   danger-slather (>= 0.0.6)
   danger-swiftlint (>= 0.24.4)
-  fastlane (>= 2.178.0)
+  fastlane (>= 2.216.0)
   fastlane-plugin-create_xcframework
   fastlane-plugin-firebase_app_distribution
   fastlane-plugin-firebase_test_lab!
@@ -386,6 +387,7 @@ DEPENDENCIES
   filesize
   jazzy (>= 0.14.2)
   plist
+  rb-readline
   xcpretty
 
 BUNDLED WITH
