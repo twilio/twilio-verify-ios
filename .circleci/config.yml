@@ -60,12 +60,14 @@ commands:
     steps:
       - checkout
       - setup
+      - setup-certificates
       - run:
           name: Unit Tests
           command: bundle exec fastlane unit_tests test_plan:<< parameters.test_plan >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
+      - cleanup-signing
   
   integration_tests:
     parameters:
@@ -133,17 +135,67 @@ commands:
           root: ~/Desktop
           paths:
             - SizeImpact.md
+
+  setup-certificates:
+    steps:
+      - run:
+          name: Setup Certificate and Keychain
+          command: |
+            # create variables
+            CERTIFICATE_PATH=$HOME/build_certificate.p12
+            KEYCHAIN_PATH=$HOME/app-signing.keychain-db
+
+            # import certificate from CircleCI context
+            echo -n "$VERIFY_DEMO_CERT" | base64 --decode -o $CERTIFICATE_PATH
+
+            # create temporary keychain
+            security create-keychain -p "$KEYCHAIN_PASS" $KEYCHAIN_PATH
+            security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+            security unlock-keychain -p "$KEYCHAIN_PASS" $KEYCHAIN_PATH
+
+            # import certificate to keychain
+            security import $CERTIFICATE_PATH -P "$VERIFY_DEMO_CERT_PASS" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+            security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASS" $KEYCHAIN_PATH
+            security list-keychain -d user -s $KEYCHAIN_PATH
+      - run:
+          name: Setup Provisioning Profiles
+          command: |
+            setup_provisioning_profile() {
+              local profile_var=$1
+              local profile_path="$HOME/profile_$(basename "$profile_var").mobileprovision"
+
+              # decode and save the provisioning profile
+              echo -n "${!profile_var}" | base64 --decode -o "$profile_path"
+
+              # create profiles directory if it doesn't exist
+              mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+
+              # copy the profile to the correct location
+              cp "$profile_path" ~/Library/MobileDevice/Provisioning\ Profiles/
+            }
+            setup_provisioning_profile "VERIFY_DEMO_PROFILE"
+            setup_provisioning_profile "HOST_APP_PROFILE"
+            setup_provisioning_profile "APP_SIZER_PROFILE"
+  cleanup-signing:
+    steps:
+      - run:
+          name: Clean Up Keychain and Provisioning Profile
+          command: |
+            security delete-keychain $HOME/app-signing.keychain-db || true
+            rm -f ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision || true
   
   release:
     steps:
       - checkout
       - setup
+      - setup-certificates
       - attach_workspace:
           at: ~/Desktop
       - configure_gcloud_app_distribution_service
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
+      - cleanup-signing
 
   distribute_debug_sample_app:
     parameters:
@@ -154,15 +206,18 @@ commands:
         description: API base URL
         type: string
     steps:
+      - setup-certificates
       - run:
           name: Generating APK for internal distribution
           command: bundle exec fastlane distribute_debug_sample_app env:<<parameters.env>> url:<<parameters.base_url>>
+      - cleanup-signing
 jobs:
   Distribute debug sample app:
     executor: macos_executor
     steps:
       - checkout
       - setup
+      - setup-certificates
       - configure_gcloud_app_distribution_service
       - distribute_debug_sample_app:
           env: "DEV"
@@ -173,6 +228,7 @@ jobs:
       - distribute_debug_sample_app:
           env: "PROD"
           base_url: $PROD_URL
+      - cleanup-signing
 
   Unit Tests and Lint:
     executor: macos_executor
@@ -183,15 +239,19 @@ jobs:
   Integration Tests Single Device:
     executor: macos_executor
     steps:
+      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
+      - cleanup-signing
 
   Integration Tests All Devices:
     executor: macos_executor
     steps:
+      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
           ftl_devices: all
+      - cleanup-signing
 
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
@@ -209,7 +269,9 @@ jobs:
   Size report:
     executor: macos_executor
     steps:
+      - setup-certificates
       - build_app_sizer
+      - cleanup-signing
   Release SDK:
     executor: macos_executor
     steps:
@@ -218,21 +280,33 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Unit Tests and Lint
+      - Unit Tests and Lint:
+          context:
+            - verify-push-ios
       - Integration Tests Single Device:
+          context:
+            - verify-push-ios
           requires:
             - Unit Tests and Lint
       - Integration Tests All Devices:
+          context:
+            - verify-push-ios
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
+          context:
+            - verify-push-ios
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
       - Size report:
+          context:
+            - verify-push-ios
           requires:
             - Build TwilioVerify
       - Distribute debug sample app:
+          context:
+            - verify-push-ios
           requires:
            - Build TwilioVerify
           filters:
@@ -241,8 +315,10 @@ workflows:
                - /feature.*/
                - /release.*/
                - /hotfix.*/
-               - dev              
+               - dev
       - Release SDK:
+          context:
+            - verify-push-ios
           requires:
             - Size report
           filters:
