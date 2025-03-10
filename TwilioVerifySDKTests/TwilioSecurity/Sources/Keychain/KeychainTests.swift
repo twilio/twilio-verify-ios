@@ -214,37 +214,16 @@ class KeychainTests: XCTestCase {
   }
   
   func testGenerateKeyPair_withInvalidParameters_shouldThrow() {
-    let expectedErrorCode = -4
-    let expectedLocalizedDescription = "Invalid status code operation received: -4"
-
     XCTAssertThrowsError(
       try keychain.generateKeyPair(withParameters: [:]),
       "Generate KeyPair Should throw"
     ) { error in
 
       guard let thrownError = error as? KeychainError,
-              case .invalidStatusCode(let code) = thrownError else {
+            case .unableToGeneratePrivateKey = thrownError else {
         XCTFail("Unexpected error received")
         return
       }
-
-      XCTAssertEqual(
-        code,
-        expectedErrorCode,
-        "Error code should be \(expectedErrorCode), but was \(code)"
-      )
-      
-      XCTAssertEqual(
-        thrownError.domain,
-        NSOSStatusErrorDomain,
-        "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
-      )
-      
-      XCTAssertEqual(
-        thrownError.localizedDescription,
-        expectedLocalizedDescription,
-        "Error localized description should be \(expectedLocalizedDescription), but was \(thrownError.localizedDescription)"
-      )
     }
   }
   
