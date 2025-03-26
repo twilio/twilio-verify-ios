@@ -46,7 +46,7 @@ None
 <a name='Requirements'></a>
 
 ## Requirements
-* iOS 10+
+* iOS 12+
 * Swift 5.2
 * Xcode 13.x
 
