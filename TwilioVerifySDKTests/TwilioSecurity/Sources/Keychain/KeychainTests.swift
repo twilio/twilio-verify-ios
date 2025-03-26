@@ -221,7 +221,7 @@ class KeychainTests: XCTestCase {
 
       guard let thrownError = error as? KeychainError,
             case .unableToGeneratePrivateKey = thrownError else {
-        XCTFail("Unexpected error received")
+        XCTFail("Unexpected error received: \(error.localizedDescription)")
         return
       }
     }
