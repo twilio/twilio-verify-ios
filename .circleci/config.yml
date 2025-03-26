@@ -139,50 +139,18 @@ commands:
   setup-certificates:
     steps:
       - run:
-          name: Setup Certificate and Keychain
+          name: Install Apple Certificate and Provisioning Profile
           command: |
-            # create variables
-            CERTIFICATE_PATH=$HOME/build_certificate.p12
-            KEYCHAIN_PATH=$HOME/app-signing.keychain-db
+            chmod +x ./scripts/certificate_setup.sh
+            ./scripts/certificate_setup.sh setup
 
-            # import certificate from CircleCI context
-            echo -n "$VERIFY_DEMO_CERT" | base64 --decode -o $CERTIFICATE_PATH
-
-            # create temporary keychain
-            security create-keychain -p "$KEYCHAIN_PASS" $KEYCHAIN_PATH
-            security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-            security unlock-keychain -p "$KEYCHAIN_PASS" $KEYCHAIN_PATH
-
-            # import certificate to keychain
-            security import $CERTIFICATE_PATH -P "$VERIFY_DEMO_CERT_PASS" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-            security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASS" $KEYCHAIN_PATH
-            security list-keychain -d user -s $KEYCHAIN_PATH
-      - run:
-          name: Setup Provisioning Profiles
-          command: |
-            setup_provisioning_profile() {
-              local profile_var=$1
-              local profile_path="$HOME/profile_$(basename "$profile_var").mobileprovision"
-
-              # decode and save the provisioning profile
-              echo -n "${!profile_var}" | base64 --decode -o "$profile_path"
-
-              # create profiles directory if it doesn't exist
-              mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-
-              # copy the profile to the correct location
-              cp "$profile_path" ~/Library/MobileDevice/Provisioning\ Profiles/
-            }
-            setup_provisioning_profile "VERIFY_DEMO_PROFILE"
-            setup_provisioning_profile "HOST_APP_PROFILE"
-            setup_provisioning_profile "APP_SIZER_PROFILE"
   cleanup-signing:
     steps:
       - run:
           name: Clean Up Keychain and Provisioning Profile
           command: |
-            security delete-keychain $HOME/app-signing.keychain-db || true
-            rm -f ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision || true
+            chmod +x ./scripts/certificate_setup.sh
+            ./scripts/certificate_setup.sh cleanup
   
   release:
     steps:
@@ -239,6 +207,8 @@ jobs:
   Integration Tests Single Device:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
       - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
