@@ -142,7 +142,7 @@ commands:
           name: Install Apple Certificate and Provisioning Profile
           command: |
             chmod +x ./scripts/certificate_setup.sh
-            ./scripts/certificate_setup.sh setup
+            ./scripts/certificate_setup.sh setup "$CIRCLE_JOB"
 
   cleanup-signing:
     steps:
@@ -150,7 +150,7 @@ commands:
           name: Clean Up Keychain and Provisioning Profile
           command: |
             chmod +x ./scripts/certificate_setup.sh
-            ./scripts/certificate_setup.sh cleanup
+            ./scripts/certificate_setup.sh cleanup "$CIRCLE_JOB"
   
   release:
     steps:
@@ -174,11 +174,9 @@ commands:
         description: API base URL
         type: string
     steps:
-      - setup-certificates
       - run:
           name: Generating APK for internal distribution
           command: bundle exec fastlane distribute_debug_sample_app env:<<parameters.env>> url:<<parameters.base_url>>
-      - cleanup-signing
 jobs:
   Distribute debug sample app:
     executor: macos_executor
@@ -217,6 +215,8 @@ jobs:
   Integration Tests All Devices:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
       - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
@@ -239,6 +239,8 @@ jobs:
   Size report:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
       - setup-certificates
       - build_app_sizer
       - cleanup-signing
@@ -278,7 +280,7 @@ workflows:
           context:
             - verify-push-ios
           requires:
-           - Build TwilioVerify
+            - Build TwilioVerify
           filters:
            branches:
              only:
