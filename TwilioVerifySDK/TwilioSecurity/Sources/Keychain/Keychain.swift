@@ -112,24 +112,26 @@ class Keychain: KeychainProtocol {
     withParameters parameters: [String: Any],
     allowIphoneMigration: Bool
   ) throws -> KeyPair {
-    var publicKey, privateKey: SecKey?
     let parameters = addAccessGroupToKeyPairs(parameters: parameters, allowIphoneMigration: allowIphoneMigration)
-    let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
+    var error: Unmanaged<CFError>?
+    let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
 
-    guard status == errSecSuccess else {
-      let error: KeychainError = .invalidStatusCode(code: Int(status))
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
-    }
-
-    guard let publicKey = publicKey else {
-      let error: KeychainError = .unableToGeneratePublicKey
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
+    if let error {
+      let cfError: CFError = error.takeRetainedValue()
+      let errorCode = CFErrorGetCode(cfError)
+      let error: KeychainError = .invalidStatusCode(code: errorCode)
+       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+       throw error
     }
 
     guard let privateKey = privateKey else {
       let error: KeychainError = .unableToGeneratePrivateKey
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
+    }
+
+    guard let publicKey = SecKeyCopyPublicKey(privateKey) else {
+      let error: KeychainError = .unableToGeneratePublicKey
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }

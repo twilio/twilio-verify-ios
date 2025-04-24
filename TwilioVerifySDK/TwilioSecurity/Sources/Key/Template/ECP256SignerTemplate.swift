@@ -73,9 +73,13 @@ extension ECP256SignerTemplate {
   }
   
   private func isSecureEnclaveAvailable() -> Bool {
-    TARGET_OS_SIMULATOR == 0
+  #if targetEnvironment(simulator)
+    return false
+  #else
+    return true
+  #endif
   }
-  
+
   struct Constants {
     static let keySize = 256
   }
