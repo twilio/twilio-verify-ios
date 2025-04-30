@@ -144,8 +144,11 @@ private extension CreateFactorPresenter {
   }
   
   var pushToken: String? {
-    if TARGET_OS_SIMULATOR == 1 { return nil }
+    #if targetEnvironment(simulator)
+    return nil
+    #else
     return UserDefaults.standard.value(forKey: Constants.pushTokenKey) as? String
+    #endif
   }
   
   func createFactor(_ accessToken: AccessTokenResponse,
