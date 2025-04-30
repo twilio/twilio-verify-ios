@@ -185,7 +185,7 @@ platform :ios do
     sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
     git_add(path: ['./TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerifySDK/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
     sh("git config user.name '#{ENV['GH_USER_NAME']}'")
-    sh("git config user.email '#{ENV['GH_USER_EMAIL']}")
+    sh("git config user.email '#{ENV['GH_USER_EMAIL']}'")
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     
