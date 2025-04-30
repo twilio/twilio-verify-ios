@@ -48,7 +48,7 @@ None
 ## Requirements
 * iOS 12+
 * Swift 5.2
-* Xcode 14.x
+* Xcode 16.3+
 
 <a name='Documentation'></a>
 
