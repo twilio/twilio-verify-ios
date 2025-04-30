@@ -20,9 +20,9 @@
 import Foundation
 
 protocol KeyStorage {
-  func createKey(withAlias alias: String) throws -> String
-  func sign(withAlias alias: String, message: String) throws -> Data
-  func signAndEncode(withAlias alias: String, message: String) throws -> String
+  func createKey(withAlias alias: String, allowIphoneMigration: Bool) throws -> String
+  func sign(withAlias alias: String, message: String, allowIphoneMigration: Bool) throws -> Data
+  func signAndEncode(withAlias alias: String, message: String, allowIphoneMigration: Bool) throws -> String
   func deleteKey(withAlias alias: String) throws
 }
 
@@ -36,9 +36,12 @@ class KeyStorageAdapter {
 }
 
 extension KeyStorageAdapter: KeyStorage {
-  func createKey(withAlias alias: String) throws -> String {
+  func createKey(
+    withAlias alias: String,
+    allowIphoneMigration: Bool
+  ) throws -> String {
     do {
-      let template = try signerTemplate(withAlias: alias, shouldExist: false)
+      let template = try signerTemplate(withAlias: alias, allowIphoneMigration: allowIphoneMigration, shouldExist: false)
       let signer = try keyManager.signer(withTemplate: template)
       let publicKey = try signer.getPublic()
       return publicKey.base64EncodedString()
@@ -48,9 +51,13 @@ extension KeyStorageAdapter: KeyStorage {
     }
   }
   
-  func sign(withAlias alias: String, message: String) throws -> Data {
+  func sign(
+    withAlias alias: String,
+    message: String,
+    allowIphoneMigration: Bool
+  ) throws -> Data {
     do {
-      let template = try signerTemplate(withAlias: alias)
+      let template = try signerTemplate(withAlias: alias, allowIphoneMigration: allowIphoneMigration)
       let signer = try keyManager.signer(withTemplate: template)
       let signature = try signer.sign(message.data(using: .utf8)!)
       return signature
@@ -60,9 +67,13 @@ extension KeyStorageAdapter: KeyStorage {
     }
   }
   
-  func signAndEncode(withAlias alias: String, message: String) throws -> String {
+  func signAndEncode(
+    withAlias alias: String,
+    message: String,
+    allowIphoneMigration: Bool
+  ) throws -> String {
     do {
-      let signature = try sign(withAlias: alias, message: message)
+      let signature = try sign(withAlias: alias, message: message, allowIphoneMigration: allowIphoneMigration)
       return signature.base64EncodedString()
     } catch {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
@@ -76,7 +87,7 @@ extension KeyStorageAdapter: KeyStorage {
 }
 
 private extension KeyStorageAdapter {
-  func signerTemplate(withAlias alias: String, shouldExist: Bool = true) throws -> SignerTemplate {
-    return try ECP256SignerTemplate(withAlias: alias, shouldExist: shouldExist)
+  func signerTemplate(withAlias alias: String, allowIphoneMigration: Bool, shouldExist: Bool = true) throws -> SignerTemplate {
+    return try ECP256SignerTemplate(withAlias: alias, shouldExist: shouldExist, allowIphoneMigration: allowIphoneMigration)
   }
 }

@@ -76,7 +76,7 @@ extension ChallengeDetailPresenter: ChallengeDetailPresentable {
       factorSid: factorSid,
       challengeSid: challengeSid,
       status: status
-      )
+    )
     twilioVerify.updateChallenge(withPayload: payload, success: { [weak self] in
       guard let strongSelf = self else { return }
       strongSelf.fetchChallengeDetails()

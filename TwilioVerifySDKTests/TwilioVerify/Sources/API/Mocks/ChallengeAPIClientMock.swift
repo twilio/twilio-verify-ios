@@ -31,7 +31,7 @@ class ChallengeAPIClientMock {
 }
 
 extension ChallengeAPIClientMock: ChallengeAPIClientProtocol {
-  
+
   func get(withSid sid: String, withFactor factor: Factor, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
     if let error = error {
       failure(error)
@@ -44,7 +44,12 @@ extension ChallengeAPIClientMock: ChallengeAPIClientProtocol {
     fatalError("Expected params not set")
   }
   
-  func update(_ challenge: FactorChallenge, withAuthPayload authPayload: String, success: @escaping SuccessResponseBlock, failure: @escaping FailureBlock) {
+  func update(
+    _ challenge: FactorChallenge,
+    withAuthPayload authPayload: String,
+    success: @escaping SuccessResponseBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return

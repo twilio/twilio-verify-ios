@@ -1,3 +1,0 @@
-git_url("git@github.com:twilio/authy-app-and-sdks-ios-certificates.git")
-
-storage_mode("git")

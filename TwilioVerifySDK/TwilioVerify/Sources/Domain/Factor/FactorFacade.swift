@@ -48,14 +48,18 @@ extension FactorFacade: FactorFacadeProtocol {
       failure(TwilioVerifyError.inputError(error: error))
       return
     }
-    factory.createFactor(withAccessToken: payload.accessToken,
-                         friendlyName: payload.friendlyName,
-                         serviceSid: payload.serviceSid,
-                         identity: payload.identity,
-                         pushToken: payload.pushToken,
-                         metadata: payload.metadata,
-                         success: success,
-                         failure: failure)
+    factory.createFactor(
+      withAccessToken: payload.accessToken,
+      friendlyName: payload.friendlyName,
+      serviceSid: payload.serviceSid,
+      identity: payload.identity,
+      factorType: payload.factorType,
+      allowIphoneMigration: payload.allowIphoneMigration,
+      pushToken: payload.pushToken,
+      metadata: payload.metadata,
+      success: success,
+      failure: failure
+    )
   }
   
   func verifyFactor(withPayload payload: VerifyFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
@@ -65,14 +69,20 @@ extension FactorFacade: FactorFacadeProtocol {
       failure(TwilioVerifyError.inputError(error: error))
       return
     }
+
     guard !payload.sid.isEmpty else {
       let error: InputError = .emptyFactorSid
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    factory.verifyFactor(withSid: payload.sid, success: success, failure: failure)
+
+    factory.verifyFactor(
+      withSid: payload.sid,
+      success: success,
+      failure: failure
+    )
   }
-  
+
   func updateFactor(withPayload payload: UpdateFactorPayload, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
     guard let payload = payload as? UpdatePushFactorPayload else {
       let error: InputError = .invalidPayload
@@ -85,7 +95,13 @@ extension FactorFacade: FactorFacadeProtocol {
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       return failure(TwilioVerifyError.inputError(error: error))
     }
-    factory.updateFactor(withSid: payload.sid, withPushToken: payload.pushToken, success: success, failure: failure)
+
+    factory.updateFactor(
+      withSid: payload.sid,
+      withPushToken: payload.pushToken,
+      success: success,
+      failure: failure
+    )
   }
   
   func get(withSid sid: String, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
@@ -185,8 +201,10 @@ extension FactorFacade {
       let keychainQuery = KeychainQuery(accessGroup: accessGroup)
       let secureStorage = SecureStorage(keychain: keychain, keychainQuery: keychainQuery)
       let migrations = FactorMigrations().migrations()
-      let storage = try Storage(secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
-                                migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup)
+      let storage = try Storage(
+        secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
+        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup
+      )
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
       return FactorFacade(factory: factory, repository: repository)

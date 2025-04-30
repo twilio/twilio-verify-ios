@@ -20,7 +20,7 @@
 import Foundation
 import os
 
-///Describes the available operations to log information
+/// Describes the available operations to log information
 public protocol LoggerService {
   /**
    Desired log level

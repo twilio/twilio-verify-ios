@@ -19,17 +19,17 @@
 
 import Foundation
 
-///Describes the information required to fetch a **ChallengeList**
+/// Describes the information required to fetch a **ChallengeList**
 public struct ChallengeListPayload {
-  ///The unique SID identifier of the Factor to which the **ChallengeList** is related
+  /// The unique SID identifier of the Factor to which the **ChallengeList** is related
   public let factorSid: String
-  ///Number of Challenges to be returned by the service
+  /// Number of Challenges to be returned by the service
   public let pageSize: Int
-  ///Sort challenges in order by creation date of the challenge
+  /// Sort challenges in order by creation date of the challenge
   public let order: ChallengeListOrder
-  ///Status to filter the Challenges, if nothing is sent, Challenges of all status will be returned
+  /// Status to filter the Challenges, if nothing is sent, Challenges of all status will be returned
   public var status: ChallengeStatus?
-  ///Token used to retrieve the next page in the pagination arrangement
+  /// Token used to retrieve the next page in the pagination arrangement
   public var pageToken: String?
   
   /**
@@ -51,7 +51,7 @@ public struct ChallengeListPayload {
   }
 }
 
-///Describes the order to fetch a **ChallengeList**
+/// Describes the order to fetch a **ChallengeList**
 public enum ChallengeListOrder: String, Codable {
   case asc
   case desc

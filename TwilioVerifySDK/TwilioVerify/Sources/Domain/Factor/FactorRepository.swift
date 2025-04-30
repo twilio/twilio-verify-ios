@@ -73,10 +73,17 @@ extension FactorRepository: FactorProvider {
     }, failure: failure)
   }
   
-  func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+  func update(
+    withPayload payload: UpdateFactorDataPayload,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     do {
       let factor = try get(withSid: payload.factorSid)
-      apiClient.update(factor, updateFactorDataPayload: payload, success: { [weak self] response in
+      apiClient.update(
+        factor,
+        updateFactorDataPayload: payload,
+        success: { [weak self] response in
         guard let strongSelf = self else { return }
         do {
           success(try strongSelf.factorMapper.fromAPI(withData: response.data, factorPayload: payload))
@@ -116,7 +123,11 @@ extension FactorRepository: FactorProvider {
   }
   
   func save(_ factor: Factor) throws -> Factor {
-    try storage.save(factorMapper.toData(factor), withKey: factor.sid)
+    try storage.save(
+      factorMapper.toData(factor),
+      withKey: factor.sid,
+      allowIphoneMigration: factor.allowIphoneMigration
+    )
     return try get(withSid: factor.sid)
   }
   

@@ -34,7 +34,7 @@ class JwtSignerTests: XCTestCase {
   
   func testSign_withDERSignature_shouldReturnConcatFormat() {
     var signerTemplate: SignerTemplate!
-    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
                      "Signer template should not throw")
     keyStorage.signResult = Data(base64Encoded: Constants.derSignature)
     var signature: Data!
@@ -45,7 +45,7 @@ class JwtSignerTests: XCTestCase {
   
   func testSign_withInvalidDERSignature_shouldThrow() {
     var signerTemplate: SignerTemplate!
-    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+    XCTAssertNoThrow(signerTemplate = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
                      "Signer template should not throw")
     var bytes = [UInt8](repeating: 0, count: 1)
     _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
