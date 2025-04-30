@@ -219,7 +219,7 @@ platform :ios do
   end
 
   lane :build_swift_package do
-    sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
+    sh("xcodebuild -project ../TwilioVerifySDK.xcodeproj -scheme TwilioVerifySDK -destination 'generic/platform=iOS Simulator' build")
   end
 
   desc "Distribute debug sample app for internal testing"
