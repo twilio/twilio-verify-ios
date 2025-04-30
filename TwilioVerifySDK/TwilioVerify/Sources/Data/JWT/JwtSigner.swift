@@ -20,7 +20,10 @@
 import Foundation
 
 protocol JwtSignerProtocol {
-  func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data
+  func sign(
+    message: String,
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> Data
 }
 
 class JwtSigner {
@@ -32,8 +35,11 @@ class JwtSigner {
 }
 
 extension JwtSigner: JwtSignerProtocol {
-  func sign(message: String, withSignerTemplate signerTemplate: SignerTemplate) throws -> Data {
-    let signature = try keyStorage.sign(withAlias: signerTemplate.alias, message: message)
+  func sign(
+    message: String,
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> Data {
+    let signature = try keyStorage.sign(withAlias: signerTemplate.alias, message: message, allowIphoneMigration: signerTemplate.allowIphoneMigration)
     switch signerTemplate {
       case is ECP256SignerTemplate:
         return try transcodeECSignatureToConcat(signature, withOutputLength: Constants.es256SignatureLength)

@@ -3,10 +3,9 @@ coverage_directory = '/coverage'
 complete_suite = 'CompleteSuite'
 single_ftl_device = [{ios_model_id: 'iphone8', ios_version_id: '16.6'}]
 all_ftl_devices = [
-  {ios_model_id: 'iphone12pro', ios_version_id: '14.8'},
   {ios_model_id: 'iphone11pro', ios_version_id: '16.6'},
   {ios_model_id: 'ipad10', ios_version_id: '16.6'},
-  {ios_model_id: 'iphone13pro', ios_version_id: '15.7'}
+  {ios_model_id: 'iphone8', ios_version_id: '15.7'}
 ]
 
 default_platform(:ios)
@@ -42,9 +41,17 @@ platform :ios do
     if options[:ftl_devices] == 'all'
       ftl_devices = all_ftl_devices
     end
-    match(
-      type: "development",
-      app_identifier: ["com.twilio.verify.HostApp"]
+
+    settings_to_override = {
+      :BUNDLE_IDENTIFIER => "com.twilio.verify.HostApp",
+      :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"],
+      :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
+    }
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      team_id: ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
+      path: "TwilioVerifySDK.xcodeproj",
+      targets: ["HostApp"]
     )
     scan(
       scheme: 'TwilioVerifySDK',
@@ -94,10 +101,7 @@ platform :ios do
 
   desc "Runs app sizer"
   lane :build_app_sizer do
-    match(
-      type: "development",
-      app_identifier: ["com.twilio.verify.AppSizer"]
-    )
+
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.verify.AppSizer",
       :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_APP_SIZER_PROVISIONING_PROFILE"],
@@ -242,11 +246,6 @@ platform :ios do
       version_number: options[:versionName]
     )
 
-    match(
-      app_identifier: "com.twilio.TwilioVerifyDemo",
-      type: "adhoc",
-      readonly: true
-    )
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
       :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
@@ -256,7 +255,7 @@ platform :ios do
     gym(
       scheme: "TwilioVerifyDemo",
       workspace: "TwilioVerify.xcworkspace",
-      export_method: "ad-hoc",
+      export_method: "development",
       xcargs: settings_to_override,
       silent: true,
       export_options: {

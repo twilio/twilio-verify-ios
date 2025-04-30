@@ -19,18 +19,18 @@
 
 import Foundation
 
-///:nodoc:
+/// :nodoc:
 public typealias FactorSuccessBlock = (Factor) -> ()
-///:nodoc:
+/// :nodoc:
 public typealias TwilioVerifyErrorBlock = (TwilioVerifyError) -> ()
-///:nodoc:
+/// :nodoc:
 public typealias ChallengeSuccessBlock = (Challenge) -> ()
-///:nodoc:
+/// :nodoc:
 public typealias FactorListSuccessBlock = ([Factor]) -> ()
-///:nodoc:
+/// :nodoc:
 public typealias EmptySuccessBlock = () -> ()
 
-///Describes the available operations to proccess Factors and Challenges
+/// Describes the available operations to proccess Factors and Challenges
 public protocol TwilioVerify {
   
   /**

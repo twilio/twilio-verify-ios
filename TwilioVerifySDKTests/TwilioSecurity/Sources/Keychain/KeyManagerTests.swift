@@ -63,7 +63,7 @@ class KeyManagerTests: XCTestCase {
     var template: SignerTemplate!
     keychain.error = TestError.operationFailed
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertThrowsError(try keyManager.keyPair(forTemplate: template), "keyPair should throw") { error in
@@ -83,7 +83,7 @@ class KeyManagerTests: XCTestCase {
     XCTAssertNoThrow(expectedPair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     keychain.keys = [expectedPair.publicKey, expectedPair.privateKey]
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
@@ -106,7 +106,7 @@ class KeyManagerTests: XCTestCase {
     var template: SignerTemplate!
     keychain.generateKeyPairError = TestError.operationFailed
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertThrowsError(try keyManager.generateKeyPair(withTemplate: template), "keyPair should throw") { error in
@@ -126,7 +126,7 @@ class KeyManagerTests: XCTestCase {
     XCTAssertNoThrow(expectedPair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     keychain.keyPair = expectedPair
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
@@ -155,7 +155,7 @@ class KeyManagerTests: XCTestCase {
     keychain.addItemStatus = [expectedErrorCode]
 
     XCTAssertThrowsError(
-      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias),
+      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias, allowIphoneMigration: false),
       "Force save public key should throw"
     ) { error in
       guard let thrownError = error as? KeyManagerError,
@@ -201,7 +201,7 @@ class KeyManagerTests: XCTestCase {
     keychain.deleteItemStatus = -50
 
     XCTAssertThrowsError(
-      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias),
+      try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias, allowIphoneMigration: false),
       "Force save public key should throw"
     ) { error in
       guard let thrownError = error as? KeyManagerError,
@@ -244,7 +244,7 @@ class KeyManagerTests: XCTestCase {
     XCTAssertNoThrow(pair = try KeyPairFactory.createKeyPair(), "Pair generation should succeed")
     keychain.addItemStatus = [errSecDuplicateItem, errSecSuccess]
     keychain.deleteItemStatus = errSecSuccess
-    XCTAssertNoThrow(try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias),
+    XCTAssertNoThrow(try keyManager.forceSavePublicKey(pair.publicKey, withAlias: Constants.alias, allowIphoneMigration: false),
                      "Force save public key should not throw")
     XCTAssertEqual(
       keychain.callsToAddItem,
@@ -263,7 +263,7 @@ class KeyManagerTests: XCTestCase {
     keychain.error = TestError.operationFailed
     
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in
@@ -280,7 +280,7 @@ class KeyManagerTests: XCTestCase {
     keychain.error = TestError.operationFailed
     keychain.generateKeyPairError = TestError.operationFailed
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertThrowsError(try keyManager.signer(withTemplate: template), "Signer should throw") { error in
@@ -301,7 +301,7 @@ class KeyManagerTests: XCTestCase {
     keychain.error = TestError.operationFailed
     keychain.addItemStatus = [errSecSuccess]
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertNoThrow(
@@ -323,7 +323,7 @@ class KeyManagerTests: XCTestCase {
     keychain.addItemStatus = [-50]
 
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: false, allowIphoneMigration: false),
       "Template should be created correclty"
     )
 
@@ -360,7 +360,7 @@ class KeyManagerTests: XCTestCase {
     keychain.keys = [pair.publicKey, pair.privateKey]
     keychain.addItemStatus = [errSecSuccess]
     XCTAssertNoThrow(
-      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true),
+      template =  try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: true, allowIphoneMigration: false),
       "Template should be created correclty"
     )
     XCTAssertNoThrow(

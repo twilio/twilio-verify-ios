@@ -32,7 +32,11 @@ class FactorRepositoryMock {
 }
 
 extension FactorRepositoryMock: FactorProvider {
-  func create(withPayload payload: CreateFactorPayload, success: @escaping (Factor) -> (), failure: @escaping FailureBlock) {
+  func create(
+    withPayload payload: CreateFactorPayload,
+    success: @escaping (Factor) -> (),
+    failure: @escaping FailureBlock
+  ) {
     if let error = error {
       failure(error)
       return
@@ -40,7 +44,12 @@ extension FactorRepositoryMock: FactorProvider {
     success(factor)
   }
   
-  func verify(_ factor: Factor, payload: String, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+  func verify(
+    _ factor: Factor,
+    payload: String,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = verifyError {
       failure(error)
       return
@@ -49,7 +58,11 @@ extension FactorRepositoryMock: FactorProvider {
     success(self.factor)
   }
   
-  func delete(_ factor: Factor, success: @escaping EmptySuccessBlock, failure: @escaping FailureBlock) {
+  func delete(
+    _ factor: Factor,
+    success: @escaping EmptySuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = deleteError {
       failure(error)
       return
@@ -63,7 +76,11 @@ extension FactorRepositoryMock: FactorProvider {
     }
   }
   
-  func update(withPayload payload: UpdateFactorDataPayload, success: @escaping FactorSuccessBlock, failure: @escaping FailureBlock) {
+  func update(
+    withPayload payload: UpdateFactorDataPayload,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping FailureBlock
+  ) {
     if let error = updateError {
       failure(error)
       return

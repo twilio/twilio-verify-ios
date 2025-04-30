@@ -24,7 +24,7 @@ protocol KeychainProtocol {
   func sign(withPrivateKey key: SecKey, algorithm: SecKeyAlgorithm, dataToSign data: Data) throws -> Data
   func verify(withPublicKey key: SecKey, algorithm: SecKeyAlgorithm, signedData: Data, signature: Data) -> Bool
   func representation(forKey key: SecKey) throws -> Data
-  func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair
+  func generateKeyPair(withParameters parameters: [String: Any], allowIphoneMigration: Bool) throws -> KeyPair
   func copyItemMatching(query: Query) throws -> AnyObject
   func addItem(withQuery query: Query) -> OSStatus
   func updateItem(withQuery query: Query, attributes: CFDictionary) -> OSStatus
@@ -51,7 +51,6 @@ class Keychain: KeychainProtocol {
 
   func accessControl(withProtection protection: CFString, flags: SecAccessControlCreateFlags) throws -> SecAccessControl {
     var keychainError: Unmanaged<CFError>?
-    
     guard let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &keychainError) else {
       var error: KeychainError = .unexpectedError
 
@@ -109,25 +108,30 @@ class Keychain: KeychainProtocol {
     return representation as Data
   }
   
-  func generateKeyPair(withParameters parameters: [String: Any]) throws -> KeyPair {
-    var publicKey, privateKey: SecKey?
-    let parameters = addAccessGroupToKeyPairs(parameters: parameters)
-    let status = SecKeyGeneratePair(parameters as CFDictionary, &publicKey, &privateKey)
+  func generateKeyPair(
+    withParameters parameters: [String: Any],
+    allowIphoneMigration: Bool
+  ) throws -> KeyPair {
+    let parameters = addAccessGroupToKeyPairs(parameters: parameters, allowIphoneMigration: allowIphoneMigration)
+    var error: Unmanaged<CFError>?
+    let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
 
-    guard status == errSecSuccess else {
-      let error: KeychainError = .invalidStatusCode(code: Int(status))
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
-    }
-
-    guard let publicKey = publicKey else {
-      let error: KeychainError = .unableToGeneratePublicKey
-      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
-      throw error
+    if let error {
+      let cfError: CFError = error.takeRetainedValue()
+      let errorCode = CFErrorGetCode(cfError)
+      let error: KeychainError = .invalidStatusCode(code: errorCode)
+       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+       throw error
     }
 
     guard let privateKey = privateKey else {
       let error: KeychainError = .unableToGeneratePrivateKey
+      Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+      throw error
+    }
+
+    guard let publicKey = SecKeyCopyPublicKey(privateKey) else {
+      let error: KeychainError = .unableToGeneratePublicKey
       Logger.shared.log(withLevel: .error, message: error.localizedDescription)
       throw error
     }
@@ -184,22 +188,27 @@ class Keychain: KeychainProtocol {
     return SecItemDelete(query as CFDictionary)
   }
 
-  func addAccessGroupToKeyPairs(parameters: [String: Any]) -> CFDictionary {
+  func addAccessGroupToKeyPairs(
+    parameters: [String: Any],
+    allowIphoneMigration: Bool
+  ) -> CFDictionary {
     var customParameters = parameters as Query
 
     guard
       var privateParameters = customParameters[kSecPrivateKeyAttrs] as? Query,
       var publicParameters = customParameters[kSecPublicKeyAttrs] as? Query,
       let accessControl = try? accessControl(
-        withProtection: Constants.accessControlProtection,
+        withProtection: attrAccessible(allowIphoneMigration),
         flags: Constants.accessControlFlags
       )
     else {
       return parameters as CFDictionary
     }
 
-    privateParameters[kSecAttrAccessControl] = accessControl
-    publicParameters[kSecAttrAccessControl] = accessControl
+    if allowIphoneMigration == false {
+      privateParameters[kSecAttrAccessControl] = accessControl
+      publicParameters[kSecAttrAccessControl] = accessControl
+    }
 
     if let accessGroup = accessGroup {
       privateParameters[kSecAttrAccessGroup] = accessGroup
@@ -210,6 +219,10 @@ class Keychain: KeychainProtocol {
     customParameters[kSecPublicKeyAttrs] = publicParameters
 
     return customParameters as CFDictionary
+  }
+
+  private func attrAccessible(_ allowIphoneMigration: Bool) -> CFString {
+    allowIphoneMigration ? kSecAttrAccessibleAfterFirstUnlock : kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
   }
 
   private func retry<T>(
@@ -238,7 +251,6 @@ class Keychain: KeychainProtocol {
   }
 
   enum Constants {
-    static let accessControlProtection = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
     static let accessControlFlags: SecAccessControlCreateFlags = .privateKeyUsage
   }
 }

@@ -19,7 +19,7 @@
 
 import Foundation
 
-///Handles the available operations to proccess Factors and Challenges
+/// Handles the available operations to proccess Factors and Challenges
 public class TwilioVerifyManager {
   
   private let factorFacade: FactorFacadeProtocol

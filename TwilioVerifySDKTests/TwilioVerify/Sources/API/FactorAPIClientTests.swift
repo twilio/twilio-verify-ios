@@ -41,6 +41,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedResponse = "{\"key\":\"value\"}".data(using: .utf8)!
     networkProvider.response = NetworkResponse(data: expectedResponse, headers: [:])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -59,6 +60,7 @@ class FactorAPIClientTests: XCTestCase {
     let expectedError = TestError.operationFailed
     networkProvider.error = expectedError
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: [:], binding: [:], accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -90,6 +92,7 @@ class FactorAPIClientTests: XCTestCase {
     var params = Parameters()
     params.addAll(expectedParams)
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: nil)
@@ -128,10 +131,15 @@ class FactorAPIClientTests: XCTestCase {
     expectedParams.append(contentsOf: config.map { configPair in
       Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
     })
-    expectedParams.append(Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"os\":\"iOS\",\"device\":\"iPhone\"}"))
     var params = Parameters()
+    var paramsv2 = Parameters()
     params.addAll(expectedParams)
+    paramsv2.addAll(expectedParams)
+    // Handle random metadata order
+    params.addAll([Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"os\":\"iOS\",\"device\":\"iPhone\"}")])
+    paramsv2.addAll([Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"device\":\"iPhone\",\"os\":\"iOS\"}")])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
+                                                  allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
                                                   config: config, binding: binding, accessToken: Constants.accessToken,
                                                   metadata: metadata)
@@ -150,8 +158,8 @@ class FactorAPIClientTests: XCTestCase {
                     "Authorization header should not be nil")
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
                     "User agent header should not be nil")
-    XCTAssertEqual(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self), params.asString(),
-                   "Body should be \(params.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
+    XCTAssert(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self) == params.asString() || String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self) == paramsv2.asString(),
+                   "Body should be \(params.asString()) or \(paramsv2.asString()) but was \(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self))")
   }
   
   func testVerifyFactor_withSuccessResponse_shouldSucceed() {
@@ -446,6 +454,7 @@ extension FactorAPIClientTests {
     static let updateFactorDataPayload = UpdateFactorDataPayload(
       friendlyName: friendlyName,
       type: factorType,
+      allowIphoneMigration: false,
       serviceSid: serviceSid,
       identity: identity,
       config: config,
@@ -457,8 +466,10 @@ extension FactorAPIClientTests {
       accountSid: Constants.accountSid,
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
-      config: Config(credentialSid: Constants.credentialSid))
+      config: Config(credentialSid: Constants.credentialSid)
+    )
     static let failureResponse = FailureResponse(
       statusCode: 401,
       errorData: "error".data(using: .utf8)!,
