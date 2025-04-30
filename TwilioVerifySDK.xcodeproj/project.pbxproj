@@ -24,8 +24,6 @@
 		2048753A24A256F800D70FAA /* TwilioVerifyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753924A256F800D70FAA /* TwilioVerifyManagerTests.swift */; };
 		2048753D24A263B900D70FAA /* FactorFacadeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753C24A263B900D70FAA /* FactorFacadeMock.swift */; };
 		2048753F24A2641A00D70FAA /* TwilioVerifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2048753E24A2641A00D70FAA /* TwilioVerifyTests.swift */; };
-		2048754424A2A11A00D70FAA /* TwilioVerifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; };
-		2048754524A2A11A00D70FAA /* TwilioVerifySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2051B01D248AF1E400033B41 /* MapperError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01C248AF1E400033B41 /* MapperError.swift */; };
 		2051B020248AF4F000033B41 /* PushFactorDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2051B01F248AF4F000033B41 /* PushFactorDTO.swift */; };
 		2060CFFB248574AF001DD494 /* BasicAuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060CFFA248574AF001DD494 /* BasicAuthorizationTests.swift */; };
@@ -76,6 +74,9 @@
 		20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157C24A3B3A700A467FC /* ChallengeDTO.swift */; };
 		20E5158024A3BBC800A467FC /* ChallengeMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */; };
 		20EAB647248E94EC00BCD8CD /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */; };
+		86590DEC2DAEEE4C00007F8F /* TwilioVerifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; };
+		86590DFB2DAEF16B00007F8F /* TwilioVerifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; };
+		86590DFC2DAEF16B00007F8F /* TwilioVerifySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		86649FCD27BD4A7D0006D320 /* Storage+AccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */; };
 		86D6268727B5ADAB00A8B341 /* Storage+AccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */; };
 		86D6268C27B5C1A200A8B341 /* StorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268B27B5C1A200A8B341 /* StorageProvider.swift */; };
@@ -148,7 +149,6 @@
 		F293890D25269E3E0070394D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293890C25269E3E0070394D /* Logger.swift */; };
 		F29389112526BF7C0070394D /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389102526BF7C0070394D /* LoggerTests.swift */; };
 		F29389132526C0220070394D /* LoggerServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29389122526C0220070394D /* LoggerServiceMock.swift */; };
-		F2AA3782246F30BF00B9388F /* TwilioVerifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; };
 		F2AA3789246F30BF00B9388F /* TwilioVerifySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = F2AA377B246F30BE00B9388F /* TwilioVerifySDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2C552BD2493E34A006F6CDF /* FactorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BC2493E34A006F6CDF /* FactorFacade.swift */; };
 		F2C552BF2493EB82006F6CDF /* FactorFacadeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C552BE2493EB82006F6CDF /* FactorFacadeTests.swift */; };
@@ -169,37 +169,37 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2048754624A2A11A00D70FAA /* PBXContainerItemProxy */ = {
+		86590DEE2DAEEE4C00007F8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F2AA3777246F30BE00B9388F;
-			remoteInfo = TwilioVerify;
+			remoteInfo = TwilioVerifySDK;
 		};
-		F2A7BB00248FDC1D0005DF7C /* PBXContainerItemProxy */ = {
+		86590DF72DAEF00000007F8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2AA3777246F30BE00B9388F;
+			remoteInfo = TwilioVerifySDK;
+		};
+		86590DF92DAEF0C900007F8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F2F62F9C248846D800E330E4;
 			remoteInfo = HostApp;
 		};
-		F2AA3783246F30BF00B9388F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2AA376F246F30BE00B9388F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F2AA3777246F30BE00B9388F;
-			remoteInfo = TwilioVerify;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2048754824A2A11A00D70FAA /* Embed Frameworks */ = {
+		86590DFD2DAEF16B00007F8F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2048754524A2A11A00D70FAA /* TwilioVerifySDK.framework in Embed Frameworks */,
+				86590DFC2DAEF16B00007F8F /* TwilioVerifySDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,7 +386,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2AA3782246F30BF00B9388F /* TwilioVerifySDK.framework in Frameworks */,
+				86590DEC2DAEEE4C00007F8F /* TwilioVerifySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +394,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2048754424A2A11A00D70FAA /* TwilioVerifySDK.framework in Frameworks */,
+				86590DFB2DAEF16B00007F8F /* TwilioVerifySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1122,8 +1122,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				F2AA3784246F30BF00B9388F /* PBXTargetDependency */,
-				F2A7BB01248FDC1D0005DF7C /* PBXTargetDependency */,
+				86590DEF2DAEEE4C00007F8F /* PBXTargetDependency */,
+				86590DFA2DAEF0C900007F8F /* PBXTargetDependency */,
 			);
 			name = TwilioVerifySDKTests;
 			productName = TwilioVerifyTests;
@@ -1137,12 +1137,12 @@
 				F2F62F99248846D800E330E4 /* Sources */,
 				F2F62F9A248846D800E330E4 /* Frameworks */,
 				F2F62F9B248846D800E330E4 /* Resources */,
-				2048754824A2A11A00D70FAA /* Embed Frameworks */,
+				86590DFD2DAEF16B00007F8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2048754724A2A11A00D70FAA /* PBXTargetDependency */,
+				86590DF82DAEF00000007F8F /* PBXTargetDependency */,
 			);
 			name = HostApp;
 			productName = HostApp;
@@ -1417,20 +1417,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2048754724A2A11A00D70FAA /* PBXTargetDependency */ = {
+		86590DEF2DAEEE4C00007F8F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2AA3777246F30BE00B9388F /* TwilioVerifySDK */;
-			targetProxy = 2048754624A2A11A00D70FAA /* PBXContainerItemProxy */;
+			targetProxy = 86590DEE2DAEEE4C00007F8F /* PBXContainerItemProxy */;
 		};
-		F2A7BB01248FDC1D0005DF7C /* PBXTargetDependency */ = {
+		86590DF82DAEF00000007F8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2AA3777246F30BE00B9388F /* TwilioVerifySDK */;
+			targetProxy = 86590DF72DAEF00000007F8F /* PBXContainerItemProxy */;
+		};
+		86590DFA2DAEF0C900007F8F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2F62F9C248846D800E330E4 /* HostApp */;
-			targetProxy = F2A7BB00248FDC1D0005DF7C /* PBXContainerItemProxy */;
-		};
-		F2AA3784246F30BF00B9388F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F2AA3777246F30BE00B9388F /* TwilioVerifySDK */;
-			targetProxy = F2AA3783246F30BF00B9388F /* PBXContainerItemProxy */;
+			targetProxy = 86590DF92DAEF0C900007F8F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1579,11 +1579,13 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9EVH78F4V4;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1642,9 +1644,11 @@
 		F2AA3790246F30BF00B9388F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9EVH78F4V4;
 				INFOPLIST_FILE = TwilioVerifySDKTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1654,18 +1658,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/HostApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HostApp";
 			};
 			name = Debug;
 		};
 		F2AA3791246F30BF00B9388F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TwilioVerifySDKTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1675,9 +1681,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.TwilioVerifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/HostApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HostApp";
 			};
 			name = Release;
 		};
@@ -1687,7 +1694,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9EVH78F4V4;
 				INFOPLIST_FILE = HostApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1697,6 +1705,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.twilio.verify.HostApp";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.twilio.verify.HostApp";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1708,7 +1717,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9EVH78F4V4;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9EVH78F4V4;
 				INFOPLIST_FILE = HostApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1718,6 +1728,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.verify.HostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.twilio.verify.HostApp";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.twilio.verify.HostApp";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

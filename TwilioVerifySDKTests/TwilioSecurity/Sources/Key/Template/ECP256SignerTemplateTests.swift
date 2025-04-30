@@ -54,13 +54,13 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(ECP256SignerTemplate.Constants.keySize,
                      signer.parameters[kSecAttrKeySizeInBits as String] as! Int,
                      "Key size should be \(ECP256SignerTemplate.Constants.keySize) but was \(signer.parameters[kSecAttrKeySizeInBits as String] as! Int)")
-      if TARGET_OS_SIMULATOR == 0 {
-        XCTAssertEqual(kSecAttrTokenIDSecureEnclave as String,
-                       signer.parameters[kSecAttrTokenID as String] as! String,
-                       "Token id should be \(kSecAttrTokenIDSecureEnclave as String) but was \(signer.parameters[kSecAttrTokenID as String] as! String)")
-      } else {
-        XCTAssertNil(signer.parameters[kSecAttrTokenID as String])
-      }
+      #if targetEnvironment(simulator)
+          XCTAssertNil(signer.parameters[kSecAttrTokenID as String])
+      #else
+          XCTAssertEqual(kSecAttrTokenIDSecureEnclave as String,
+                         signer.parameters[kSecAttrTokenID as String] as! String,
+                         "Token id should be \(kSecAttrTokenIDSecureEnclave as String) but was \(signer.parameters[kSecAttrTokenID as String] as! String)")
+      #endif
       XCTAssertEqual(Constants.alias,
                      privateKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(privateKeyAttrs[kSecAttrLabel as String] as! String)")

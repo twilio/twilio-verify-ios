@@ -131,9 +131,13 @@ class FactorAPIClientTests: XCTestCase {
     expectedParams.append(contentsOf: config.map { configPair in
       Parameter(name: "\(FactorAPIClient.Constants.configKey).\(configPair.key)", value: configPair.value)
     })
-    expectedParams.append(Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"os\":\"iOS\",\"device\":\"iPhone\"}"))
     var params = Parameters()
+    var paramsv2 = Parameters()
     params.addAll(expectedParams)
+    paramsv2.addAll(expectedParams)
+    // Handle random metadata order
+    params.addAll([Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"os\":\"iOS\",\"device\":\"iPhone\"}")])
+    paramsv2.addAll([Parameter(name: FactorAPIClient.Constants.metadataKey, value: "{\"device\":\"iPhone\",\"os\":\"iOS\"}")])
     let createFactorPayload = CreateFactorPayload(friendlyName: Constants.friendlyName, type: Constants.factorType,
                                                   allowIphoneMigration: false,
                                                   serviceSid: Constants.serviceSid, identity: Constants.identity,
@@ -154,8 +158,8 @@ class FactorAPIClientTests: XCTestCase {
                     "Authorization header should not be nil")
     XCTAssertNotNil(networkProvider.urlRequest?.allHTTPHeaderFields![HTTPHeader.Constant.userAgent],
                     "User agent header should not be nil")
-    XCTAssertEqual(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self), params.asString(),
-                   "Body should be \(params.asString()) but was \(networkProvider.urlRequest!.httpBody!)")
+    XCTAssert(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self) == params.asString() || String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self) == paramsv2.asString(),
+                   "Body should be \(params.asString()) or \(paramsv2.asString()) but was \(String(decoding: networkProvider.urlRequest!.httpBody!, as: UTF8.self))")
   }
   
   func testVerifyFactor_withSuccessResponse_shouldSucceed() {
