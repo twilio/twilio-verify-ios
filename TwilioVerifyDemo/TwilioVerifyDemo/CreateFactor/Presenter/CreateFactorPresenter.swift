@@ -23,7 +23,8 @@ protocol CreateFactorPresentable {
   func create(
     withIdentity identity: String?,
     accessTokenURL: String?,
-    pushNotificationEnabled: Bool
+    pushNotificationEnabled: Bool,
+    allowIphoneMigration: Bool
   )
     
   func accessTokenURL() -> String?
@@ -71,7 +72,8 @@ extension CreateFactorPresenter: CreateFactorPresentable {
   func create(
     withIdentity identity: String?,
     accessTokenURL: String?,
-    pushNotificationEnabled: Bool
+    pushNotificationEnabled: Bool,
+    allowIphoneMigration: Bool
   ) {
       
     guard let identity = identity, !identity.isEmpty else {
@@ -97,8 +99,8 @@ extension CreateFactorPresenter: CreateFactorPresentable {
         withFactorName: factorName,
         devicePushToken: devicePushToken,
         metadata: metadata,
+        allowIphoneMigration: allowIphoneMigration,
         success: { factor in
-            
         strongSelf.verify(factor, success: { _ in
           strongSelf.view?.stopLoader()
           strongSelf.view?.dismissView()
@@ -151,17 +153,20 @@ private extension CreateFactorPresenter {
     #endif
   }
   
-  func createFactor(_ accessToken: AccessTokenResponse,
-                    withFactorName factorName: String,
-                    devicePushToken: String?,
-                    metadata: [String: String]?,
-                    success: @escaping FactorSuccessBlock,
-                    failure: @escaping TwilioVerifyErrorBlock) {
-    
+  func createFactor(
+    _ accessToken: AccessTokenResponse,
+    withFactorName factorName: String,
+    devicePushToken: String?,
+    metadata: [String: String]?,
+    allowIphoneMigration: Bool,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     let payload = PushFactorPayload(
       friendlyName: factorName,
       serviceSid: accessToken.serviceSid,
       identity: accessToken.identity,
+      allowIphoneMigration: allowIphoneMigration,
       pushToken: devicePushToken,
       accessToken: accessToken.token,
       metadata: metadata
@@ -170,7 +175,11 @@ private extension CreateFactorPresenter {
     twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
   }
   
-  func verify(_ factor: Factor, success: @escaping FactorSuccessBlock, failure: @escaping TwilioVerifyErrorBlock) {
+  func verify(
+    _ factor: Factor,
+    success: @escaping FactorSuccessBlock,
+    failure: @escaping TwilioVerifyErrorBlock
+  ) {
     let payload = VerifyPushFactorPayload(sid: factor.sid)
     twilioVerify.verifyFactor(withPayload: payload, success: success, failure: failure)
   }

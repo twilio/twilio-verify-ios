@@ -214,17 +214,21 @@ class KeychainTests: XCTestCase {
   }
   
   func testGenerateKeyPair_withInvalidParameters_shouldThrow() {
-    let expectedErrorCode = -4
-    let expectedLocalizedDescription = "Invalid status code operation received: -4"
-
     XCTAssertThrowsError(
-      try keychain.generateKeyPair(withParameters: [:]),
+      try keychain.generateKeyPair(withParameters: [:], allowIphoneMigration: false),
       "Generate KeyPair Should throw"
     ) { error in
 
+      let expectedErrorCode = -4
+      let expectedLocalizedDescription = "Invalid status code operation received: -4"
+
       guard let thrownError = error as? KeychainError,
-              case .invalidStatusCode(let code) = thrownError else {
-        XCTFail("Unexpected error received")
+            case .invalidStatusCode(let code) = thrownError else {
+        guard let thrownError = error as? KeychainError,
+              case .unableToGeneratePrivateKey = thrownError else {
+          XCTFail("Unexpected error received: \(error.localizedDescription)")
+          return
+        }
         return
       }
 
@@ -233,13 +237,13 @@ class KeychainTests: XCTestCase {
         expectedErrorCode,
         "Error code should be \(expectedErrorCode), but was \(code)"
       )
-      
+
       XCTAssertEqual(
         thrownError.domain,
         NSOSStatusErrorDomain,
         "Error domain should be \(NSOSStatusErrorDomain), but was \(thrownError.domain)"
       )
-      
+
       XCTAssertEqual(
         thrownError.localizedDescription,
         expectedLocalizedDescription,
@@ -251,7 +255,7 @@ class KeychainTests: XCTestCase {
   func testGenerateKeyPair_withValidParameters_shouldReturnKeyPair() {
     var pair: KeyPair!
     XCTAssertNoThrow(
-      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters()),
+      pair = try keychain.generateKeyPair(withParameters: KeyPairFactory.keyPairParameters(), allowIphoneMigration: false),
       "Generate KeyPair should return a KeyPair"
     )
     XCTAssertNotNil(pair, "Pair should not be nil")

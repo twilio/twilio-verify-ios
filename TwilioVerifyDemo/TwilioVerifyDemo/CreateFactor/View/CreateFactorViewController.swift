@@ -27,6 +27,7 @@ protocol CreateFactorView: AnyObject {
 class CreateFactorViewController: UIViewController {
 
   @IBOutlet private weak var enablePushNotificationsSwitch: UISwitch!
+  @IBOutlet private weak var allowIphoneMigration: UISwitch!
   @IBOutlet private weak var identityTextField: UITextField!
   @IBOutlet private weak var accessTokenURLTextField: UITextField!
   @IBOutlet private weak var createButton: UIButton!
@@ -50,13 +51,15 @@ class CreateFactorViewController: UIViewController {
     let identity = identityTextField.text
     let url = accessTokenURLTextField.text
     let pushNotificationEnabled = enablePushNotificationsSwitch.isOn
+    let allowIphoneMigration = allowIphoneMigration.isOn
       
     loader.startAnimating()
       
     presenter?.create(
         withIdentity: identity,
         accessTokenURL: url,
-        pushNotificationEnabled: pushNotificationEnabled
+        pushNotificationEnabled: pushNotificationEnabled,
+        allowIphoneMigration: allowIphoneMigration
     )
   }
 }

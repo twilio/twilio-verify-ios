@@ -20,7 +20,11 @@
 import Foundation
 
 protocol JwtGeneratorProtocol {
-  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String
+  func generateJWT(
+    forHeader header: [String: String],
+    forPayload payload: [String: Any],
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> String
 }
 
 class JwtGenerator {
@@ -34,7 +38,11 @@ class JwtGenerator {
 
 extension JwtGenerator: JwtGeneratorProtocol {
   
-  func generateJWT(forHeader header: [String: String], forPayload payload: [String: Any], withSignerTemplate signerTemplate: SignerTemplate) throws -> String {
+  func generateJWT(
+    forHeader header: [String: String],
+    forPayload payload: [String: Any],
+    withSignerTemplate signerTemplate: SignerTemplate
+  ) throws -> String {
     var jwtHeader = header
     jwtHeader[Constants.typeKey] = Constants.jwtType
     if signerTemplate is ECP256SignerTemplate {

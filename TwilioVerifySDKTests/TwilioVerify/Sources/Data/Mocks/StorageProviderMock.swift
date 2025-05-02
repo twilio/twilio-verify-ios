@@ -37,7 +37,7 @@ extension StorageProviderMock: StorageProvider {
     1
   }
   
-  func save(_ data: Data, withKey key: String) throws {
+  func save(_ data: Data, withKey key: String, allowIphoneMigration: Bool) throws {
     if let error = errorSaving, key == expectedSid {
       throw error
     }

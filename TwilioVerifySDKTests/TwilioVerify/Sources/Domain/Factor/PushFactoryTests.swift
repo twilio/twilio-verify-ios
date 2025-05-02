@@ -25,7 +25,7 @@ class PushFactoryTests: XCTestCase {
   
   var repository: FactorRepositoryMock!
   var keyStorage: KeyStorageMock!
-  var factory: PushFactoryProtocol!
+  var factory: PushFactory!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
@@ -679,6 +679,7 @@ private extension PushFactoryTests {
       accountSid: "accountSid",
       serviceSid: Constants.serviceSid,
       identity: Constants.identity,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Constants.config
     )
