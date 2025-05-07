@@ -254,7 +254,7 @@ workflows:
     jobs:
       - Unit Tests and Lint:
           context:
-            - verify-push-ios
+            - verify-push
       - Integration Tests Single Device:
           context:
             - verify-push-ios
@@ -266,8 +266,6 @@ workflows:
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
-          context:
-            - verify-push-ios
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
@@ -278,6 +276,7 @@ workflows:
             - Build TwilioVerify
       - Distribute debug sample app:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Build TwilioVerify
@@ -290,6 +289,7 @@ workflows:
                - dev
       - Release SDK:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Size report
