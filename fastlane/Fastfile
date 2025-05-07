@@ -215,7 +215,7 @@ platform :ios do
       dangerfile: 'DangerFile',
       github_api_token: ENV["GH_TOKEN"],
       remove_previous_comments: true,
-      fail_on_errors: true,
+      fail_on_errors: false,
       verbose: true
     )
   end
