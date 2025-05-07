@@ -255,6 +255,7 @@ workflows:
       - Unit Tests and Lint:
           context:
             - verify-push
+            - verify-push-ios
       - Integration Tests Single Device:
           context:
             - verify-push-ios
