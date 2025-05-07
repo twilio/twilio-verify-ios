@@ -1,12 +1,11 @@
 output_directory = './fastlane/Test Output/'
 coverage_directory = '/coverage'
 complete_suite = 'CompleteSuite'
-single_ftl_device = [{ios_model_id: 'iphone8', ios_version_id: '16.3'}]
+single_ftl_device = [{ios_model_id: 'iphone8', ios_version_id: '16.6'}]
 all_ftl_devices = [
-  {ios_model_id: 'iphone12pro', ios_version_id: '14.8'},
-  {ios_model_id: 'iphone11pro', ios_version_id: '16.3'},
-  {ios_model_id: 'ipadmini4', ios_version_id: '15.4'},
-  {ios_model_id: 'iphone13pro', ios_version_id: '15.7'}
+  {ios_model_id: 'iphone11pro', ios_version_id: '16.6'},
+  {ios_model_id: 'ipad10', ios_version_id: '16.6'},
+  {ios_model_id: 'iphone8', ios_version_id: '15.7'}
 ]
 
 default_platform(:ios)
@@ -31,7 +30,7 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    danger_tests id:'UnitTests'
+    #danger_tests id:'UnitTests'
   end
 
   desc 'Runs integration tests'
@@ -42,9 +41,17 @@ platform :ios do
     if options[:ftl_devices] == 'all'
       ftl_devices = all_ftl_devices
     end
-    match(
-      type: "development",
-      app_identifier: ["com.twilio.verify.HostApp"]
+
+    settings_to_override = {
+      :BUNDLE_IDENTIFIER => "com.twilio.verify.HostApp",
+      :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE"],
+      :DEVELOPMENT_TEAM => ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
+    }
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      team_id: ENV["TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM"],
+      path: "TwilioVerifySDK.xcodeproj",
+      targets: ["HostApp"]
     )
     scan(
       scheme: 'TwilioVerifySDK',
@@ -62,7 +69,7 @@ platform :ios do
       timeout_sec: 300,
       devices: ftl_devices,
       skip_validation: true,
-      ios_xc_test_args: { xcodeVersion: '14.2' }
+      ios_xc_test_args: { xcodeVersion: '15.3' }
     )
   end
 
@@ -94,10 +101,7 @@ platform :ios do
 
   desc "Runs app sizer"
   lane :build_app_sizer do
-    match(
-      type: "development",
-      app_identifier: ["com.twilio.verify.AppSizer"]
-    )
+
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.verify.AppSizer",
       :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_APP_SIZER_PROVISIONING_PROFILE"],
@@ -180,6 +184,8 @@ platform :ios do
     last_version = lane_context[SharedValues::RELEASE_LAST_VERSION]
     sh("sed -i '' 's/#{last_version}/#{next_version}/g' ../README.md")
     git_add(path: ['./TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyConfig.swift', './TwilioVerifySDK/Info.plist', './CHANGELOG.md', './README.md', "./docs/#{next_version}", "./docs/latest", "./TwilioVerify.podspec"])
+    sh("git config user.name '#{ENV['GH_USER_NAME']}'")
+    sh("git config user.email '#{ENV['GH_USER_EMAIL']}'")
     sh("git commit -m \"Version bump to #{next_version} [skip ci]\"")
     push_to_git_remote
     
@@ -215,7 +221,7 @@ platform :ios do
   end
 
   lane :build_swift_package do
-    sh("swift build -Xswiftc \"-sdk\" -Xswiftc \"`xcrun --sdk iphonesimulator --show-sdk-path`\" -Xswiftc \"-target\" -Xswiftc \"x86_64-apple-ios14.0-simulator\"")
+    sh("xcodebuild -project ../TwilioVerifySDK.xcodeproj -scheme TwilioVerifySDK -destination 'generic/platform=iOS Simulator' build")
   end
 
   desc "Distribute debug sample app for internal testing"
@@ -242,11 +248,6 @@ platform :ios do
       version_number: options[:versionName]
     )
 
-    match(
-      app_identifier: "com.twilio.TwilioVerifyDemo",
-      type: "adhoc",
-      readonly: true
-    )
     settings_to_override = {
       :BUNDLE_IDENTIFIER => "com.twilio.TwilioVerifyDemo",
       :PROVISIONING_PROFILE_SPECIFIER => ENV["TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE"],
@@ -256,7 +257,7 @@ platform :ios do
     gym(
       scheme: "TwilioVerifyDemo",
       workspace: "TwilioVerify.xcworkspace",
-      export_method: "ad-hoc",
+      export_method: "development",
       xcargs: settings_to_override,
       silent: true,
       export_options: {

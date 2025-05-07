@@ -46,9 +46,9 @@ None
 <a name='Requirements'></a>
 
 ## Requirements
-* iOS 11+
+* iOS 12+
 * Swift 5.2
-* Xcode 14.x
+* Xcode 16.3+
 
 <a name='Documentation'></a>
 
@@ -64,7 +64,7 @@ None
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'TwilioVerify', '~> 2.2.2'
+pod 'TwilioVerify', '~> 3.0.0'
 ```
 
 ### Carthage
@@ -72,10 +72,10 @@ pod 'TwilioVerify', '~> 2.2.2'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "twilio/twilio-verify-ios" -> 2.2.2
+github "twilio/twilio-verify-ios" -> 3.0.0
 ```
 
-Since version `2.2.2` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
+Since version `3.0.0` of `TwilioVerifySDK` the prebuilt asset fat version `.framework` is been deprecated, to give space for the universal framework `.xcframework`. Make sure to use the new version of Carthage [0.38.0](https://github.com/Carthage/Carthage/releases/tag/0.38.0) that was release in order to support the `xcframework` assets, by using this version or a superior one, Carthage will download and unzip the `TwilioVerifySDK.framework.zip` attached in the release version, resulting in a `TwilioVerifySDK.xcframework` that can be found in the build folder of Carthage.
 
 ### Swift Package Manager
 
@@ -85,7 +85,7 @@ Once you have your Swift package set up, adding TwilioVerify as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "2.2.2"))
+    .package(url: "https://github.com/twilio/twilio-verify-ios.git", .upToNextMajor(from: "3.0.0"))
 ]
 ```
 
@@ -103,7 +103,7 @@ If you want to receive challenges as push notifications, you should register You
 The SDK should be used from a Swift class.
 See an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift)
 
-Since version `2.2.2`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
+Since version `3.0.0`, the target was changed from `TwilioVerify` to `TwilioVerifySDK`. Migrating from older versions will imply to update all the imports in your files, see an example in the [TwilioVerifyAdapter class](https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19)
 
 ---
 
@@ -346,6 +346,57 @@ To stop sharing existing factors created with **App Groups**, uncheck the **App 
 
 > This will restrict access to the factors and will not affect the main application in which the data was initially created.
 
+## Privacy Manifest
+
+This document serves as the Privacy Manifest for the Twilio Verify SDK. It outlines the privacy practices implemented in this SDK, providing a comprehensive understanding of how we handle data and respect user privacy.
+
+### Purpose
+
+The primary purpose of this Privacy Manifest is to facilitate developers and organizations in providing Apple with detailed information about the privacy practices employed within this SDK.
+
+### Usage
+
+To use this Privacy Manifest, simply refer to the relevant sections when you need to provide information to Apple or any other interested parties about the privacy practices used in this SDK.
+
+### [Privacy Manifest](TwilioVerifySDK/PrivacyInfo.xcprivacy)
+
+---
+
+## Allow Factors migration
+
+By default, all factors are securely stored within the device's [Secure Enclave](https://support.apple.com/guide/security/secure-enclave-sec59b0b31ff/web), which provides a high level of protection against unauthorized access and ensures sensitive data remains encrypted. This default setting restricts the migration of these factors from one iPhone to another, enhancing the overall security of the authentication process.
+
+However, in certain cases, users may want to allow data migration from one iPhone to another or perform backup restoration while retaining their Verify Factors. For this purpose, you can use the **allowIphoneMigration** property within the **PushFactorPayload**.
+
+### Usage of allowIphoneMigration Property:
+
+When using the push-based factor for verifying a user, you can include the **allowIphoneMigration** property in the **PushFactorPayload**. By setting this property to `true`, you enable users to migrate their factors to another iPhone or restore them during backup processes. It's essential to carefully consider the security implications before enabling this option, as it may expose the factors to potential risks during data migration or backup restoration.
+
+### Important Security Considerations:
+
+Remember to use this option judiciously, as limiting factors to a single device enhances security. Advise users to perform migrations and backups on trusted devices and networks and use additional security measures like passcodes, Touch ID, or Face ID.
+
+---
+
+To enable [Data migration from iPhone to iPhone](https://support.apple.com/en-us/HT210216) or [Backup restoration](https://support.apple.com/en-us/HT204184) for factors, utilize the **allowIphoneMigration** property in the **PushFactorPayload**, IE:
+
+```swift
+let payload = PushFactorPayload(
+  friendlyName: friendlyName,
+  serviceSid: serviceSid,
+  identity: identity,
+  allowIphoneMigration: true,
+  pushToken: pushToken,
+  accessToken: accessToken,
+  metadata: metadata
+)
+
+twilioVerify.createFactor(withPayload: payload, success: success, failure: failure)
+```
+
+**Note:** Factors created before implementing this change will not be eligible for migration. Only new factors with the **allowIphoneMigration** property set to `true` will have the capability to migrate from one iPhone to another.
+
+> For more information about the accessibility attribute, please refer to the [Restricting Keychain Item Accessibility](https://developer.apple.com/documentation/security/keychain_services/keychain_items/restricting_keychain_item_accessibility) documentation
 ---
 <a name='Contributing'></a>
 

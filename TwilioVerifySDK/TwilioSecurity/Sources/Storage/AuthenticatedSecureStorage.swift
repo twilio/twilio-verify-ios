@@ -203,7 +203,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     }
 
     let policyKey = String(format: Constants.biometricsPolicyState, key)
-    let query = keychainQuery.save(data: evaluatePolicyState, withKey: policyKey, withServiceName: service)
+    let query = keychainQuery.save(data: evaluatePolicyState, withKey: policyKey, withServiceName: service, allowIphoneMigration: false)
     let status = self.keychain.addItem(withQuery: query)
 
     if status != errSecSuccess {
@@ -216,7 +216,7 @@ extension AuthenticatedSecureStorage: AuthenticatedSecureStorageProvider {
     static let accessControlProtection = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
     @available(iOS 11.3, *)
     static let accessControlFlagsBiometrics: SecAccessControlCreateFlags = .biometryCurrentSet
-    static let accessControlFlags: SecAccessControlCreateFlags = .touchIDCurrentSet
+    static let accessControlFlags: SecAccessControlCreateFlags = SecAccessControlCreateFlags.biometryCurrentSet
     static let biometricsPolicyState: String = "%@.biometricsPolicyState"
     static let biomettricAttempts: Int = 0
   }

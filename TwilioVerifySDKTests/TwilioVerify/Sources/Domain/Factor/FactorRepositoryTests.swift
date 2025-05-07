@@ -41,6 +41,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -81,6 +82,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -104,6 +106,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -129,6 +132,7 @@ class FactorRepositoryTests: XCTestCase {
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
       type: Constants.pushType,
+      allowIphoneMigration: factor.allowIphoneMigration,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -157,7 +161,7 @@ class FactorRepositoryTests: XCTestCase {
     let factor = Constants.generateFactor()
     let factorPayload = CreateFactorPayload(
       friendlyName: Constants.friendlyNameValue,
-      type: Constants.pushType,
+      type: Constants.pushType, allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:], binding: [:],
@@ -203,6 +207,7 @@ class FactorRepositoryTests: XCTestCase {
       accountSid: Constants.expectedAccountSid,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
+      allowIphoneMigration: false,
       createdAt: Date(),
       config: Config(credentialSid: Constants.expectedCredentialSid))
     let expectedFactorData = try! JSONEncoder().encode(expectedFactor)
@@ -551,7 +556,7 @@ private extension FactorRepositoryTests {
     static let expectedCredentialSid = "credentialSid123"
     static let updateFactorPayload = UpdateFactorDataPayload(
       friendlyName: Constants.friendlyNameValue,
-      type: Constants.pushType,
+      type: Constants.pushType, allowIphoneMigration: false,
       serviceSid: Constants.serviceSidValue,
       identity: Constants.identityValue,
       config: [:],
@@ -563,8 +568,10 @@ private extension FactorRepositoryTests {
         accountSid: Constants.expectedAccountSid,
         serviceSid: Constants.serviceSidValue,
         identity: Constants.identityValue,
+        allowIphoneMigration: false,
         createdAt: Date(),
-        config: Config(credentialSid: Constants.expectedCredentialSid))
+        config: Config(credentialSid: Constants.expectedCredentialSid)
+      )
     }
   }
 }

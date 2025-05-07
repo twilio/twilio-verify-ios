@@ -33,12 +33,12 @@ class ECP256SignerTemplateTests: XCTestCase {
   
   func testCreateSigner_shouldMatchExpectedParameters() {
       XCTAssertNoThrow(
-        signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+        signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
       )
 
       let privateKeyAttrs = signer.parameters[kSecPrivateKeyAttrs as String] as! [String: Any]
       let publicKeyAttrs = signer.parameters[kSecPublicKeyAttrs as String] as! [String: Any]
-    
+
       XCTAssertEqual(Constants.alias,
                      signer.alias,
                      "Signer alias should be \(Constants.alias) but was \(signer.alias)")
@@ -54,13 +54,13 @@ class ECP256SignerTemplateTests: XCTestCase {
       XCTAssertEqual(ECP256SignerTemplate.Constants.keySize,
                      signer.parameters[kSecAttrKeySizeInBits as String] as! Int,
                      "Key size should be \(ECP256SignerTemplate.Constants.keySize) but was \(signer.parameters[kSecAttrKeySizeInBits as String] as! Int)")
-      if TARGET_OS_SIMULATOR == 0 {
-        XCTAssertEqual(kSecAttrTokenIDSecureEnclave as String,
-                       signer.parameters[kSecAttrTokenID as String] as! String,
-                       "Token id should be \(kSecAttrTokenIDSecureEnclave as String) but was \(signer.parameters[kSecAttrTokenID as String] as! String)")
-      } else {
-        XCTAssertNil(signer.parameters[kSecAttrTokenID as String])
-      }
+      #if targetEnvironment(simulator)
+          XCTAssertNil(signer.parameters[kSecAttrTokenID as String])
+      #else
+          XCTAssertEqual(kSecAttrTokenIDSecureEnclave as String,
+                         signer.parameters[kSecAttrTokenID as String] as! String,
+                         "Token id should be \(kSecAttrTokenIDSecureEnclave as String) but was \(signer.parameters[kSecAttrTokenID as String] as! String)")
+      #endif
       XCTAssertEqual(Constants.alias,
                      privateKeyAttrs[kSecAttrLabel as String] as! String,
                      "Signer alias should be \(Constants.alias) but was \(privateKeyAttrs[kSecAttrLabel as String] as! String)")
@@ -76,12 +76,12 @@ class ECP256SignerTemplateTests: XCTestCase {
     let keyChain = Keychain(accessGroup: nil)
 
     XCTAssertNoThrow(
-      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
     )
 
     // When
 
-    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters, allowIphoneMigration: false) as? Query else {
       XCTFail("Unavailable to cast parameters to Query")
       return
     }
@@ -101,12 +101,12 @@ class ECP256SignerTemplateTests: XCTestCase {
     let keyChain = Keychain(accessGroup: expectedAccessGroup)
 
     XCTAssertNoThrow(
-      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist)
+      signer = try ECP256SignerTemplate(withAlias: Constants.alias, shouldExist: shouldExist, allowIphoneMigration: false)
     )
 
     // When
 
-    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters) as? Query else {
+    guard let keyPairParameters = keyChain.addAccessGroupToKeyPairs(parameters: signer.parameters, allowIphoneMigration: false) as? Query else {
       XCTFail("Unavailable to cast parameters to Query")
       return
     }

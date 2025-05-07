@@ -1,3 +1,28 @@
+# 3.0.0 (2025-04-30)
+
+### Features
+- Allow factors migration by providing the flag allowIphoneMigration, for enabling users to migrate their factors to another iPhone or restore them during backup processes. (#218) ([1dda013](https://github.com/twilio/twilio-verify-ios/commit/1dda0132c3047603bd85765ae5adbb5f28bbd552))
+- Support new Xcode and iOS versions (#226) ([9abf25e](https://github.com/twilio/twilio-verify-ios/commit/9abf25e5157160bd52245e71280dbd1ae15ab3e2))
+
+### Building system
+- Update CI config (#211) ([2e19a0c](https://github.com/twilio/twilio-verify-ios/commit/2e19a0c2642195c673a9a3333e6d5f631a19e9b1))
+- Xcode 14 support ([ae1a210](https://github.com/twilio/twilio-verify-ios/commit/ae1a210ea45f3696272af37ef15197f4eb2e7d68))
+- Fix vulnerabilities (#220) ([7bd8715](https://github.com/twilio/twilio-verify-ios/commit/7bd8715d886b5302b307bc92ec4b21b567e2e7d1))
+- Xcode 15 support (#221) ([9ef308c](https://github.com/twilio/twilio-verify-ios/commit/9ef308c80687ca7c090b335231edc1db614914e4))
+- Add Privacy Manifest (#223) ([0f0c2f8](https://github.com/twilio/twilio-verify-ios/commit/0f0c2f8b5980e9f91afd3a957104823c9c3c4689))
+- Fix release process ([9b9ea30](https://github.com/twilio/twilio-verify-ios/commit/9b9ea306f1f8d81a9d6336598d0d6ac3af075398))
+- Fix Github author for CI ([86d43dc](https://github.com/twilio/twilio-verify-ios/commit/86d43dcf61d392147f1316ec9e76291846e4382a))
+- fix release process. ([643c340](https://github.com/twilio/twilio-verify-ios/commit/643c340feb5ff5f66e94298ac08896cff2ff8529))
+
+### BREAKING CHANGES
+- Dropped support for iOS 10 ([ae1a210](https://github.com/twilio/twilio-verify-ios/commit/ae1a210ea45f3696272af37ef15197f4eb2e7d68))
+- Dropped support for iOS 11 ([9ef308c](https://github.com/twilio/twilio-verify-ios/commit/9ef308c80687ca7c090b335231edc1db614914e4))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.2 MB    | 0.5 MB
+
+
 # 2.2.2 (2022-07-13)
 
 ### Bug fixes

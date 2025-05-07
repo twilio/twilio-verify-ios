@@ -3,8 +3,8 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "14.2.0"
-    resource_class: macos.x86.medium.gen2
+      xcode: "15.3.0"
+    resource_class: macos.m1.medium.gen1
 
 commands:
   setup:
@@ -60,12 +60,14 @@ commands:
     steps:
       - checkout
       - setup
+      - setup-certificates
       - run:
           name: Unit Tests
           command: bundle exec fastlane unit_tests test_plan:<< parameters.test_plan >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
+      - cleanup-signing
   
   integration_tests:
     parameters:
@@ -133,17 +135,35 @@ commands:
           root: ~/Desktop
           paths:
             - SizeImpact.md
+
+  setup-certificates:
+    steps:
+      - run:
+          name: Install Apple Certificate and Provisioning Profile
+          command: |
+            chmod +x ./scripts/certificate_setup.sh
+            ./scripts/certificate_setup.sh setup "$CIRCLE_JOB"
+
+  cleanup-signing:
+    steps:
+      - run:
+          name: Clean Up Keychain and Provisioning Profile
+          command: |
+            chmod +x ./scripts/certificate_setup.sh
+            ./scripts/certificate_setup.sh cleanup "$CIRCLE_JOB"
   
   release:
     steps:
       - checkout
       - setup
+      - setup-certificates
       - attach_workspace:
           at: ~/Desktop
       - configure_gcloud_app_distribution_service
       - run:
           name: "Release SDK"
           command: bundle exec fastlane release
+      - cleanup-signing
 
   distribute_debug_sample_app:
     parameters:
@@ -163,6 +183,7 @@ jobs:
     steps:
       - checkout
       - setup
+      - setup-certificates
       - configure_gcloud_app_distribution_service
       - distribute_debug_sample_app:
           env: "DEV"
@@ -173,6 +194,7 @@ jobs:
       - distribute_debug_sample_app:
           env: "PROD"
           base_url: $PROD_URL
+      - cleanup-signing
 
   Unit Tests and Lint:
     executor: macos_executor
@@ -183,15 +205,23 @@ jobs:
   Integration Tests Single Device:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
+      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
+      - cleanup-signing
 
   Integration Tests All Devices:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
+      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
           ftl_devices: all
+      - cleanup-signing
 
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
@@ -209,7 +239,11 @@ jobs:
   Size report:
     executor: macos_executor
     steps:
+      - checkout
+      - setup
+      - setup-certificates
       - build_app_sizer
+      - cleanup-signing
   Release SDK:
     executor: macos_executor
     steps:
@@ -218,31 +252,45 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - Unit Tests and Lint
+      - Unit Tests and Lint:
+          context:
+            - verify-push-ios
       - Integration Tests Single Device:
+          context:
+            - verify-push-ios
           requires:
             - Unit Tests and Lint
       - Integration Tests All Devices:
+          context:
+            - verify-push-ios
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
+          context:
+            - verify-push-ios
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
       - Size report:
+          context:
+            - verify-push-ios
           requires:
             - Build TwilioVerify
       - Distribute debug sample app:
+          context:
+            - verify-push-ios
           requires:
-           - Build TwilioVerify
+            - Build TwilioVerify
           filters:
            branches:
              only:
                - /feature.*/
                - /release.*/
                - /hotfix.*/
-               - dev              
+               - dev
       - Release SDK:
+          context:
+            - verify-push-ios
           requires:
             - Size report
           filters:
