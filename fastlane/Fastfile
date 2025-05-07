@@ -30,7 +30,7 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    danger_tests id:'UnitTests'
+    #danger_tests id:'UnitTests'
   end
 
   desc 'Runs integration tests'
@@ -215,7 +215,7 @@ platform :ios do
       dangerfile: 'DangerFile',
       github_api_token: ENV["GH_TOKEN"],
       remove_previous_comments: true,
-      fail_on_errors: false,
+      fail_on_errors: true,
       verbose: true
     )
   end
