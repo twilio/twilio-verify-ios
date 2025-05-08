@@ -258,11 +258,13 @@ workflows:
             - verify-push-ios
       - Integration Tests Single Device:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Unit Tests and Lint
       - Integration Tests All Devices:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Integration Tests Single Device
