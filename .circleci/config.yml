@@ -45,7 +45,7 @@ commands:
     steps:
       - run:
           name: Configure Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
 
   configure_gcloud_app_distribution_service:
     steps:
