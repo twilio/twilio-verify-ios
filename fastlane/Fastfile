@@ -63,8 +63,10 @@ platform :ios do
       sdk: 'iphoneos',
       should_zip_build_products: true
     )
+    app_test_key = "gcloud-service-key.json"
+    key_file = "#{ENV["HOME"]}/#{app_test_key}"
     firebase_test_lab_ios_xctest(
-      oauth_key_file_path: 'gcloud-service-key.json',
+      oauth_key_file_path: key_file,
       gcp_project: 'twilioverify-sampleapp',
       timeout_sec: 300,
       devices: ftl_devices,
