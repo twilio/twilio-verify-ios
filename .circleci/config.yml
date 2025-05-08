@@ -283,13 +283,13 @@ workflows:
             - verify-push-ios
           requires:
             - Build TwilioVerify
-          filters:
-           branches:
-             only:
-               - /feature.*/
-               - /release.*/
-               - /hotfix.*/
-               - dev
+          # filters:
+          #  branches:
+          #    only:
+          #      - /feature.*/
+          #      - /release.*/
+          #      - /hotfix.*/
+          #      - dev
       - Release SDK:
           context:
             - verify-push
