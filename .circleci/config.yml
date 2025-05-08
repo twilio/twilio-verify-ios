@@ -45,13 +45,13 @@ commands:
     steps:
       - run:
           name: Configure Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > gcloud-service-key.json
 
   configure_gcloud_app_distribution_service:
     steps:
       - run:
           name: Configure GCloud App Distribution service
-          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-app-distribution-service-key.json
 
   unit_tests:
     parameters:
