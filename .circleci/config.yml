@@ -45,13 +45,13 @@ commands:
     steps:
       - run:
           name: Configure Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
 
   configure_gcloud_app_distribution_service:
     steps:
       - run:
           name: Configure GCloud App Distribution service
-          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-app-distribution-service-key.json
 
   unit_tests:
     parameters:
@@ -254,20 +254,21 @@ workflows:
     jobs:
       - Unit Tests and Lint:
           context:
+            - verify-push
             - verify-push-ios
       - Integration Tests Single Device:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Unit Tests and Lint
       - Integration Tests All Devices:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
-          context:
-            - verify-push-ios
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
@@ -278,6 +279,7 @@ workflows:
             - Build TwilioVerify
       - Distribute debug sample app:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Build TwilioVerify
@@ -290,9 +292,11 @@ workflows:
                - dev
       - Release SDK:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Size report
+            - Integration Tests All Devices
           filters:
             branches:
               only:
