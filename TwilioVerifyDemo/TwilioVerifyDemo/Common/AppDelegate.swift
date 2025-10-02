@@ -86,7 +86,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       return
     }
     
-    showChallenge(payload: payload)
+    handleChallengeApproval(with: payload)
   }
 }
 

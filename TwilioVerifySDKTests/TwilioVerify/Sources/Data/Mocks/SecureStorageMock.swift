@@ -55,6 +55,7 @@ extension SecureStorageMock: SecureStorageProvider {
     if let error = error {
       throw error
     }
+
     return Array(objectsData.values)
   }
   

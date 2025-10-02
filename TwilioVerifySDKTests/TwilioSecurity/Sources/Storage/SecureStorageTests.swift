@@ -37,7 +37,7 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testSave_withValidValuesErrorAddingItem_shouldThrow() {
-    let data = "data".data(using: .utf8)!
+    let data = Data("data".utf8)
     let key = "key"
     let expectedErrorCode = errSecDuplicateItem
     let expectedLocalizedDescription = "Invalid status code operation received: -25299"
@@ -75,7 +75,7 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testSave_withValidValues_shouldSaveValue() {
-    let data = "data".data(using: .utf8)!
+    let data = Data("data".utf8)
     let key = "key"
     keychain.addItemStatus = [errSecSuccess]
     keychain.deleteItemStatus = errSecSuccess
@@ -83,7 +83,7 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testGet_valueExistsForKey_shouldReturnValue() {
-    let expectedData = "data".data(using: .utf8)!
+    let expectedData = Data("data".utf8)
     let key = "key"
     var data: Data!
     keychain.keys = [expectedData as AnyObject]
@@ -104,22 +104,24 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testGetAllData_withExistingValues_shouldReturnValues() {
-    let expectedData1 = "data".data(using: .utf8)!
+    let expectedData1 = Data("data".utf8)
     let valueData1 = [kSecValueData as String: expectedData1]
-    let expectedData2 = "data2".data(using: .utf8)!
+    let expectedData2 = Data("data2".utf8)
     let valueData2 = [kSecValueData as String: expectedData2]
     var data: [Data?]!
-    keychain.keys = [[valueData1, valueData2] as AnyObject]
+    keychain.multiQueryResults = [[valueData1 as AnyObject, valueData2 as AnyObject] ]
     XCTAssertNoThrow(data = try storage.getAll(withServiceName: nil), "Get all should not throw")
     XCTAssertEqual(data.first, expectedData1, "Data should be \(expectedData1) but was \(data!.first!!)")
     XCTAssertEqual(data.last, expectedData2, "Data should be \(expectedData2) but was \(data!.last!!)")
+    XCTAssertTrue(keychain.callOrder.contains(.copyItemsMatching), "copyItemsMatching should be called")
   }
-  
+
   func testGetAllData_withoutDataSaved_shouldReturnEmptyArray() {
     var data: [Data?]!
-    keychain.keys = ["data".data(using: .utf8)! as AnyObject]
+    keychain.multiQueryResults = [[Data("data".utf8) as AnyObject]]
     XCTAssertNoThrow(data = try storage.getAll(withServiceName: nil), "Get all should not throw")
     XCTAssertTrue(data.isEmpty)
+    XCTAssertTrue(keychain.callOrder.contains(.copyItemsMatching), "copyItemsMatching should be called")
   }
   
   func testRemoveValue_valueExistsForKey_shouldReturnValue() {
@@ -135,25 +137,27 @@ class SecureStorageTests: XCTestCase {
   }
   
   func testClear_itemsExist_shouldClearKeychain() {
-    let expectedData2 = "data2".data(using: .utf8)!
+    let expectedData2 = Data("data2".utf8)
     let valueData2 = [kSecValueData as String: expectedData2]
-    keychain.keys = [[valueData2] as AnyObject]
+    keychain.multiQueryResults = [[valueData2 as AnyObject]]
     keychain.deleteItemStatus = errSecSuccess
     XCTAssertNoThrow(try storage.clear(withServiceName: "service"), "Clear should not throw")
     XCTAssertTrue(keychain.callOrder.contains(.deleteItem), "Delete should be called")
+    XCTAssertTrue(keychain.callOrder.contains(.copyItemsMatching), "copyItemsMatching should be called")
   }
   
   func testClear_noItems_shouldNotClearKeychain() {
     keychain.error = NSError(domain: "No items", code: Int(errSecItemNotFound), userInfo: nil)
     XCTAssertNoThrow(try storage.clear(withServiceName: "service"), "Clear should not throw")
     XCTAssertFalse(keychain.callOrder.contains(.deleteItem), "Delete should not be called")
+    XCTAssertTrue(keychain.callOrder.contains(.copyItemsMatching), "copyItemsMatching should be called")
   }
   
   func testClear_itemsExistAndDeleteStatusError_shouldThrowError() {
     let expectedLocalizedDescription = "Invalid status code operation received: -25300"
-    let expectedData2 = "data2".data(using: .utf8)!
+    let expectedData2 = Data("data2".utf8)
     let valueData2 = [kSecValueData as String: expectedData2]
-    keychain.keys = [[valueData2] as AnyObject]
+    keychain.multiQueryResults = [[valueData2 as AnyObject]]
     keychain.deleteItemStatus = errSecItemNotFound
 
     XCTAssertThrowsError(
@@ -189,10 +193,7 @@ class SecureStorageTests: XCTestCase {
   func testGet_valueExistsForMultipleTries_shouldReturnValueIfAnyOfTheTriesSucceed() throws {
     // Given
     let expectation = expectation(description: "Test multiple tries of storage.Get")
-    guard let expectedData = "data".data(using: .utf8) else {
-      XCTFail("failed to encrypt data")
-      return
-    }
+    let expectedData = Data("data".utf8)
 
     let key = "key"
     var data: Data?
@@ -214,12 +215,54 @@ class SecureStorageTests: XCTestCase {
     XCTAssertEqual(data, expectedData, "Data should be \(expectedData) but was \(data)")
   }
 
+  func testGetAllData_withMultipleAccessibilityTypes_shouldReturnAllValues() throws {
+    // Given
+    let expectedData1 = Data("data1".utf8)
+    let valueData1 = [kSecValueData as String: expectedData1]
+    let expectedData2 = Data("data2".utf8)
+    let valueData2 = [kSecValueData as String: expectedData2]
+    let expectedData3 = Data("data3".utf8)
+    let valueData3 = [kSecValueData as String: expectedData3]
+
+    keychain.multiQueryResults = [
+      [valueData1 as AnyObject, valueData2 as AnyObject],
+      [valueData3 as AnyObject]
+    ]
+
+    // When
+    var data: [Data?]!
+    XCTAssertNoThrow(data = try storage.getAll(withServiceName: "testService"), "Get all should not throw")
+
+    // Then
+    XCTAssertEqual(data.count, 3, "Should return 3 items from both queries")
+    XCTAssertTrue(data.contains(expectedData1), "Results should contain data1")
+    XCTAssertTrue(data.contains(expectedData2), "Results should contain data2")
+    XCTAssertTrue(data.contains(expectedData3), "Results should contain data3")
+    XCTAssertTrue(keychain.callOrder.contains(.copyItemsMatching), "copyItemsMatching should be called")
+    XCTAssertEqual(keychain.callsToCopyItemsMatching, 1, "copyItemsMatching should be called once")
+  }
+
+  func testGetAllData_errorFromKeychain_shouldThrow() {
+    // Given
+    keychain.error = TestError.operationFailed
+
+    // When/Then
+    XCTAssertThrowsError(
+      try storage.getAll(withServiceName: nil),
+      "Get all should throw when keychain fails"
+    ) { error in
+      XCTAssertEqual(
+        error as! TestError,
+        TestError.operationFailed,
+        "Error should be \(TestError.operationFailed), but was \(error)"
+      )
+    }
+    XCTAssertEqual(keychain.callsToCopyItemsMatching, 1, "copyItemsMatching should be called once")
+  }
+
   func testGet_valueExistsForMultipleTries_shouldThrowIfTheErrorPersist() throws {
     // Given
-    guard let expectedData = "data".data(using: .utf8) else {
-      XCTFail("failed to encrypt data")
-      return
-    }
+    let expectedData = Data("data".utf8)
 
     let key = "key"
     var data: Data?
