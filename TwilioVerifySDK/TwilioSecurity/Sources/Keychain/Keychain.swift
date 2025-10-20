@@ -26,6 +26,7 @@ protocol KeychainProtocol {
   func representation(forKey key: SecKey) throws -> Data
   func generateKeyPair(withParameters parameters: [String: Any], allowIphoneMigration: Bool) throws -> KeyPair
   func copyItemMatching(query: Query) throws -> AnyObject
+  func copyItemsMatching(queries: [Query]) throws -> [AnyObject]
   func addItem(withQuery query: Query) -> OSStatus
   func updateItem(withQuery query: Query, attributes: CFDictionary) -> OSStatus
   @discardableResult func deleteItem(withQuery query: Query) -> OSStatus
@@ -170,7 +171,35 @@ class Keychain: KeychainProtocol {
 
     return result
   }
-  
+
+  func copyItemsMatching(queries: [Query]) throws -> [AnyObject] {
+    var allResults: [AnyObject] = []
+
+    for query in queries {
+      var result: AnyObject?
+
+      let status: OSStatus = retry {
+        SecItemCopyMatching(query as CFDictionary, &result)
+      } validation: { status in
+        status == errSecSuccess
+      }
+
+      if status == errSecSuccess, let result = result {
+        if let resultArray = result as? [AnyObject] {
+          allResults.append(contentsOf: resultArray)
+        } else {
+          allResults.append(result)
+        }
+      } else if status != errSecItemNotFound {
+        let error: KeychainError = .invalidStatusCode(code: Int(status))
+        Logger.shared.log(withLevel: .error, message: error.localizedDescription)
+        throw error
+      }
+    }
+
+    return allResults
+  }
+
   func addItem(withQuery query: Query) -> OSStatus {
     deleteItem(withQuery: query)
     Logger.shared.log(withLevel: .debug, message: "Added item for \(query)")
