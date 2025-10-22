@@ -41,7 +41,7 @@ protocol KeychainQueryProtocol {
   func deleteKey(withAlias alias: String) -> Query
   func save(data: Data, withKey key: String, withServiceName service: String?, allowIphoneMigration: Bool) -> Query
   func getData(withKey key: String) -> Query
-  func getAll(withServiceName service: String?) -> Query
+  func getAll(withServiceName service: String?) -> [Query]
   func delete(withKey key: String) -> Query
   func deleteItems(withServiceName service: String?) -> Query
 }
@@ -107,15 +107,31 @@ struct KeychainQuery: KeychainQueryProtocol {
     ])
   }
 
-  func getAll(withServiceName service: String?) -> Query {
-    var query = [kSecClass: kSecClassGenericPassword,
-     kSecReturnAttributes: true,
-     kSecReturnData: true,
-     kSecMatchLimit: kSecMatchLimitAll] as Query
-    if let service = service {
-      query[kSecAttrService] = service
+  func getAll(withServiceName service: String?) -> [Query] {
+    let accessibilityOptions = [
+      kSecAttrAccessibleAfterFirstUnlock,
+      kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    ]
+
+    var queries: [Query] = []
+
+    for accessibility in accessibilityOptions {
+      var query = [
+        kSecClass: kSecClassGenericPassword,
+        kSecReturnAttributes: true,
+        kSecReturnData: true,
+        kSecMatchLimit: kSecMatchLimitAll,
+        kSecAttrAccessible: accessibility
+      ] as Query
+
+      if let service = service {
+        query[kSecAttrService] = service
+      }
+
+      queries.append(properties(query))
     }
-    return properties(query)
+
+    return queries
   }
 
   func delete(withKey key: String) -> Query {

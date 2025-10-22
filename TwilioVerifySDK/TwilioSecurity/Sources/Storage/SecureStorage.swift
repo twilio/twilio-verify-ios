@@ -92,15 +92,15 @@ extension SecureStorage: SecureStorageProvider {
   
   public func getAll(withServiceName service: String?) throws -> [Data] {
     Logger.shared.log(withLevel: .info, message: "Getting all values")
-    let query = keychainQuery.getAll(withServiceName: service)
+    let queries = keychainQuery.getAll(withServiceName: service)
     do {
-      let result = try keychain.copyItemMatching(query: query)
-      guard let resultArray = result as? [Any] else {
-        return []
+      let results = try keychain.copyItemsMatching(queries: queries)
+
+      let objectsData = results.compactMap { result -> Data? in
+        guard let dict = result as? [String: Any] else { return nil }
+        return dict[kSecValueData as String] as? Data
       }
-      let objectsData = resultArray.map {
-        (($0 as? [String: Any])?[kSecValueData as String]) as? Data
-      }.compactMap { $0 }
+
       Logger.shared.log(withLevel: .info, message: "Return all values")
       return objectsData
     } catch {

@@ -98,16 +98,18 @@ class KeychainQueryTests: XCTestCase {
   }
   
   func testGetAllData_shouldReturnValidQuery() {
-    let query = keychainQuery.getAll(withServiceName: nil)
-    let keyClass = query[kSecClass] as! CFString
-    let returnAttributes = query[kSecReturnAttributes] as! CFBoolean
-    let returnData = query[kSecReturnData] as! CFBoolean
-    let matchLimit = query[kSecMatchLimit] as! CFString
-    
-    XCTAssertEqual(keyClass, kSecClassGenericPassword)
-    XCTAssertTrue(returnAttributes as! Bool)
-    XCTAssertTrue(returnData as! Bool)
-    XCTAssertEqual(matchLimit, kSecMatchLimitAll)
+    let queries = keychainQuery.getAll(withServiceName: nil)
+    for query in queries {
+      let keyClass = query[kSecClass] as! CFString
+      let returnAttributes = query[kSecReturnAttributes] as! CFBoolean
+      let returnData = query[kSecReturnData] as! CFBoolean
+      let matchLimit = query[kSecMatchLimit] as! CFString
+
+      XCTAssertEqual(keyClass, kSecClassGenericPassword)
+      XCTAssertTrue(returnAttributes as! Bool)
+      XCTAssertTrue(returnData as! Bool)
+      XCTAssertEqual(matchLimit, kSecMatchLimitAll)
+    }
   }
   
   func testDelete_withKey_shouldReturnValidQuery() {

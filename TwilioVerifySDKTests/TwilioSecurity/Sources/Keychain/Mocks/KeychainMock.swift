@@ -30,6 +30,7 @@ enum KeychainMethods {
   case addItem
   case updateItem
   case deleteItem
+  case copyItemsMatching
 }
 
 class KeychainMock {
@@ -42,12 +43,13 @@ class KeychainMock {
   var deleteItemStatus: OSStatus!
   var keyPair: KeyPair!
   var keys: [AnyObject]!
+  var multiQueryResults: [[AnyObject]]!
   var copyItemMitmatchingHandler: (() -> Void)?
   private(set) var callsToAddItem = 0
   private(set) var callsToUpdateItem = 0
   private(set) var callOrder = [KeychainMethods]()
   private(set) var callsToCopyItemMatching = -1
-  
+  private(set) var callsToCopyItemsMatching = 0
 }
 
 extension KeychainMock: KeychainProtocol {
@@ -102,7 +104,22 @@ extension KeychainMock: KeychainProtocol {
 
     return keys[callsToCopyItemMatching]
   }
-  
+
+  func copyItemsMatching(queries: [Query]) throws -> [AnyObject] {
+    callsToCopyItemsMatching += 1
+    callOrder.append(.copyItemsMatching)
+
+    if let error = error {
+      throw error
+    }
+
+    if let multiQueryResults = multiQueryResults {
+      return multiQueryResults.flatMap { $0 }
+    }
+
+    return []
+  }
+
   func addItem(withQuery query: Query) -> OSStatus {
     callsToAddItem += 1
     callOrder.append(.addItem)

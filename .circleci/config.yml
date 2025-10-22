@@ -3,12 +3,23 @@ version: 2.1
 executors:
   macos_executor:
     macos:
-      xcode: "15.3.0"
-    resource_class: macos.m1.medium.gen1
+      xcode: "26.0"
+    resource_class: m4pro.medium
+    environment:
+      RUBY_VERSION: 3.2.2
 
 commands:
   setup:
     steps:
+      # Set Ruby version explicitly
+      - run:
+          name: Set Ruby Version
+          command: |
+            echo "Using Ruby ${RUBY_VERSION}"
+            rbenv install ${RUBY_VERSION} || true
+            rbenv global ${RUBY_VERSION}
+            ruby -v
+            gem install bundler
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
@@ -45,13 +56,13 @@ commands:
     steps:
       - run:
           name: Configure Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
 
   configure_gcloud_app_distribution_service:
     steps:
       - run:
           name: Configure GCloud App Distribution service
-          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY > ${HOME}/gcloud-app-distribution-service-key.json
+          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-app-distribution-service-key.json
 
   unit_tests:
     parameters:
@@ -73,17 +84,21 @@ commands:
     parameters:
       test_plan:
         type: string
-      ftl_devices:
+      device:
         type: string
-        default: single
+        default: "iPhone 17"
     steps:
       - checkout
       - setup
       - configure_google_service_account
+      - setup-certificates
       - run:
           name: Integration Tests
-          command: bundle exec fastlane integration_tests test_plan:<< parameters.test_plan >> ftl_devices:<< parameters.ftl_devices >>
+          command: bundle exec fastlane integration_tests test_plan:<< parameters.test_plan >> device:"<< parameters.device >>"
       - store_scan_artifacts
+      - store_test_output
+      - store_scan_results
+      - cleanup-signing
 
   build_framework:
     parameters:
@@ -205,23 +220,16 @@ jobs:
   Integration Tests Single Device:
     executor: macos_executor
     steps:
-      - checkout
-      - setup
-      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
-      - cleanup-signing
+          device: "iPhone 17"
 
-  Integration Tests All Devices:
+  Integration Tests iPad:
     executor: macos_executor
     steps:
-      - checkout
-      - setup
-      - setup-certificates
       - integration_tests:
           test_plan: IntegrationSuite
-          ftl_devices: all
-      - cleanup-signing
+          device: "iPad Pro 11-inch (M4)"
 
   TwilioVerifyDemo Unit Tests:
     executor: macos_executor
@@ -240,7 +248,6 @@ jobs:
     executor: macos_executor
     steps:
       - checkout
-      - setup
       - setup-certificates
       - build_app_sizer
       - cleanup-signing
@@ -254,20 +261,21 @@ workflows:
     jobs:
       - Unit Tests and Lint:
           context:
+            - verify-push
             - verify-push-ios
       - Integration Tests Single Device:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Unit Tests and Lint
-      - Integration Tests All Devices:
+      - Integration Tests iPad:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Integration Tests Single Device
       - Build TwilioVerify:
-          context:
-            - verify-push-ios
           requires:
             - Integration Tests Single Device
             - Unit Tests and Lint
@@ -278,6 +286,7 @@ workflows:
             - Build TwilioVerify
       - Distribute debug sample app:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Build TwilioVerify
@@ -290,9 +299,11 @@ workflows:
                - dev
       - Release SDK:
           context:
+            - verify-push
             - verify-push-ios
           requires:
             - Size report
+            - Integration Tests iPad
           filters:
             branches:
               only:

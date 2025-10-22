@@ -39,8 +39,6 @@
         "PushChallengeProcessorTests",
         "PushFactoryTests",
         "RequestHelperTests",
-        "SecureStorageTests",
-        "StorageTests",
         "TwilioVerifyManagerTests",
         "URLRequestBuilderTests"
       ],
