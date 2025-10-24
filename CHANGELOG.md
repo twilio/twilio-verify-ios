@@ -1,3 +1,17 @@
+# 3.0.1 (2025-10-24)
+
+### Bug fixes
+- Filter factors information to prevent getting biometrics protected data (#239) ([1d35541](https://github.com/twilio/twilio-verify-ios/commit/1d35541421e216fe6efeb98f37050a0f83406006))
+
+### Building system
+- CI update (#236) ([62e4525](https://github.com/twilio/twilio-verify-ios/commit/62e4525aa82f26d8dc1e0757dfa12df53b3bd830))
+- Address Gemfile error in the pipeline ([efceb32](https://github.com/twilio/twilio-verify-ios/commit/efceb324da9fd8ddd5c11d311f1a4e0d6671adda))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.2 MB    | 0.5 MB
+
+
 # 3.0.0 (2025-04-30)
 
 ### Features
