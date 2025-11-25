@@ -25,7 +25,9 @@ class TwilioVerifyAdapter {
   init() throws {
     var builder = TwilioVerifyBuilder()
     #if DEBUG
-      builder = builder.enableDefaultLoggingService(withLevel: .all)
+    builder = builder
+      .enableDefaultLoggingService(withLevel: .all)
+      .setQueryMode(.strict)
     #endif
     twilioVerify = try builder.build()
   }

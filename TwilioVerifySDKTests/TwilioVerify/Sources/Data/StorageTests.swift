@@ -35,7 +35,8 @@ class StorageTests: XCTestCase {
       secureStorage: secureStorage,
       keychain: keychainMock,
       migrations: [],
-      clearStorageOnReinstall: false
+      clearStorageOnReinstall: false,
+      queryMode: .strict
     )
   }
   
@@ -109,7 +110,8 @@ class StorageTests: XCTestCase {
       keychain: keychainMock,
       userDefaults: userDefaults,
       migrations: [],
-      clearStorageOnReinstall: true
+      clearStorageOnReinstall: true,
+      queryMode: .legacy
     )
     XCTAssertEqual(
       secureStorage.callsToClear,
@@ -137,7 +139,8 @@ class StorageTests: XCTestCase {
       keychain: keychainMock,
       userDefaults: userDefaults,
       migrations: [],
-      clearStorageOnReinstall: true
+      clearStorageOnReinstall: true,
+      queryMode: .legacy
     )
     XCTAssertEqual(
       secureStorage.callsToClear,
@@ -165,7 +168,8 @@ class StorageTests: XCTestCase {
       keychain: keychainMock,
       userDefaults: userDefaults,
       migrations: [],
-      clearStorageOnReinstall: false
+      clearStorageOnReinstall: false,
+      queryMode: .legacy
     )
     XCTAssertEqual(
       secureStorage.callsToClear,
@@ -186,7 +190,8 @@ class StorageTests: XCTestCase {
       keychain: keychainMock,
       userDefaults: userDefaults,
       migrations: migrations,
-      clearStorageOnReinstall: true
+      clearStorageOnReinstall: true,
+      queryMode: .legacy
     )
     XCTAssertEqual(
       migrationV0ToV1.callsToMigrate,
@@ -276,6 +281,42 @@ class StorageTests: XCTestCase {
   func testClear_withoutErrors_shouldClearSecureStorage() {
     XCTAssertNoThrow(try storage.clear(), "Clear should not throw")
   }
+
+  func testGetAll_withStrictQueryMode_shouldUseServiceName() {
+    var data: [Data?]!
+    let expectedData = [Constants.data]
+    secureStorage.objectsData = [Constants.key: Constants.data]
+
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      migrations: [],
+      clearStorageOnReinstall: false,
+      queryMode: .strict
+    )
+
+    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
+    XCTAssertEqual(secureStorage.getAllServiceName, "TwilioVerify")
+  }
+
+  func testGetAll_withLegacyQueryMode_shouldNotUseServiceName() {
+    var data: [Data?]!
+    let expectedData = [Constants.data]
+    secureStorage.objectsData = [Constants.key: Constants.data]
+
+    storage = try! Storage(
+      secureStorage: secureStorage,
+      keychain: keychainMock,
+      migrations: [],
+      clearStorageOnReinstall: false,
+      queryMode: .legacy
+    )
+
+    XCTAssertNoThrow(data = try storage.getAll(), "Get all should not throw")
+    XCTAssertEqual(data, expectedData, "Returned data should be \(expectedData), but wsa \(data!)")
+    XCTAssertEqual(secureStorage.getAllServiceName, nil)
+  }
 }
 
 private extension StorageTests {
@@ -292,7 +333,8 @@ private extension StorageTests {
       keychain: keychainMock,
       userDefaults: userDefaults,
       migrations: migrations,
-      clearStorageOnReinstall: false
+      clearStorageOnReinstall: false,
+      queryMode: .legacy
     )
     let currentVersion = userDefaults.integer(forKey: Storage.Constants.currentVersionKey)
     XCTAssertEqual(

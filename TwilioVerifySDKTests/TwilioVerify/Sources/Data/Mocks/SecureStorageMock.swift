@@ -28,6 +28,7 @@ class SecureStorageMock {
   private(set) var callsToRemoveValue = 0
   private(set) var callsToGetAll = 0
   private(set) var callsToClear = 0
+  private(set) var getAllServiceName: String?
 }
 
 extension SecureStorageMock: SecureStorageProvider {
@@ -52,6 +53,7 @@ extension SecureStorageMock: SecureStorageProvider {
   
   func getAll(withServiceName service: String?) throws -> [Data] {
     callsToGetAll += 1
+    getAllServiceName = service
     if let error = error {
       throw error
     }
