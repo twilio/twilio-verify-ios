@@ -69,7 +69,7 @@ extension Storage: StorageProvider {
   }
   
   func getAll() throws -> [Data] {
-    try secureStorage.getAll(withServiceName: nil)
+    try secureStorage.getAll(withServiceName: Constants.service)
   }
   
   func removeValue(for key: String) throws {
