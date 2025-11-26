@@ -155,7 +155,8 @@ extension FactorFacade {
     private var clearStorageOnReinstall = true
     private var accessGroup: String?
     private var userDefaults: UserDefaults!
-    
+    private var queryMode: KeychainQueryMode = .legacy
+
     func setNetworkProvider(_ networkProvider: NetworkProvider) -> Self {
       self.networkProvider = networkProvider
       return self
@@ -196,6 +197,11 @@ extension FactorFacade {
       return self
     }
 
+    public func setQueryMode(_ queryMode: KeychainQueryMode) -> Self {
+      self.queryMode = queryMode
+      return self
+    }
+
     func build() throws -> FactorFacadeProtocol {
       let factorAPIClient = FactorAPIClient(networkProvider: networkProvider, authentication: authentication, baseURL: url)
       let keychainQuery = KeychainQuery(accessGroup: accessGroup)
@@ -203,7 +209,8 @@ extension FactorFacade {
       let migrations = FactorMigrations().migrations()
       let storage = try Storage(
         secureStorage: secureStorage, keychain: keychain, userDefaults: userDefaults,
-        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall, accessGroup: accessGroup
+        migrations: migrations, clearStorageOnReinstall: clearStorageOnReinstall,
+        accessGroup: accessGroup, queryMode: queryMode
       )
       let repository = FactorRepository(apiClient: factorAPIClient, storage: storage)
       let factory = PushFactory(repository: repository, keyStorage: keyStorage)
