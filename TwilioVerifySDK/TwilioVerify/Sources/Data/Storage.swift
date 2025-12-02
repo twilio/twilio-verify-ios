@@ -26,6 +26,7 @@ class Storage {
   private let secureStorage: SecureStorageProvider
   private let userDefaults: UserDefaults
   private let factorMapper: FactorMapperProtocol
+  private let queryMode: KeychainQueryMode
 
   init(
     secureStorage: SecureStorageProvider,
@@ -34,11 +35,13 @@ class Storage {
     factorMapper: FactorMapperProtocol = FactorMapper(),
     migrations: [Migration],
     clearStorageOnReinstall: Bool = true,
-    accessGroup: String? = nil
+    accessGroup: String? = nil,
+    queryMode: KeychainQueryMode
   ) throws {
     self.secureStorage = secureStorage
     self.userDefaults = userDefaults
     self.factorMapper = factorMapper
+    self.queryMode = queryMode
     checkAccessGroupMigration(for: accessGroup, using: keychain)
     try checkMigrations(migrations, clearStorageOnReinstall: clearStorageOnReinstall)
   }
@@ -69,7 +72,8 @@ extension Storage: StorageProvider {
   }
   
   func getAll() throws -> [Data] {
-    try secureStorage.getAll(withServiceName: nil)
+    let serviceName = queryMode == .legacy ? nil : Constants.service
+    return try secureStorage.getAll(withServiceName: serviceName)
   }
   
   func removeValue(for key: String) throws {

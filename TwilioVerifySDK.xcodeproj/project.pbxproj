@@ -78,6 +78,7 @@
 		86590DFB2DAEF16B00007F8F /* TwilioVerifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; };
 		86590DFC2DAEF16B00007F8F /* TwilioVerifySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AA3778246F30BE00B9388F /* TwilioVerifySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		86649FCD27BD4A7D0006D320 /* Storage+AccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */; };
+		86C362622ED650A6009145B1 /* Storage+QueryMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C362612ED650A6009145B1 /* Storage+QueryMode.swift */; };
 		86D6268727B5ADAB00A8B341 /* Storage+AccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */; };
 		86D6268C27B5C1A200A8B341 /* StorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268B27B5C1A200A8B341 /* StorageProvider.swift */; };
 		86D6268E27B5C22900A8B341 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D6268D27B5C22900A8B341 /* Migration.swift */; };
@@ -275,6 +276,7 @@
 		20E5157F24A3BBC800A467FC /* ChallengeMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMapperTests.swift; sourceTree = "<group>"; };
 		20EAB646248E94EC00BCD8CD /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		86649FCC27BD4A7D0006D320 /* Storage+AccessGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AccessGroupTests.swift"; sourceTree = "<group>"; };
+		86C362612ED650A6009145B1 /* Storage+QueryMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+QueryMode.swift"; sourceTree = "<group>"; };
 		86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AccessGroup.swift"; sourceTree = "<group>"; };
 		86D6268B27B5C1A200A8B341 /* StorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProvider.swift; sourceTree = "<group>"; };
 		86D6268D27B5C22900A8B341 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 				F207BBB124901A6900688E5C /* Storage.swift */,
 				86D6268B27B5C1A200A8B341 /* StorageProvider.swift */,
 				86D6268627B5ADAB00A8B341 /* Storage+AccessGroup.swift */,
+				86C362612ED650A6009145B1 /* Storage+QueryMode.swift */,
 				2017297724D0A3190029493D /* DateProvider.swift */,
 				86D6268D27B5C22900A8B341 /* Migration.swift */,
 			);
@@ -1272,6 +1275,7 @@
 				2003C4402480232900279BBD /* TwilioVerifyError.swift in Sources */,
 				20E5157D24A3B3A700A467FC /* ChallengeDTO.swift in Sources */,
 				20935748248719D5008FDBCC /* UpdateFactorPayload.swift in Sources */,
+				86C362622ED650A6009145B1 /* Storage+QueryMode.swift in Sources */,
 				F27A340824CF8B7200A8053D /* ECSigner.swift in Sources */,
 				F27A340C24CF8B7800A8053D /* ECP256SignerTemplate.swift in Sources */,
 				20A92FCA248197F600A9E8E7 /* HTTPMethod.swift in Sources */,

@@ -73,7 +73,8 @@ class StorageAccessGroupTests: XCTestCase {
       factorMapper: factorMapper,
       migrations: [],
       clearStorageOnReinstall: false,
-      accessGroup: accessGroup
+      accessGroup: accessGroup,
+      queryMode: .legacy
     )
 
     factorMapper.error = nil

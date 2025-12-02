@@ -157,13 +157,15 @@ public class TwilioVerifyBuilder {
   private var clearStorageOnReinstall: Bool
   private var accessGroup: String?
   private var loggingServices: [LoggerService]
-  
+  private var queryMode: KeychainQueryMode
+
   /// Creates a new instance of TwilioVerifyBuilder
   public init() {
     networkProvider = NetworkAdapter()
     _baseURL = baseURL
     clearStorageOnReinstall = true
     loggingServices = []
+    queryMode = .legacy
   }
 
   /// Set the NetworkProvider that will be used by the `TwilioVerify` instance.
@@ -210,6 +212,17 @@ public class TwilioVerifyBuilder {
     return self
   }
 
+  /// Set the Keychain query mode that will be used when accessing stored factors and keys.
+  /// - Parameter queryMode: The query mode to use when accessing the Keychain.
+  ///   - `.strict`: **Recommended for new integrations.** Filters Keychain items by the specific Service name (`TwilioVerify`). This isolates the SDK data and prevents collisions with keychain items from other libraries.
+  ///   - `.legacy`: **Recommended for users upgrading from versions prior to 2.0 of Twilio Verify.** Queries the Keychain without a Service filter for backward compatibility. **Warning:** May cause collisions if other keychain items exist with similar attributes.
+  ///
+  /// Default value is `.legacy` for backward compatibility with existing integrations.
+  public func setQueryMode(_ queryMode: KeychainQueryMode) -> Self {
+    self.queryMode = queryMode
+    return self
+  }
+
   /// Set the UserDefaults group that will be used to store configurations
   private func userDefaults() -> UserDefaults {
     if let accessGroup = accessGroup, let userDefaults = UserDefaults(suiteName: accessGroup) {
@@ -241,6 +254,7 @@ public class TwilioVerifyBuilder {
         .setClearStorageOnReinstall(clearStorageOnReinstall)
         .setAccessGroup(accessGroup)
         .setUserDefaults(userDefaults())
+        .setQueryMode(queryMode)
         .build()
       let challengeFacade = ChallengeFacade.Builder()
         .setNetworkProvider(networkProvider)

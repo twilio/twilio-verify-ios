@@ -22,6 +22,7 @@
 * [Running the sample backend](#SampleBackend)
 * [Using the sample app](#UsingSampleApp)
 * [Logging](#Logging)
+* [Keychain Query Mode](#KeychainQueryMode)
 * [Errors](#Errors)
 * [Update factor's push token](#UpdatePushToken)
 * [Delete a factor](#DeleteFactor)
@@ -184,6 +185,33 @@ var builder = TwilioVerifyBuilder()
 #endif
 twilioVerify = try builder.build()
 ```
+
+<a name='KeychainQueryMode'></a>
+
+## Keychain Query Mode
+By default, the SDK uses legacy query mode for backward compatibility with versions prior to 2.0. You can configure the Keychain query mode to control how the SDK accesses stored factors and keys.
+
+### Available Modes
+* **strict**: Recommended for new integrations. Filters Keychain items by the specific Service name (`TwilioVerify`). This isolates the SDK data and prevents collisions with keychain items from other libraries.
+* **legacy**: Recommended for users upgrading from versions prior to 2.0 of Twilio Verify. Queries the Keychain without a Service filter for backward compatibility. **Warning:** May cause collisions if other keychain items exist with similar attributes.
+
+### Usage
+To set the query mode, use the `setQueryMode` method when building the `TwilioVerify` instance:
+
+```swift
+// For new integrations, use strict mode
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.setQueryMode(.strict).build()
+
+// For upgrading from versions prior to 2.0, use legacy mode (default)
+let builder = TwilioVerifyBuilder()
+let twilioVerify = try builder.setQueryMode(.legacy).build()
+```
+
+### Important Notes
+- The default value is `.legacy` for backward compatibility with existing integrations.
+- If you're starting a new integration, it's recommended to use `.strict` mode to avoid potential Keychain collisions.
+- If you're upgrading from a version prior to 2.0, you should use `.legacy` mode to ensure existing factors remain accessible.
 
 <a name='Errors'></a>
 
