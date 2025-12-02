@@ -1,3 +1,13 @@
+# 3.0.2 (2025-12-02)
+
+### Bug fixes
+- Add KeychainQueryMode to prevent Keychain collisions ([781db24](https://github.com/twilio/twilio-verify-ios/commit/781db24f9bbdb181c0c86385e812bc163174a580))
+
+Architecture | Compressed Size | Uncompressed Size
+------------ | --------------- | -----------------
+arm64        |       0.2 MB    | 0.5 MB
+
+
 # 3.0.1 (2025-10-24)
 
 ### Bug fixes
