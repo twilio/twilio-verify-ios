@@ -18,7 +18,7 @@
 import UIKit
 import TwilioVerifySDK
 
-protocol ChallengeDetailView: class {
+protocol ChallengeDetailView: AnyObject {
   func updateView()
   func showAlert(withMessage message: String)
 }
@@ -138,6 +138,8 @@ private extension ChallengeDetailViewController {
       } else {
         btn.addTarget(self, action: #selector(numberDenied), for: .touchUpInside)
       }
+      btn.addTarget(self, action: #selector(numberButtonTouchDown(_:)), for: .touchDown)
+      btn.addTarget(self, action: #selector(numberButtonTouchUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
       numbersStack.addArrangedSubview(btn)
     }
 
@@ -185,6 +187,14 @@ private extension ChallengeDetailViewController {
       btn.heightAnchor.constraint(equalToConstant: 80)
     ])
     return btn
+  }
+
+  @objc func numberButtonTouchDown(_ sender: UIButton) {
+    UIView.animate(withDuration: 0.1) { sender.alpha = 0.5 }
+  }
+
+  @objc func numberButtonTouchUp(_ sender: UIButton) {
+    UIView.animate(withDuration: 0.1) { sender.alpha = 1.0 }
   }
 
   @objc func numberApproved() {
