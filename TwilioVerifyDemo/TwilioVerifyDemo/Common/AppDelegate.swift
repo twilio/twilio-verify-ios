@@ -19,29 +19,22 @@ import Foundation
 import UIKit
 import TwilioVerifySDK
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   private var twilioVerify: TwilioVerify?
-  var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    if #available(iOS 13.0, *) {
-      let appearance = UINavigationBarAppearance()
-      appearance.backgroundColor = .curiousBlue
-      appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-      appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+    let appearance = UINavigationBarAppearance()
+    appearance.backgroundColor = .curiousBlue
+    appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+    appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 
-      UINavigationBar.appearance().tintColor = .white
-      UINavigationBar.appearance().standardAppearance = appearance
-      UINavigationBar.appearance().compactAppearance = appearance
-      UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    } else {
-      UINavigationBar.appearance().tintColor = .white
-      UINavigationBar.appearance().barTintColor = .curiousBlue
-      UINavigationBar.appearance().isTranslucent = false
-    }
-    
+    UINavigationBar.appearance().tintColor = .white
+    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().compactAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+
     UNUserNotificationCenter.current().delegate = self
     let container = DIContainer.shared
     if let twilioVerifyAdapter = try? TwilioVerifyAdapter() {
@@ -50,11 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     return true
   }
-  
+
+  func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+    UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+  }
+
+  func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     let deviceTokenString = deviceToken.map { data in String(format: "%02.2hhx", data) }.joined()
     let tokenInServer = UserDefaults.standard.object(forKey: "PushToken") as? String ?? String()
-    
+
     if tokenInServer != deviceTokenString {
       UserDefaults.standard.set(true, forKey: "ShouldUpdatePushToken")
       UserDefaults.standard.set(deviceTokenString, forKey: "PushToken")
@@ -62,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       UserDefaults.standard.set(false, forKey: "ShouldUpdatePushToken")
     }
   }
-  
+
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
     print(error)
   }
@@ -78,14 +77,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     handleChallengeApproval(with: payload)
     completionHandler(.sound)
   }
-  
+
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     defer { completionHandler() }
     guard response.actionIdentifier == UNNotificationDefaultActionIdentifier,
           let payload = response.notification.request.content.userInfo as? [String: Any] else {
       return
     }
-    
+
     handleChallengeApproval(with: payload)
   }
 }
@@ -106,44 +105,47 @@ private extension AppDelegate {
       showChallenge(payload: payload)
     }
   }
-  
+
   func updateChallenge(with status: ChallengeStatus,
                        notificationPayload: [String: Any],
                        factorSid: String,
                        challengeSid: String) {
-    
     let payload = UpdatePushChallengePayload(
       factorSid: factorSid,
       challengeSid: challengeSid,
       status: status
     )
-    
+
     twilioVerify?.updateChallenge(withPayload: payload, success: { [weak self] in
       self?.showChallenge(payload: notificationPayload)
     }) { error in
       print("Unable to silenty approve this challenge, details: \(error.errorMessage)")
     }
   }
-  
+
   func showChallenge(payload: [String: Any]) {
     guard let payloadData = PushChallengePayloadData(payload: payload) else {
       return
     }
-    
+
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    
+
     guard let challengeNavigation = storyboard.instantiateViewController(withIdentifier: "ChallengeView") as? UINavigationController,
           let challengeView = challengeNavigation.viewControllers[0] as? ChallengeDetailViewController & ChallengeDetailView else {
       return
     }
-    
+
     challengeView.presenter = ChallengeDetailPresenter(
       withView: challengeView,
       challengeSid: payloadData.challengeSid,
       factorSid: payloadData.factorSid
     )
     challengeView.shouldShowButtonToDismissView = true
-    
-    window?.rootViewController?.present(challengeNavigation, animated: true, completion: nil)
+
+    let keyWindow = UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .flatMap { $0.windows }
+      .first { $0.isKeyWindow }
+    keyWindow?.rootViewController?.present(challengeNavigation, animated: true, completion: nil)
   }
 }
