@@ -14,17 +14,12 @@ commands:
       # Set Ruby version explicitly
       - run:
           name: Set Ruby Version
-          command: |
-            echo "Using Ruby ${RUBY_VERSION}"
-            rbenv install ${RUBY_VERSION} || true
-            rbenv global ${RUBY_VERSION}
-            ruby -v
-            gem install bundler
+          command: ./Scripts/ruby-version.sh
       - restore_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Install Gems
-          command: bundle check || bundle install
+          command: ./Scripts/gems-installer.sh
       - save_cache:
           key: v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
@@ -56,13 +51,13 @@ commands:
     steps:
       - run:
           name: Configure Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
+          command: ./Scripts/gcloud-setup.sh
 
   configure_gcloud_app_distribution_service:
     steps:
       - run:
           name: Configure GCloud App Distribution service
-          command: echo $GCLOUD_APP_DISTRIBUTION_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-app-distribution-service-key.json
+          command: ./Scripts/gcloud-distribution-setup.sh
 
   unit_tests:
     parameters:
@@ -74,7 +69,7 @@ commands:
       - setup-certificates
       - run:
           name: Unit Tests
-          command: bundle exec fastlane unit_tests test_plan:<< parameters.test_plan >>
+          command: ./Scripts/unit-tests.sh << parameters.test_plan >>
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
@@ -94,7 +89,7 @@ commands:
       - setup-certificates
       - run:
           name: Integration Tests
-          command: bundle exec fastlane integration_tests test_plan:<< parameters.test_plan >> device:"<< parameters.device >>"
+          command: ./Scripts/integration-tests.sh << parameters.test_plan >> "<< parameters.device >>"
       - store_scan_artifacts
       - store_test_output
       - store_scan_results
@@ -110,14 +105,8 @@ commands:
       - checkout
       - setup
       - run:
-          name: "Build Universal Framework"
-          command: bundle exec fastlane export_release_xcframework
-      - run:
-          name: "Zip Framework"
-          command: |
-                  cd Products/xcframeworks/release
-                  zip -r ~/Desktop/<< parameters.artifact >>.framework.zip << parameters.artifact >>.xcframework
-                  cp -r << parameters.artifact >>.xcframework ~/Desktop/
+          name: "Build Universal Framework and Zip Framework"
+          command: ./Scripts/framework-builder.sh << parameters.artifact >>
       - store_artifacts:
           path: ~/Desktop/<< parameters.artifact >>.framework.zip
           destination: << parameters.artifact >>.framework.zip
@@ -134,16 +123,8 @@ commands:
       - attach_workspace:
           at: ~/Desktop
       - run:
-          name: "Copy Frameworks"
-          command: cp -a ~/Desktop/. ./AppSizer/AppSizer/Frameworks
-      - run:
-          ls -al ./AppSizer/AppSizer/Frameworks/
-      - run:
-          name: "Build AppSizer App"
-          command: bundle exec fastlane build_app_sizer
-      - run:
-          name: "Copy Report"
-          command: cp ./temp/SizeReport/SizeImpact.md ~/Desktop
+          name: "Build AppSizer"
+          command: ./Scripts/app-sizer-builder.sh
       - store_artifacts:
           path: "./temp/SizeReport/TwilioVerify Size Impact Report.txt"
       - persist_to_workspace:
@@ -177,7 +158,7 @@ commands:
       - configure_gcloud_app_distribution_service
       - run:
           name: "Release SDK"
-          command: bundle exec fastlane release
+          command: ./Scripts/release-sdk.sh
       - cleanup-signing
 
   distribute_debug_sample_app:
@@ -191,7 +172,7 @@ commands:
     steps:
       - run:
           name: Generating APK for internal distribution
-          command: bundle exec fastlane distribute_debug_sample_app env:<<parameters.env>> url:<<parameters.base_url>>
+          command: ./Scripts/distribute-sample-app.sh <<parameters.env>> <<parameters.base_url>>
 jobs:
   Distribute debug sample app:
     executor: macos_executor
