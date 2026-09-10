@@ -22,7 +22,7 @@ KEYCHAIN_PATH=$HOME/app-signing-$SANITIZED_JOB_NAME.keychain-db
 setup_certificates() {
     echo "Setting up Apple certificates and provisioning profiles for job: $JOB_NAME..."
 
-    # Import certificate and provisioning profiles from CircleCI context
+    # Import certificate and provisioning profiles from CI environment secrets
     echo -n "$VERIFY_DEMO_CERT" | base64 --decode -o $CERTIFICATE_PATH
     echo -n "$VERIFY_DEMO_PROFILE" | base64 --decode -o $PP_PATH/verify_demo.mobileprovision
     echo -n "$HOST_APP_PROFILE" | base64 --decode -o $PP_PATH/host_app.mobileprovision

@@ -6,17 +6,18 @@ default_platform(:ios)
 
 platform :ios do
   before_all do
-    setup_circle_ci
+    setup_ci
   end
 
   desc "Runs unit tests"
   lane :unit_tests do |options|
     test_plan = options[:test_plan]
+    device = options[:device] || "iPhone 17"
     scan(
       scheme: "TwilioVerifySDK",
       testplan: test_plan,
       workspace: "TwilioVerify.xcworkspace",
-      device: "iPhone 17",
+      device: device,
       reset_simulator: true,
       code_coverage: true,
       suppress_xcode_output: true,
@@ -24,7 +25,6 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    danger_tests id:'UnitTests'
   end
 
   desc 'Runs integration tests'
@@ -54,7 +54,6 @@ platform :ios do
       output_files: 'junit.xml, report.html',
       output_directory: output_directory + test_plan
     )
-    danger_tests id:'IntegrationTests'
   end
 
   desc 'Builds universal framework for release'
