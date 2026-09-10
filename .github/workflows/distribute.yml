@@ -1,0 +1,62 @@
+name: Distribute debug sample app
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'feature*'
+      - 'release/**'
+      - 'release*'
+      - 'hotfix/**'
+      - 'hotfix*'
+      - dev
+
+concurrency:
+  group: distribute-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  distribute:
+    name: Distribute debug sample app
+    runs-on: macos-arm
+    environment: ci
+    env:
+      GCLOUD_APP_DISTRIBUTION_SERVICE_KEY: ${{ secrets.GCLOUD_APP_DISTRIBUTION_SERVICE_KEY }}
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+      SAMPLE_APP_FIREBASE_ID: ${{ secrets.SAMPLE_APP_FIREBASE_ID }}
+      FIREBASE_APP_DISTRIBUTION_GROUP: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GROUP }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEV_URL: ${{ secrets.DEV_URL }}
+      STAGE_URL: ${{ secrets.STAGE_URL }}
+      PROD_URL: ${{ secrets.PROD_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Configure GCloud App Distribution service
+        run: ./Scripts/gcloud-distribution-setup.sh
+      - name: Generate APK for internal distribution (DEV)
+        run: ./Scripts/distribute-sample-app.sh DEV "$DEV_URL"
+      - name: Generate APK for internal distribution (STAGE)
+        run: ./Scripts/distribute-sample-app.sh STAGE "$STAGE_URL"
+      - name: Generate APK for internal distribution (PROD)
+        run: ./Scripts/distribute-sample-app.sh PROD "$PROD_URL"
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"

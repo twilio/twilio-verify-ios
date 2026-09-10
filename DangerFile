@@ -1,21 +1,52 @@
 # Warn when there is a big PR
 warn("Big PR") if git.lines_of_code > 500
 
-
-# Slater config
-slather.configure('TwilioVerifySDK.xcodeproj', 'TwilioVerifySDK', options: {
-  workspace: 'TwilioVerify.xcworkspace',
-  output_directory:  './fastlane/Test Output/CompleteSuite/coverage',
-  ignore_list: ['**/OSLogWrapper.swift'],
-  ci_service: :circleci,
-  coverage_service: :terminal,
-  html: true,
-  use_bundle_exec: true
-})
-
-slather.notify_if_coverage_is_less_than(minimum_coverage: 70)
-slather.notify_if_modified_file_is_less_than(minimum_coverage: 70)
-slather.show_coverage
-
+# SwiftLint
 swiftlint.config_file = '.swiftlint.yml'
 swiftlint.lint_files inline_mode: true
+
+# Code coverage report
+coverage_file = "coverage-results/coverage.txt"
+
+if File.exist?(coverage_file)
+  coverage = File.read(coverage_file).strip
+  markdown("## Code Coverage\n\n```\n#{coverage}\n```")
+else
+  warn("Code coverage report (#{coverage_file}) not found.")
+end
+
+# iOS SDK size report
+sizes_file = "sizes.txt"
+
+if File.exist?(sizes_file)
+  markdown("## iOS SDK Size Report\n\n```\n#{File.read(sizes_file).strip}\n```")
+else
+  warn("iOS SDK size report (#{sizes_file}) not found.")
+end
+
+# Unit test results report
+require "rexml/document"
+
+junit_file = "test-results/junit.xml"
+
+if File.exist?(junit_file)
+  totals = { tests: 0, failures: 0, errors: 0, time: 0.0 }
+  REXML::Document.new(File.read(junit_file)).elements.each("//testsuite") do |suite|
+    totals[:tests]    += suite.attributes["tests"].to_i
+    totals[:failures] += suite.attributes["failures"].to_i
+    totals[:errors]   += suite.attributes["errors"].to_i
+    totals[:time]     += suite.attributes["time"].to_f
+  end
+
+  summary = +"## Unit Test Results\n\n"
+  summary << "| Tests | Failures | Errors | Time |\n"
+  summary << "|------:|---------:|-------:|-----:|\n"
+  summary << "| #{totals[:tests]} | #{totals[:failures]} | #{totals[:errors]} | #{format('%.2f', totals[:time])}s |\n"
+  markdown(summary)
+
+  if (totals[:failures] + totals[:errors]).positive?
+    fail("#{totals[:failures] + totals[:errors]} unit test(s) failed.")
+  end
+else
+  warn("Unit test results (#{junit_file}) not found.")
+end

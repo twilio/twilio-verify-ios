@@ -1,0 +1,15 @@
+name: "Setup macOS build environment"
+description: "Checkout is expected to be done by the caller. Selects Xcode 26.6 and sets up Ruby 3.3 with cached gems."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Select Xcode 26.6
+      shell: bash
+      run: sudo xcode-select -s /Applications/Xcode_26.6.app
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # enterprise-allowlisted
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true

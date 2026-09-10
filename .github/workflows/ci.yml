@@ -1,0 +1,273 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests-and-lint:
+    name: Unit Tests and Lint
+    runs-on: macos-arm
+    environment: ci
+    env:
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Prepare simulator
+        id: sim
+        run: echo "device=$(./Scripts/prepare-simulator.sh 'iPhone 17')" >> "$GITHUB_OUTPUT"
+      - name: Unit Tests
+        run: ./Scripts/unit-tests.sh CompleteSuite "${{ steps.sim.outputs.device }}"
+      - name: Stage Danger inputs
+        if: always()
+        run: |
+          mkdir -p danger-inputs/test-results danger-inputs/coverage-results
+          cp "fastlane/Test Output/CompleteSuite/junit.xml" danger-inputs/test-results/junit.xml || true
+          bundle exec slather coverage --simple-output \
+            --scheme TwilioVerifySDK \
+            --workspace TwilioVerify.xcworkspace \
+            --ignore "**/OSLogWrapper.swift" \
+            TwilioVerifySDK.xcodeproj > danger-inputs/coverage-results/coverage.txt 2>/dev/null \
+            || echo "Coverage report unavailable." > danger-inputs/coverage-results/coverage.txt
+      - name: Upload Danger inputs (tests)
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: danger-inputs-tests
+          path: danger-inputs
+      - name: Upload test output
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-test-output
+          path: fastlane/Test Output
+      - name: Upload scan logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-logs
+          path: ~/Library/Logs/scan
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"
+
+  integration-single:
+    name: Integration Tests Single Device
+    runs-on: macos-arm
+    environment: ci
+    needs: unit-tests-and-lint
+    env:
+      GCLOUD_SERVICE_KEY: ${{ secrets.GCLOUD_SERVICE_KEY }}
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Configure Google Service Account
+        run: ./Scripts/gcloud-setup.sh
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Prepare simulator
+        id: sim
+        run: echo "device=$(./Scripts/prepare-simulator.sh 'iPhone 17')" >> "$GITHUB_OUTPUT"
+      - name: Integration Tests
+        run: ./Scripts/integration-tests.sh IntegrationSuite "${{ steps.sim.outputs.device }}"
+      - name: Upload test output
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-test-output-integration-single
+          path: fastlane/Test Output
+      - name: Upload scan logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-logs-integration-single
+          path: ~/Library/Logs/scan
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"
+
+  integration-ipad:
+    name: Integration Tests iPad
+    runs-on: macos-arm
+    environment: ci
+    needs: integration-single
+    env:
+      GCLOUD_SERVICE_KEY: ${{ secrets.GCLOUD_SERVICE_KEY }}
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Configure Google Service Account
+        run: ./Scripts/gcloud-setup.sh
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Prepare simulator
+        id: sim
+        run: echo "device=$(./Scripts/prepare-simulator.sh 'iPad Pro 11-inch (M4)')" >> "$GITHUB_OUTPUT"
+      - name: Integration Tests
+        run: ./Scripts/integration-tests.sh IntegrationSuite "${{ steps.sim.outputs.device }}"
+      - name: Upload test output
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-test-output-integration-ipad
+          path: fastlane/Test Output
+      - name: Upload scan logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scan-logs-integration-ipad
+          path: ~/Library/Logs/scan
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"
+
+  build-framework:
+    name: Build TwilioVerify
+    runs-on: macos-arm
+    environment: ci
+    needs: [unit-tests-and-lint, integration-single]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Build Universal Framework and Zip Framework
+        run: ./Scripts/framework-builder.sh TwilioVerifySDK
+      - name: Stage framework artifacts
+        run: |
+          mkdir -p artifacts
+          cp ~/Desktop/TwilioVerifySDK.framework.zip artifacts/
+          cp -R ~/Desktop/TwilioVerifySDK.xcframework artifacts/
+      - name: Upload framework artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: twilioverify-framework
+          path: artifacts
+
+  size-report:
+    name: Size report
+    runs-on: macos-arm
+    environment: ci
+    needs: build-framework
+    env:
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_APP_SIZER_PROVISIONING_PROFILE: ${{ secrets.TWILIO_APP_SIZER_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Download framework artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: twilioverify-framework
+          path: artifacts
+      - name: Restore framework artifacts to Desktop
+        run: |
+          mkdir -p ~/Desktop
+          cp -a artifacts/. ~/Desktop/
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Build AppSizer
+        run: ./Scripts/app-sizer-builder.sh
+      - name: Stage Danger inputs (size)
+        if: always()
+        run: |
+          mkdir -p danger-inputs-size
+          cp "temp/SizeReport/TwilioVerify Size Impact Report.txt" danger-inputs-size/sizes.txt || true
+      - name: Upload Danger inputs (size)
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: danger-inputs-size
+          path: danger-inputs-size
+      - name: Upload size report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: size-impact-report
+          path: |
+            temp/SizeReport/TwilioVerify Size Impact Report.txt
+            temp/SizeReport/SizeImpact.md
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"
+
+  danger:
+    name: Danger PR report
+    runs-on: macos-arm
+    environment: ci
+    needs: [unit-tests-and-lint, size-report]
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+    env:
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Download Danger inputs (tests)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: danger-inputs-tests
+          path: .
+      - name: Download Danger inputs (size)
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: danger-inputs-size
+          path: .
+      - name: Run Danger
+        run: ./danger_check.sh "--dangerfile=DangerFile"

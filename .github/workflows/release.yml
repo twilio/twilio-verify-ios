@@ -1,0 +1,72 @@
+name: Release SDK
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  release:
+    name: Release SDK
+    runs-on: macos-arm
+    environment: release
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      GCLOUD_APP_DISTRIBUTION_SERVICE_KEY: ${{ secrets.GCLOUD_APP_DISTRIBUTION_SERVICE_KEY }}
+      VERIFY_DEMO_CERT: ${{ secrets.VERIFY_DEMO_CERT }}
+      VERIFY_DEMO_PROFILE: ${{ secrets.VERIFY_DEMO_PROFILE }}
+      HOST_APP_PROFILE: ${{ secrets.HOST_APP_PROFILE }}
+      APP_SIZER_PROFILE: ${{ secrets.APP_SIZER_PROFILE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      VERIFY_DEMO_CERT_PASS: ${{ secrets.VERIFY_DEMO_CERT_PASS }}
+      TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_HOST_APP_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE: ${{ secrets.TWILIO_VERIFY_DEMO_PROVISIONING_PROFILE }}
+      TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM: ${{ secrets.TWILIO_VERIFY_DEMO_DEVELOPMENT_TEAM }}
+      SAMPLE_APP_FIREBASE_ID: ${{ secrets.SAMPLE_APP_FIREBASE_ID }}
+      FIREBASE_APP_DISTRIBUTION_GROUP: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GROUP }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_USER_NAME: ${{ secrets.GH_USER_NAME }}
+      GH_USER_EMAIL: ${{ secrets.GH_USER_EMAIL }}
+      PROD_URL: ${{ secrets.PROD_URL }}
+      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Download framework artifacts from CI run
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: twilioverify-framework
+          path: ci-framework
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download size report from CI run
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: size-impact-report
+          path: ci-size
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore workspace artifacts to Desktop
+        run: |
+          mkdir -p ~/Desktop
+          cp ci-framework/TwilioVerifySDK.framework.zip ~/Desktop/
+          cp ci-size/SizeImpact.md ~/Desktop/
+      - name: Install Apple Certificate and Provisioning Profile
+        run: bash scripts/certificate_setup.sh setup "${{ github.job }}"
+      - name: Configure GCloud App Distribution service
+        run: ./Scripts/gcloud-distribution-setup.sh
+      - name: Release SDK
+        run: ./Scripts/release-sdk.sh
+      - name: Clean Up Keychain and Provisioning Profile
+        if: always()
+        run: bash scripts/certificate_setup.sh cleanup "${{ github.job }}"
