@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		860BB68C262A018A00E021C9 /* TwilioVerifySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 860BB68B262A018A00E021C9 /* TwilioVerifySDK */; };
+		86934EFA2FF4BC3700ED80CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86934EF92FF4BC3700ED80CC /* SceneDelegate.swift */; };
 		97B7832C26F1005F0066CFD1 /* PushChallengePayloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */; };
 		97B7832E26F102F80066CFD1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B7832D26F102F80066CFD1 /* AppModel.swift */; };
 		F07CAEAD25A79D1300CA5CB0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		86934EF92FF4BC3700ED80CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushChallengePayloadData.swift; sourceTree = "<group>"; };
 		97B7832D26F102F80066CFD1 /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				F2CC678F24B5077B000CB11E /* View */,
 				F07CAEAC25A79D1300CA5CB0 /* DIContainer.swift */,
 				97B7832B26F1005F0066CFD1 /* PushChallengePayloadData.swift */,
+				86934EF92FF4BC3700ED80CC /* SceneDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				F24C243D24B62A8000C1B92C /* ChallengeDetailPresenter.swift in Sources */,
 				F2CFC41B24A56E6B008430B6 /* FactorListPresenter.swift in Sources */,
 				F2AA37C7246F323C00B9388F /* CreateFactorViewController.swift in Sources */,
+				86934EFA2FF4BC3700ED80CC /* SceneDelegate.swift in Sources */,
 				F275354224A52DBF005A5605 /* TwilioVerifyAdapter.swift in Sources */,
 				F2B6538224BF7BB600C6D70C /* ChallengeTableViewCell.swift in Sources */,
 				F275353524A52150005A5605 /* UITextField+Extensions.swift in Sources */,
@@ -611,7 +615,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TwilioVerifyDemo/Common/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -635,7 +639,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TwilioVerifyDemo/Common/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
