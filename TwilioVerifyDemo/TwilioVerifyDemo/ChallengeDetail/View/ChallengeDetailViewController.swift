@@ -18,7 +18,7 @@
 import UIKit
 import TwilioVerifySDK
 
-protocol ChallengeDetailView: class {
+protocol ChallengeDetailView: AnyObject {
   func updateView()
   func showAlert(withMessage message: String)
 }
@@ -39,19 +39,21 @@ class ChallengeDetailViewController: UIViewController {
 
   var presenter: ChallengeDetailPresentable?
   var shouldShowButtonToDismissView = false
-  
+
+  private var numberSelectionContainer: UIView?
+
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if presenter == nil {
       presenter = ChallengeDetailPresenter(withView: self)
     }
   }
-  
+
   @IBAction func updateChallenge(_ sender: UIButton) {
     presenter?.updateChallenge(withStatus: sender.tag == 0 ? .denied : .approved)
   }
@@ -76,10 +78,10 @@ extension ChallengeDetailViewController: ChallengeDetailView {
     detailsHeightConstraint.constant = detailsTextView.contentSize.height
     expirationDateLabel.text = presenter?.challenge.expirationDate.verifyStringFormat()
     updatedDateLabel.text = presenter?.challenge.updatedAt.verifyStringFormat()
-    buttonsContainer.isHidden = !(presenter?.challenge.status == .pending)
+    updateButtonsVisibility()
     detailsTextView.layoutSubviews()
   }
-  
+
   func showAlert(withMessage message: String) {
     let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
@@ -95,7 +97,114 @@ private extension ChallengeDetailViewController {
     approveButton.layer.cornerRadius = 8
     buttonsContainer.isHidden = true
   }
-  
+
+  func updateButtonsVisibility() {
+    numberSelectionContainer?.removeFromSuperview()
+    numberSelectionContainer = nil
+
+    guard presenter?.challenge.status == .pending else {
+      buttonsContainer.isHidden = true
+      return
+    }
+
+    if let hiddenDetails = presenter?.challenge.hiddenDetails,
+       let selectedNumber = hiddenDetails["selectedNumber"],
+       let rndNumber1 = hiddenDetails["rndNumber1"],
+       let rndNumber2 = hiddenDetails["rndNumber2"],
+       !selectedNumber.isEmpty, !rndNumber1.isEmpty, !rndNumber2.isEmpty {
+      buttonsContainer.isHidden = true
+      showNumberSelectionUI(selectedNumber: selectedNumber, numbers: [selectedNumber, rndNumber1, rndNumber2])
+    } else {
+      buttonsContainer.isHidden = false
+    }
+  }
+
+  func showNumberSelectionUI(selectedNumber: String, numbers: [String]) {
+    let container = UIView()
+    container.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(container)
+
+    let numbersStack = UIStackView()
+    numbersStack.axis = .horizontal
+    numbersStack.distribution = .equalSpacing
+    numbersStack.alignment = .center
+    numbersStack.translatesAutoresizingMaskIntoConstraints = false
+    container.addSubview(numbersStack)
+
+    for number in numbers.shuffled() {
+      let btn = makeNumberCircleButton(title: number)
+      if number == selectedNumber {
+        btn.addTarget(self, action: #selector(numberApproved), for: .touchUpInside)
+      } else {
+        btn.addTarget(self, action: #selector(numberDenied), for: .touchUpInside)
+      }
+      btn.addTarget(self, action: #selector(numberButtonTouchDown(_:)), for: .touchDown)
+      btn.addTarget(self, action: #selector(numberButtonTouchUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+      numbersStack.addArrangedSubview(btn)
+    }
+
+    let declineBtn = UIButton(type: .custom)
+    declineBtn.translatesAutoresizingMaskIntoConstraints = false
+    declineBtn.setTitle("DECLINE", for: .normal)
+    declineBtn.backgroundColor = UIColor(red: 0.824, green: 0.133, blue: 0.176, alpha: 1)
+    declineBtn.setTitleColor(.white, for: .normal)
+    declineBtn.titleLabel?.font = .boldSystemFont(ofSize: 18)
+    declineBtn.layer.cornerRadius = 8
+    declineBtn.addTarget(self, action: #selector(numberDenied), for: .touchUpInside)
+    container.addSubview(declineBtn)
+
+    NSLayoutConstraint.activate([
+      numbersStack.topAnchor.constraint(equalTo: container.topAnchor),
+      numbersStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+      numbersStack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8),
+      numbersStack.heightAnchor.constraint(equalToConstant: 80),
+
+      declineBtn.topAnchor.constraint(equalTo: numbersStack.bottomAnchor, constant: 16),
+      declineBtn.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+      declineBtn.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+      declineBtn.heightAnchor.constraint(equalToConstant: 40),
+      declineBtn.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+
+      container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+      container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      container.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -48)
+    ])
+
+    numberSelectionContainer = container
+  }
+
+  func makeNumberCircleButton(title: String) -> UIButton {
+    let btn = UIButton(type: .custom)
+    btn.translatesAutoresizingMaskIntoConstraints = false
+    btn.setTitle(title, for: .normal)
+    btn.backgroundColor = UIColor(red: 0.137, green: 0.533, blue: 0.137, alpha: 1)
+    btn.setTitleColor(.white, for: .normal)
+    btn.titleLabel?.font = .boldSystemFont(ofSize: 22)
+    btn.layer.cornerRadius = 40
+    btn.clipsToBounds = true
+    NSLayoutConstraint.activate([
+      btn.widthAnchor.constraint(equalToConstant: 80),
+      btn.heightAnchor.constraint(equalToConstant: 80)
+    ])
+    return btn
+  }
+
+  @objc func numberButtonTouchDown(_ sender: UIButton) {
+    UIView.animate(withDuration: 0.1) { sender.alpha = 0.5 }
+  }
+
+  @objc func numberButtonTouchUp(_ sender: UIButton) {
+    UIView.animate(withDuration: 0.1) { sender.alpha = 1.0 }
+  }
+
+  @objc func numberApproved() {
+    presenter?.updateChallenge(withStatus: .approved)
+  }
+
+  @objc func numberDenied() {
+    presenter?.updateChallenge(withStatus: .denied)
+  }
+
   @objc func dismissView() {
     if shouldShowButtonToDismissView {
       dismiss(animated: true, completion: nil)

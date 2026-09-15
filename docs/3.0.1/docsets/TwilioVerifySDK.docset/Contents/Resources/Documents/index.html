@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TwilioVerifySDK  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="TwilioVerifySDK  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">TwilioVerifySDK 3.0.1 Docs</a> (68% documented)</p>
+        <div class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">TwilioVerifySDK Reference</a>
+        <img id="carat" src="img/carat.png" alt=""/>
+        TwilioVerifySDK  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/TwilioVerifyBuilder.html">TwilioVerifyBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TwilioVerifyManager.html">TwilioVerifyManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/ChallengeListOrder.html">ChallengeListOrder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ChallengeStatus.html">ChallengeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FactorStatus.html">FactorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FactorType.html">FactorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/InputError.html">InputError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/KeyManagerError.html">KeyManagerError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/NetworkError.html">NetworkError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/NotificationPlatform.html">NotificationPlatform</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/SecureStorageError.html">SecureStorageError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/TwilioVerifyError.html">TwilioVerifyError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Challenge.html">Challenge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ChallengeList.html">ChallengeList</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Factor.html">Factor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/FactorPayload.html">FactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LoggerService.html">LoggerService</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Metadata.html">Metadata</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/NetworkProvider.html">NetworkProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/OperationError.html">OperationError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/TwilioVerify.html">TwilioVerify</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/UpdateChallengePayload.html">UpdateChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/UpdateFactorPayload.html">UpdateFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VerifyFactorPayload.html">VerifyFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/APIError.html">APIError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ChallengeDetails.html">ChallengeDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ChallengeListPayload.html">ChallengeListPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Detail.html">Detail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/FailureResponse.html">FailureResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/NetworkResponse.html">NetworkResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PushFactorPayload.html">PushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/UpdatePushChallengePayload.html">UpdatePushChallengePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/UpdatePushFactorPayload.html">UpdatePushFactorPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/VerifyPushFactorPayload.html">VerifyPushFactorPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:15TwilioVerifySDK12FailureBlocka">FailureBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:15TwilioVerifySDK20SuccessResponseBlocka">SuccessResponseBlock</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='twilio-verify-ios' class='heading'>Twilio Verify iOS</h1>
+
+<p><a href="https://circleci.com/gh/twilio/twilio-verify-ios"><img src="https://circleci.com/gh/twilio/twilio-verify-ios.svg?style=shield&circle-token=278ebe32d8aac19f79d4f3b56edf2950d76f4d4c" alt="CircleCI"></a>
+<a href="https://img.shields.io/cocoapods/v/TwilioVerify.svg"><img src="https://img.shields.io/cocoapods/v/TwilioVerify.svg" alt="CocoaPods Compatible"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
+<a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/Swift_Package_Manager-compatible-4BC51D.svg?style=flat%22" alt="Swift Package Manager Compatible"></a>
+<a href="https://twilio.github.io/twilio-verify-ios/latest/"><img src="https://img.shields.io/cocoapods/p/TwilioVerify.svg?style=flat" alt="Platform"></a>
+<a href="https://developer.apple.com/swift/"><img src="https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat" alt="Swift 5.2"></a>
+<a href="https://github.com/twilio/twilio-verify-ios/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202-blue.svg?logo=law" alt="License"></a></p>
+<h2 id='table-of-contents' class='heading'>Table of Contents</h2>
+
+<ul>
+<li><a href="#About">About</a></li>
+<li><a href="#Dependencies">Dependencies</a></li>
+<li><a href="#Requirements">Requirements</a></li>
+<li><a href="#Documentation">Documentation</a></li>
+<li><a href="#Installation">Installation</a></li>
+<li><a href="#Usage">Usage</a></li>
+<li><a href="#SampleApp">Running the Sample app</a></li>
+<li><a href="#SampleBackend">Running the sample backend</a></li>
+<li><a href="#UsingSampleApp">Using the sample app</a></li>
+<li><a href="#Logging">Logging</a></li>
+<li><a href="#Errors">Errors</a></li>
+<li><a href="#UpdatePushToken">Update factor&rsquo;s push token</a></li>
+<li><a href="#DeleteFactor">Delete a factor</a></li>
+<li><a href="#ClearLocalStorage">Clear local storage</a></li>
+<li><a href="#Reinstall">Reinstall and persist factors</a></li>
+<li><a href="#NotificationExtension">Notification Extension</a></li>
+<li><a href="#Contributing">Contributing</a></li>
+<li><a href="#License">License</a></li>
+</ul>
+
+<p><a name='About'></a></p>
+<h2 id='about' class='heading'>About</h2>
+
+<p>Twilio Verify Push SDK helps you verify users by adding a low-friction, secure, cost-effective, &ldquo;push verification&rdquo; factor into your own mobile application. This fully managed API service allows you to seamlessly verify users in-app via a secure channel, without the risks, hassles or costs of One-Time Passcodes (OTPs).
+This project provides an SDK to implement Verify Push for your iOS app.</p>
+
+<p><a name='Dependencies'></a></p>
+<h2 id='dependencies' class='heading'>Dependencies</h2>
+
+<p>None</p>
+
+<p><a name='Requirements'></a></p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>iOS 12+</li>
+<li>Swift 5.2</li>
+<li>Xcode 16.3+</li>
+</ul>
+
+<p><a name='Documentation'></a></p>
+<h2 id='documentation' class='heading'>Documentation</h2>
+
+<p><a href="https://twilio.github.io/twilio-verify-ios/latest/">SDK API docs</a></p>
+
+<p><a name='Installation'></a></p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
+
+<p><a href="https://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate TwilioVerify into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'TwilioVerify'</span><span class="p">,</span> <span class="s1">'~&gt; 3.0.0'</span>
+</code></pre>
+<h3 id='carthage' class='heading'>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate TwilioVerify into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+<pre class="highlight plaintext"><code>github "twilio/twilio-verify-ios" -&gt; 3.0.0
+</code></pre>
+
+<p>Since version <code>3.0.0</code> of <code>TwilioVerifySDK</code> the prebuilt asset fat version <code>.framework</code> is been deprecated, to give space for the universal framework <code>.xcframework</code>. Make sure to use the new version of Carthage <a href="https://github.com/Carthage/Carthage/releases/tag/0.38.0">0.38.0</a> that was release in order to support the <code>xcframework</code> assets, by using this version or a superior one, Carthage will download and unzip the <code>TwilioVerifySDK.framework.zip</code> attached in the release version, resulting in a <code>TwilioVerifySDK.xcframework</code> that can be found in the build folder of Carthage.</p>
+<h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
+
+<p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. It is in early development, but TwilioVerify does support its use on iOS.</p>
+
+<p>Once you have your Swift package set up, adding TwilioVerify as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
+<pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/twilio/twilio-verify-ios.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">))</span>
+<span class="p">]</span>
+</code></pre>
+<h3 id='register-your-app-with-apns' class='heading'>Register Your App with APNs</h3>
+
+<p>If you want to receive challenges as push notifications, you should register Your App with APNs. More info <a href="https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns">here</a></p>
+
+<p><a name='Usage'></a></p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<hr>
+
+<p><strong>NOTE</strong></p>
+
+<p>The SDK should be used from a Swift class.
+See an example in the <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift">TwilioVerifyAdapter class</a></p>
+
+<p>Since version <code>3.0.0</code>, the target was changed from <code><a href="Protocols/TwilioVerify.html">TwilioVerify</a></code> to <code>TwilioVerifySDK</code>. Migrating from older versions will imply to update all the imports in your files, see an example in the <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/TwilioVerify/TwilioVerifyAdapter.swift#L19">TwilioVerifyAdapter class</a></p>
+
+<hr>
+
+<p>See <a href="https://www.twilio.com/docs/verify/quickstarts/push-ios">Verify Push Quickstart</a> for a step-by-step guide to using this SDK in a basic Verify Push implementation.</p>
+
+<p><a name='SampleApp'></a></p>
+<h2 id='running-the-sample-app' class='heading'>Running the Sample app</h2>
+<h3 id='to-run-the-sample-app' class='heading'>To run the Sample App:</h3>
+
+<ul>
+<li>Clone the repo</li>
+<li>Change the Bundle Identifier to something unique so Apple’s push notification server can direct pushes to this app</li>
+<li><a href="https://help.apple.com/xcode/mac/current/#/devdfd3d04a1">Enable push notifications</a></li>
+<li>Get the Access token generation URL from your backend <a href="#SampleBackend">(Running the Sample backend)</a>. You will use it for creating a factor</li>
+<li>Run the <code>TwilioVerifyDemo</code> project using <code>Release</code> as build configuration</li>
+</ul>
+<h4 id='silently-approve-challenges' class='heading'>Silently approve challenges</h4>
+
+<p>You can silently approve challenges when your app already knows that the user is trying to complete an action (actively logging in, making a transaction, etc.) on the same device as the registered device that is being challenged.</p>
+
+<p>You can enable the option &ldquo;Silently approve challenges&rdquo; for a factor. After enabling it, every challenge received as a push notification when the app is in foreground for that factor will be silently approved, so user interaction is not required. The option will be saved for the session, so the selection will not be persisted.</p>
+
+<p><a name='SampleBackend'></a></p>
+<h2 id='running-the-sample-backend' class='heading'>Running the Sample backend</h2>
+
+<ul>
+<li>Configure a <a href="https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-push-credential">Push Credential</a> for the sample app, using the same APNs configuration</li>
+<li>Configure a <a href="https://www.twilio.com/docs/verify/quickstarts/push-ios#create-a-verify-service-and-add-the-push-credential">Verify Service</a>, using the Push Credential for the sample app</li>
+<li>Go to: <a href="https://www.twilio.com/code-exchange/verify-push-backend">https://www.twilio.com/code-exchange/verify-push-backend</a></li>
+<li>Use the <code>Quick Deploy to Twilio</code> option
+
+<ul>
+<li>You should log in to your Twilio account</li>
+<li>Enter the Verify Service Sid you created above, you can find it <a href="https://www.twilio.com/console/verify/services">here</a></li>
+<li>Deploy the application</li>
+<li>Press <code>Go to live application</code></li>
+<li>You will see the start page. Copy the url and replace <code>index.html</code> with <code>access-token</code>.(e.g. <a href="https://verify-push-backend-xxxxx.twil.io/access-token">https://verify-push-backend-xxxxx.twil.io/access-token</a>). This will be your <code>Access Token generation URL</code></li>
+</ul></li>
+</ul>
+
+<p><a name='UsingSampleApp'></a></p>
+<h2 id='using-the-sample-app' class='heading'>Using the sample app</h2>
+<h3 id='adding-a-factor' class='heading'>Adding a factor</h3>
+
+<ul>
+<li>Press Create factor in the factor list (click on the +, top right)</li>
+<li>Enter the identity to use. This value should be an UUID that identifies the user to prevent PII information use</li>
+<li>Enter the Access token URL (Access token generation URL, including the path, e.g. <a href="https://verify-push-backend-xxxxx.twil.io/access-token">https://verify-push-backend-xxxxx.twil.io/access-token</a>)</li>
+<li>Press Create factor</li>
+<li>Copy the factor Sid</li>
+</ul>
+<h3 id='sending-a-challenge' class='heading'>Sending a challenge</h3>
+
+<ul>
+<li>Go to Create Push Challenge page (/challenge path in your sample backend)</li>
+<li>Enter the <code>identity</code> you used in factor creation</li>
+<li>Enter the <code>Factor Sid</code> you added</li>
+<li>Enter a <code>message</code>. You will see the message in the push notification and in the challenge view</li>
+<li>Enter details to the challenge. You will see them in the challenge view. You can add more details using the <code>Add more Details</code> button</li>
+<li>Press <code>Create challenge</code> button</li>
+<li>You will receive a push notification showing the challenge message in your device.</li>
+<li>The app will show the challenge info below the factor information, in a <code><a href="Protocols/Challenge.html">Challenge</a></code> section</li>
+<li>Approve or deny the challenge</li>
+<li>After the challenge is updated, you will see the challenge status in the backend&rsquo;s <code>Create Push Challenge</code> view</li>
+</ul>
+
+<p><a name='Logging'></a></p>
+<h2 id='logging' class='heading'>Logging</h2>
+
+<p>By default, logging is disabled. To enable it you can either set your own logging services by implementing <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerify/TwilioVerify/Sources/Logger/Logger.swift#L24">LoggerService</a> and calling <code>addLoggingService</code> (note that you can add as many logging services as you like) or enable the default logger service by calling <code>enableDefaultLoggingService</code>. Your multiple implementations and the default one can work at the same time, but you may just want to have it enabled during the development process, it&rsquo;s risky to have it turned on when releasing your app.</p>
+<h3 id='setting-log-level' class='heading'>Setting Log Level</h3>
+
+<p>You may want to log only certain processes that are happening in the SDK, or you just want to log it all, for that the SDK allows you to set a log level.</p>
+
+<ul>
+<li>error: reports behaviors that shouldn&rsquo;t be happening.</li>
+<li>info: warns specific information of what is being done.</li>
+<li>debug: detailed information.</li>
+<li>networking: specific data for the networking work, such as request body, headers, response code, response body.</li>
+<li>all: error, info, debug and networking are enabled.
+### Usage
+To start logging, enable the default logging service or/and pass your custom implementations
+<code>swift
+var builder = TwilioVerifyBuilder()
+#if DEBUG
+builder = builder.enableDefaultLoggingService(withLevel: .all)
+               .addLoggingService(MyOwnLoggerService1())
+               .addLoggingService(MyOwnLoggerService2())
+#endif
+twilioVerify = try builder.build()
+</code></li>
+</ul>
+
+<p><a name='Errors'></a></p>
+<h2 id='errors' class='heading'>Errors</h2>
+
+<table><thead>
+<tr>
+<th>Types</th>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Network</td>
+<td>60401</td>
+<td>Exception while calling the API</td>
+</tr>
+<tr>
+<td>Mapping</td>
+<td>60402</td>
+<td>Exception while mapping an entity</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>60403</td>
+<td>Exception while storing/loading an entity</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>60404</td>
+<td>Exception while loading input</td>
+</tr>
+<tr>
+<td>Key Storage</td>
+<td>60405</td>
+<td>Exception while storing/loading key pairs</td>
+</tr>
+<tr>
+<td>Initialization</td>
+<td>60406</td>
+<td>Exception while initializing an object</td>
+</tr>
+<tr>
+<td>Authentication Token</td>
+<td>60407</td>
+<td>Exception while generating token</td>
+</tr>
+</tbody></table>
+<h3 id='getting-verify-api-errors' class='heading'>Getting Verify API errors</h3>
+
+<p>You can control Verify API error codes listed <a href="https://www.twilio.com/docs/api/errors">here</a> by following the next example:</p>
+<pre class="highlight swift"><code>
+<span class="n">twilioVerify</span><span class="o">.</span><span class="nf">createFactor</span><span class="p">(</span><span class="nv">withPayload</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">{</span> <span class="n">factor</span> <span class="k">in</span>
+  <span class="c1">// Success</span>
+<span class="p">})</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="nv">apiError</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">originalError</span> <span class="k">as?</span> <span class="kt">NetworkError</span>
+
+  <span class="k">if</span> <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failureStatusCode</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">=</span> <span class="n">apiError</span> <span class="p">{</span>
+    <span class="c1">// Gets Verify API error response</span>
+    <span class="k">var</span> <span class="nv">errorResponse</span> <span class="o">=</span> <span class="n">response</span>
+
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">code</span> <span class="o">=</span> <span class="n">errorResponse</span><span class="o">.</span><span class="n">apiError</span><span class="p">?</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+        <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">errorResponse</span><span class="o">.</span><span class="n">apiError</span><span class="p">?</span><span class="o">.</span><span class="n">message</span> <span class="p">{</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"Code: </span><span class="se">\(</span><span class="n">code</span><span class="se">)</span><span class="s"> - </span><span class="se">\(</span><span class="n">message</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Check an example <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/CreateFactor/Presenter/CreateFactorPresenter.swift#L50">here</a></p>
+<h3 id='getting-the-error-cause' class='heading'>Getting the error cause</h3>
+
+<p>You can get the cause for an error accesing the associated error</p>
+<pre class="highlight swift"><code><span class="n">twilioVerify</span><span class="o">.</span><span class="nf">updateChallenge</span><span class="p">(</span><span class="nv">withPayload</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">{</span>
+  <span class="c1">// Success</span>
+<span class="p">},</span><span class="nv">failure</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+  <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">inputError</span><span class="p">(</span><span class="k">let</span> <span class="nv">detail</span><span class="p">)</span> <span class="o">=</span> <span class="n">error</span><span class="p">,</span> <span class="k">let</span> <span class="nv">inputError</span> <span class="o">=</span> <span class="n">detail</span> <span class="k">as?</span> <span class="kt">InputError</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="n">inputError</span> <span class="p">{</span>
+      <span class="c1">// Handle other cases here, in this example expired challenge case</span>
+      <span class="k">case</span> <span class="o">.</span><span class="nv">expiredChallenge</span><span class="p">:</span> <span class="k">return</span>
+      <span class="k">default</span><span class="p">:</span> <span class="k">return</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+
+<p>You can find the associated errors for validations <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioVerify/Sources/TwilioVerifyError.swift#L119">here</a></p>
+
+<p>For extra detail, check specific internal operations errors <a href="https://github.com/twilio/twilio-verify-ios/tree/main/TwilioVerifySDK/TwilioVerify/Sources/Errors/OperationErrors.swift#L27">here</a></p>
+
+<p><a name='UpdatePushToken'></a></p>
+<h2 id='update-factor-39-s-push-token' class='heading'>Update factor&rsquo;s push token</h2>
+
+<p>You can update the factor&rsquo;s push token in case it changed, calling the <code>TwilioVerify.updateFactor</code> method:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">updateFactorPayload</span> <span class="o">=</span> <span class="kt">UpdatePushFactorPayload</span><span class="p">(</span><span class="nv">sid</span><span class="p">:</span> <span class="n">factorSid</span><span class="p">,</span> <span class="nv">pushToken</span><span class="p">:</span> <span class="n">newPushToken</span><span class="p">)</span>
+<span class="n">twilioVerify</span><span class="o">.</span><span class="nf">updateFactor</span><span class="p">(</span><span class="nv">withPayload</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">{</span> <span class="n">factor</span> <span class="k">in</span>
+  <span class="c1">// Success</span>
+<span class="p">})</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+  <span class="c1">// Error</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>See <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifyDemo/TwilioVerifyDemo/FactorList/Presenter/FactorListPresenter.swift#L90">FactorListPresenter</a> in the sample app. You should update the push token for all factors.</p>
+
+<p><a name='DeleteFactor'></a></p>
+<h2 id='delete-a-factor' class='heading'>Delete a factor</h2>
+
+<p>You can delete a factor calling the <code>TwilioVerify.deleteFactor</code> method:</p>
+<pre class="highlight swift"><code><span class="n">twilioVerify</span><span class="o">.</span><span class="nf">deleteFactor</span><span class="p">(</span><span class="nv">withSid</span><span class="p">:</span> <span class="n">factorSid</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">{</span>
+  <span class="c1">// Success</span>
+<span class="p">})</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+  <span class="c1">// Error</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><a name='ClearLocalStorage'></a></p>
+<h2 id='clear-local-storage' class='heading'>Clear local storage</h2>
+
+<p>You can clear the local storage calling the <code>TwilioVerify.clearLocalStorage</code> method:</p>
+<pre class="highlight swift"><code><span class="k">do</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="n">twilioVerify</span><span class="o">.</span><span class="nf">clearLocalStorage</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+  <span class="c1">// Handle error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='important-notes' class='heading'>Important Notes</h3>
+
+<ul>
+<li>Calling this method will not delete factors in <strong>Verify Push API</strong>, so you need to delete them from your backend to prevent invalid/deleted factors when getting factors for an identity.</li>
+</ul><div class="aside aside-since">
+    <p class="aside-title">Since</p>
+    Since the Keychain is used for storage this method can fail if there is an error while doing the Keychain operation.
+
+</div>
+
+<p><a name='Reinstall'></a></p>
+<h2 id='reinstall-and-persist-factors' class='heading'>Reinstall and persist factors</h2>
+
+<p>By default, the created factors and key pairs will not persist in the device after the app is uninstalled and reinstalled for security reasons. However, it&rsquo;s possible to change this default behavior and persist the factors and key pairs after a reinstall, because both are saved in the keychain.</p>
+
+<hr>
+
+<p><strong>NOTE</strong>
+This may change in future iOS versions, but it will keep working for iOS 15 and below. Preserving keychain items on app uninstall could be a security concern. You should not rely on this behaviour and provide an alternative way to enroll the factor again if this behaviour changes.</p>
+
+<hr>
+
+<p>To persist factors after a reinstall, use <code>TwilioVerifyBuilder.setClearStorageOnReinstall</code> method when creating the <code><a href="Protocols/TwilioVerify.html">TwilioVerify</a></code> instance. The default value is <code>true</code>, so the factors will be deleted on reinstall. Change it to <code>false</code> to persist the factor(s)</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">builder</span> <span class="o">=</span> <span class="kt">TwilioVerifyBuilder</span><span class="p">()</span><span class="o">.</span><span class="nf">setClearStorageOnReinstall</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">twilioVerify</span> <span class="o">=</span> <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">build</span><span class="p">()</span>
+</code></pre>
+
+<p>The push token will change after the reinstall. Update the push token to receive push notifications for challenges, as is explained in <a href="#UpdatePushToken">Update factor&rsquo;s push token</a></p>
+
+<p>The SDK is using <a href="https://developer.apple.com/documentation/security/ksecattraccessibleafterfirstunlockthisdeviceonly">kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly</a> to <a href="https://github.com/twilio/twilio-verify-ios/blob/main/TwilioVerifySDK/TwilioSecurity/Sources/Keychain/KeychainQuery.swift#L63">save factors and keypairs</a>. According to Apple, </p>
+
+<blockquote>
+<p>Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.</p>
+</blockquote>
+
+<p><a name='NotificationExtension'></a></p>
+<h2 id='setting-up-a-notification-extension' class='heading'>Setting up a Notification Extension</h2>
+
+<p>The <a href="https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension">Notification Extension</a> is an App Extension that allows developers to modify or process the content of a remote notification before it is delivered to the user.</p>
+
+<blockquote>
+<p>Follow Apple&rsquo;s Modifying Content in Newly Delivered Notifications guide to create a Notification Extension.</p>
+</blockquote>
+
+<p>To be able to use the Verify SDK in Notification Extensions, it is necessary to use <a href="https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps">App Groups</a>, this will allow the App Extension to be able to read the KeyChain storage from the application. Otherwise, the SDK will not be able to read any of the stored Factors or Challenges in the Notification Extension.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">builder</span> <span class="o">=</span> <span class="kt">TwilioVerifyBuilder</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">twilioVerify</span> <span class="o">=</span> <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">setAccessGroup</span><span class="p">(</span><span class="s">"group.com.example.AppSuite"</span><span class="p">)</span><span class="o">.</span><span class="nf">build</span><span class="p">()</span>
+</code></pre>
+
+<blockquote>
+<p>Use the <strong>setAccessGroup</strong> method to set up the app group used for keychain access.</p>
+</blockquote>
+
+<p>Take into consideration that the Notification Extension only lives for a period of time of approximately 30 seconds, so if by some reason the App Extension does not process the remote notification content before that period expires, it will display the original content instead.</p>
+
+<blockquote>
+<h2 id='see-the-a-href-https-github-com-twilio-twilio-verify-ios-tree-feature-notificationextension-notification-extension-a-branch-to-check-the-example-of-an-implementation-using-the-notification-extension-amp-the-sdk-in-the-verifydemoapp' class='heading'>See the <a href="https://github.com/twilio/twilio-verify-ios/tree/feature/notificationExtension">Notification Extension</a> branch to check the example of an implementation using the Notification Extension &amp; the SDK in the VerifyDemoApp.</h2>
+
+<p><strong>Sharing Factors using App Groups</strong></p>
+</blockquote>
+
+<p>While setting up the <strong>setAccessGroup</strong> configuration for the first time, the factors data will migrate to use the <strong>kSecAttrAccessGroup</strong> Keychain&rsquo;s attribute. If the migration fails, error logs will be sent instead of throwing an error during initialization, the data will remain available for the main application but may not be available for App Extensions.</p>
+
+<p><strong>Stop Sharing Factors from App Groups</strong></p>
+
+<p>By removing the <strong>App Group</strong> from the <strong>setAccessGroup</strong> configuration, new factors will not be shared via the <strong>Keychain</strong> app groups. </p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">builder</span> <span class="o">=</span> <span class="kt">TwilioVerifyBuilder</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">twilioVerify</span> <span class="o">=</span> <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">build</span><span class="p">()</span>
+</code></pre>
+
+<p>To stop sharing existing factors created with <strong>App Groups</strong>, uncheck the <strong>App Group</strong> from the <strong>App/App Extension</strong> configuration in Xcode, as follow:</p>
+
+<p><strong>App/App Extension</strong> -&gt; <strong>App Groups</strong> -&gt; Uncheck <strong>App Group</strong></p>
+
+<blockquote>
+<p>This will restrict access to the factors and will not affect the main application in which the data was initially created.</p>
+</blockquote>
+<h2 id='privacy-manifest' class='heading'>Privacy Manifest</h2>
+
+<p>This document serves as the Privacy Manifest for the Twilio Verify SDK. It outlines the privacy practices implemented in this SDK, providing a comprehensive understanding of how we handle data and respect user privacy.</p>
+<h3 id='purpose' class='heading'>Purpose</h3>
+
+<p>The primary purpose of this Privacy Manifest is to facilitate developers and organizations in providing Apple with detailed information about the privacy practices employed within this SDK.</p>
+<h3 id='usage' class='heading'>Usage</h3>
+
+<p>To use this Privacy Manifest, simply refer to the relevant sections when you need to provide information to Apple or any other interested parties about the privacy practices used in this SDK.</p>
+<h3 id='a-href-twilioverifysdk-privacyinfo-xcprivacy-privacy-manifest-a' class='heading'><a href="TwilioVerifySDK/PrivacyInfo.xcprivacy">Privacy Manifest</a></h3>
+
+<hr>
+<h2 id='allow-factors-migration' class='heading'>Allow Factors migration</h2>
+
+<p>By default, all factors are securely stored within the device&rsquo;s <a href="https://support.apple.com/guide/security/secure-enclave-sec59b0b31ff/web">Secure Enclave</a>, which provides a high level of protection against unauthorized access and ensures sensitive data remains encrypted. This default setting restricts the migration of these factors from one iPhone to another, enhancing the overall security of the authentication process.</p>
+
+<p>However, in certain cases, users may want to allow data migration from one iPhone to another or perform backup restoration while retaining their Verify Factors. For this purpose, you can use the <strong>allowIphoneMigration</strong> property within the <strong>PushFactorPayload</strong>.</p>
+<h3 id='usage-of-allowiphonemigration-property' class='heading'>Usage of allowIphoneMigration Property:</h3>
+
+<p>When using the push-based factor for verifying a user, you can include the <strong>allowIphoneMigration</strong> property in the <strong>PushFactorPayload</strong>. By setting this property to <code>true</code>, you enable users to migrate their factors to another iPhone or restore them during backup processes. It&rsquo;s essential to carefully consider the security implications before enabling this option, as it may expose the factors to potential risks during data migration or backup restoration.</p>
+<h3 id='important-security-considerations' class='heading'>Important Security Considerations:</h3>
+
+<p>Remember to use this option judiciously, as limiting factors to a single device enhances security. Advise users to perform migrations and backups on trusted devices and networks and use additional security measures like passcodes, Touch ID, or Face ID.</p>
+
+<hr>
+
+<p>To enable <a href="https://support.apple.com/en-us/HT210216">Data migration from iPhone to iPhone</a> or <a href="https://support.apple.com/en-us/HT204184">Backup restoration</a> for factors, utilize the <strong>allowIphoneMigration</strong> property in the <strong>PushFactorPayload</strong>, IE:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">payload</span> <span class="o">=</span> <span class="kt">PushFactorPayload</span><span class="p">(</span>
+  <span class="nv">friendlyName</span><span class="p">:</span> <span class="n">friendlyName</span><span class="p">,</span>
+  <span class="nv">serviceSid</span><span class="p">:</span> <span class="n">serviceSid</span><span class="p">,</span>
+  <span class="nv">identity</span><span class="p">:</span> <span class="n">identity</span><span class="p">,</span>
+  <span class="nv">allowIphoneMigration</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nv">pushToken</span><span class="p">:</span> <span class="n">pushToken</span><span class="p">,</span>
+  <span class="nv">accessToken</span><span class="p">:</span> <span class="n">accessToken</span><span class="p">,</span>
+  <span class="nv">metadata</span><span class="p">:</span> <span class="n">metadata</span>
+<span class="p">)</span>
+
+<span class="n">twilioVerify</span><span class="o">.</span><span class="nf">createFactor</span><span class="p">(</span><span class="nv">withPayload</span><span class="p">:</span> <span class="n">payload</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="n">success</span><span class="p">,</span> <span class="nv">failure</span><span class="p">:</span> <span class="n">failure</span><span class="p">)</span>
+</code></pre>
+
+<p><strong>Note:</strong> Factors created before implementing this change will not be eligible for migration. Only new factors with the <strong>allowIphoneMigration</strong> property set to <code>true</code> will have the capability to migrate from one iPhone to another.</p>
+
+<blockquote>
+<h2 id='for-more-information-about-the-accessibility-attribute-please-refer-to-the-a-href-https-developer-apple-com-documentation-security-keychain_services-keychain_items-restricting_keychain_item_accessibility-restricting-keychain-item-accessibility-a-documentation' class='heading'>For more information about the accessibility attribute, please refer to the <a href="https://developer.apple.com/documentation/security/keychain_services/keychain_items/restricting_keychain_item_accessibility">Restricting Keychain Item Accessibility</a> documentation</h2>
+
+<p><a name='Contributing'></a></p>
+</blockquote>
+<h2 id='contributing' class='heading'>Contributing</h2>
+
+<p>This project welcomes contributions. Please check out our <a href="./CONTRIBUTING.md">Contributing guide</a> to learn more on how to get started.</p>
+
+<p><a name='License'></a></p>
+<h2 id='license' class='heading'>License</h2>
+
+<p><a href="./LICENSE">Apache © Twilio Inc.</a></p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2025 <a class="link" href="https://github.com/twilio/twilio-verify-ios" target="_blank" rel="external noopener">Twilio</a>. All rights reserved. (Last updated: 2025-10-24)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
