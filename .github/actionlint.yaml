@@ -1,0 +1,4 @@
+self-hosted-runner:
+  # Custom self-hosted runner label used for macOS Apple Silicon builds.
+  labels:
+    - macos-arm
